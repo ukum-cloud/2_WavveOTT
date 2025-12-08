@@ -1,0 +1,24 @@
+// color
+$color-primary: #0050ff;
+$color-secondary-black: #000;
+$color-secondary-white: #fff;
+
+// color-font
+$color-font-primary: $color-primary;
+$color-font-black: $color-secondary-black;
+$color-font-white: $color-secondary-white;
+
+$color-font2: #999999;
+$color-font3: #878c9e;
+$color-font4: #adb0be;
+// ???
+$color-font-red: #dd2f38;
+
+// 공통 mixin
+@mixin myFlex($jc: space-between, $ai: center, $fw: null, $gap: 2rem) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+  flex-wrap: $fw;
+  gap: $gap;
+}
