@@ -6,7 +6,10 @@ const Home = () => {
       <div className="">100% 다 쓰는 경우</div>
       <div className="inner">
         <section>1</section>
-        <section>2</section>
+        <section>
+          <h2></h2>
+          <div></div>
+        </section>
       </div>
     </main>
   );
