@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./scss/Home.scss";
 
 const Home = () => {
@@ -6,10 +7,18 @@ const Home = () => {
       <div className="">100% 다 쓰는 경우</div>
       <div className="inner">
         <section>1</section>
-        <section>
-          <h2></h2>
-          <div></div>
+        <section className="card-list">
+          <h2>지금 주목받는 스타들</h2>
+          <div className="">내용, 슬라이더, 등등</div>
         </section>
+        <div className="banner-event">
+          <Link to={"/"}>
+            <img
+              src="/images/banner/banner-main-event.png"
+              alt="banner event"
+            />
+          </Link>
+        </div>
       </div>
     </main>
   );

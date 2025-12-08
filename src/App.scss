@@ -14,6 +14,16 @@ $color-font4: #adb0be;
 // ???
 $color-font-red: #dd2f38;
 
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  h2 {
+    font-family: "wave";
+    font-size: 26px;
+    color: #fff;
+  }
+}
 // 공통 mixin
 @mixin myFlex($jc: space-between, $ai: center, $fw: null, $gap: 2rem) {
   display: flex;
