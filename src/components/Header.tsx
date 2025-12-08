@@ -14,6 +14,7 @@ const Header = () => {
     { id: 5, title: "시사교양", path: "/" },
     { id: 6, title: "애니메이션", path: "/" },
     { id: 7, title: "키즈", path: "/" },
+    { id: 8, title: "Common", path: "/Common" },
   ];
   return (
     <header>

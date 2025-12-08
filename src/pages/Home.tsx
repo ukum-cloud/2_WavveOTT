@@ -3,7 +3,11 @@ import "./scss/Home.scss";
 const Home = () => {
   return (
     <main className="main">
-      <div className="inner">main</div>
+      <div className="">100% 다 쓰는 경우</div>
+      <div className="inner">
+        <section>1</section>
+        <section>2</section>
+      </div>
     </main>
   );
 };
