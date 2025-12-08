@@ -1,0 +1,102 @@
+@use "../../App.scss" as g;
+
+main {
+    >.signup {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 400px;
+        padding: 40px;
+        background-color: g.$color-secondary-dark;
+
+
+        p.title {
+            font-size: 1.25rem;
+            >span {
+                display: block;
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            label.input-text {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                position: relative;
+
+                >input[type="text"],
+                >inputt[type="password"] {
+                    width: 100%;
+                }
+            }
+            .text-info{
+                font-size: 0.8rem;
+                color: g.$color-font2;
+            }
+        }
+
+        .save-id {
+            label {
+                display: flex;
+                justify-content: flex-start;
+                gap: 4px;
+            }
+        }
+
+        .division-list {
+            @include g.myFlex($gap: 12px, $jc: center);
+            color: g.$color-font2;
+
+            li {
+                position: relative;
+                padding-right: 12px;
+                word-break: keep-all;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 1px;
+                    height: 8px;
+                    background-color: g.$color-font-white;
+                    opacity: 0.4;
+                }
+
+                &:last-child {
+                    padding-right: 0;
+
+                    &::after {
+                        width: 0;
+                    }
+                }
+            }
+        }
+
+        .btn-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-box-other {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            >div {
+                text-align: center;
+            }
+            .text-info-dot{
+                font-size: 0.8rem;
+                color: g.$color-font2;
+            }
+        }
+    }
+}
