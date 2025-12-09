@@ -20,7 +20,7 @@ const EditorRecommendCardList = ({ list }) => {
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true,
+            // pauseOnMouseEnter: true,
             reverseDirection: true,
           }}
           speed={6000}
@@ -42,7 +42,7 @@ const EditorRecommendCardList = ({ list }) => {
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true,
+            // pauseOnMouseEnter: true,
             reverseDirection: false,
           }}
           speed={6000}
