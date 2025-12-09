@@ -1,0 +1,36 @@
+.Rankingcard {
+  width: 220px;
+  height: 320px;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  a {
+    img {
+      object-fit: cover;
+      transition: 0.4s;
+      &:hover {
+        scale: 1.05;
+      }
+    }
+  }
+}
+.RankNum {
+  position: absolute;
+  font-size: 136px;
+  bottom: -50px;
+  z-index: 2;
+  left: -40px;
+  font-family: 'Russo One', sans-serif;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+  color: rgba($color: #000000, $alpha: 0.6);
+}
+.RankTitle {
+  // text-align: end;
+  margin-bottom: 40px;
+}
+
+.RankSection {
+  margin-left: 270px;
+  margin-right: 22px;
+}
