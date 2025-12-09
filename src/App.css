@@ -1,5 +1,6 @@
 /* common layout */
-.inner{
+.inner {
+  min-width: 1400px;
   max-width: 1720px;
   margin: 0 auto;
 }

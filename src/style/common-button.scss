@@ -1,11 +1,13 @@
-@use '../../App.scss' as g;
+@use '../App.scss' as g;
 
 .btn {
     min-width: 100px;
     text-align: center;
     padding: 0 24px;
-    color: g.$main-color2;
+    color: g.$color-font-white;
     display: inline-block;
+    border-radius: 4px;
+    
 
     &.xsmall {
         padding:0 12px;
@@ -33,44 +35,45 @@
     }
 
     &.primary {
-        background-color: g.$main-color1;
+        background-color: g.$color-font-primary;
     }
 
     &.secondary {
-        background-color: g.$percent-color;
+        background-color: g.$color-secondary-white;
     }
 
     &.outline {
-        color: g.$main-color1;
-        background-color: g.$main-color2;
-        border: 1px solid g.$main-color1;
+        color: g.$color-font-primary;
+        background-color: g.$color-font-white;
+        border: 1px solid g.$color-font-primary;
     }
     &.grey {
-        color: g.$main-color2;
-        background-color: g.$sub-color3;
-        border: 1px solid g.$sub-color3;
+        color: g.$color-font-white;
+        background-color: g.$color-other2;
+        border: 1px solid g.$color-other2;
     }
     &.wFull {
         width: 100%;
         display: block;
+        
     }
+    
 }
 
 input[type="text"] ,input[type="password"], input[type="email"] ,input[type="tel"] {
-    border: 1px solid #f2f2f2;
-    background: #f2f2f2;
-    font-size: 1.6rem;
+    border: 1px solid g.$color-other2;
+    border-radius: 4px;
+    background: g.$color-other2;
     padding: 0 20px;
     line-height: 40px;
     height: 40px;
-    color: g.$sub-color3;
-
+    color: g.$color-font-black;
     &:focus {
-        border: 1px solid g.$main-color1;
+        border: 1px solid g.$color-font-primary;
     }
 
     &::placeholder {
-        color: g.$sub-color2;
+        color: g.$color-other2;
     }
     &.xsmall{
         height: 24px;
@@ -82,37 +85,47 @@ input[type="text"] ,input[type="password"], input[type="email"] ,input[type="tel
 
 input[type="checkbox"] {
     position: relative;
+    appearance: none;
+  -webkit-appearance: none;
     width: 16px;
     height: 16px;
-    border: 1px solid g.$sub-color2;
     border-radius: 2px;
-    background-color: white;
-    accent-color: g.$main-color1;
+    accent-color: g.$color-secondary-white;
+    color: #fff;
+    overflow: hidden;
+    border: 1px solid g.$color-font-white;
+    background-color: g.$color-font-white;
 }
 
 /* 체크*/
 input[type="checkbox"]:checked {
-    background-color: g.$main-color1;
-    border: 1px solid g.$main-color1;
+    accent-color: g.$color-secondary-white;
 }
 
 /* 체크 표시(✔) */
 input[type="checkbox"]:checked::after {
     content: '✔';
-    color: white;
-    font-size: 12px;
+    text-align: center;
     position: absolute;
+    color: g.$color-primary;
+    font-size: 14px;
+    font-weight: bold;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    transform: translate(-50%, -44%);
     line-height: 1;
+    background-color: g.$color-secondary-white;
+    
 }
 
 input[type="radio"] {
     position: relative;
     width: 16px;
     height: 16px;
-    border: 1px solid g.$sub-color2;
+    border: 1px solid g.$color-other2;
     border-radius: 50%;
-    accent-color: g.$main-color1;
+    accent-color: g.$color-font-primary;
 }

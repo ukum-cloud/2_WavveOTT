@@ -47,8 +47,15 @@ video {
   height: 100%;
   vertical-align: middle;
 }
+
+main .inner {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+}
 .inner {
   max-width: 1720px;
+  margin: 0 auto;
   padding: 0 20px;
 }
 /* =======================================

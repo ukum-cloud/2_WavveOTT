@@ -40,7 +40,7 @@ const Header = () => {
             <span>검색</span>
           </p>
           <p className="login">
-            <Link className="font-wave" to={"/"}>
+            <Link className="font-wave" to={"/login"}>
               웨이브시작하기
             </Link>
           </p>

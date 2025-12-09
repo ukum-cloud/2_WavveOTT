@@ -6,6 +6,9 @@ header {
   height: 90px;
   z-index: 999;
   background-color: g.$color-secondary-black;
+  a {
+    word-break: keep-all;
+  }
   .inner {
     @include g.myFlex();
     line-height: 90px;
