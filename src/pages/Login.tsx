@@ -21,24 +21,49 @@ const Login = () => {
             <label>
               <input type="checkbox" name="" /> 아이디저장
             </label>
+            <p>
+              입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
+              주세요.
+              <hr />
+              비밀번호를 입력해주세요.
+              <hr />
+              입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
+              주세요.
+            </p>
+          </div>
+          <div>
+            <button type="submit" className="btn middle primary wFull">
+              로그인
+            </button>
           </div>
         </form>
         <div className="btn-box">
-          <button type="submit" className="btn middle primary wFull">로그인</button>
           <ul className="division-list">
             <li>아이디 찾기</li>
             <li>비밀번호 재설정</li>
-            <li><Link to={'/signup'}>회원가입</Link></li>
+            <li>
+              <Link to={"/signup"}>회원가입</Link>
+            </li>
           </ul>
         </div>
         <div className="btn-box-other">
           <p>또는 다른 서비스 계정으로 로그인</p>
           <ul className="division-list">
-            <li><Link to={'/'}>카카오</Link></li>
-            <li><Link to={'/'}>티</Link></li>
-            <li><Link to={'/'}>네이버</Link></li>
-            <li><Link to={'/'}>페이스북</Link></li>
-            <li><Link to={'/'}>애플</Link></li>
+            <li>
+              <Link to={"/"}>카카오</Link>
+            </li>
+            <li>
+              <Link to={"/"}>티</Link>
+            </li>
+            <li>
+              <Link to={"/"}>네이버</Link>
+            </li>
+            <li>
+              <Link to={"/"}>페이스북</Link>
+            </li>
+            <li>
+              <Link to={"/"}>애플</Link>
+            </li>
           </ul>
         </div>
       </div>
