@@ -17,6 +17,7 @@ const EditorRecommendCardList = ({ list }) => {
           slidesPerView={3.5}
           spaceBetween={24}
           loop={true}
+          freeMode={true}
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
