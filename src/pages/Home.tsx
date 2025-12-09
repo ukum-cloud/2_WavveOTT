@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import "./scss/Home.scss";
+import MainNomination from "../components/MainNomination";
 
 const Home = () => {
   return (
     <main className="main">
       <div className="">100% 다 쓰는 경우</div>
+      <MainNomination />
       <div className="inner">
         <section>1</section>
         <section className="card-list">

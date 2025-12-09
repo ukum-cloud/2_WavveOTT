@@ -1,0 +1,54 @@
+.main-nomination{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-image: url("/images/bg-main-nomination.svg");
+  background-repeat: no-repeat;
+  padding: 90px 240px;
+
+  .left-text{
+    width: 272px;
+    .item{
+      margin-top: 50px;
+      margin-bottom: 60px;
+
+      >h3{
+        font-size: 40px;
+        line-height: 140%;
+        letter-spacing: -0.8px;
+      }
+      >p{
+        font-size: 18px;
+        line-height: 140%;
+        letter-spacing: -0.36px;
+        margin-top: 20px;
+      }
+    }
+    >button{
+      display: flex;
+      padding: 16px 68px;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 100px;
+      color: #0050FF;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 140%;
+      letter-spacing: -0.36px;
+    }
+  }
+  .content-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    >li{
+      height: 460px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+  }
+}
