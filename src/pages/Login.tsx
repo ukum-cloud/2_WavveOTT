@@ -2,24 +2,19 @@ import "./scss/Login.scss";
 import "../style/common-button.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Login = () => {
   const { onLogin } = useAuthStore();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(
+    () => localStorage.getItem("savedEmail") || ""
+  );
   const [password, setPassword] = useState("");
-  const [rememberId, setRememberId] = useState(false); // 아이디 저장 체크 여부
-
-  // 처음 렌더링 될 때 localStorage에 저장된 이메일이 있으면 가져오기
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("savedEmail");
-    if (savedEmail) {
-      setEmail(savedEmail);
-      setRememberId(true);
-    }
-  }, []);
+  const [rememberId, setRememberId] = useState(
+    () => !!localStorage.getItem("savedEmail")
+  );
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
