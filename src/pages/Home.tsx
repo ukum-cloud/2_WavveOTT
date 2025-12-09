@@ -3,6 +3,7 @@ import './scss/Home.scss';
 import RankingCardList from '../components/RankingCardList';
 import { Link } from 'react-router-dom';
 import { useMovieStore } from '../stores/useMovieStore';
+import EditorRecommendCardList from '../components/EditorRecommendCardList';
 
 const Home = () => {
   const { onFetchPopular, popularMovies } = useMovieStore();
@@ -10,10 +11,13 @@ const Home = () => {
     onFetchPopular();
   }, []);
 
+  console.log('영화 데이터', popularMovies);
+
   return (
     <main className="main">
       <div className="">100% 다 쓰는 경우</div>
       <RankingCardList RankingData={popularMovies} />
+      <EditorRecommendCardList list={popularMovies} />
       <div className="inner">
         <section>1</section>
         <section className="card-list">

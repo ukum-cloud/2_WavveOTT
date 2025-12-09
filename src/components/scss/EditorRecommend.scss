@@ -1,0 +1,21 @@
+.rec-card {
+  .R-b-poster {
+  }
+  .R-b-logo {
+    transform: translate(-260%, 150%);
+  }
+}
+.rec-section {
+  .swiper-top {
+    margin-bottom: 30px;
+  }
+}
+
+.editorSwiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.editorSwiper .swiper-slide {
+  scroll-snap-align: none !important;
+  -webkit-scroll-snap-align: none !important;
+}
