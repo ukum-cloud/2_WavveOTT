@@ -1,1 +1,5 @@
-@use "../../App.scss" as g;
+@use '../../App.scss' as g;
+
+.main {
+    overflow-x: hidden;
+}
