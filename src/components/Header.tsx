@@ -64,7 +64,7 @@ const Header = () => {
               </Link>
             ) : (
               // ChoiceChar 페이지일 때는 <Link> 없이 <img>만 렌더링
-              <img src="/images/badge/badge-wavve-logo-white.svg" alt="로고" />
+              <img src="/images/badge/badge-wavve-logo-blue.svg" alt="로고" />
             )}
           </h1>
 
@@ -107,6 +107,9 @@ const Header = () => {
                   </li>
                   <li>
                     <Link to={"/playlist"}>시청리스트</Link>
+                  </li>
+                  <li>
+                    <Link to={"/choice-char"}>프로필변경</Link>
                   </li>
                   <li>
                     <button onClick={handleLogout} className="btn sm primary">
