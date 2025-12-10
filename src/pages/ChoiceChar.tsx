@@ -36,8 +36,11 @@ const ChoiceChar = () => {
     <main>
       <div className="inner">
         <section className="choice-char">
-          <h2>프로필 선택</h2>
-          <p>시청하실 프로필을 선택해주세요.</p>
+          <div>
+            <h2>프로필 선택</h2>
+            <p>시청하실 프로필을 선택해주세요.</p>
+          </div>
+
           <ul>
             {characters.map((c) => (
               <li key={c.id} onClick={() => handleCharSelect(c)}>

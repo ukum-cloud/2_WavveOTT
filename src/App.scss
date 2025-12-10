@@ -11,6 +11,10 @@ $color-other4: #adb0be;
 $color-font-primary: $color-primary;
 $color-font-black: $color-secondary-black;
 $color-font-white: $color-secondary-white;
+$color-font-grey1: #4e525d;
+$color-font-grey2: #878c9e;
+$color-font-grey3: #adb0be;
+$color-font-grey4: #999999;
 
 $color-font2: $color-other2;
 $color-font3: $color-other3;
@@ -34,5 +38,11 @@ $color-font-red: #dd2f38;
   justify-content: $jc;
   align-items: $ai;
   flex-wrap: $fw;
+  gap: $gap;
+}
+
+@mixin myFlexCol($fw: null, $gap: 2rem) {
+  display: flex;
+  flex-direction: column;
   gap: $gap;
 }
