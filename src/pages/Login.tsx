@@ -38,17 +38,33 @@ const Login = () => {
   return (
     <main>
       <div className="login">
-        <h2>로그인</h2>
-        <p>Wavve 계정으로 로그인</p>
+        <div>
+          <h2>로그인</h2>
+          <p>Wavve 계정으로 로그인</p>
+        </div>
+
         <form onSubmit={handleLogin}>
           <label className="input-text">
-            <span className="label-text">이메일 주소 또는 아이디</span>
+            <span className="label-text">이메일</span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="이메일을 입력하세요"
             />
+            <p className="text-info">
+              로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해 주세요.
+              {/* 5~50자의 이메일 형식으로 입력해주세요. */}
+            </p>
+            <p>
+              {/* 입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
+              주세요.
+              <br />
+              비밀번호를 입력해주세요.
+              <br />
+              입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
+              주세요. */}
+            </p>
           </label>
           <label className="input-text">
             <span className="label-text">비밀번호</span>
@@ -69,15 +85,7 @@ const Login = () => {
               />{" "}
               아이디저장
             </label>
-            <p>
-              입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
-              주세요.
-              <br />
-              비밀번호를 입력해주세요.
-              <br />
-              입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해
-              주세요.
-            </p>
+
           </div>
           <div>
             <button type="submit" className="btn middle primary wFull">
@@ -95,24 +103,28 @@ const Login = () => {
           </ul>
         </div>
         <div className="btn-box-other">
-          <p>또는 다른 서비스 계정으로 로그인</p>
-          <ul className="division-list">
+          <p className="text-top">또는 다른 서비스 계정으로 로그인</p>
+          <ul>
             <li>
-              <Link to={"/"}>카카오</Link>
+              <Link to={"/"}>
+                <img src="/images/icons/icon-kakao-login.svg" alt="kakao login" />
+              </Link>
             </li>
             <li>
-              <Link to={"/"}>티</Link>
+              <Link to={"/"}><img src="/images/icons/icon-google-login.svg" alt="google login" /></Link>
             </li>
             <li>
-              <Link to={"/"}>네이버</Link>
+              <Link to={"/"}><img src="/images/icons/icon-naver-login.svg" alt="naver login" /></Link>
             </li>
             <li>
-              <Link to={"/"}>페이스북</Link>
-            </li>
-            <li>
-              <Link to={"/"}>애플</Link>
+              <Link to={"/"}><img src="/images/icons/icon-apple-login.svg" alt="apple login" /></Link>
             </li>
           </ul>
+          <div className="text-bottom">
+            <p>SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다.</p>
+            <p>
+              기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.</p>
+          </div>
         </div>
       </div>
     </main>
