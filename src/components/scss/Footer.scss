@@ -1,8 +1,83 @@
 @use "../../App.scss" as g;
 
 footer {
+  
   .inner {
-    padding: 80px 20px;
+    width: 100%;
+    padding: 80px 240px;
+
+    .footer-item{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 60px;
+
+      .footer-left{
+        .left-top{
+          display: flex;
+          gap: 40px;
+          margin-bottom: 30px;
+
+          p{
+            font-size: 16px;
+            color: g.$color-other4;
+            line-height: 160%;
+            letter-spacing: -0.2px;
+          }
+        }
+        .left-bottom{
+          p{
+            font-size: 16px;
+            color: g.$color-other3;
+            line-height: 180%;
+            letter-spacing: -0.2px;
+          }
+        }
+      }
+      .footer-right{
+        .right-item{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+
+          .item-title{
+            color: g.$color-other4;
+            font-size: 18px;
+            line-height: 160%;
+            letter-spacing: -0.2px;
+          }
+          .item-phone{
+            color: g.$color-other3;
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 160%;
+            letter-spacing: -0.2px;
+          }
+          .work-hour{
+            color: g.$color-other3;
+            font-size: 14px;
+            line-height: 180%;
+            letter-spacing: -0.2px;
+          }
+        }
+      }
+    }
+    .footer-bottom{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      .footer-logo{
+        width: 200px;
+        height: 42px;
+      }
+      .app-icon-box{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    }
   }
   background-color: #12141d;
 }
