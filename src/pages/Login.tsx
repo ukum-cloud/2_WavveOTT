@@ -6,20 +6,35 @@ import { useState } from "react";
 
 const Login = () => {
   const { onLogin } = useAuthStore();
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState(
+    () => localStorage.getItem("savedEmail") || ""
+  );
   const [password, setPassword] = useState("");
+  const [rememberId, setRememberId] = useState(
+    () => !!localStorage.getItem("savedEmail")
+  );
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await onLogin(email, password);
-      setEmail(""); //로그인 후 데이터 지우기
-      setPassword(""); // 로그인 후 데이터 지우기
+
+      // 체크박스 상태에 따라 아이디 저장/삭제
+      if (rememberId) {
+        localStorage.setItem("savedEmail", email);
+      } else {
+        localStorage.removeItem("savedEmail");
+      }
+
+      setPassword(""); // 비밀번호만 비우기 (아이디는 저장할 수 있으니까 남겨도 됨)
       navigate("/"); // 로그인 후 첫 화면으로 이동
     } catch (err) {
       console.log("로그인 안됨....");
     }
   };
-  const navigate = useNavigate();
+
   return (
     <main>
       <div className="login">
@@ -46,7 +61,13 @@ const Login = () => {
           </label>
           <div className="save-id">
             <label>
-              <input type="checkbox" name="" /> 아이디저장
+              {/* 체크박스 상태 연결 */}
+              <input
+                type="checkbox"
+                checked={rememberId}
+                onChange={(e) => setRememberId(e.target.checked)}
+              />{" "}
+              아이디저장
             </label>
             <p>
               입력하신 정보에 해당하는 계정을 찾을 수 없습니다. ID, PW를 확인해

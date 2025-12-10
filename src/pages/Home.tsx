@@ -1,12 +1,23 @@
-import { Link } from "react-router-dom";
-import "./scss/Home.scss";
-import MainNomination from "../components/MainNomination";
+import { useEffect } from 'react';
+import './scss/Home.scss';
+import RankingCardList from '../components/RankingCardList';
+import { Link } from 'react-router-dom';
+import { useMovieStore } from '../stores/useMovieStore';
+import EditorRecommendCardList from '../components/EditorRecommendCardList';
 
 const Home = () => {
+  const { onFetchPopular, popularMovies } = useMovieStore();
+  useEffect(() => {
+    onFetchPopular();
+  }, []);
+
+  console.log('영화 데이터', popularMovies);
+
   return (
     <main className="main">
       <div className="">100% 다 쓰는 경우</div>
-      <MainNomination />
+      <RankingCardList RankingData={popularMovies} />
+      <EditorRecommendCardList list={popularMovies} />
       <div className="inner">
         <section>1</section>
         <section className="card-list">
@@ -14,11 +25,8 @@ const Home = () => {
           <div className="">내용, 슬라이더, 등등</div>
         </section>
         <div className="banner-event">
-          <Link to={"/"}>
-            <img
-              src="/images/banner/banner-main-event.png"
-              alt="banner event"
-            />
+          <Link to={'/'}>
+            <img src="/images/banner/banner-main-event.png" alt="banner event" />
           </Link>
         </div>
       </div>
