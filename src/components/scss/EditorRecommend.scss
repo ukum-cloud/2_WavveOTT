@@ -11,11 +11,13 @@
   }
 }
 
-.editorSwiper .swiper-wrapper {
+.editorSwiperTop .swiper-wrapper,
+.editorSwiperBot .swiper-wrapper {
   transition-timing-function: linear !important;
 }
 
-.editorSwiper .swiper-slide {
+.editorSwiperTop .swiper-slide,
+.editorSwiperBot .swiper-slide {
   scroll-snap-align: none !important;
   -webkit-scroll-snap-align: none !important;
 }

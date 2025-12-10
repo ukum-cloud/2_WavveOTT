@@ -1,14 +1,20 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import EditorRecommendCard from './EditorRecommendCard';
-import 'swiper/css';
-import { Autoplay, Grid } from 'swiper/modules';
+import EditorRecommendCard from "./EditorRecommendCard";
+import "swiper/css";
+import { Autoplay, Grid } from "swiper/modules";
 
 const EditorRecommendCardList = ({ list }) => {
   return (
-    <section style={{ gap: '30px' }} className="rec-section">
-      <h2 style={{ marginLeft: '270px', marginTop: '140px', marginBottom: '34px' }}>
+    <section style={{ gap: "30px" }} className="rec-section">
+      <h2
+        style={{
+          marginLeft: "270px",
+          marginTop: "140px",
+          marginBottom: "34px",
+        }}
+      >
         믿고보는 에디터 추천작
       </h2>
       <div className="swiper-top">
@@ -19,16 +25,21 @@ const EditorRecommendCardList = ({ list }) => {
           loop={true}
           freeMode={true}
           autoplay={{
-            delay: 0,
+            delay: 3000, // 딜레이 3초후로 (수정)
             disableOnInteraction: false,
             // pauseOnMouseEnter: true,
             reverseDirection: true,
           }}
           speed={6000}
-          className="editorSwiper">
+          className="editorSwiperTop" //class이름 따로주기 (수정)
+        >
           {list.map((l) => (
-            <SwiperSlide key={l.id} style={{ width: '200px' }}>
-              <EditorRecommendCard backposter={l.backdrop_path} id={l.id} title={l.logo} />
+            <SwiperSlide key={l.id} style={{ width: "200px" }}>
+              <EditorRecommendCard
+                backposter={l.backdrop_path}
+                id={l.id}
+                title={l.logo}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -47,10 +58,15 @@ const EditorRecommendCardList = ({ list }) => {
             reverseDirection: false,
           }}
           speed={6000}
-          className="editorSwiper">
+          className="editorSwiperBot" //class이름 따로주기 (수정)
+        >
           {list.map((l) => (
-            <SwiperSlide key={l.id} style={{ width: '200px' }}>
-              <EditorRecommendCard backposter={l.backdrop_path} id={l.id} title={l.logo} />
+            <SwiperSlide key={l.id} style={{ width: "200px" }}>
+              <EditorRecommendCard
+                backposter={l.backdrop_path}
+                id={l.id}
+                title={l.logo}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
