@@ -4,6 +4,7 @@ import RankingCardList from '../components/RankingCardList';
 import { Link } from 'react-router-dom';
 import { useMovieStore } from '../stores/useMovieStore';
 import EditorRecommendCardList from '../components/EditorRecommendCardList';
+import MainNomination from '../components/MainNomination';
 
 const Home = () => {
   const { onFetchPopular, popularMovies } = useMovieStore();
@@ -16,6 +17,7 @@ const Home = () => {
   return (
     <main className="main">
       <div className="">100% 다 쓰는 경우</div>
+      <MainNomination />
       <RankingCardList RankingData={popularMovies} />
       <EditorRecommendCardList list={popularMovies} />
       <div className="inner">
