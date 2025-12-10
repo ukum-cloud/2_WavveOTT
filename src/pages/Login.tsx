@@ -29,7 +29,7 @@ const Login = () => {
       }
 
       setPassword(""); // 비밀번호만 비우기 (아이디는 저장할 수 있으니까 남겨도 됨)
-      navigate("/"); // 로그인 후 첫 화면으로 이동
+      navigate("/choice-char"); // 로그인 후 첫 화면으로 이동
     } catch (err) {
       console.log("로그인 안됨....");
     }

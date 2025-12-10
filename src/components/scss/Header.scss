@@ -50,7 +50,6 @@ header {
         border: 1px solid transparent;
         border-radius: 25px;
         background-color: rgba(255, 255, 255, 0.1);
-        // background-color: #f2f2f2;
       }
     }
     > .login {
@@ -76,6 +75,21 @@ header {
         background-color: g.$color-primary;
         color: g.$color-font-white;
         cursor: pointer;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        &.char-1 {
+          background-image: url("/images/icons/icon-char-1.svg");
+        }
+        &.char-2 {
+          background-image: url("/images/icons/icon-char-2.svg");
+        }
+        &.char-3 {
+          background-image: url("/images/icons/icon-char-3.svg");
+        }
+        &.char-4 {
+          background-image: url("/images/icons/icon-char-4.svg");
+        }
       }
       .user-list {
         position: absolute;
