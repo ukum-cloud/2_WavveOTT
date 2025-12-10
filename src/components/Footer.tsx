@@ -36,8 +36,8 @@ const Footer = () => {
             <img src="../../public/images/badge/badge-wavve-logo-gray.svg" alt="footer logo" />
           </div>
           <div className="app-icon-box">
-            <p><img src="../../public/images/icons/icon-insta.svg" alt="Insta Icon" /></p>
             <p><img src="../../public/images/icons/icon-youtube.svg" alt="Youtube Icon" /></p>
+            <p><img src="../../public/images/icons/icon-insta.svg" alt="Insta Icon" /></p>
           </div>
         </div>
       </div>
