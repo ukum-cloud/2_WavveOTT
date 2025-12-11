@@ -25,7 +25,7 @@ const EditorRecommendCardList = ({ list }) => {
           loop={true}
           freeMode={true}
           autoplay={{
-            delay: 3000, // 딜레이 3초후로 (수정)
+            delay: 1000, // 딜레이 1초후로 (수정)
             disableOnInteraction: false,
             // pauseOnMouseEnter: true,
             reverseDirection: true,
@@ -52,7 +52,7 @@ const EditorRecommendCardList = ({ list }) => {
           loop={true}
           freeMode={true}
           autoplay={{
-            delay: 0,
+            delay: 500,
             disableOnInteraction: false,
             // pauseOnMouseEnter: true,
             reverseDirection: false,
