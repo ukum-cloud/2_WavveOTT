@@ -9,9 +9,12 @@
     // 스와이퍼 리스트
     .swiper {
         overflow: visible;
+        width: 100%;
 
         .swiper-wrapper {
+            overflow: visible;
             padding-right: calc((100vw - 100%) / 2);
+
             .swiper-slide {
                 overflow: visible;
                 width: 220px;
@@ -43,6 +46,7 @@
                         width: 44px;
                         height: 44px;
                         background-image: url('/images/badge/badge-wavve-logo.svg');
+                        transition: opacity 0.4s ease;
                     }
 
                     // 미리보기 카드
@@ -52,29 +56,43 @@
                         top: 50%;
                         transform: translate(-50%, -50%);
                         width: 464px;
-                        height: 420px;
+                        height: auto;
+                        min-height: 464px;
                         opacity: 0;
 
-                        @include g.myFlex($jc: unset);
+                        @include g.myFlex($jc: unset, $gap: 1.4rem);
                         flex-direction: column;
 
                         padding: 0 30px;
                         background: black;
                         border: 1px solid #1d2131;
                         border-radius: 12px;
+                        box-shadow: 0 0 40px 3px #0f1f42;
 
-                        transition: opacity 0.6s ease, transform 0.6s ease;
+                        transition: opacity 0.4s ease, transform 0.4s ease;
 
                         .img-box {
                             position: relative;
                             width: 464px;
-                            height: 260px;
+                            height: 300px;
+                            overflow: hidden;
+                            border-radius: 12px;
 
                             > img {
                                 width: 100%;
                                 height: 100%;
                                 object-fit: cover;
-                                border-radius: 12px;
+                                border: none;
+                            }
+
+                            > iframe {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                width: 100%;
+                                height: 100%;
+                                border: none;
                             }
 
                             .logo-box {
@@ -83,11 +101,19 @@
                                 left: 0;
                                 width: 100%;
                                 height: 100px;
-
-                                @include g.myFlex($gap: 2.4rem);
                                 padding: 0 30px;
+                                @include g.myFlex();
+
+                                text-align: start;
+
+                                .content-logo {
+                                    display: inline-block;
+                                    height: 70%;
+                                    object-fit: contain;
+                                }
 
                                 .sound-icon {
+                                    display: inline-block;
                                     width: 48px;
                                     height: 48px;
                                 }
@@ -97,15 +123,25 @@
                         .preview-badge-top {
                             width: 100%;
                             @include g.myFlex($jc: unset, $gap: 1.2rem);
+                            font-family: 'Wave';
                             font-size: 18px;
+                            font-weight: 400;
+                            .preview-genre::after {
+                                content: '|';
+                                margin: 0 0 0 1.2rem;
+                            }
                         }
 
                         .preview-badge-bottom {
                             width: 100%;
+                            margin-bottom: 10px;
                             @include g.myFlex($gap: 0.4rem);
 
                             .preview-btn-wrap {
                                 @include g.myFlex($gap: 1.2rem);
+                                > p {
+                                    cursor: pointer;
+                                }
                             }
                         }
                     }
@@ -128,6 +164,52 @@
                             transition-delay: 0.3s;
                             pointer-events: auto;
                         }
+                    }
+                }
+            }
+
+            // 첫번째 미리보기 카드 위치 조정
+            .swiper-slide-active {
+                .poster-wrap {
+                    .preview-wrap {
+                        left: 0;
+                        transform: translate(0, -50%);
+                    }
+
+                    &:hover .preview-wrap {
+                        transform: translate(0, -50%);
+                    }
+                }
+            }
+
+            // 화면상 마지막 카드 위치 조정 (className에 swiper-slide-visible는 들어가는데 fully-visible는 안들어가는 것)
+            .swiper-slide-visible:not(.swiper-slide-fully-visible) {
+                .poster-wrap {
+                    .preview-wrap {
+                        left: auto;
+                        right: 50px;
+                        transform: translate(0, -50%);
+                    }
+
+                    &:hover .preview-wrap {
+                        right: 50px;
+                        transform: translate(0, -50%);
+                    }
+                }
+            }
+
+            //진짜 마지막 미리보기 카드 위치 조정
+            .swiper-slide:last-child {
+                .poster-wrap {
+                    .preview-wrap {
+                        left: auto;
+                        right: 0;
+                        transform: translate(0, -50%);
+                    }
+
+                    &:hover .preview-wrap {
+                        right: 0;
+                        transform: translate(0, -50%);
                     }
                 }
             }
