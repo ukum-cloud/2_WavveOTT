@@ -1,9 +1,11 @@
 .Rankingcard {
-  width: 220px;
-  height: 320px;
+  // width: 220px;
+  // height: 320px;
   cursor: pointer;
   border-radius: 12px;
   overflow: hidden;
+  width: 220px;
+  height: 320px;
   a {
     img {
       object-fit: cover;
@@ -16,11 +18,11 @@
 }
 .RankNum {
   position: absolute;
-  font-size: 136px;
+  font-size: 10rem;
   bottom: -50px;
   z-index: 2;
   left: -40px;
-  font-family: 'Russo One', sans-serif;
+  font-family: "Russo One", sans-serif;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: white;
   color: rgba($color: #000000, $alpha: 0.6);
@@ -31,6 +33,13 @@
 }
 
 .RankSection {
-  margin-left: 270px;
-  margin-right: 22px;
+  // margin-left: 270px;
+  // margin-right: 22px;
+}
+
+@media (max-width: 1760px) {
+  .RankNum {
+    left: 5px;
+    bottom: -30px;
+  }
 }
