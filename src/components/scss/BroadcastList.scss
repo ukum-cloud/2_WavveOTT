@@ -1,0 +1,32 @@
+@use "../../App.scss" as g;
+
+.broadcast-list{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  .broadcast-box{
+    display: block;
+    width: 100%;
+    height: 110px;
+    border-radius: 12px;
+    background-color: g.$color-bg-dark;
+
+    >a{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      img{
+        display: block;
+        max-width: 40%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+  }
+}
