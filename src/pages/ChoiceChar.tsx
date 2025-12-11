@@ -1,6 +1,6 @@
 // ChoiceChar.tsx
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../stores/useAuthStore"; // 수정된 스토어
+import { useAuthStore } from "../stores/useAuthStore";
 import "./scss/ChoiceChar.scss";
 
 interface Character {
@@ -17,7 +17,7 @@ const characters: Character[] = [
     nickname: "에스프레소",
     imageUrl: "/images/icons/icon-char-3.svg",
   },
-  { id: 4, nickname: "길똥", imageUrl: "/images/icons/icon-char-4.svg" },
+  { id: 4, nickname: "키즈", imageUrl: "/images/icons/icon-char-4.svg" },
 ];
 
 const ChoiceChar = () => {
@@ -29,7 +29,13 @@ const ChoiceChar = () => {
   const handleCharSelect = (char: Character) => {
     // 선택된 캐릭터 정보를 전역 상태에 저장
     selectChar(char.id, char.nickname);
-    navigate("/");
+
+    // 키즈 캐릭터(ID: 4)를 선택한 경우 /kids 페이지로 이동
+    if (char.id === 4) {
+      navigate("/kids");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
