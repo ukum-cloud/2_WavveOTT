@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import "./scss/MainNomination.scss";
-
-interface Movie{
-  id: number;
-  title: string;
-  overview: string;
-  backdrop_path: string;
-  poster_path: string;
-  vote_average: number;
-  release_date: string;
-  adult: boolean;
-}
+import { useNavigate } from 'react-router-dom';
+import { useMovieStore } from '../stores/useMovieStore';
 
 const MainNomination = () => {
-  const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string;
-  const [movies, setMovies] = useState<Movie[]>([]);
-
-  const onFetchThree = async() => {
-    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=1`);
-    const data: {results: Movie[]} = await res.json();
-    setMovies(data.results.slice(0, 3));
-  }
+  const navigate = useNavigate();
+  const { popularMovies, onFetchPopular } = useMovieStore();
 
   useEffect(() => {
-    (async () => {
-      await onFetchThree();
-    })();
-  });
+    onFetchPopular();
+  }, []);
+
+  const movies = popularMovies.slice(0, 3);
 
   return (
     <div className='main-nomination'>
@@ -35,7 +20,7 @@ const MainNomination = () => {
           <h3 className='font-wave'>웨이브님을 위한 추천 콘텐츠</h3>
           <p>지금, 찜한 콘텐츠로 <br /> 가장 완벽한 순간을 시작하세요.</p>
         </div>
-        <button>찜 목록 보러가기</button>
+        <button onClick={() => navigate("/favorite")}>찜 목록 보러가기</button>
       </div>
 
       <ul className="content-list">
