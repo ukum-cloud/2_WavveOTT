@@ -33,15 +33,17 @@ const Header = () => {
     .toLowerCase()
     .includes("/choice-char");
 
+  // 키즈 캐릭터(ID: 4)가 선택되었는지 확인
+  const isKidsMode = selectedCharId === 4;
+
   // 닉네임의 첫 글자 계산
-  // 선택된 닉네임이 있으면 첫 글자를, 없으면 기본값 'W' 사용 (로그인된 상태 기준)
   const userInitial = selectedCharNickname
     ? selectedCharNickname.charAt(0)
     : user
     ? "U"
     : "W";
 
-  // ID에 따른 동적 클래스 이름 계산 (예: char-1, char-2, ...)
+  // ID에 따른 동적 클래스 이름 계산
   const charClass = selectedCharId ? `char-${selectedCharId}` : "char-1";
 
   const handleLogout = async () => {
@@ -54,8 +56,8 @@ const Header = () => {
       <div className="inner">
         <div className="header-left">
           <h1 className="logo">
-            {/* ChoiceChar 페이지가 아닐 때만 Link를 렌더링 */}
-            {!isChoiceCharPage ? (
+            {/* 키즈 모드나 ChoiceChar 페이지에서는 로고 링크 비활성화 */}
+            {!isChoiceCharPage && !isKidsMode ? (
               <Link to={"/"}>
                 <img
                   src="/images/badge/badge-wavve-logo-white.svg"
@@ -63,31 +65,51 @@ const Header = () => {
                 />
               </Link>
             ) : (
-              // ChoiceChar 페이지일 때는 <Link> 없이 <img>만 렌더링
-              <img src="/images/badge/badge-wavve-logo-blue.svg" alt="로고" />
+              <img
+                src={
+                  isChoiceCharPage
+                    ? "/images/badge/badge-wavve-logo-blue.svg"
+                    : "/images/badge/badge-wavve-logo-white.svg"
+                }
+                alt="로고"
+              />
             )}
           </h1>
 
-          {/* 조건: ChoiceChar 페이지가 아닐 때만 main-menu 렌더링 */}
+          {/* ChoiceChar 페이지에서는 메뉴 전체 숨김 */}
           {!isChoiceCharPage && (
             <ul className="main-menu">
-              {mainMenu.map((menu) => (
-                <li key={menu.id}>
-                  <Link className="font-wave" to={menu.path}>
-                    {menu.title}
-                  </Link>
-                </li>
-              ))}
+              {/* 키즈 모드에서는 키즈 메뉴만, 다른 모드에서는 모든 메뉴 표시 */}
+              {isKidsMode
+                ? mainMenu
+                    .filter((menu) => menu.path === "/kids")
+                    .map((menu) => (
+                      <li key={menu.id}>
+                        <Link className="font-wave" to={menu.path}>
+                          {menu.title}
+                        </Link>
+                      </li>
+                    ))
+                : mainMenu.map((menu) => (
+                    <li key={menu.id}>
+                      <Link className="font-wave" to={menu.path}>
+                        {menu.title}
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           )}
         </div>
 
-        {/* 조건: ChoiceChar 페이지가 아닐 때만 header-right 렌더링 */}
+        {/* ChoiceChar 페이지에서만 header-right 전체 숨김 */}
         {!isChoiceCharPage && (
           <div className="header-right">
-            <p className="search">
-              <span>검색</span>
-            </p>
+            {/* 키즈 모드에서는 검색 버튼만 숨김 */}
+            {!isKidsMode && (
+              <p className="search">
+                <span>검색</span>
+              </p>
+            )}
             {!user ? (
               <p className="login">
                 <Link className="font-wave" to={"/login"}>
@@ -96,7 +118,6 @@ const Header = () => {
               </p>
             ) : (
               <div className="user-info">
-                {/* 동적 클래스와 동적 첫 글자 적용 */}
                 <p className={`user ${charClass}`}>{userInitial}</p>
                 <ul className="user-list">
                   <li>

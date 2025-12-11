@@ -15,7 +15,7 @@ const Signup = () => {
       await onMember(email, password);
       setEmail("");
       setPassword("");
-      navigate("/");
+      navigate("/choice-char");
     } catch (error: any) {
       console.log("경로이탈");
     }
@@ -25,8 +25,7 @@ const Signup = () => {
       <div className="signup">
         <div>
           <h2>회원가입</h2>
-          <p>이메일과 비밀번호만으로
-            간편하게 Wavve를 시작하세요!</p>
+          <p>이메일과 비밀번호만으로 간편하게 Wavve를 시작하세요!</p>
         </div>
         <form onSubmit={handleSignup}>
           <label className="input-text">
@@ -69,23 +68,43 @@ const Signup = () => {
           <ul>
             <li>
               <Link to={"/"}>
-                <img src="/images/icons/icon-kakao-login.svg" alt="kakao login" />
+                <img
+                  src="/images/icons/icon-kakao-login.svg"
+                  alt="kakao login"
+                />
               </Link>
             </li>
             <li>
-              <Link to={"/"}><img src="/images/icons/icon-google-login.svg" alt="google login" /></Link>
+              <Link to={"/"}>
+                <img
+                  src="/images/icons/icon-google-login.svg"
+                  alt="google login"
+                />
+              </Link>
             </li>
             <li>
-              <Link to={"/"}><img src="/images/icons/icon-naver-login.svg" alt="naver login" /></Link>
+              <Link to={"/"}>
+                <img
+                  src="/images/icons/icon-naver-login.svg"
+                  alt="naver login"
+                />
+              </Link>
             </li>
             <li>
-              <Link to={"/"}><img src="/images/icons/icon-apple-login.svg" alt="apple login" /></Link>
+              <Link to={"/"}>
+                <img
+                  src="/images/icons/icon-apple-login.svg"
+                  alt="apple login"
+                />
+              </Link>
             </li>
           </ul>
           <div className="text-bottom">
             <p>SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다.</p>
             <p>
-              기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.</p>
+              기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에
+              참고하세요.
+            </p>
           </div>
         </div>
       </div>

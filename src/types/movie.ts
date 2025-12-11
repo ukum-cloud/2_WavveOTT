@@ -15,9 +15,12 @@ export interface Movie extends MediaBase {
     release_data: string;
 }
 
-export interface MovieState {
-    popularMovies: Movie[];
+export interface MovieWithLogo extends MediaBase {
+    logo: string | null;
+}
 
+export interface MovieState {
+    popularMovies: MovieWithLogo[];
     onFetchPopular: () => Promise<void>;
 }
 
@@ -31,14 +34,6 @@ export interface OnlyWavve extends MediaBase {
     rating: string;
     context_type: string;
     context_id: string;
-    results: Video[];
-    wavveVideo: Video | null;
-}
-
-export interface Video {
-    type: string;
-    site: string;
-    key: string;
 }
 
 export interface OnlyWavveState {

@@ -6,10 +6,11 @@ import { useWavveStore } from '../stores/useWavveStore';
 
 import RankingCardList from '../components/RankingCardList';
 import EditorRecommendCardList from '../components/EditorRecommendCardList';
-import MainNomination from '../components/MainNomination';
 import WavveList from '../components/WavveList';
 
 import './scss/Home.scss';
+import MainNomination from '../components/MainNomination';
+import BroadcastList from '../components/BroadcastList';
 
 const Home = () => {
     const { onFetchPopular, popularMovies } = useMovieStore();
@@ -26,9 +27,9 @@ const Home = () => {
     return (
         <main className="main">
             <div className="">100% 다 쓰는 경우</div>
+            <MainNomination />
             <RankingCardList RankingData={popularMovies} />
             <EditorRecommendCardList list={popularMovies} />
-            <MainNomination />
             <div className="inner">
                 <section>1</section>
                 <WavveList title="오직 웨이브에서만" wavves={wavves} />

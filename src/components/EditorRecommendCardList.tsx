@@ -1,23 +1,31 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import EditorRecommendCard from "./EditorRecommendCard";
+import "swiper/css";
+import { Autoplay } from "swiper/modules";
+import type { MovieWithLogo } from "../types/movie";
 
-import EditorRecommendCard from './EditorRecommendCard';
-import 'swiper/css';
-import { Autoplay, Grid } from 'swiper/modules';
+interface Props {
+  list: MovieWithLogo[];
+}
 
-const EditorRecommendCardList = ({ list }) => {
+const EditorRecommendCardList = ({ list }: Props) => {
   return (
-    <section style={{ gap: '30px' }} className="rec-section">
-      <h2 style={{ marginLeft: '270px', marginTop: '140px', marginBottom: '34px' }}>
+    <section style={{ gap: "30px" }} className="rec-section">
+      <h2 style={{ marginLeft: "270px", marginTop: "140px", marginBottom: "34px" }}>
         믿고보는 에디터 추천작
       </h2>
       <div className="swiper-top">
         <Swiper
           modules={[Autoplay]}
-          slidesPerView={3.5}
+          slidesPerView={3.3}
           spaceBetween={24}
           loop={true}
-          freeMode={true}
+          allowTouchMove={false}
+          freeMode={{
+            enabled: true,
+            momentum: false,
+          }}
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
@@ -27,8 +35,8 @@ const EditorRecommendCardList = ({ list }) => {
           speed={6000}
           className="editorSwiper">
           {list.map((l) => (
-            <SwiperSlide key={l.id} style={{ width: '200px' }}>
-              <EditorRecommendCard backposter={l.backdrop_path} id={l.id} title={l.logo} />
+            <SwiperSlide key={l.id} style={{ width: "200px" }}>
+              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -36,7 +44,7 @@ const EditorRecommendCardList = ({ list }) => {
       <div className="swiper-bot">
         <Swiper
           modules={[Autoplay]}
-          slidesPerView={3.5}
+          slidesPerView={3.3}
           spaceBetween={24}
           loop={true}
           freeMode={true}
@@ -49,8 +57,8 @@ const EditorRecommendCardList = ({ list }) => {
           speed={6000}
           className="editorSwiper">
           {list.map((l) => (
-            <SwiperSlide key={l.id} style={{ width: '200px' }}>
-              <EditorRecommendCard backposter={l.backdrop_path} id={l.id} title={l.logo} />
+            <SwiperSlide key={l.id} style={{ width: "200px" }}>
+              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
             </SwiperSlide>
           ))}
         </Swiper>
