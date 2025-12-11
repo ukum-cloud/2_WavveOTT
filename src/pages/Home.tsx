@@ -10,6 +10,7 @@ import WavveList from "../components/WavveList";
 
 import "./scss/Home.scss";
 import MainNomination from "../components/MainNomination";
+import BroadcastList from "../components/BroadcastList";
 
 const Home = () => {
   const { onFetchPopular, popularMovies } = useMovieStore();
@@ -36,6 +37,7 @@ const Home = () => {
 
       <EditorRecommendCardList list={popularMovies} />
       <div className="inner">
+        <BroadcastList />
         <section>1</section>
         <RankingCardList RankingData={popularMovies} />
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
