@@ -25,8 +25,9 @@ const EditorRecommendCard = ({ backposter, id, title }: EditorType) => {
         alt=""
         className="R-b-logo"
         style={{
-          width: "190px",
-          height: "80px",
+          width: "150px",
+          height: "auto",
+          objectFit: "contain",
           position: "absolute",
           zIndex: "3",
           bottom: "0",
