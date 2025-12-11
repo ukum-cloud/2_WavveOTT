@@ -31,6 +31,14 @@ export interface OnlyWavve extends MediaBase {
     rating: string;
     context_type: string;
     context_id: string;
+    results: Video[];
+    wavveVideo: Video | null;
+}
+
+export interface Video {
+    type: string;
+    site: string;
+    key: string;
 }
 
 export interface OnlyWavveState {
