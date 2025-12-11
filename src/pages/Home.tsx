@@ -31,6 +31,7 @@ const Home = () => {
 
       <EditorRecommendCardList list={popularMovies} />
       <div className="inner">
+        <BroadcastList />
         <section>1</section>
         <RankingCardList RankingData={popularMovies} />
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
