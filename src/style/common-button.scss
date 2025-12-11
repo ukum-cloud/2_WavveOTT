@@ -87,37 +87,37 @@ input[type="checkbox"] {
   position: relative;
   appearance: none;
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 2px;
-  accent-color: g.$color-secondary-white;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
   color: #fff;
   overflow: hidden;
-  border: 1px solid g.$color-font-white;
-  background-color: g.$color-font-white;
+  border: 1px solid g.$color-font-grey3;
+  background-color: transparent;
 }
 
 /* 체크*/
 input[type="checkbox"]:checked {
-  accent-color: g.$color-secondary-white;
+  accent-color: g.$color-primary;
+  border: 1px solid g.$color-primary;
 }
 
 /* 체크 표시(✔) */
 input[type="checkbox"]:checked::after {
   content: "✔";
+  font-family: "Roboto";
   text-align: center;
   position: absolute;
-  color: g.$color-primary;
-  font-size: 14px;
-  font-weight: bold;
+  color: g.$color-font-white;
+  font-size: 18px;
   top: 50%;
   left: 50%;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   border-radius: 2px;
-  transform: translate(-50%, -44%);
+  transform: translate(-51%, -43%);
   line-height: 1;
-  background-color: g.$color-secondary-white;
+  background-color: g.$color-primary;
 }
 
 input[type="radio"] {

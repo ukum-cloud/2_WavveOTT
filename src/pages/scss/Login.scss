@@ -1,19 +1,19 @@
 @use "../../App.scss" as g;
 
 main {
-  &:has(>.login, >.signup) {
+  &:has(> .login, > .signup) {
     position: relative;
     overflow: hidden;
     font-size: 0.825rem;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: -55%;
       width: 300%;
       height: 300%;
-      background-image: url('/images/bg-login.png'); // 이미지 경로 지정
+      background-image: url("/images/bg-login.png"); // 이미지 경로 지정
       background-repeat: repeat;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 0;
@@ -23,9 +23,7 @@ main {
     }
   }
 
-
-
-  >.login {
+  > .login {
     position: relative;
     z-index: 1;
     margin: 80px auto;
@@ -37,7 +35,7 @@ main {
     background-color: g.$color-bg-dark;
     border-radius: 40px;
 
-    >div {
+    > div {
       @include g.myFlexCol($gap: 16px);
 
       h2 {
@@ -45,14 +43,13 @@ main {
         text-align: center;
         font-size: 32px;
 
-        +p {
+        + p {
           text-align: center;
           color: g.$color-font-grey4;
           font-size: 1rem;
         }
       }
     }
-
 
     form {
       position: relative;
@@ -65,8 +62,8 @@ main {
         position: relative;
         color: g.$color-font-white;
 
-        >input[type="text"],
-        >input[type="password"] {
+        > input[type="text"],
+        > input[type="password"] {
           width: 100%;
         }
       }
@@ -83,7 +80,8 @@ main {
       label {
         display: flex;
         justify-content: flex-start;
-        gap: 4px;
+        align-items: center;
+        gap: 8px;
         color: g.$color-font-grey3;
       }
     }
@@ -99,7 +97,7 @@ main {
         color: g.$color-font-grey4;
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           right: 0;
           top: 50%;
@@ -133,8 +131,8 @@ main {
       color: g.$color-font-grey4;
       text-align: center;
 
-      >ul {
-        @include g.myFlex($gap: 20px, $jc: center)
+      > ul {
+        @include g.myFlex($gap: 20px, $jc: center);
       }
 
       .text-bottom {
@@ -144,10 +142,8 @@ main {
     }
   }
 
-
   // 배경 이미지 애니메이션 키프레임
   @keyframes slowMove {
-
     0%,
     100% {
       transform: rotate(45deg) translate(0, 0);

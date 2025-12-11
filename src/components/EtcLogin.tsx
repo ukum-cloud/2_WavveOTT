@@ -19,15 +19,11 @@ const EtcLogin = ({ handleGoogle }: EtcLoginProps) => {
             <img src="/images/icons/icon-google-login.svg" alt="google login" />
           </button>
         </li>
-        <li>
-          <Link to={"/"}>
-            <img src="/images/icons/icon-naver-login.svg" alt="naver login" />
-          </Link>
+        <li style={{ cursor: "no-drop" }}>
+          <img src="/images/icons/icon-naver-login.svg" alt="naver login" />
         </li>
-        <li>
-          <Link to={"/"}>
-            <img src="/images/icons/icon-apple-login.svg" alt="apple login" />
-          </Link>
+        <li style={{ cursor: "no-drop" }}>
+          <img src="/images/icons/icon-apple-login.svg" alt="apple login" />
         </li>
       </ul>
       <div className="text-bottom">
