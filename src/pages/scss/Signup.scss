@@ -1,117 +1,108 @@
 @use "../../App.scss" as g;
 
 main {
-    >.signup {
-        position: relative;
-        z-index: 1;
-        margin: 80px auto;
+  > .signup {
+    position: relative;
+    z-index: 1;
+    margin: 80px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 700px;
+    padding: 60px 80px 30px;
+    background-color: g.$color-bg-dark;
+    border-radius: 40px;
+
+    > div {
+      @include g.myFlexCol($gap: 16px);
+
+      h2 {
+        font-family: "wave";
+        text-align: center;
+        font-size: 32px;
+
+        + p {
+          text-align: center;
+          color: g.$color-font-grey4;
+          font-size: 1rem;
+        }
+      }
+    }
+
+    form {
+      @include g.myFlexCol($gap: 32px);
+
+      label.input-text {
         display: flex;
         flex-direction: column;
-        gap: 40px;
-        width: 700px;
-        padding: 60px 80px 30px;
-        background-color: g.$color-bg-dark;
-        border-radius: 40px;
+        gap: 8px;
+        position: relative;
+        color: g.$color-font-white;
 
-
-        >div {
-            @include g.myFlexCol($gap: 16px);
-
-            h2 {
-                font-family: "wave";
-                text-align: center;
-                font-size: 32px;
-
-                +p {
-                    text-align: center;
-                    color: g.$color-font-grey4;
-                    font-size: 1rem;
-                }
-            }
+        > input[type="text"],
+        > input[type="password"] {
+          width: 100%;
         }
+      }
 
-        form {
-            @include g.myFlexCol($gap: 32px);
-
-            label.input-text {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                position: relative;
-                color: g.$color-font-white;
-
-                >input[type="text"],
-                >input[type="password"] {
-                    width: 100%;
-                }
-            }
-
-            .text-info {
-                font-size: 0.75rem;
-                color: g.$color-font2;
-            }
-        }
-
-        .save-id {
-            label {
-                display: flex;
-                justify-content: flex-start;
-                gap: 4px;
-            }
-        }
-
-        .division-list {
-            @include g.myFlex($gap: 12px, $jc: center);
-            color: g.$color-font2;
-
-            li {
-                position: relative;
-                padding-right: 12px;
-                word-break: keep-all;
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    right: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 1px;
-                    height: 8px;
-                    background-color: g.$color-font-white;
-                    opacity: 0.4;
-                }
-
-                &:last-child {
-                    padding-right: 0;
-
-                    &::after {
-                        width: 0;
-                    }
-                }
-            }
-        }
-
-        .btn-box {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .btn-box-other {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            color: g.$color-font-grey4;
-            text-align: center;
-
-            >ul {
-                @include g.myFlex($gap: 20px, $jc: center)
-            }
-
-            .text-bottom {
-                padding-top: 6px;
-                line-height: 140%;
-            }
-        }
+      .text-info {
+        font-size: 0.75rem;
+        color: g.$color-font2;
+      }
     }
+
+    .division-list {
+      @include g.myFlex($gap: 12px, $jc: center);
+      color: g.$color-font2;
+
+      li {
+        position: relative;
+        padding-right: 12px;
+        word-break: keep-all;
+
+        &::after {
+          content: "";
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 1px;
+          height: 8px;
+          background-color: g.$color-font-white;
+          opacity: 0.4;
+        }
+
+        &:last-child {
+          padding-right: 0;
+
+          &::after {
+            width: 0;
+          }
+        }
+      }
+    }
+
+    .btn-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-box-other {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      color: g.$color-font-grey4;
+      text-align: center;
+
+      > ul {
+        @include g.myFlex($gap: 20px, $jc: center);
+      }
+
+      .text-bottom {
+        padding-top: 6px;
+        line-height: 140%;
+      }
+    }
+  }
 }

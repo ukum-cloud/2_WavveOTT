@@ -24,7 +24,6 @@ const Header = () => {
   // 스토어에서 필요한 모든 상태 가져오기
   const { user, onLogout, selectedCharId, selectedCharNickname } =
     useAuthStore();
-
   const navigate = useNavigate();
   const location = useLocation();
 

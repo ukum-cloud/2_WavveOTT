@@ -2,14 +2,18 @@
 $color-primary: #0050ff;
 $color-secondary-black: #000;
 $color-secondary-white: #fff;
+
 $color-secondary-dark: #222326;
+
+$color-secondary-dark1: #0d0f16;
+$color-secondary-dark2: #12141d;
+$color-secondary-dark3: #2c3040;
+
 $color-other2: #999999;
 $color-other3: #878c9e;
 $color-other4: #adb0be;
 
-$color-bg-dark:#12141D;
-
-
+$color-bg-dark: #12141d;
 
 // color-font
 $color-font-primary: $color-primary;
@@ -23,8 +27,9 @@ $color-font-grey4: #999999;
 $color-font2: $color-other2;
 $color-font3: $color-other3;
 $color-font4: $color-other4;
+
 // ???
-$color-font-red: #dd2f38;
+$color-font-error: #fb2b47;
 
 .card-list {
   display: flex;

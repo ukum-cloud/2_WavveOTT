@@ -3,9 +3,10 @@ import "../style/common-button.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useState } from "react";
+import EtcLogin from "../components/EtcLogin";
 
 const Login = () => {
-  const { onLogin } = useAuthStore();
+  const { onLogin, onGoogleLogin } = useAuthStore();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState(
@@ -20,7 +21,6 @@ const Login = () => {
     e.preventDefault();
     try {
       await onLogin(email, password);
-
       // 체크박스 상태에 따라 아이디 저장/삭제
       if (rememberId) {
         localStorage.setItem("savedEmail", email);
@@ -32,6 +32,14 @@ const Login = () => {
       navigate("/choice-char"); // 로그인 후 첫 화면으로 이동
     } catch (err) {
       console.log("로그인 안됨....");
+    }
+  };
+  const handleGoogle = async () => {
+    const success = await onGoogleLogin(); // 로그인 액션 실행 및 결과 대기
+
+    if (success) {
+      // 성공했을 때만 페이지 이동 실행
+      navigate("/choice-char");
     }
   };
 
@@ -53,7 +61,8 @@ const Login = () => {
               placeholder="이메일을 입력하세요"
             />
             <p className="text-info">
-              로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해 주세요.
+              로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해
+              주세요.
               {/* 5~50자의 이메일 형식으로 입력해주세요. */}
             </p>
             <p>
@@ -85,7 +94,6 @@ const Login = () => {
               />{" "}
               아이디저장
             </label>
-
           </div>
           <div>
             <button type="submit" className="btn middle primary wFull">
@@ -102,30 +110,7 @@ const Login = () => {
             </li>
           </ul>
         </div>
-        <div className="btn-box-other">
-          <p className="text-top">또는 다른 서비스 계정으로 로그인</p>
-          <ul>
-            <li>
-              <Link to={"/"}>
-                <img src="/images/icons/icon-kakao-login.svg" alt="kakao login" />
-              </Link>
-            </li>
-            <li>
-              <Link to={"/"}><img src="/images/icons/icon-google-login.svg" alt="google login" /></Link>
-            </li>
-            <li>
-              <Link to={"/"}><img src="/images/icons/icon-naver-login.svg" alt="naver login" /></Link>
-            </li>
-            <li>
-              <Link to={"/"}><img src="/images/icons/icon-apple-login.svg" alt="apple login" /></Link>
-            </li>
-          </ul>
-          <div className="text-bottom">
-            <p>SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다.</p>
-            <p>
-              기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.</p>
-          </div>
-        </div>
+        <EtcLogin handleGoogle={handleGoogle} />
       </div>
     </main>
   );
