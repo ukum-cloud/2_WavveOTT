@@ -28,5 +28,8 @@
         object-fit: contain;
       }
     }
+    &:hover{
+      background-color: g.$color-primary;
+    }
   }
 }

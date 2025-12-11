@@ -1,3 +1,5 @@
+@use "../../App.scss" as g;
+
 .main-nomination{
   display: flex;
   align-items: flex-start;
@@ -11,8 +13,7 @@
     width: 272px;
 
     .item{
-      margin-top: 50px;
-      margin-bottom: 60px;
+      margin: 50px 0 60px;
 
       >h3{
         font-size: 40px;
@@ -31,14 +32,18 @@
       padding: 16px 68px;
       justify-content: center;
       align-items: center;
-      background-color: #fff;
+      background-color: g.$color-secondary-white;
       border-radius: 100px;
-      color: #0050FF;
+      color: g.$color-primary;
       text-align: center;
       font-size: 18px;
       font-weight: 700;
       line-height: 140%;
       letter-spacing: -0.36px;
+
+      &:hover{
+        background-color: #E3E3E3;
+      }
     }
   }
   .content-list{
