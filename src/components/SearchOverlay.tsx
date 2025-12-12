@@ -1,8 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import "./scss/SearchOverlay.scss";
+import { useSearchStore } from '../stores/useSearchStore';
 
 const SearchOverlay = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [text, setText] = useState("");
+  const {todos, onAddTextTodo, onRemoveTodos, onRemoveAll} = useSearchStore();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onAddTextTodo(text);
+    setText("");
+  }
 
   return (
     <div className='search-popup'>
@@ -10,10 +18,11 @@ const SearchOverlay = () => {
         <div className="close-bg"></div>
         <div className="search-inner">
           <div className="keyboard-box">
-            <form className="keyboard-top" name="search">
+            <form className="keyboard-top" name="search" onSubmit={handleSubmit}>
               <input
                 type="text" placeholder='장르, 제목, 배우로 검색해보세요.'
-                className='font-wave' id="search" ref={inputRef}
+                className='font-wave' id="search" value={text}
+                onChange={(e) => setText(e.target.value)}
               />
               <button type="submit" className="img-box" aria-label="검색">
                 <img src="/images/icons/icon-search.svg" alt="검색" />
@@ -34,7 +43,9 @@ const SearchOverlay = () => {
                 <button>전체삭제</button>
               </div>
               <ul className="latest-searches-list">
-                <li></li>
+                {todos.map((todo, id) => (
+                  <li key={id}></li>
+                ))}
               </ul> 
             </div>
 
