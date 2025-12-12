@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import { useMovieStore } from '../stores/useMovieStore';
-import { useWavveStore } from '../stores/useWavveStore';
+import { useMovieStore } from "../stores/useMovieStore";
+import { useWavveStore } from "../stores/useWavveStore";
 
-import RankingCardList from '../components/RankingCardList';
-import EditorRecommendCardList from '../components/EditorRecommendCardList';
-import WavveList from '../components/WavveList';
-import MainNomination from '../components/MainNomination';
-import BroadcastList from '../components/BroadcastList';
-import NewTvList from '../components/NewTvList';
+import RankingCardList from "../components/RankingCardList";
+import EditorRecommendCardList from "../components/EditorRecommendCardList";
+import WavveList from "../components/WavveList";
+import MainNomination from "../components/MainNomination";
+import BroadcastList from "../components/BroadcastList";
+import MainSlider from "../components/MainSection";
 
-import './scss/Home.scss';
-import { useTvStore } from '../stores/useTvStore';
+import "./scss/Home.scss";
 
 const Home = () => {
   const { onFetchPopular, popularMovies } = useMovieStore();
@@ -29,6 +28,7 @@ const Home = () => {
   return (
     <main className="main-home">
       <div className="" style={{ minHeight: "200px" }}>
+        <MainSlider />
         메인 탑 비주얼 공간
       </div>
       <div className="inner">
@@ -46,10 +46,7 @@ const Home = () => {
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
         <div className="banner-event">
           <Link to={"/"}>
-            <img
-              src="/images/banner/banner-main-event.png"
-              alt="banner event"
-            />
+            <img src="/images/banner/banner-main-event.png" alt="banner event" />
           </Link>
         </div>
         <section className="card-list">

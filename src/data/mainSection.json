@@ -1,0 +1,212 @@
+[
+  {
+    "main_video": "/videos/video-mSection.mp4",
+    "main_img": "/images/visual/visual-mSection-default.webp",
+    "main_Title": "/images/badge/badge-mSection-title.png",
+    "adult": false,
+    "backdrop_path": null,
+    "created_by": [],
+    "episode_run_time": [],
+    "first_air_date": "2025-12-23",
+    "genres": [
+      {
+        "id": 18,
+        "name": "드라마"
+      }
+    ],
+    "homepage": "",
+    "id": 156293,
+    "in_production": true,
+    "languages": ["ko"],
+    "last_air_date": null,
+    "last_episode_to_air": null,
+    "name": "콘크리트 마켓 완전판",
+    "next_episode_to_air": {
+      "id": 3467479,
+      "name": "1",
+      "overview": "대지진 이후 폐허가 된 세상 속, 무너지지 않은 아파트가 물물교환의 장소로 자리 잡으며 벌어지는 사건을 그린 작품",
+      "vote_average": 0,
+      "vote_count": 0,
+      "air_date": "2025-12-23",
+      "episode_number": 1,
+      "episode_type": "standard",
+      "production_code": "",
+      "runtime": null,
+      "season_number": 1,
+      "show_id": 156293,
+      "still_path": null
+    },
+    "networks": [
+      {
+        "id": 3357,
+        "logo_path": "/13a2E9fbpRtQrQgfb9UCNWZcM2O.png",
+        "name": "wavve",
+        "origin_country": "KR"
+      }
+    ],
+    "number_of_episodes": 7,
+    "number_of_seasons": 1,
+    "origin_country": ["KR"],
+    "original_language": "ko",
+    "original_name": "콘크리트 마켓 완전판",
+    "overview": "동맹도 배신도 생존을 위한 선택일 뿐, 끝까지 살아남는 마켓의 주인은 누구인가? 대지진 붕괴 이후, 유일하게 남은 아파트에 물건을 사고파는 황궁마켓이 자리 잡고, 생존을 위해 각자의 방식으로 거래를 시작한다.",
+    "popularity": 0.4366,
+    "poster_path": "/sXqFciMyxa6wTuVgDnrou5oSBs6.jpg",
+    "production_companies": [
+      {
+        "id": 127541,
+        "logo_path": "/Aq35mXuZv7lhPm8a60YKRaB9Vek.png",
+        "name": "Climax Studios",
+        "origin_country": "KR"
+      },
+      {
+        "id": 145236,
+        "logo_path": "/tTDE3bxNHe2eYlFwLATWGSdJzQN.png",
+        "name": "ANDMARQ Studio",
+        "origin_country": "KR"
+      }
+    ],
+    "production_countries": [
+      {
+        "iso_3166_1": "KR",
+        "name": "South Korea"
+      }
+    ],
+    "seasons": [
+      {
+        "air_date": "2025-12-23",
+        "episode_count": 7,
+        "id": 241375,
+        "name": "Season 1",
+        "overview": "",
+        "poster_path": "/eJ06kZ86Ch9tfF1hCcDtFuwLBUY.jpg",
+        "season_number": 1,
+        "vote_average": 0
+      }
+    ],
+    "spoken_languages": [
+      {
+        "english_name": "Korean",
+        "iso_639_1": "ko",
+        "name": "한국어/조선말"
+      }
+    ],
+    "status": "Planned",
+    "tagline": "",
+    "type": "Scripted",
+    "vote_average": 0,
+    "vote_count": 0,
+    "images": {
+      "backdrops": [],
+      "logos": [],
+      "posters": [
+        {
+          "aspect_ratio": 0.667,
+          "height": 1350,
+          "iso_3166_1": "KR",
+          "iso_639_1": "ko",
+          "file_path": "/sXqFciMyxa6wTuVgDnrou5oSBs6.jpg",
+          "vote_average": 3.334,
+          "vote_count": 1,
+          "width": 900
+        },
+        {
+          "aspect_ratio": 0.667,
+          "height": 1350,
+          "iso_3166_1": "KR",
+          "iso_639_1": "ko",
+          "file_path": "/eJ06kZ86Ch9tfF1hCcDtFuwLBUY.jpg",
+          "vote_average": 3.334,
+          "vote_count": 1,
+          "width": 900
+        },
+        {
+          "aspect_ratio": 0.7,
+          "height": 2143,
+          "iso_3166_1": "KR",
+          "iso_639_1": "ko",
+          "file_path": "/vV6QxYwTTPLaXjbDZjlASzlLZWb.jpg",
+          "vote_average": 0,
+          "vote_count": 0,
+          "width": 1500
+        },
+        {
+          "aspect_ratio": 0.7,
+          "height": 2143,
+          "iso_3166_1": "KR",
+          "iso_639_1": "ko",
+          "file_path": "/1KqC0exMqryrC4t0Jqb7BwGpovS.jpg",
+          "vote_average": 0,
+          "vote_count": 0,
+          "width": 1500
+        }
+      ]
+    },
+    "credits": {
+      "cast": [
+        {
+          "adult": false,
+          "gender": 1,
+          "id": 2078000,
+          "known_for_department": "Acting",
+          "name": "이재인",
+          "original_name": "이재인",
+          "popularity": 1.931,
+          "profile_path": "/5gdJ9n6rJZZyGGaMw3Hcr52zQMU.jpg",
+          "character": "Choi Hee-ro",
+          "credit_id": "693974184022b8111eaf0735",
+          "order": 0
+        },
+        {
+          "adult": false,
+          "gender": 2,
+          "id": 1929194,
+          "known_for_department": "Acting",
+          "name": "홍경",
+          "original_name": "홍경",
+          "popularity": 3.0517,
+          "profile_path": "/3jvC6tDT1QZg6uSkKzhbfe90Si4.jpg",
+          "character": "Kim Tae-jin",
+          "credit_id": "6939741f6592e144c806a28f",
+          "order": 1
+        },
+        {
+          "adult": false,
+          "gender": 2,
+          "id": 1044800,
+          "known_for_department": "Acting",
+          "name": "정만식",
+          "original_name": "정만식",
+          "popularity": 1.2263,
+          "profile_path": "/baINoANAu5iPrYz7cXTqPgeRTPe.jpg",
+          "character": "Park Sang-yong",
+          "credit_id": "693974d6e8490634d006a1fe",
+          "order": 2
+        },
+        {
+          "adult": false,
+          "gender": 2,
+          "id": 2149762,
+          "known_for_department": "Acting",
+          "name": "유수빈",
+          "original_name": "유수빈",
+          "popularity": 2.1223,
+          "profile_path": "/vulO1ngz0s3jUBXQbW2ADuyK3Fa.jpg",
+          "character": "Park Cheol-min",
+          "credit_id": "693974deffb6789296f879e1",
+          "order": 3
+        }
+      ],
+      "crew": []
+    },
+    "recommendations": {
+      "page": 1,
+      "results": [],
+      "total_pages": 0,
+      "total_results": 0
+    },
+    "videos": {
+      "results": []
+    }
+  }
+]

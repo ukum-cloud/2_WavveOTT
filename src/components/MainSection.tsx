@@ -1,10 +1,10 @@
-import mSection from "../data/wavveList.json";
+import mSection from "../data/mainSection.json";
 
 const MainSlider = () => {
-  // const mVisual = mSection[0];
+  const main = mSection[0];
   return (
     <div>
-      <img src={mVisual.main_img} alt="" />
+      <img src={main.main_img} alt="" />
     </div>
   );
 };
