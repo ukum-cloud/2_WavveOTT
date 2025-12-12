@@ -10,8 +10,8 @@ interface Props {
 
 const EditorRecommendCardList = ({ list }: Props) => {
   return (
-    <section style={{ gap: "30px" }} className="rec-section">
-      <h2 style={{ marginLeft: "270px", marginTop: "140px", marginBottom: "34px" }}>
+    <section className="rec-section">
+      <h2 style={{ marginBottom: "32px" }} className="font-wave inner">
         믿고보는 에디터 추천작
       </h2>
       <div className="swiper-top">
@@ -32,10 +32,15 @@ const EditorRecommendCardList = ({ list }: Props) => {
             reverseDirection: true,
           }}
           speed={6000}
-          className="editorSwiper">
+          className="editorSwiper"
+        >
           {list.map((l) => (
             <SwiperSlide key={l.id} style={{ width: "200px" }}>
-              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
+              <EditorRecommendCard
+                backposter={l.backdrop_path ?? ""}
+                id={l.id}
+                title={l.logo}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -54,10 +59,15 @@ const EditorRecommendCardList = ({ list }: Props) => {
             reverseDirection: false,
           }}
           speed={6000}
-          className="editorSwiper">
+          className="editorSwiper"
+        >
           {list.map((l) => (
             <SwiperSlide key={l.id} style={{ width: "200px" }}>
-              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
+              <EditorRecommendCard
+                backposter={l.backdrop_path ?? ""}
+                id={l.id}
+                title={l.logo}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

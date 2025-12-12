@@ -1,17 +1,16 @@
-@use '../../App.scss' as g;
+@use "../../App.scss" as g;
 
-.main {
-    overflow-x: hidden;
+.main-home {
+  @include g.myFlexCol($gap: 120px);
+  overflow-x: hidden;
+  padding-bottom: 200px;
 }
 
 .banner-event {
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 180px;
-    border-radius: 12px;
-    background: g.$color-bg-dark;
-
-   
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  border-radius: 12px;
+  background: g.$color-bg-dark;
 }
