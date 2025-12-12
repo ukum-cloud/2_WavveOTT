@@ -67,9 +67,13 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 const videoData = await videoRes.json();
 
                 //예고편 비디오 찾기
-                let wavveVideo = videoData.results.find(
-                    (v: Video) => v.type === 'Trailer' && v.site === 'YouTube'
-                );
+                let wavveVideo =
+                    videoData.results.find(
+                        (v: Video) => v.type === 'Trailer' && v.site.toLowerCase() === 'youtube'
+                    ) ||
+                    videoData.results.find(
+                        (v: Video) => v.type === 'Teaser' && v.site.toLowerCase() === 'youtube'
+                    );
 
                 //Trailer가 없으면 아무거나 하나 가져오기
                 if (!wavveVideo) {

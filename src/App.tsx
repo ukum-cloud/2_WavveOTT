@@ -20,6 +20,10 @@ import Animation from "./pages/Animation";
 import Kids from "./pages/Kids";
 import ChoiceChar from "./pages/ChoiceChar";
 import Welcome from "./pages/Welcome";
+import Ticket from "./pages/Ticket";
+import Event from "./pages/Event";
+import ServiceCenter from "./pages/ServiceCenter";
+import EventDetail from "./pages/EventDetail";
 
 function App() {
   return (
@@ -36,16 +40,18 @@ function App() {
         <Route path="/currentAffairs" element={<CurrentAffairs />} />
         <Route path="/animation" element={<Animation />} />
         <Route path="/kids" element={<Kids />} />
-
-        <Route path="/common" element={<Common />} />
-
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/choice-char" element={<ChoiceChar />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/choice-char" element={<ChoiceChar />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/playlist" element={<PlayList />} />
+        <Route path="/ticket" element={<Ticket />} />
+        <Route path="/service-center" element={<ServiceCenter />} />
+        <Route path="/event" element={<Event />} /> // 이벤트 목록 페이지
+        <Route path="/event/:eventId" element={<EventDetail />} />
+        <Route path="/common" element={<Common />} />
       </Routes>
       <Notice />
       <Footer />

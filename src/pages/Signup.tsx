@@ -18,10 +18,10 @@ const Signup = () => {
     e.preventDefault();
     // 버튼이 비활성화 상태(isPasswordValid가 false)일 때는 함수 실행을 막음
     if (!isPasswordValid) {
-        console.log("비밀번호가 6자 미만입니다. 가입을 진행할 수 없습니다.");
-        return; 
+      console.log("비밀번호가 6자 미만입니다. 가입을 진행할 수 없습니다.");
+      return;
     }
-    
+
     try {
       await onMember(email, password);
       setEmail("");
@@ -72,12 +72,12 @@ const Signup = () => {
             </p>
           </label>
           <div className="btn-box">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn large primary wFull"
-              disabled={!isPasswordValid} 
+              disabled={!isPasswordValid}
             >
-              Wavve 가입하기
+              <span className="font-wave">Wavve 가입하기</span>
             </button>
           </div>
         </form>
@@ -88,4 +88,3 @@ const Signup = () => {
 };
 
 export default Signup;
-

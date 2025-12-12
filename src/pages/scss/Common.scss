@@ -1,0 +1,8 @@
+@use "../../App.scss" as g;
+
+.common-btn-list {
+  @include g.myFlexCol($gap: 20px);
+  > li {
+    @include g.myFlex($gap: 20px, $jc: flex-start);
+  }
+}

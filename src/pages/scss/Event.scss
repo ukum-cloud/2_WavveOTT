@@ -1,0 +1,17 @@
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  > li {
+    .img-box {
+      width: 200px;
+    }
+    .text-box {
+    }
+  }
+}
+.event-detail {
+  .img-box {
+    width: 800px;
+  }
+}
