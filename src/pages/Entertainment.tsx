@@ -1,7 +1,7 @@
 const Entertainment = () => {
   return (
-    <main>
-      <div className="">
+    <main className="entertainment-wrap">
+      <div>
         <img src="/images/visual/visual-entertainment-main.jpg" alt="" />
         Entertainment100% 다 쓰는 경우
       </div>

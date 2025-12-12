@@ -1,12 +1,14 @@
-import React from "react";
+import "./scss/Ticket.scss";
 
 const Ticket = () => {
   return (
-    <main>
+    <main className="ticket-wrap">
       <div className="inner">
-        <section>
+        <section className="card-list">
           <h2>이용권</h2>
+          <div>내용</div>
         </section>
+        <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
       </div>
     </main>
   );

@@ -1,7 +1,7 @@
 import "./scss/Common.scss";
 const Common = () => {
   return (
-    <main>
+    <main style={{ paddingTop: "90px" }}>
       <div className="">100% 다 쓰는 경우</div>
       <div className="inner">
         <ul className="common-btn-list">
@@ -46,8 +46,8 @@ const Common = () => {
             <input type="checkbox" checked />
           </li>
           <li>
-            <input type="radio" name="1" />
-            <input type="radio" name="1" checked />
+            <input type="radio" name="a" />
+            <input type="radio" name="a" checked />
           </li>
         </ul>
       </div>

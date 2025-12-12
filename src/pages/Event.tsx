@@ -6,7 +6,7 @@ import type { EventType } from "../types/etc";
 const Event = () => {
   const navigate = useNavigate();
   return (
-    <main>
+    <main className="event-wrap">
       <div className="inner">
         <section>
           <h2>Event</h2>

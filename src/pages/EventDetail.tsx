@@ -23,7 +23,7 @@ const EventDetail = () => {
     );
   }
   return (
-    <main>
+    <main className="event-detail-wrap">
       <div className="inner">
         <section>
           <button onClick={() => navigate("/event")}>← 목록으로</button>

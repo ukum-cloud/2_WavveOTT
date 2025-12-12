@@ -68,7 +68,7 @@ const Footer = () => {
               to={`https://www.instagram.com/accounts/login/?next=%2Fwavve.official%2F&source=omni_redirect`}
             >
               <p>
-                <img src="/images/icons/icon-insta.svg" alt="Insta Icon" />
+                <img src="/images/icons/icon-Insta.svg" alt="Insta Icon" />
               </p>
             </Link>
           </div>

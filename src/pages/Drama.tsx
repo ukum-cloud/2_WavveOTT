@@ -1,7 +1,7 @@
 const Drama = () => {
   return (
-    <main>
-      <div className="">
+    <main className="drama-wrap">
+      <div>
         <img src="/images/visual/visual-cj-main.jpg" alt="" />
         Drama100% 다 쓰는 경우
       </div>

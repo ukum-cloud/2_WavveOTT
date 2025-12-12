@@ -22,18 +22,25 @@ const mainMenu: MenuItem[] = [
 
 const Header = () => {
   // 스토어에서 필요한 모든 상태 가져오기
-  const { user, onLogout, selectedCharId, selectedCharNickname } = useAuthStore();
+  const { user, onLogout, selectedCharId, selectedCharNickname } =
+    useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   // 조건부 렌더링 (경로 확인)
-  const isChoiceCharPage = location.pathname.toLowerCase().includes("/choice-char");
+  const isChoiceCharPage = location.pathname
+    .toLowerCase()
+    .includes("/choice-char");
 
   // 키즈 캐릭터(ID: 4)가 선택되었는지 확인
   const isKidsMode = selectedCharId === 4;
 
   // 닉네임의 첫 글자 계산
-  const userInitial = selectedCharNickname ? selectedCharNickname.charAt(0) : user ? "U" : "W";
+  const userInitial = selectedCharNickname
+    ? selectedCharNickname.charAt(0)
+    : user
+    ? "U"
+    : "W";
 
   // ID에 따른 동적 클래스 이름 계산
   const charClass = selectedCharId ? `char-${selectedCharId}` : "char-1";
@@ -51,7 +58,10 @@ const Header = () => {
             {/* 키즈 모드나 ChoiceChar 페이지에서는 로고 링크 비활성화 */}
             {!isChoiceCharPage && !isKidsMode ? (
               <Link to={"/"}>
-                <img src="/images/badge/badge-wavve-logo-white.svg" alt="홈으로 이동" />
+                <img
+                  src="/images/badge/badge-wavve-logo-white.svg"
+                  alt="홈으로 이동"
+                />
               </Link>
             ) : (
               <img
@@ -122,13 +132,16 @@ const Header = () => {
                     <Link to={"/ticket"}>이용권</Link>
                   </li>
                   <li>
-                    <Link to={"/ticket"}>고객센터</Link>
+                    <Link to={"/service-center"}>고객센터</Link>
                   </li>
                   <li>
                     <Link to={"/choice-char"}>프로필변경</Link>
                   </li>
                   <li>
-                    <button onClick={handleLogout} className="btn xsmall primary">
+                    <button
+                      onClick={handleLogout}
+                      className="btn xsmall primary"
+                    >
                       로그아웃
                     </button>
                   </li>

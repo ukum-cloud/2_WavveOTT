@@ -35,7 +35,7 @@ const ChoiceChar = () => {
   };
 
   return (
-    <main>
+    <main className="choice-char-wrap">
       <div className="inner">
         <section className="choice-char">
           <div>

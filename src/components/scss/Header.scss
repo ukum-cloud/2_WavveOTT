@@ -1,11 +1,19 @@
 @use "../../App.scss" as g;
 
 header {
-  position: sticky;
+  // position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
   height: 90px;
   z-index: 999;
-  background-color: g.$color-secondary-black;
+  // background-color: g.$color-secondary-black;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
   a {
     word-break: keep-all;
   }
