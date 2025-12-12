@@ -4,20 +4,14 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
-import type { OnlyWavve } from '../types/movie';
-
+import type { Tv } from '../types/movie';
 import { getGenres, getGrades } from '../utils/mapping';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import './scss/WavveList.scss';
-
-interface WavveListProps {
+interface NewTvListProps {
     title: string;
-    wavves: OnlyWavve[];
+    tvs: Tv[];
 }
-
-const WavveList = ({ title, wavves }: WavveListProps) => {
+const NewTvList = ({ title, tvs }: NewTvListProps) => {
     //어떤거가 호버됐는지 체크
     const [hoverId, setHoverId] = useState<number | null>(null); //숫자로 받기
 
@@ -25,7 +19,7 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
         <section className="card-list">
             <div className="title-wrap">
                 <h2>{title}</h2>
-                <Link to="/">더보기</Link>
+                <Link to="/"></Link>
             </div>
             <Swiper
                 modules={[Navigation]}
@@ -36,45 +30,45 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                 slidesOffsetAfter={0}
                 watchSlidesProgress={true}
             >
-                {wavves.map((m) => (
-                    <SwiperSlide key={m.id}>
-                        <div className="poster-wrap badge-wavve">
+                {tvs.map((t, id) => (
+                    <SwiperSlide key={id}>
+                        <div className="poster-wrap badge-new">
                             <img
                                 className="main"
-                                src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-                                alt={m.title}
+                                src={`https://image.tmdb.org/t/p/w500${t.poster_path}`}
+                                alt={t.title}
                             />
-                            {(m.wavveVideo?.key || m.backdrop_path) && (
+                            {(t.tvsVideo?.key || t.backdrop_path) && (
                                 <div className="preview-wrap">
                                     <div
                                         className="img-box"
-                                        onMouseEnter={() => setHoverId(m.id)}
+                                        onMouseEnter={() => setHoverId(t.id)}
                                         onMouseLeave={() => setHoverId(null)}
                                     >
-                                        {m.wavveVideo?.key && hoverId === m.id ? (
+                                        {t.tvsVideo?.key && hoverId === t.id ? (
                                             <iframe
                                                 className="hover video"
-                                                src={`https://www.youtube.com/embed/${m.wavveVideo.key}?autoplay=1&mute=1`}
+                                                src={`https://www.youtube.com/embed/${t.tvsVideo.key}?autoplay=1&mute=1`}
                                                 allow="autoplay; fullscreen"
                                                 allowFullScreen
-                                                title={m.title}
+                                                title={t.title}
                                             />
                                         ) : (
                                             <img
                                                 className="hover image"
-                                                src={`https://image.tmdb.org/t/p/w500${m.backdrop_path}`}
-                                                alt={m.title}
+                                                src={`https://image.tmdb.org/t/p/w500${t.backdrop_path}`}
+                                                alt={t.title}
                                             />
                                         )}
 
                                         <div className="logo-box">
                                             <p className="content-logo">
                                                 <img
-                                                    src={`https://image.tmdb.org/t/p/w500${m.logo_path}`}
+                                                    src={`https://image.tmdb.org/t/p/w500${t.logo_path}`}
                                                     alt="content-logo"
                                                 />
                                             </p>
-                                            {hoverId === m.id && m.wavveVideo?.key && (
+                                            {hoverId === t.id && t.tvsVideo?.key && (
                                                 <img
                                                     src="/images/icons/icon-volume-off.svg"
                                                     alt=""
@@ -87,34 +81,34 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                                     <div className="preview-badge-top">
                                         <p>
                                             <img
-                                                src={getGrades(m.certification)}
+                                                src={getGrades(t.certification)}
                                                 alt="certification"
                                             />
                                         </p>
                                         <p className="preview-genre">
-                                            {getGenres(m.genre_ids).slice(0, 2).join(' · ') ||
+                                            {getGenres(t.genre_ids).slice(0, 2).join(' · ') ||
                                                 '기타'}
                                         </p>
-                                        <p>에피소드 {m.episodeCount}</p>
+                                        <p>에피소드 {t.episodeCount}</p>
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
                                             <p>
                                                 <img
-                                                    src="/images/icons/icon-play-sm.svg"
+                                                    src="/images/icons/icon-play-st.svg"
                                                     alt="icon-play"
                                                 />
                                             </p>
                                             <p>
                                                 <img
-                                                    src="/images/icons/icon-heart-sm.svg"
+                                                    src="/images/icons/icon-heart-st.svg"
                                                     alt="icon-heart"
                                                 />
                                             </p>
                                         </div>
                                         <Link to="/tvdetail">
                                             <img
-                                                src="/images/icons/icon-play-sm.svg"
+                                                src="/images/icons/icon-play-st.svg"
                                                 alt="icon-detail"
                                             />
                                         </Link>
@@ -129,4 +123,4 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
     );
 };
 
-export default WavveList;
+export default NewTvList;
