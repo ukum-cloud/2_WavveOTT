@@ -38,7 +38,13 @@
                         transition: opacity 1s ease;
                     }
 
+                    // 기본
                     &::after {
+                        content: none;
+                    }
+
+                    // wavve 뱃지
+                    &.badge-wavve::after {
                         content: '';
                         position: absolute;
                         top: 0;
@@ -46,7 +52,17 @@
                         width: 44px;
                         height: 44px;
                         background-image: url('/images/badge/badge-wavve-logo.svg');
-                        transition: opacity 0.4s ease;
+                    }
+
+                    // new 뱃지
+                    &.badge-new::after {
+                        content: '';
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        width: 44px;
+                        height: 44px;
+                        background: url('/images/badge/badge-new.svg') no-repeat;
                     }
 
                     // 미리보기 카드

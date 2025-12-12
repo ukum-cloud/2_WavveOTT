@@ -1,16 +1,18 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useMovieStore } from "../stores/useMovieStore";
-import { useWavveStore } from "../stores/useWavveStore";
+import { useMovieStore } from '../stores/useMovieStore';
+import { useWavveStore } from '../stores/useWavveStore';
 
-import RankingCardList from "../components/RankingCardList";
-import EditorRecommendCardList from "../components/EditorRecommendCardList";
-import WavveList from "../components/WavveList";
+import RankingCardList from '../components/RankingCardList';
+import EditorRecommendCardList from '../components/EditorRecommendCardList';
+import WavveList from '../components/WavveList';
+import MainNomination from '../components/MainNomination';
+import BroadcastList from '../components/BroadcastList';
+import NewTvList from '../components/NewTvList';
 
-import "./scss/Home.scss";
-import MainNomination from "../components/MainNomination";
-import BroadcastList from "../components/BroadcastList";
+import './scss/Home.scss';
+import { useTvStore } from '../stores/useTvStore';
 
 const Home = () => {
   const { onFetchPopular, popularMovies } = useMovieStore();
