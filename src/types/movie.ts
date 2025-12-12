@@ -55,6 +55,7 @@ export interface OnlyWavveState {
 export interface Tv extends MediaBase {
     tvsVideo: Video | null;
     first_air_date: string;
+    logo: string;
     results: Video[];
 }
 export interface TvState {
