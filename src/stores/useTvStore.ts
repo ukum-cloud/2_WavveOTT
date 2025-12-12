@@ -102,6 +102,5 @@ export const useTvStore = create<TvState>((set) => ({
             })
         );
         set({ tvs: tvsWithVideo });
-        console.log('최신tv비디오', tvsWithVideo);
     },
 }));

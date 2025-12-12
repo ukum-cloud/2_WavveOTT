@@ -92,6 +92,5 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
             })
         );
         set({ wavves: tvsWithExtra });
-        console.log('오직웨이브 + 등급 + 러닝타임 + 에피소드 + 로고 이미지', tvsWithExtra);
     },
 }));
