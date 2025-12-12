@@ -1,62 +1,78 @@
 @use "../../App.scss" as g;
 
 .main-nomination{
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   background-image: url("/images/bg-main-nomination.svg");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 90px 240px;
+  height: 640px;
+  
 
-  .left-text{
-    width: 272px;
-
-    .item{
-      margin: 50px 0 60px;
-
-      >h3{
-        font-size: 40px;
-        line-height: 140%;
-        letter-spacing: -0.8px;
-      }
-      >p{
-        font-size: 18px;
-        line-height: 140%;
-        letter-spacing: -0.36px;
-        margin-top: 20px;
-      }
-    }
-    >button{
-      display: flex;
-      padding: 16px 68px;
-      justify-content: center;
-      align-items: center;
-      background-color: g.$color-secondary-white;
-      border-radius: 100px;
-      color: g.$color-primary;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 140%;
-      letter-spacing: -0.36px;
-
-      &:hover{
-        background-color: #E3E3E3;
-      }
-    }
-  }
-  .content-list{
+  .inner{
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+    max-width: none;
 
-    >li{
-      min-width: 342px;
-      height: 460px;
-      border-radius: 12px;
-      overflow: hidden;
+    .left-text{
+      width: 100%;
+
+      .item{
+        margin: 50px 0 20px;
+
+        >h3{
+          font-size: 40px;
+          line-height: 140%;
+          letter-spacing: -2%;
+          width: 272px;
+        }
+        >p{
+          font-size: 18px;
+          line-height: 140%;
+          letter-spacing: -2%;
+          margin-bottom: 50px;
+        }
+      }
+      >button{
+        width: 260px;
+        height: 60px;
+        border-radius: 100px;
+        background-color: g.$color-secondary-white;
+
+        >p{
+          display: flex;
+          padding: 16px 68px;
+          justify-content: center;
+          align-items: center;
+          color: g.$color-primary;
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 140%;
+          letter-spacing: -2%;
+        }
+
+        &:hover{
+          background-color: #E3E3E3;
+        }
+      }
+    }
+    .content-list{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: 100%;
+
+      >li{
+        min-width: 342px;
+        height: 460px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
     }
   }
 }
