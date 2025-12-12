@@ -9,7 +9,7 @@ export const useTvStore = create<TvState>((set) => ({
     onFetchTv: async () => {
         let tvsList: Tv[] = [];
 
-        //1~5페이지 다 가져오기
+        //웨이브 tv 콘텐츠 1~5페이지 다 가져오기
         for (let page = 1; page <= 5; page++) {
             const res = await fetch(
                 `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=ko-KR&with_networks=3357&with_watch_providers=356&page=${page}`
@@ -102,6 +102,5 @@ export const useTvStore = create<TvState>((set) => ({
             })
         );
         set({ tvs: tvsWithVideo });
-        console.log('최신tv비디오', tvsWithVideo);
     },
 }));

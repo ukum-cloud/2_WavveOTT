@@ -8,12 +8,12 @@
 
     // 스와이퍼 리스트
     .swiper {
+        position: relative;
         overflow: visible;
         width: 100%;
 
         .swiper-wrapper {
             overflow: visible;
-            padding-right: calc((100vw - 100%) / 2);
 
             .swiper-slide {
                 overflow: visible;
@@ -201,14 +201,15 @@
             // 화면상 마지막 카드 위치 조정 (className에 swiper-slide-visible는 들어가는데 fully-visible는 안들어가는 것)
             .swiper-slide-visible:not(.swiper-slide-fully-visible) {
                 .poster-wrap {
+                    z-index: 100;
                     .preview-wrap {
                         left: auto;
-                        right: 50px;
+                        right: 0;
                         transform: translate(0, -50%);
                     }
 
                     &:hover .preview-wrap {
-                        right: 50px;
+                        right: 0;
                         transform: translate(0, -50%);
                     }
                 }
@@ -231,8 +232,47 @@
             }
         }
 
-        .swiper-button-prev,
+        .prev-wrap {
+            position: absolute;
+            width: 220px;
+            height: 320px;
+            top: 0;
+            left: -240px;
+            z-index: 100;
+            background: rgba($color: #000000, $alpha: 0.7);
+            border-radius: 12px;
+        }
+        .next-wrap {
+            position: absolute;
+            width: 220px;
+            height: 320px;
+            top: 0;
+            right: -240px;
+            z-index: 100;
+            background: rgba($color: #000000, $alpha: 0.7);
+            border-radius: 12px;
+        }
+
+        .swiper-button-prev {
+            position: absolute;
+            left: 80%;
+            transform: translateX(-50%);
+            color: g.$color-secondary-white;
+        }
+
         .swiper-button-next {
+            position: absolute;
+            right: 80%;
+            transform: translateX(50%);
+            color: g.$color-secondary-white;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .visible {
             opacity: 1;
         }
     }

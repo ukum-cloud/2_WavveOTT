@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
 import type { OnlyWavve } from '../types/movie';
@@ -21,6 +21,36 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
     //어떤거가 호버됐는지 체크
     const [hoverId, setHoverId] = useState<number | null>(null); //숫자로 받기
 
+    //스와이퍼 슬라이드 첫번째,마지막 슬라이더 버튼 숨기기
+    const prevBtn = useRef<HTMLDivElement>(null);
+    const nextBtn = useRef<HTMLDivElement>(null);
+
+    const handleSwiperBtns = (swiper: SwiperClass) => {
+        const isFirst = swiper.activeIndex === 0;
+        const isLast = swiper.activeIndex === 13;
+
+        if (prevBtn.current) {
+            if (isFirst) prevBtn.current.classList.add('hidden');
+            else prevBtn.current.classList.remove('hidden');
+        }
+
+        if (nextBtn.current) {
+            if (isLast) nextBtn.current.classList.add('hidden');
+            else nextBtn.current.classList.remove('hidden');
+        }
+    };
+
+    const handleBeforeInit = (swiper: SwiperClass) => {
+        // navigation params 타입 체크 후 ref 할당
+        if (typeof swiper.params.navigation !== 'boolean') {
+            const navigation = swiper.params.navigation;
+            if (navigation) {
+                navigation.prevEl = prevBtn.current;
+                navigation.nextEl = nextBtn.current;
+            }
+        }
+    };
+
     return (
         <section className="card-list">
             <div className="title-wrap">
@@ -29,7 +59,11 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
             </div>
             <Swiper
                 modules={[Navigation]}
-                navigation
+                navigation={false}
+                onBeforeInit={handleBeforeInit}
+                onSwiper={handleSwiperBtns}
+                onSlideChange={handleSwiperBtns}
+                onReachEnd={handleSwiperBtns}
                 slidesPerView="auto"
                 spaceBetween={24}
                 slidesOffsetBefore={0}
@@ -124,6 +158,12 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                         </div>
                     </SwiperSlide>
                 ))}
+                <div className="prev-wrap">
+                    <div ref={prevBtn} className="swiper-button-prev"></div>
+                </div>
+                <div className="next-wrap">
+                    <div ref={nextBtn} className="swiper-button-next"></div>
+                </div>
             </Swiper>
         </section>
     );

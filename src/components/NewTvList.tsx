@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
 import type { Tv } from '../types/movie';
+
 import { getGenres, getGrades } from '../utils/mapping';
 
 interface NewTvListProps {
@@ -15,6 +16,36 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
     //어떤거가 호버됐는지 체크
     const [hoverId, setHoverId] = useState<number | null>(null); //숫자로 받기
 
+    //스와이퍼 슬라이드 첫번째,마지막 슬라이더 버튼 숨기기
+    const prevBtn = useRef<HTMLDivElement>(null);
+    const nextBtn = useRef<HTMLDivElement>(null);
+
+    const handleSwiperBtns = (swiper: SwiperClass) => {
+        const isFirst = swiper.activeIndex === 0;
+        const isLast = swiper.activeIndex === 13;
+
+        if (prevBtn.current) {
+            if (isFirst) prevBtn.current.classList.add('hidden');
+            else prevBtn.current.classList.remove('hidden');
+        }
+
+        if (nextBtn.current) {
+            if (isLast) nextBtn.current.classList.add('hidden');
+            else nextBtn.current.classList.remove('hidden');
+        }
+    };
+
+    const handleBeforeInit = (swiper: SwiperClass) => {
+        // navigation params 타입 체크 후 ref 할당
+        if (typeof swiper.params.navigation !== 'boolean') {
+            const navigation = swiper.params.navigation;
+            if (navigation) {
+                navigation.prevEl = prevBtn.current;
+                navigation.nextEl = nextBtn.current;
+            }
+        }
+    };
+
     return (
         <section className="card-list">
             <div className="title-wrap">
@@ -23,7 +54,11 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
             </div>
             <Swiper
                 modules={[Navigation]}
-                navigation
+                navigation={false}
+                onBeforeInit={handleBeforeInit}
+                onSwiper={handleSwiperBtns}
+                onSlideChange={handleSwiperBtns}
+                onReachEnd={handleSwiperBtns}
                 slidesPerView="auto"
                 spaceBetween={24}
                 slidesOffsetBefore={0}
@@ -38,7 +73,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                 src={`https://image.tmdb.org/t/p/w500${t.poster_path}`}
                                 alt={t.title}
                             />
-                            {(t.tvsVideo?.key || t.backdrop_path) && (
+                            {(t.tvsVideo?.key || t.backdrop_path || t.poster_path) && (
                                 <div className="preview-wrap">
                                     <div
                                         className="img-box"
@@ -56,7 +91,9 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                         ) : (
                                             <img
                                                 className="hover image"
-                                                src={`https://image.tmdb.org/t/p/w500${t.backdrop_path}`}
+                                                src={`https://image.tmdb.org/t/p/w500${
+                                                    t.backdrop_path || t.poster_path
+                                                }`}
                                                 alt={t.title}
                                             />
                                         )}
@@ -64,7 +101,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                         <div className="logo-box">
                                             <p className="content-logo">
                                                 <img
-                                                    src={`https://image.tmdb.org/t/p/w500${t.logo_path}`}
+                                                    src={`https://image.tmdb.org/t/p/w500${t.logo}`}
                                                     alt="content-logo"
                                                 />
                                             </p>
@@ -95,20 +132,20 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                         <div className="preview-btn-wrap">
                                             <p>
                                                 <img
-                                                    src="/images/icons/icon-play-st.svg"
+                                                    src="/images/icons/icon-play-sm.svg"
                                                     alt="icon-play"
                                                 />
                                             </p>
                                             <p>
                                                 <img
-                                                    src="/images/icons/icon-heart-st.svg"
+                                                    src="/images/icons/icon-heart-sm.svg"
                                                     alt="icon-heart"
                                                 />
                                             </p>
                                         </div>
                                         <Link to="/tvdetail">
                                             <img
-                                                src="/images/icons/icon-play-st.svg"
+                                                src="/images/icons/icon-play-sm.svg"
                                                 alt="icon-detail"
                                             />
                                         </Link>
@@ -118,6 +155,12 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                         </div>
                     </SwiperSlide>
                 ))}
+                <div className="prev-wrap">
+                    <div ref={prevBtn} className="swiper-button-prev"></div>
+                </div>
+                <div className="next-wrap">
+                    <div ref={nextBtn} className="swiper-button-next"></div>
+                </div>
             </Swiper>
         </section>
     );
