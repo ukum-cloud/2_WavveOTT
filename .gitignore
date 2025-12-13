@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+/public/videos/*.mp4
 .env
 .env.development.local
 .env.test.local
@@ -32,4 +33,4 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
+.env.localpublic/videos/*.mp4 
