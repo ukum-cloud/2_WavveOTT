@@ -1,12 +1,12 @@
-// pages/EventDetail.tsx
 import { useParams, useNavigate } from "react-router-dom";
-import "./scss/Event.scss";
 import { eventData } from "../data/eventData";
+import "./scss/Event.scss";
 
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
   const event = eventData.find((e) => e.id === Number(eventId));
+
   if (!event) {
     return (
       <main>

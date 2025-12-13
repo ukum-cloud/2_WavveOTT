@@ -1,0 +1,46 @@
+@use '../../App.scss' as g;
+
+.notice-list {
+    color: g.$color-font-grey3;
+    tr {
+        td {
+            &:nth-of-type(1) {
+                color: g.$color-font-primary;
+            }
+
+            &:nth-of-type(2) {
+                text-align: left;
+            }
+        }
+
+    }
+
+    tr:hover {
+        td {
+            &:not(&:nth-of-type(1)){
+              color:g.$color-font-white ;  
+            }
+            cursor: pointer;
+            background-color: g.$color-secondary-dark2;
+
+        }
+
+    }
+}
+.notice-detail {
+    color: g.$color-font-grey3;
+    tr {
+        td {
+            &:nth-of-type(1) {
+                color: g.$color-font-primary;
+            }
+
+            &:nth-of-type(2) {
+                text-align: left;
+            }
+        }
+
+    }
+
+}
+

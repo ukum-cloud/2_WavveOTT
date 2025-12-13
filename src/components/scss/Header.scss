@@ -1,19 +1,28 @@
 @use "../../App.scss" as g;
 
 header {
-  // position: sticky;
   position: fixed;
   top: 0;
   width: 100%;
   height: 90px;
   z-index: 999;
-  // background-color: g.$color-secondary-black;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.9) 0%,
     rgba(0, 0, 0, 0.5) 50%,
     rgba(0, 0, 0, 0) 100%
   );
+  &.active{
+    background-color: g.$color-font-black;
+    transition: 0.6s;
+    .logo{
+      img{
+        svg{
+          color: g.$color-font-primary;
+        }
+      }
+    }
+  }
   a {
     word-break: keep-all;
   }

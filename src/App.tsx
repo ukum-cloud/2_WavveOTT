@@ -24,6 +24,10 @@ import Ticket from "./pages/Ticket";
 import Event from "./pages/Event";
 import ServiceCenter from "./pages/ServiceCenter";
 import EventDetail from "./pages/EventDetail";
+import UserQna from "./pages/UserQna";
+import Agreement from "./pages/Agreement";
+import NoticeA from "./pages/NoticeA";
+import NoticeAdetail from "./pages/NoticeAdetail";
 
 function App() {
   return (
@@ -48,7 +52,13 @@ function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/playlist" element={<PlayList />} />
         <Route path="/ticket" element={<Ticket />} />
-        <Route path="/service-center" element={<ServiceCenter />} />
+        <Route path="/service-center" element={<ServiceCenter />}>
+          <Route index element={<NoticeA />} />
+          <Route path="notice" element={<NoticeA />} />
+          <Route path="notice/:noticeId" element={<NoticeAdetail />} />
+          <Route path="userQna" element={<UserQna />} />
+          <Route path="agreement" element={<Agreement />} />
+        </Route>
         <Route path="/event" element={<Event />} /> // 이벤트 목록 페이지
         <Route path="/event/:eventId" element={<EventDetail />} />
         <Route path="/common" element={<Common />} />

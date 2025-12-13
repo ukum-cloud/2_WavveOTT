@@ -15,7 +15,7 @@ html {
     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 main {
-  min-height: 650px;
+ padding-bottom: 120px;
 }
 ol,
 ul,
@@ -77,3 +77,4 @@ main .inner {
 .font-russo {
   font-family: "Russo One", sans-serif;
 }
+

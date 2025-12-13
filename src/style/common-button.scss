@@ -32,6 +32,7 @@
   &.large {
     padding: 0 34px;
     height: 68px;
+    line-height: 68px;
     font-size: 18px;
     font-weight: bold;
   }
@@ -149,6 +150,7 @@ input[type="radio"] {
 input[type="radio"]:checked {
   border: 1px solid g.$color-primary;
 }
+
 input[type="radio"]:checked::after {
   content: "";
   text-align: center;
@@ -160,4 +162,42 @@ input[type="radio"]:checked::after {
   transform: translate(-50%, -50%);
 
   background-image: url(/images/icons/icon-radio-checked.svg);
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+
+  &+.list-content {
+    padding: 80px 64px;
+    line-height: 2;
+    border-bottom: 1px solid g.$color-secondary-dark3;
+    overflow: hidden;
+
+  }
+}
+
+th {
+  line-height: 60px;
+}
+
+td {
+  line-height: 84px;
+}
+
+tr {
+  >th {
+    background-color: g.$color-secondary-dark1;
+  }
+
+  >td {
+    border-bottom: 1px solid g.$color-secondary-dark3;
+  }
+}
+
+.list-button {
+  @include g.myFlex($gap: 20px, $jc: center);
+  padding-top: 40px;
 }

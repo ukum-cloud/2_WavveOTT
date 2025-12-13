@@ -1,5 +1,6 @@
 // Header.tsx
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./scss/Header.scss";
 import { useAuthStore } from "../stores/useAuthStore";
 
@@ -26,6 +27,27 @@ const Header = () => {
     useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // 스크롤 상태 관리
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // 스크롤 이벤트 핸들러
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 90) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    
+    // 클린업 함수
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // 조건부 렌더링 (경로 확인)
   const isChoiceCharPage = location.pathname
@@ -51,7 +73,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header className={isScrolled ? "active" : ""}>
       <div className="inner">
         <div className="header-left">
           <h1 className="logo">
@@ -59,7 +81,11 @@ const Header = () => {
             {!isChoiceCharPage && !isKidsMode ? (
               <Link to={"/"}>
                 <img
-                  src="/images/badge/badge-wavve-logo-white.svg"
+                  src={
+                    isScrolled
+                      ? "/images/badge/badge-wavve-logo-blue.svg"
+                      : "/images/badge/badge-wavve-logo-white.svg"
+                  }
                   alt="홈으로 이동"
                 />
               </Link>

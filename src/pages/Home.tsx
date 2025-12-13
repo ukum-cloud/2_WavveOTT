@@ -51,7 +51,7 @@ const Home = () => {
                 <RankingCardList RankingData={popularMovies} />
                 <WavveList title="오직 웨이브에서만" wavves={wavves} />
                 <div className="banner-event">
-                    <Link to={'/'}>
+                    <Link to={'/event/1'}>
                         <img src="/images/banner/banner-main-event.png" alt="banner event" />
                     </Link>
                 </div>
