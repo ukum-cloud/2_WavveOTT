@@ -1,5 +1,4 @@
 .sectionBox {
-  object-fit: cover;
   .visualBox {
     max-height: 100vh;
     max-width: 100vw;
@@ -11,9 +10,8 @@
     }
     video {
       height: 100vh;
-      padding-top: 12px;
-      object-fit: contain;
-      transform: scaleX(1.135);
+      padding-top: 44px;
+      object-fit: fill;
     }
     .visualBoxOverlay {
       position: absolute;
