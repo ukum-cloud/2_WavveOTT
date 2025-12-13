@@ -11,8 +11,9 @@
     }
     video {
       height: 100vh;
-      object-fit: cover;
-      transform: scaleX(1.04);
+      padding-top: 12px;
+      object-fit: contain;
+      transform: scaleX(1.135);
     }
     .visualBoxOverlay {
       position: absolute;
