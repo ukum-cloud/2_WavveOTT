@@ -7,7 +7,7 @@ const ServiceCenter = () => {
         <section>
           <h2>고객센터</h2>
           <div>
-            <ul className="service-list">
+            <ul className="service-list-tab">
               <li>
                 <NavLink to="." end className={({ isActive }) =>
                   (isActive || window.location.pathname.includes('/service-center/notice'))

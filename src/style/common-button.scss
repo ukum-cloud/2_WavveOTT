@@ -169,35 +169,19 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
-
-  &+.list-content {
-    padding: 80px 64px;
-    line-height: 2;
-    border-bottom: 1px solid g.$color-secondary-dark3;
-    overflow: hidden;
-
-  }
 }
-
 th {
   line-height: 60px;
 }
-
 td {
   line-height: 84px;
 }
 
-tr {
-  >th {
-    background-color: g.$color-secondary-dark1;
-  }
-
-  >td {
-    border-bottom: 1px solid g.$color-secondary-dark3;
-  }
+/* Wavve PADO 폰트 클래스 */
+.font-wave {
+  font-family: "Wave";
 }
-
-.list-button {
-  @include g.myFlex($gap: 20px, $jc: center);
-  padding-top: 40px;
+/* Russo One 폰트 클래스 */
+.font-russo {
+  font-family: "Russo One";
 }

@@ -15,10 +15,10 @@ const Footer = () => {
         <div className="footer-item">
           <div className="footer-left">
             <div className="left-top">
-              <p className="font-russo">이용약관</p>
-              <p className="font-russo">개인정보처리방침</p>
-              <p className="font-russo">서비스 소개</p>
-              <p className="font-russo">
+              <p>이용약관</p>
+              <p>개인정보처리방침</p>
+              <p>서비스 소개</p>
+              <p>
                 <Link to="/event">이벤트</Link>
               </p>
             </div>

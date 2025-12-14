@@ -69,12 +69,4 @@ main .inner {
   font-style: normal;
   font-display: swap; /* 폰트 로딩 전략: 폰트가 로드될 때까지 대체 텍스트를 표시 */
 }
-/* Wavve PADO 폰트 클래스 */
-.font-wave {
-  font-family: "Wave", sans-serif;
-}
-/* Russo One 폰트 클래스 */
-.font-russo {
-  font-family: "Russo One", sans-serif;
-}
 

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { noticeData } from "../data/notice";
 import type { NoticeType } from "../types/etc";
-import './scss/Notice.scss'
+import './scss/NoticeA.scss'
 
 const NoticeA = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const NoticeA = () => {
         </colgroup>
         <thead>
           <tr>
-            <th scope="col">구분</th>
+            <th scope="col" className="font-wave">구분</th>
             <th scope="col">제목</th>
             <th scope="col">등록일</th>
           </tr>
@@ -23,7 +23,7 @@ const NoticeA = () => {
         <tbody>
           {noticeData.map((e: NoticeType) => (
             <tr key={e.id} onClick={() => navigate(`notice/${e.id}`)}>
-              <td>{e.division}</td>
+              <td className="font-wave">{e.division}</td>
               <td>{e.title}</td>
               <td>{e.date}</td>
             </tr>

@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { noticeData } from "../data/notice";
-import './scss/Notice.scss'
+import './scss/NoticeA.scss'
 
 const NoticeAdetail = () => {
     const { noticeId } = useParams<{ noticeId: string }>();
@@ -28,12 +28,12 @@ const NoticeAdetail = () => {
 
     // content를 줄바꿈 기준으로 분할하고 <br />로 연결하는 함수
     const formatContent = (text: string) => {
-        // '/n' 문자열을 기준으로 텍스트를 분할합니다.
-        // map 함수를 사용하여 각 줄을 렌더링하고, 줄 사이에 <br />를 삽입합니다.
+        // '/n' 문자열을 기준으로 텍스트를 분할.
+        // map 함수를 사용하여 각 줄을 렌더링하고, 줄 사이에 <br />를 삽입.
         return text.split('/n').map((line, index) => (
             <span key={index}>
                 {line}
-                {/* 마지막 줄이 아닌 경우에만 <br />을 추가하여 줄바꿈을 적용합니다. */}
+                {/* 마지막 줄이 아닌 경우에만 <br />을 추가하여 줄바꿈을 적용. */}
                 {index < text.split('/n').length - 1 && <br />}
             </span>
         ));
@@ -49,14 +49,14 @@ const NoticeAdetail = () => {
                 </colgroup>
                 <thead>
                     <tr>
-                        <th scope="col">구분</th>
+                        <th scope="col" className="font-wave">구분</th>
                         <th scope="col">제목</th>
                         <th scope="col">등록일</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{notice.division}</td>
+                        <td className="font-wave">{notice.division}</td>
                         <td>{notice.title}</td>
                         <td>{notice.date}</td>
                     </tr>
@@ -65,22 +65,48 @@ const NoticeAdetail = () => {
             <div className="list-content">
                 {formatContent(notice.content)}
             </div>
+            <table className="other-page">
+                <colgroup>
+                    <col width='105' />
+                    <col width='*' />
+                    <col width='105' />
+                    <col width='105' />
+                    <col width='*' />
+                    <col width='105' />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th scope="row"> 이전글</th>
+                        <td>
+                            <span>
+                                {prevNotice ? (
+                                    <Link to={`/service-center/notice/${prevNotice.id}`}>
+                                        {prevNotice.title}
+                                    </Link>
+                                ) : (
+                                    '이전 페이지가 없습니다'
+                                )}
+                            </span>
+                        </td>
+                        <td>2025-12-12</td>
+                        <th scope="row">다음</th>
+                        <td>
+                            <span>
+                                {nextNotice ? (
+                                    <Link to={`/service-center/notice/${nextNotice.id}`}>
+                                        {nextNotice.title}
+                                    </Link>
+                                ) : (
+                                    '다음 페이지가 없습니다'
+                                )}
+                            </span>
+                        </td>
+                        <td>2025-12-12</td>
+                    </tr>
+                </tbody>
+            </table>
             <div className="list-button">
-                {prevNotice ? (
-                    <Link to={`/service-center/notice/${prevNotice.id}`}>
-                        <button className="btn secondary default">이전 페이지</button>
-                    </Link>
-                ) : (
-                    <button className="btn default" disabled>이전 페이지</button>
-                )}
-                {nextNotice ? (
-                    <Link to={`/service-center/notice/${nextNotice.id}`}>
-                        <button className="btn secondary default">다음 페이지</button>
-                    </Link>
-                ) : (
-                    <button className="btn default" disabled>다음 페이지</button>
-                )}
-                <Link className="btn primary default" to="/service-center">목록 페이지</Link>
+                <Link style={{width:'240px'}} className="btn primary large" to="/service-center">목록 페이지</Link>
             </div>
         </>
     )

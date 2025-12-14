@@ -3,7 +3,7 @@
 footer {
   .inner {
     position: relative;
-    padding: 80px 0;
+    padding: 80px 20px;
     .chatbotNtopBtn {
       position: fixed;
       bottom: 40px;
@@ -41,6 +41,7 @@ footer {
           display: flex;
           gap: 40px;
           margin-bottom: 30px;
+          font-family: 'wave';
 
           p {
             font-size: 16px;

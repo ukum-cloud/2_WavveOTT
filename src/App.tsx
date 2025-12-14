@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { Notice } from "./components/Notice";
+import { BendNotice} from "./components/BendNotice";
 import Home from "./pages/Home";
 
 import Common from "./pages/Common";
@@ -63,7 +63,7 @@ function App() {
         <Route path="/event/:eventId" element={<EventDetail />} />
         <Route path="/common" element={<Common />} />
       </Routes>
-      <Notice />
+      <BendNotice />
       <Footer />
     </>
   );

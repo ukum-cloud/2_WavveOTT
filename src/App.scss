@@ -28,7 +28,7 @@ $color-font2: $color-other2;
 $color-font3: $color-other3;
 $color-font4: $color-other4;
 
-// ???
+// error
 $color-font-error: #fb2b47;
 
 h2 {
@@ -41,6 +41,8 @@ h2 {
   flex-direction: column;
   gap: 32px;
 }
+
+
 // 공통 mixin
 @mixin myFlex($jc: space-between, $ai: center, $fw: null, $gap: 2rem) {
   display: flex;
