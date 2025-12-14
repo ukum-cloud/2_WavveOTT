@@ -2,7 +2,7 @@
 
 .btn {
   min-width: 100px;
-
+font-family: 'wave';
   text-align: center;
   color: g.$color-font-white;
   display: inline-block;
@@ -39,11 +39,24 @@
 
   &.primary {
     background-color: g.$color-font-primary;
+    &:hover{
+      background-color: #003DC2;
+    }
   }
 
   &.secondary {
     background-color: g.$color-secondary-white;
     color: g.$color-font-primary;
+    &:hover{
+      background-color: #E3E3E3;
+    }
+  }
+
+  &.secondary-line {
+    border: 1px solid #FFF;
+    &:hover{
+      background-color: #2C2C2C;
+    }
   }
 
   &.disabled,
@@ -51,6 +64,9 @@
     color: g.$color-font-grey2;
     background-color: g.$color-secondary-dark3;
     cursor: no-drop;
+    &:hover{
+      background-color: g.$color-secondary-dark3;
+    }
   }
 
   &.wFull {
@@ -170,9 +186,11 @@ table {
   border-collapse: collapse;
   text-align: center;
 }
+
 th {
   line-height: 60px;
 }
+
 td {
   line-height: 84px;
 }
@@ -181,6 +199,7 @@ td {
 .font-wave {
   font-family: "Wave";
 }
+
 /* Russo One 폰트 클래스 */
 .font-russo {
   font-family: "Russo One";

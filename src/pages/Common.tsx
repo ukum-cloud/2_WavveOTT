@@ -10,6 +10,9 @@ const Common = () => {
             <button className="btn xsmall secondary">
               btn xsmall secondary
             </button>
+            <button className="btn xsmall secondary-line">
+              btn xsmall secondary-line
+            </button>
             <button className="btn xsmall secondary" disabled>
               btn xsmall disabled
             </button>
@@ -17,6 +20,7 @@ const Common = () => {
           <li>
             <button className="btn small primary">btn small primary</button>
             <button className="btn small secondary">btn small secondary</button>
+            <button className="btn small secondary-line">btn small secondary-line</button>
             <button className="btn small secondary" disabled>
               btn small disabled
             </button>
@@ -26,6 +30,9 @@ const Common = () => {
             <button className="btn default secondary">
               btn default secondary
             </button>
+            <button className="btn default secondary-line">
+              btn default secondary-line
+            </button>
             <button className="btn default secondary" disabled>
               btn default disabled
             </button>
@@ -33,6 +40,7 @@ const Common = () => {
           <li>
             <button className="btn large primary">btn large primary</button>
             <button className="btn large secondary">btn large secondary</button>
+            <button className="btn large secondary-line">btn large secondary-line</button>
             <button className="btn large disabled" disabled>
               btn large disabled
             </button>

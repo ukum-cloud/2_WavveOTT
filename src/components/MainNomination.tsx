@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import "./scss/MainNomination.scss";
 import { useNavigate } from 'react-router-dom';
 import { useMovieStore } from '../stores/useMovieStore';
@@ -14,16 +14,16 @@ const MainNomination = () => {
   const movies = popularMovies.slice(0, 3);
 
   return (
-    <div className='main-nomination'>
+    <div className='main-nomination-wrap'>
       <div className="inner">
+        <div className='main-nomination'>
         <div className="left-text">
           <div className="item">
             <h3 className='font-wave'>웨이브님을 위한 추천 콘텐츠</h3>
             <p>지금, 찜한 콘텐츠로 <br /> 가장 완벽한 순간을 시작하세요.</p>
           </div>
-          <button onClick={() => navigate("/favorite")}><p>찜 목록 보러가기</p></button>
+          <button className='btn large secondary wFull' onClick={() => navigate("/favorite")}><p>찜 목록 보러가기</p></button>
         </div>
-
         <ul className="content-list">
           {movies.map((m) => (
             <li key={m.id}>
@@ -31,6 +31,7 @@ const MainNomination = () => {
             </li>
           ))}
         </ul>
+        </div>
       </div>
     </div>
   )
