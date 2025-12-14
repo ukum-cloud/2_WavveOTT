@@ -30,3 +30,13 @@ export interface CustomSelectProps {
   width?: string;
 }
 
+// 모달 크기를 정의하는 타입
+export type ModalSize = 'xsmall' | 'small' | 'default' | 'large';
+
+// Modal 컴포넌트의 Props 타입 정의
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    size?: ModalSize;
+    children: React.ReactNode;
+}

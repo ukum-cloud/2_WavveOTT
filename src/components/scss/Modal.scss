@@ -1,0 +1,74 @@
+@use "../../App.scss" as g;
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    border-radius: 8px;
+    color: g.$color-secondary-white;
+    background-color: g.$color-secondary-dark3;
+    /* 기본 애니메이션 */
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.modal-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid g.$color-secondary-dark;
+
+    .modal-title {
+        color: g.$color-font-white;
+        padding: 20px;
+    }
+
+    .close-button {
+        position: absolute;
+        right: 20px;
+        font-size: 1.5rem;
+        color: #999;
+    }
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-footer {
+    @include g.myFlex($gap: 8px, $jc: center);
+    padding: 20px;
+}
+
+/* --- 크기별 스타일 --- */
+.modal-container--xsmall {
+    width: 280px;
+    max-width: 280px;
+}
+
+.modal-container--small {
+    width: 400px;
+    max-width: 400px;
+}
+
+.modal-container--default {
+    width: 580px;
+    max-width: 580px;
+}
+
+.modal-container--large {
+    width: 720px;
+    max-width: 720px;
+}
