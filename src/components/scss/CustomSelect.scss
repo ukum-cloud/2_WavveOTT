@@ -1,0 +1,76 @@
+@use "../../App.scss" as g;
+
+.ui-select {
+    position: relative;
+    border-radius: 4px;
+    cursor: pointer;
+    color: g.$color-font-grey3;
+}
+
+.ui-select-header {
+    padding: 0 16px;
+    margin: 0;
+    padding-right: 40px;
+    line-height: 56px;
+    border-radius: 4px;
+    background-color: g.$color-secondary-dark3;
+    background-position-x: calc(100% - 12px);
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-image: url(/images/button/btn-prev.png);
+
+    &[aria-expanded="false"] {
+        background-image: url(/images/button/btn-next.png);
+    }
+}
+
+.ui-select-options {
+    position: absolute;
+    margin-top: 4px;
+    display: flex;
+    padding: 8px 0;
+    flex-direction: column;
+    width: max-content;
+    max-height: 210px;
+    transition: background-color 0.2s;
+    background-color: g.$color-secondary-dark3;
+    border-radius: 4px;
+    overflow-y: auto;
+    z-index: 10;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #555;
+        border-radius: 4px;
+        border: 2px solid g.$color-secondary-dark3;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #888;
+    }
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    li {
+        line-height: 40px;
+        padding: 0 40px 0 20px;
+
+        &:hover {
+            color: g.$color-font-white;
+            background-color: g.$color-secondary-dark2;
+        }
+
+        &.selected {
+            color: g.$color-font-white;
+            background-color: g.$color-secondary-dark2;
+
+        }
+    }
+
+
+}

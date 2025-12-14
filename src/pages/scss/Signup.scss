@@ -48,6 +48,9 @@ main {
       .text-info {
         font-size: 0.75rem;
         color: g.$color-font2;
+        &.error{
+          color: g.$color-font-error;
+        }
       }
     }
 

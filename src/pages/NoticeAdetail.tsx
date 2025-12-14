@@ -113,3 +113,4 @@ const NoticeAdetail = () => {
 }
 
 export default NoticeAdetail
+
