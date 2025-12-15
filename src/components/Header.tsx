@@ -76,7 +76,7 @@ const Header = () => {
 
   return (
     <>
-    <header className={isScrolled ? "active" : ""}>
+    <header className={`${isScrolled ? "active" : ""} ${searchOpen ? "search-open" : ""}`}>
       <div className="inner">
         <div className="header-left">
           <h1 className="logo">

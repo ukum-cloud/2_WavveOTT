@@ -125,4 +125,10 @@ header {
       }
     }
   }
+  &.search-open{
+    background: g.$color-font-black;
+  }
+  &.active.search-open{
+    background: g.$color-font-black;
+  }
 }
