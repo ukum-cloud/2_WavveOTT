@@ -29,7 +29,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
-  
+
   // 스크롤 상태 관리
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -44,7 +44,7 @@ const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    
+
     // 클린업 함수
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -76,113 +76,113 @@ const Header = () => {
 
   return (
     <>
-    <header className={isScrolled ? "active" : ""}>
-      <div className="inner">
-        <div className="header-left">
-          <h1 className="logo">
-            {/* 키즈 모드나 ChoiceChar 페이지에서는 로고 링크 비활성화 */}
-            {!isChoiceCharPage && !isKidsMode ? (
-              <Link to={"/"}>
+      <header className={isScrolled ? "active" : ""}>
+        <div className="inner">
+          <div className="header-left">
+            <h1 className="logo">
+              {/* 키즈 모드나 ChoiceChar 페이지에서는 로고 링크 비활성화 */}
+              {!isChoiceCharPage && !isKidsMode ? (
+                <Link to={"/"}>
+                  <img
+                    src={
+                      isScrolled
+                        ? "/images/badge/badge-wavve-logo-blue.svg"
+                        : "/images/badge/badge-wavve-logo-white.svg"
+                    }
+                    alt="홈으로 이동"
+                  />
+                </Link>
+              ) : (
                 <img
                   src={
-                    isScrolled
+                    isChoiceCharPage
                       ? "/images/badge/badge-wavve-logo-blue.svg"
                       : "/images/badge/badge-wavve-logo-white.svg"
                   }
-                  alt="홈으로 이동"
+                  alt="로고"
                 />
-              </Link>
-            ) : (
-              <img
-                src={
-                  isChoiceCharPage
-                    ? "/images/badge/badge-wavve-logo-blue.svg"
-                    : "/images/badge/badge-wavve-logo-white.svg"
-                }
-                alt="로고"
-              />
-            )}
-          </h1>
+              )}
+            </h1>
 
-          {/* ChoiceChar 페이지에서는 메뉴 전체 숨김 */}
-          {!isChoiceCharPage && (
-            <ul className="main-menu">
-              {/* 키즈 모드에서는 키즈 메뉴만, 다른 모드에서는 모든 메뉴 표시 */}
-              {isKidsMode
-                ? mainMenu
-                    .filter((menu) => menu.path === "/kids")
-                    .map((menu) => (
+            {/* ChoiceChar 페이지에서는 메뉴 전체 숨김 */}
+            {!isChoiceCharPage && (
+              <ul className="main-menu">
+                {/* 키즈 모드에서는 키즈 메뉴만, 다른 모드에서는 모든 메뉴 표시 */}
+                {isKidsMode
+                  ? mainMenu
+                      .filter((menu) => menu.path === "/kids")
+                      .map((menu) => (
+                        <li key={menu.id}>
+                          <Link className="font-wave" to={menu.path}>
+                            {menu.title}
+                          </Link>
+                        </li>
+                      ))
+                  : mainMenu.map((menu) => (
                       <li key={menu.id}>
                         <Link className="font-wave" to={menu.path}>
                           {menu.title}
                         </Link>
                       </li>
-                    ))
-                : mainMenu.map((menu) => (
-                    <li key={menu.id}>
-                      <Link className="font-wave" to={menu.path}>
-                        {menu.title}
-                      </Link>
-                    </li>
-                  ))}
-            </ul>
-          )}
-        </div>
-
-        {/* ChoiceChar 페이지에서만 header-right 전체 숨김 */}
-        {!isChoiceCharPage && (
-          <div className="header-right">
-            {/* 키즈 모드에서는 검색 버튼만 숨김 */}
-            {!isKidsMode && (
-              <p className="search" onClick={() => setSearchOpen((prev) => !prev)}>
-                <span>검색</span>
-              </p>
-            )}
-            {!user ? (
-              <p className="login">
-                <Link className="font-wave" to={"/login"}>
-                  웨이브 시작하기
-                </Link>
-              </p>
-            ) : (
-              <div className="user-info">
-                <p className={`user ${charClass}`}>{userInitial}</p>
-                <ul className="user-list">
-                  <li>
-                    <Link to={"/profile"}>회원정보</Link>
-                  </li>
-                  <li>
-                    <Link to={"/favorite"}>찜리스트</Link>
-                  </li>
-                  <li>
-                    <Link to={"/playlist"}>시청리스트</Link>
-                  </li>
-                  <li>
-                    <Link to={"/ticket"}>웹이브 이용권</Link>
-                  </li>
-                  <li>
-                    <Link to={"/service-center"}>고객센터</Link>
-                  </li>
-                  <li>
-                    <Link to={"/choice-char"}>프로필변경</Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                      className="btn xsmall primary"
-                    >
-                      로그아웃
-                    </button>
-                  </li>
-                </ul>
-              </div>
+                    ))}
+              </ul>
             )}
           </div>
-        )}
-      </div>
-    </header>
 
-    {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
+          {/* ChoiceChar 페이지에서만 header-right 전체 숨김 */}
+          {!isChoiceCharPage && (
+            <div className="header-right">
+              {/* 키즈 모드에서는 검색 버튼만 숨김 */}
+              {!isKidsMode && (
+                <p className="search" onClick={() => setSearchOpen(true)}>
+                  <span>검색</span>
+                </p>
+              )}
+              {!user ? (
+                <p className="login">
+                  <Link className="font-wave" to={"/login"}>
+                    웨이브 시작하기
+                  </Link>
+                </p>
+              ) : (
+                <div className="user-info">
+                  <p className={`user ${charClass}`}>{userInitial}</p>
+                  <ul className="user-list">
+                    <li>
+                      <Link to={"/profile"}>마이페이지</Link>
+                    </li>
+                    {/* <li>
+                      <Link to={"/favorite"}>찜리스트</Link>
+                    </li>
+                    <li>
+                      <Link to={"/playlist"}>시청리스트</Link>
+                    </li> */}
+                    <li>
+                      <Link to={"/ticket"}>웨이브 이용권</Link>
+                    </li>
+                    <li>
+                      <Link to={"/service-center"}>고객센터</Link>
+                    </li>
+                    <li>
+                      <Link to={"/choice-char"}>프로필변경</Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="btn xsmall primary"
+                      >
+                        로그아웃
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </header>
+
+      {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
     </>
   );
 };
