@@ -113,10 +113,12 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 return {
                     ...tv,
                     certification,
+                    seasons,
                     seasonsNumber,
                     runtime,
                     episodeCount,
                     logo_path: logo,
+                    logo,
                     videoData,
                     videos,
                     wavveVideo,

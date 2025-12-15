@@ -41,7 +41,7 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
     };
 
     const handleBeforeInit = (swiper: SwiperClass) => {
-        // navigation params 타입 체크 후 ref 할당
+        // navigation params 타입 체크
         if (typeof swiper.params.navigation !== 'boolean') {
             const navigation = swiper.params.navigation;
             if (navigation) {
@@ -129,7 +129,7 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                                             {getGenres(m.genre_ids).slice(0, 2).join(' · ') ||
                                                 '기타'}
                                         </p>
-                                        <p>에피소드 {m.episodeCount}</p>
+                                        <p>에피소드 {m.episodes.length}</p>
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">

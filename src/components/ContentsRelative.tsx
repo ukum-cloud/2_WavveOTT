@@ -13,14 +13,16 @@ const ContentsRelative = ({ videos }: RelativeProps) => {
     return (
         <div className="relative-wrap">
             <ul className="relative-list">
-                {videos.map((v) => (
-                    <li>
-                        <iframe
-                            className="epside-video"
-                            src={`https://www.youtube.com/embed/${v.key}?mute=1`}
-                            allowFullScreen
-                            title={v.type}
-                        />
+                {videos.map((v, index) => (
+                    <li key={index}>
+                        <div className="relative-card">
+                            <iframe
+                                className="epside-video"
+                                src={`https://www.youtube.com/embed/${v.key}?mute=1`}
+                                allowFullScreen
+                                title={v.type}
+                            />
+                        </div>
                     </li>
                 ))}
             </ul>

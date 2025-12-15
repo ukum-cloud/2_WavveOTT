@@ -1,22 +1,18 @@
 @use '../../App.scss' as g;
 
-.episode-wrap {
+.recommend-wrap {
     @include g.myFlexCol($gap: 40px);
     padding: 0 60px;
     width: 644px;
 
-    .episode-menu {
-        @include g.myFlex($gap: 10px);
-        border: 1px solid blue;
-    }
-    .episode-list {
+    .recommend-list {
         @include g.myFlexCol();
 
-        .episode-card {
+        .recommend-card {
             @include g.myFlex($jc: start, $gap: 30px);
             border: 1px solid red;
 
-            .episodes-img {
+            .recommend-img {
                 position: relative;
                 overflow: hidden;
                 max-width: 272px;
@@ -27,7 +23,6 @@
                     object-fit: cover;
                     border-radius: 12px;
                 }
-
                 &::after {
                     content: '';
                     position: absolute;
@@ -42,18 +37,41 @@
                         no-repeat center center;
                 }
             }
-            .episodes-text {
+
+            .recommend-text {
                 @include g.myFlexCol($gap: 16px);
                 border: 1px solid blue;
                 max-width: 220px;
 
-                .episode-overview {
+                .recommend-title {
+                    font-size: 18px;
+                    word-break: keep-all;
+                    overflow-wrap: break-word;
+                }
+
+                .recommend-middle {
+                    @include g.myFlex($jc: unset, $gap: 0);
+                    font-size: 14px;
+
+                    .recommend-vote {
+                        @include g.myFlex($jc: unset, $gap: 0);
+                    }
+                    .seperate::after {
+                        content: '|';
+                        margin: 0 6px;
+                    }
+                }
+
+                .recommend-overview {
+                    font-size: 14px;
                     display: -webkit-box;
                     line-clamp: 2;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     color: g.$color-font-grey2;
+                    word-break: keep-all;
+                    overflow-wrap: break-word;
                 }
             }
         }

@@ -49,10 +49,12 @@ export interface OnlyWavve extends MediaBase {
     wavveVideo: Video | null;
     isWavveOnly: boolean;
     isNew: boolean;
+    name: string;
     episodes: Episodes[];
     videos: Video[];
     seasons?: Season[];
     season_number: number;
+    first_air_date: string;
 }
 
 export interface Video {
@@ -67,6 +69,8 @@ export interface Episodes extends MediaBase {
     still_path: string;
     show_id: number;
     runtime: number;
+    image?: string;
+    // episodeImages?: string;
 }
 
 export interface Season {
