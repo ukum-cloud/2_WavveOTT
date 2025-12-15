@@ -158,7 +158,7 @@ const Header = () => {
                     <Link to={"/playlist"}>시청리스트</Link>
                   </li>
                   <li>
-                    <Link to={"/ticket"}>이용권</Link>
+                    <Link to={"/ticket"}>웹이브 이용권</Link>
                   </li>
                   <li>
                     <Link to={"/service-center"}>고객센터</Link>

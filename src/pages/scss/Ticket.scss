@@ -1,4 +1,113 @@
+@use "../../App.scss" as g;
+
 .ticket-wrap {
   margin-top: 90px;
-  padding-top: 80px;
+  padding-top: 60px;
+
+  section {
+    @include g.myFlexCol($gap: 40px);
+  }
+
+  .ticket-card-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: g.$color-secondary-dark2;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: g.$color-secondary-dark1;
+      border-radius: 10px;
+
+      &:hover {
+        background: #555;
+      }
+    }
+    >.list {
+      position: relative;
+      width: 464px;
+      height: 480px;
+      flex-shrink: 0; 
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+
+      >div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        backface-visibility: hidden;
+        transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        color: g.$color-font-white;
+        padding: 24px;
+        display: block;
+      }
+
+      // ===================================
+      // 1. 앞면 (.card-front) 스타일
+      // ===================================
+      >.card-front {
+        display: flex;
+        flex-direction: column;
+        background-color: g.$color-secondary-dark1;
+        border: 1px solid g.$color-secondary-dark2;
+        transform: rotateY(0deg);
+        z-index: 2;
+        h3 {
+          margin-top: 0;
+          font-size: 28px;
+        }
+      }
+
+      // ===================================
+      // 2. 뒷면 (.card-back) 스타일
+      // ===================================
+      >.card-back {
+        padding: 40px;
+        border-radius: 12px;
+        border: 1px solid #1D2131;
+        background: #040407;
+        z-index: 1;
+        transform: rotateY(180deg);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #333 transparent;
+
+        ul {
+          @include g.myFlexCol($gap: 20px);
+
+          >li {
+            @include g.myFlex($gap:0);
+
+            strong {
+              color: g.$color-font-grey2;
+              font-weight: normal;
+            }
+          }
+        }
+      }
+
+      &.flipped {
+        // 앞면을 뒤로 180도 회전하여 숨김
+        >.card-front {
+          transform: rotateY(-180deg);
+        }
+
+        // 뒷면을 정면 (0도)으로 회전하여 보이게 함
+        >.card-back {
+          transform: rotateY(0deg);
+        }
+      }
+    }
+  }
 }
