@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./scss/EditorRecommend.scss";
 
@@ -10,29 +9,9 @@ interface EditorType {
 
 const EditorRecommendCard = ({ backposter, id, title }: EditorType) => {
   return (
-    <Link
-      to={`/detail/${id}`}
-      style={{ position: "relative", overflow: "hidden" }}
-      className="rec-card">
-      <img
-        src={`http://image.tmdb.org/t/p/w300${backposter}`}
-        alt=""
-        style={{ width: "100%", borderRadius: "12px" }}
-        className="R-b-poster"
-      />
-      <img
-        src={`https://image.tmdb.org/t/p/original${title}`}
-        alt=""
-        className="R-b-logo"
-        style={{
-          width: "150px",
-          height: "auto",
-          objectFit: "contain",
-          position: "absolute",
-          zIndex: "3",
-          bottom: "0",
-        }}
-      />
+    <Link to={`/detail/${id}`} className="rec-card">
+      <img src={`http://image.tmdb.org/t/p/w500${backposter}`} alt="" className="R-b-poster" />
+      <img src={`https://image.tmdb.org/t/p/original${title}`} alt="" className="R-b-logo" />
     </Link>
   );
 };

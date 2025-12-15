@@ -8,13 +8,14 @@ const MainSlider = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowVideo(true);
-      videoRef.current?.play();
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
+  const handleStartVideo = () => {
+    setShowVideo(true);
+    videoRef.current?.play();
+  };
+  // const handlePauseVideo = () => {
+  //   setShowVideo(true);
+  //   videoRef.current?.play();
+  // };
 
   return (
     <div className={mStyle.sectionBox} style={{ position: "relative" }}>
@@ -48,23 +49,30 @@ const MainSlider = () => {
           </span>
         </p>
         <p className={`${isPlaying ? mStyle.hideText : mStyle.textM}`}>
-          <span>
-            <img src="images/badge/badge-19.svg" alt="" style={{ height: "30px" }} />
-          </span>
-          <span>{main.genres[0].name} </span>
-          <span>|</span>
-          <span>{main.next_episode_to_air.runtime || "2시간 3분"}</span>
+          <p className="textM-t">
+            <span>
+              <img src="images/badge/badge-19.svg" alt="" style={{ height: "30px" }} />
+            </span>
+            <span>{main.genres[0].name} </span>
+            <span>|</span>
+            <span>{main.next_episode_to_air.runtime || "2시간 3분"}</span>
+          </p>
+          <p className="textM-b">{main.main_desc}</p>
         </p>
-        <p className={` ${isPlaying ? mStyle.hideText : mStyle.textB}`}>{main.main_desc}</p>
 
         <p className={mStyle.btnBox}>
-          <span>
-            <img src="/images/icons/icon-play-sm.svg" alt="" />
+          <span onClick={handleStartVideo}>
+            {isPlaying ? (
+              <img src="/images/icons/icon-play-sm.svg" alt="" />
+            ) : (
+              <img src="/images/icons/icon-play-sm.svg" alt="" />
+            )}
           </span>
           <span>
             <img src="/images/icons/icon-heart-sm.svg" alt="" />
           </span>
         </p>
+        <p className={mStyle.watchBTN}>콘크리트마켓 보러가기</p>
       </div>
     </div>
   );
