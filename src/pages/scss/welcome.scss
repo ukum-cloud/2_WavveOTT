@@ -1,0 +1,55 @@
+@use "../../App.scss" as g;
+
+.Welcome {
+	position: relative;
+	margin: 80px auto;
+	@include g.myFlexCol($gap: 30px);
+	width: 700px;
+	padding: 60px 80px 30px;
+	background-color: g.$color-bg-dark;
+	border-radius: 40px;
+	text-align: center;
+
+	.img-check {
+		img {
+			height: 72px;
+			width: 72px;
+		}
+	}
+
+	>div {
+		@include g.myFlexCol($gap: 16px);
+		margin-bottom: 20px;
+
+		.text-welcome {
+			color: g.$color-font-white;
+			font-family: "wave";
+			font-size: 30px;
+			line-height: 150%;
+			letter-spacing: -0.2px;
+
+			>span {
+				display: block;
+			}
+
+			+p {
+				color: g.$color-font-grey2;
+				font-size: 16px;
+				line-height: 140%;
+				letter-spacing: -0.32px;
+
+				span {
+					display: block;
+				}
+			}
+		}
+	}
+
+	.link {
+		a {
+			color: g.$color-font-grey2;
+			letter-spacing: -0.32px;
+		}
+
+	}
+}

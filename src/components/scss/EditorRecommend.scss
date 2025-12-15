@@ -2,7 +2,7 @@
   .R-b-poster {
   }
   .R-b-logo {
-    transform: translate(-260%, 150%);
+    transform: translate(-500px, 120px);
   }
 }
 .rec-section {
@@ -11,14 +11,11 @@
   }
 }
 
-// 클래스명 (수정)
-.editorSwiperTop .swiper-wrapper,
-.editorSwiperBot .swiper-wrapper {
+.editorSwiper .swiper-wrapper {
   transition-timing-function: linear !important;
 }
 
-.editorSwiperTop .swiper-slide,
-.editorSwiperBot .swiper-slide {
+.editorSwiper .swiper-slide {
   scroll-snap-align: none !important;
   -webkit-scroll-snap-align: none !important;
 }

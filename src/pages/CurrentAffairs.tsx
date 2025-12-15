@@ -1,7 +1,7 @@
 const CurrentAffairs = () => {
   return (
-    <main>
-      <div className="">
+    <main className="currentAffairs-wrap">
+      <div>
         <img src="/images/visual/visual-cj-main.jpg" alt="" />
         CurrentAffairs100% 다 쓰는 경우
       </div>

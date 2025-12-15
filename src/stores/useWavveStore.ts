@@ -1,10 +1,9 @@
 import { create } from 'zustand';
-import type { OnlyWavve, OnlyWavveState } from '../types/movie';
+import type { Episodes, MediaBase, OnlyWavve, OnlyWavveState, Video } from '../types/movie';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 export const useWavveStore = create<OnlyWavveState>((set) => ({
     wavves: [],
-
     onFetchWavve: async () => {
         const res = await fetch(
             `https://api.themoviedb.org/3/discover/tv` +
@@ -12,7 +11,6 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 `&language=ko-KR` +
                 `&with_networks=3357` +
                 '&with_watch_providers=356' +
-                `&sort_by=popularity.desc` +
                 `&page=1`
         );
         const data = await res.json();
@@ -31,10 +29,14 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 const kr = ratingData.results.find((r: OnlyWavve) => r.iso_3166_1 === 'KR');
                 const certification = kr?.rating || 'NR'; // NR = Not Rated
 
+                // 시즌 목록
+                const seasons = ratingData.seasons || [];
+                const seasonsNumber = seasons.number_of_seasons || 1;
+
                 /* 러닝타임 */
                 // 러닝타임 가져오기
                 const timeRes = await fetch(
-                    `https://api.themoviedb.org/3/tv/${tv.id}?api_key=${API_KEY}`
+                    `https://api.themoviedb.org/3/tv/${tv.id}?api_key=${API_KEY}&language=ko-KR`
                 );
                 const timeData = await timeRes.json();
 
@@ -60,41 +62,80 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 // 첫 번째 이미지 선택 (한국어 찾고 없으면 영어 찾기)
                 const logo = koLogo?.file_path || enLogo?.file_path || null;
 
-                /* 웨이브 api 가져오기 */
-                // // 오직 웨이브 전체 목록 api
-                // const listRes = await fetch(
-                //     `https://apis.wavve.com/v1/catalog?broadcastid=EN400&catalogType=manualband&code=EN400----GN51&limit=40&manualbandId=400&offset=0&orderby=default&uicode=EN400&uiparent=GN51-EN400&uirank=0&uitype=band_14`
-                // );
-                // const listData = await listRes.json();
+                /* 비디오 */
+                // 비디오 불러오기
+                const videoRes = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/videos?api_key=${API_KEY}&language=ko-KR`
+                );
+                const videoData = await videoRes.json();
+                const videos: Video[] = videoData.results;
 
-                // const vodContexts = listData.context_list.filter(
-                //     (item: any) => item.context_type === 'vod'
-                // );
-                // const programId = vodContexts.map((item: any) => item.context_id);
+                //예고편 비디오 찾기
+                let wavveVideo =
+                    videoData.results.find(
+                        (v: Video) => v.type === 'Trailer' && v.site.toLowerCase() === 'youtube'
+                    ) ||
+                    videoData.results.find(
+                        (v: Video) => v.type === 'Teaser' && v.site.toLowerCase() === 'youtube'
+                    );
 
-                // // 오직 웨이브 상세 뽑아오기
-                // const detailRes = await fetch(
-                //     `https://apis.wavve.com/fz/vod/contents-detail/${programId}.1?device=pc&partner=pooq&apikey=...`
-                // );
-                // const detailData = await detailRes.json();
+                //Trailer가 없으면 아무거나 하나 가져오기
+                if (!wavveVideo) {
+                    wavveVideo = videoData.results.find((v: Video) => v.site === 'youtube') || null;
+                }
 
-                // const logoImage = detailData.seasontitlelogoimage;
-                // const targetAge = detailData.targetage;
-                // console.log(programId, logoImage, targetAge);
+                //배우,감독 등 불러오기
+                const credit = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/credits?api_key=${API_KEY}&language=ko-KR`
+                );
+                const creditData = await credit.json();
+
+                //감독 찾기
+                const director =
+                    creditData.crew.filter(
+                        (c: MediaBase) => c.known_for_department === 'Directing'
+                    ) || null;
+
+                //작가 찾기
+                const writer =
+                    creditData.crew.filter(
+                        (c: MediaBase) => c.known_for_department === 'Writing'
+                    ) || null;
+
+                //에피소드 찾기
+                const season = 1;
+                const ep = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/season/${season}?api_key=${API_KEY}&language=ko-KR`
+                );
+                const epData = await ep.json();
+                const episodes: Episodes[] = epData.episodes;
 
                 return {
                     ...tv,
                     certification,
+                    seasonsNumber,
                     runtime,
                     episodeCount,
                     logo_path: logo,
-                    // programId,
-                    // logoImage,
-                    // targetAge,
+                    videoData,
+                    videos,
+                    wavveVideo,
+                    creditData,
+                    director,
+                    writer,
+                    episodes,
                 };
             })
         );
         set({ wavves: tvsWithExtra });
-        console.log('오직웨이브 + 등급 + 러닝타임 + 에피소드 + 로고 이미지', tvsWithExtra);
+        console.log('웨이브확인', tvsWithExtra);
     },
+
+    selectedWavve: null,
+    setSelectedWavve: (id: number) =>
+        set(
+            (state): Partial<OnlyWavveState> => ({
+                selectedWavve: state.wavves.find((w) => w.id === id) ?? null,
+            })
+        ),
 }));

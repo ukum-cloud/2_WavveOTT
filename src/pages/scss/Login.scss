@@ -1,61 +1,102 @@
 @use "../../App.scss" as g;
 
 main {
-  >.login {
-    margin: 0 auto;
+  &:has(> .login, > .signup) {
+    position: relative;
+    overflow: hidden;
+    font-size: 0.825rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -55%;
+      width: 300%;
+      height: 300%;
+      background-image: url("/images/bg-login.png"); 
+      background-repeat: repeat;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+      filter: opacity(0.2);
+      transform: rotate(45deg);
+      animation: slowMove 30s ease-in-out infinite;
+    }
+  }
+
+  > .login {
+    position: relative;
+    z-index: 1;
+    margin: 80px auto;
     display: flex;
     flex-direction: column;
     gap: 40px;
-    width: 400px;
-    padding: 40px;
-    background-color: g.$color-secondary-dark;
+    width: 700px;
+    padding: 60px 80px 30px;
+    background-color: g.$color-bg-dark;
+    border-radius: 40px;
 
-    h2 {
-      font-family: "wave";
-      text-align: center;
-      font-size: 32px;
+    > div {
+      @include g.myFlexCol($gap: 16px);
 
-      +p {
+      h2 {
+        font-family: "wave";
         text-align: center;
+        font-size: 32px;
+
+        + p {
+          text-align: center;
+          color: g.$color-font-grey4;
+          font-size: 1rem;
+        }
       }
     }
 
     form {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      position: relative;
+      @include g.myFlexCol($gap: 32px);
 
       label.input-text {
         display: flex;
         flex-direction: column;
         gap: 8px;
         position: relative;
+        color: g.$color-font-white;
 
-        >input[type="text"],
-        >inputt[type="password"] {
+        > input[type="text"],
+        > input[type="password"] {
           width: 100%;
+        }
+      }
+
+      .text-info {
+        font-size: 0.75rem;
+        color: g.$color-font2;
+        &.error{
+          color: g.$color-font-error;
         }
       }
     }
 
     .save-id {
+      @include g.myFlex($gap: 20px, $jc: flex-start);
       label {
-        display: flex;
-        justify-content: flex-start;
-        gap: 4px;
+        @include g.myFlex($gap: 8px, $jc: flex-start);
+        color: g.$color-font-grey3;
       }
     }
 
     .division-list {
-      @include g.myFlex($gap: 12px, $jc: center);
+      @include g.myFlex($gap: 30px, $jc: center);
       color: g.$color-font2;
+
       li {
         position: relative;
-        padding-right: 12px;
+        padding-right: 30px;
         word-break: keep-all;
+        color: g.$color-font-grey4;
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           right: 0;
           top: 50%;
@@ -68,6 +109,7 @@ main {
 
         &:last-child {
           padding-right: 0;
+
           &::after {
             width: 0;
           }
@@ -84,11 +126,38 @@ main {
     .btn-box-other {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 24px;
+      color: g.$color-font-grey4;
+      text-align: center;
 
-      p {
-        text-align: center;
+      > ul {
+        @include g.myFlex($gap: 20px, $jc: center);
       }
+
+      .text-bottom {
+        padding-top: 6px;
+        line-height: 140%;
+      }
+    }
+  }
+
+  // 배경 이미지 애니메이션 키프레임
+  @keyframes slowMove {
+    0%,
+    100% {
+      transform: rotate(45deg) translate(0, 0);
+    }
+
+    25% {
+      transform: rotate(45deg) translate(-1.5%, -1.5%);
+    }
+
+    50% {
+      transform: rotate(45deg) translate(-2.5%, 1.5%);
+    }
+
+    75% {
+      transform: rotate(45deg) translate(1.5%, -2.5%);
     }
   }
 }

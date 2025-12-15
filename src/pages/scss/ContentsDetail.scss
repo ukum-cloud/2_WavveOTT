@@ -1,0 +1,161 @@
+@use '../../App.scss' as g;
+
+.main-detail {
+    padding-top: 91.25px;
+
+    h3,
+    .actor-name {
+        font-family: 'Wave', sans-serif;
+    }
+
+    .inner {
+        flex-direction: row;
+        gap: 0;
+
+        .detail-left {
+            @include g.myFlexCol($gap: 40px);
+            max-width: 1076px;
+
+            .detail-img-box {
+                position: relative;
+                .detail-backdrop {
+                    img {
+                        width: 100%;
+                    }
+                }
+                .detail-logo {
+                    position: absolute;
+                    left: 5%;
+                    bottom: 5%;
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+            .detail-title-box {
+                @include g.myFlex($gap: 0);
+
+                .detail-title-left {
+                    @include g.myFlex($jc: unset, $gap: 12px);
+
+                    .title-vote {
+                        @include g.myFlex($jc: unset, $gap: 4px);
+                    }
+
+                    .seperate::after {
+                        content: '|';
+                        margin-left: 12px;
+                    }
+                }
+
+                .detail-title-right {
+                    @include g.myFlex($jc: unset);
+                }
+            }
+            .detail-text-box {
+                @include g.myFlexCol($gap: 80px);
+
+                .detail-content {
+                    @include g.myFlex($gap: 120px);
+
+                    .detail-content-left {
+                        @include g.myFlexCol();
+                        > p {
+                            color: g.$color-other4;
+                        }
+                    }
+                    .detail-content-right {
+                        .btn.default {
+                            min-width: 342px;
+                        }
+                    }
+                }
+                .detail-cast {
+                    @include g.myFlexCol();
+
+                    .detail-cast-list {
+                        @include g.myFlex($jc: unset, $gap: 24px);
+
+                        .cast-card {
+                            width: 120px;
+                            height: 195px;
+
+                            .cast-card-imgbox {
+                                width: 120px;
+                                height: 160px;
+                                border-radius: 12px;
+                                margin-bottom: 14px;
+
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    border-radius: 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .detail-crew-list {
+                    @include g.myFlexCol();
+
+                    li {
+                        color: g.$color-other4;
+                        &:not(:last-child)::after {
+                            content: ',';
+                        }
+                    }
+
+                    .detail-director {
+                        @include g.myFlex($jc: unset);
+
+                        .director-list {
+                            @include g.myFlex($jc: unset, $gap: 6px);
+                        }
+                    }
+
+                    .detail-writer {
+                        @include g.myFlex($jc: unset);
+
+                        .writer-list {
+                            @include g.myFlex($jc: unset, $gap: 6px);
+                        }
+                    }
+
+                    .detail-script {
+                        @include g.myFlex($jc: unset);
+
+                        .script-list {
+                            @include g.myFlex($jc: unset, $gap: 6px);
+                        }
+                    }
+                }
+            }
+        }
+        .detail-right {
+            max-width: calc(1720px - 1076px);
+            border: 1px solid green;
+
+            .detail-menu-wrap {
+                @include g.myFlex($jc: unset, $gap: 30px);
+                padding: 20px 0 0 60px;
+
+                .active {
+                    border-bottom: 4px solid g.$color-primary;
+                }
+
+                > button {
+                    padding: 20px 0;
+                    color: white;
+                    font-family: 'Wave', sans-serif;
+                    font-size: 18px;
+                    border: 1px solid red;
+                }
+            }
+            .detail-menu-line {
+                border-bottom: 1px solid g.$color-other3;
+                margin: 0 0 26px 0;
+            }
+        }
+    }
+}

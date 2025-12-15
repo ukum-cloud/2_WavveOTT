@@ -1,0 +1,44 @@
+@use "../../App.scss" as g;
+.bend-notice-wrap {
+  color: g.$color-font-grey3;
+  width: 100%;
+  .inner {
+    padding: 20px;
+  }
+  .bend-notice{
+    @include g.myFlex($gap:0);
+    dt{
+      font-family: 'wave';
+      padding-right: 70px;
+      font-size: 1.125rem;
+      text-align: left;
+    }
+    dd{
+      &.title{
+        flex: 1;
+        padding-right: 30px;
+         a.rolling-link { 
+          display: block;
+          text-decoration: none;
+          color: inherit;
+          animation: slideDown 0.5s ease-out; 
+          transition: none;
+        }
+      }
+      &:last-child{
+        @include g.myFlex($jc:flex-end)
+      }
+    }
+  }
+  background-color: g.$color-secondary-dark1;
+}
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%); 
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);    
+    opacity: 1;
+  }
+}

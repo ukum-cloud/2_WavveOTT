@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import type { MovieState } from '../types/movie';
+import { create } from "zustand";
+import type { MediaBase, MovieState } from "../types/movie";
 
 //TMDB-API키
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -15,7 +15,7 @@ export const useMovieStore = create<MovieState>((set) => ({
     );
     const data = await res.json();
     const movieWithLogos = await Promise.all(
-      data.results.map(async (movie) => {
+      data.results.map(async (movie: MediaBase) => {
         const detailRes = await fetch(
           `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&append_to_response=images`
         );
