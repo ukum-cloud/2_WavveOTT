@@ -155,8 +155,42 @@
 
                             .preview-btn-wrap {
                                 @include g.myFlex($gap: 1.2rem);
-                                > p {
-                                    cursor: pointer;
+
+                                .preview-play-btn {
+                                    width: 56px;
+                                    height: 56px;
+                                    background: url('/images/icons/icon-play-default.svg') no-repeat
+                                        center center;
+                                    background-size: contain;
+                                    &:hover {
+                                        background: url('/images/icons/icon-play-hover.svg')
+                                            no-repeat center center;
+                                        background-size: contain;
+                                    }
+                                }
+                                .preview-heart-btn {
+                                    width: 56px;
+                                    height: 56px;
+                                    background: url('/images/icons/icon-heart-default.svg')
+                                        no-repeat center center;
+                                    background-size: contain;
+                                    &:hover {
+                                        background: url('/images/icons/icon-heart-hover.svg')
+                                            no-repeat center;
+                                        background-size: contain;
+                                    }
+                                }
+                            }
+                            a {
+                                width: 56px;
+                                height: 56px;
+                                background: url('/images/icons/icon-detail-default.svg') no-repeat
+                                    center center;
+                                background-size: contain;
+                                &:hover {
+                                    background: url('/images/icons/icon-detail-hover.svg') no-repeat
+                                        center;
+                                    background-size: contain;
                                 }
                             }
                         }
