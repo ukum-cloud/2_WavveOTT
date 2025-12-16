@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import type { Tv, TvState, Video } from '../types/movie';
+import type { Episodes, MediaBase, Tv, TvState, Video } from '../types/movie';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 export const useTvStore = create<TvState>((set) => ({
     tvs: [],
+    selectedTv: null,
 
     onFetchTv: async () => {
         let tvsList: Tv[] = [];
@@ -34,6 +35,7 @@ export const useTvStore = create<TvState>((set) => ({
                     `https://api.themoviedb.org/3/tv/${tv.id}/videos?api_key=${API_KEY}&language=ko-KR`
                 );
                 const videoData = await videoRes.json();
+                const videos: Video[] = videoData.results;
 
                 //예고편 비디오 찾기
                 let tvsVideo =
@@ -59,6 +61,10 @@ export const useTvStore = create<TvState>((set) => ({
                 // 한국(KR) 등급 찾기
                 const kr = ratingData.results.find((r: Tv) => r.iso_3166_1 === 'KR');
                 const certification = kr?.rating || 'NR'; // NR = Not Rated
+
+                // 시즌 목록
+                const seasons = ratingData.seasons || [];
+                const seasonsNumber = seasons.number_of_seasons || 1;
 
                 /* 러닝타임 */
                 // 러닝타임 가져오기
@@ -89,18 +95,58 @@ export const useTvStore = create<TvState>((set) => ({
                 // 첫 번째 이미지 선택 (한국어 찾고 없으면 영어 찾기)
                 const logo = koLogo?.file_path || enLogo?.file_path || null;
 
+                //배우,감독 등 불러오기
+                const credit = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/credits?api_key=${API_KEY}&language=ko-KR`
+                );
+                const creditData = await credit.json();
+
+                //감독 찾기
+                const director =
+                    creditData.crew.filter(
+                        (c: MediaBase) => c.known_for_department === 'Directing'
+                    ) || null;
+
+                //작가 찾기
+                const writer =
+                    creditData.crew.filter(
+                        (c: MediaBase) => c.known_for_department === 'Writing'
+                    ) || null;
+
+                //에피소드 찾기
+                const season = 1;
+                const ep = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/season/${season}?api_key=${API_KEY}&language=ko-KR`
+                );
+                const epData = await ep.json();
+                const episodes: Episodes[] = epData.episodes;
+
                 return {
                     ...tv,
                     latestTvList,
+                    videos,
                     videoData,
                     tvsVideo,
                     certification,
+                    seasonsNumber,
                     runtime,
                     episodeCount,
                     logo,
+                    creditData,
+                    director,
+                    writer,
+                    episodes,
                 };
             })
         );
         set({ tvs: tvsWithVideo });
+        console.log('티비확인', tvsWithVideo);
     },
+
+    setSelectedTv: (id: number) =>
+        set(
+            (state): Partial<TvState> => ({
+                selectedTv: state.tvs.find((w) => w.id === id) ?? null,
+            })
+        ),
 }));

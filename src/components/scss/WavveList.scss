@@ -201,7 +201,6 @@
             // 화면상 마지막 카드 위치 조정 (className에 swiper-slide-visible는 들어가는데 fully-visible는 안들어가는 것)
             .swiper-slide-visible:not(.swiper-slide-fully-visible) {
                 .poster-wrap {
-                    z-index: 100;
                     .preview-wrap {
                         left: auto;
                         right: 0;

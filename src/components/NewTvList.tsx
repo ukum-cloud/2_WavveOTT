@@ -143,7 +143,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                                 />
                                             </p>
                                         </div>
-                                        <Link to="/tvdetail">
+                                        <Link to={`/contentsdetail/tv/${t.id}`}>
                                             <img
                                                 src="/images/icons/icon-play-sm.svg"
                                                 alt="icon-detail"

@@ -1,0 +1,20 @@
+@use '../../App.scss' as g;
+
+.relative-wrap {
+    @include g.myFlexCol($gap: 40px);
+    padding: 0 60px;
+
+    .relative-list {
+        @include g.myFlexCol($gap: 20px);
+
+        li {
+            min-width: 482px;
+
+            > iframe {
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                border: none;
+            }
+        }
+    }
+}

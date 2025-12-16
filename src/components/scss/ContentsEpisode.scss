@@ -1,0 +1,62 @@
+@use '../../App.scss' as g;
+
+.episode-wrap {
+    @include g.myFlexCol($gap: 40px);
+    padding: 0 60px;
+
+    .episode-menu {
+        @include g.myFlex($gap: 10px);
+
+        .episode-select {
+            @include g.myFlex();
+            position: relative;
+            min-width: calc(50% - 10px);
+            background: g.$color-secondary-dark3;
+            padding: 16px;
+            color: g.$color-other4;
+
+            .select-season-btn {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: g.$color-secondary-dark3;
+                border: 1px solid g.$color-other3;
+                border-top: none;
+                z-index: 10;
+            }
+        }
+    }
+    .episode-list {
+        @include g.myFlexCol();
+        min-width: 482px;
+
+        .episode-card {
+            @include g.myFlex($gap: 30px);
+            border: 1px solid red;
+
+            .episodes-img {
+                > img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 12px;
+                }
+            }
+            .episodes-text {
+                @include g.myFlexCol($gap: 16px);
+                border: 1px solid blue;
+                max-width: 220px;
+
+                .episode-overview {
+                    display: -webkit-box;
+                    line-clamp: 2;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    color: g.$color-other3;
+                }
+            }
+        }
+    }
+}

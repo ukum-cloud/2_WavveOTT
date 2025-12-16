@@ -1,21 +1,36 @@
-.rec-card {
-  .R-b-poster {
-  }
-  .R-b-logo {
-    transform: translate(-500px, 120px);
-  }
-}
 .rec-section {
+  max-width: 1920px;
+  margin: 0 auto;
+  background: red;
+  h2 {
+    margin-bottom: 30px;
+  }
+  .swiper-top,
+  .swiper-bot {
+    width: calc(3 * 33%);
+
+    .marquee-item {
+      min-width: 400px;
+      margin-right: 20px;
+      a {
+        position: relative;
+        overflow: hidden;
+        .R-b-poster {
+          border-radius: 12px;
+        }
+        .R-b-logo {
+          width: 150px;
+          height: auto;
+          object-fit: contain;
+          position: absolute;
+          z-index: 3;
+          left: 10%;
+          bottom: -500%;
+        }
+      }
+    }
+  }
   .swiper-top {
     margin-bottom: 30px;
   }
-}
-
-.editorSwiper .swiper-wrapper {
-  transition-timing-function: linear !important;
-}
-
-.editorSwiper .swiper-slide {
-  scroll-snap-align: none !important;
-  -webkit-scroll-snap-align: none !important;
 }

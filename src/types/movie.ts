@@ -11,8 +11,19 @@ export interface MediaBase {
     iso_3166_1: string;
     iso_639_1: string;
     certification: number;
+    season_number: number;
     episodeCount: number;
     logo_path: string;
+    creditData: {
+        cast: {
+            id: number;
+            name: string;
+            profile_path: string;
+        }[];
+    };
+    known_for_department: string;
+    director: { id: number; name: string }[];
+    writer: { id: number; name: string }[];
 }
 
 // 영화에대한 타입 -> 더 사용할내용있으면 추가
@@ -38,6 +49,10 @@ export interface OnlyWavve extends MediaBase {
     wavveVideo: Video | null;
     isWavveOnly: boolean;
     isNew: boolean;
+    episodes: Episodes[];
+    videos: Video[];
+    seasons?: Season[];
+    season_number: number;
 }
 
 export interface Video {
@@ -46,9 +61,29 @@ export interface Video {
     key: string;
 }
 
+export interface Episodes extends MediaBase {
+    name: string;
+    episode_number: number;
+    still_path: string;
+    show_id: number;
+    runtime: number;
+}
+
+export interface Season {
+    id: number;
+    name: string;
+    season_number: number;
+    episode_count: number;
+    air_date?: string;
+    overview?: string;
+    poster_path?: string;
+}
+
 export interface OnlyWavveState {
     wavves: OnlyWavve[];
+    selectedWavve: OnlyWavve | null;
     onFetchWavve: () => Promise<void>;
+    setSelectedWavve: (id: number) => void;
 }
 
 //tv 시리즈 타입
@@ -57,8 +92,14 @@ export interface Tv extends MediaBase {
     first_air_date: string;
     logo: string;
     results: Video[];
+    episodes: Episodes[];
+    videos: Video[];
+    seasons?: Season[];
+    season_number: number;
 }
 export interface TvState {
     tvs: Tv[];
+    selectedTv: Tv | null;
     onFetchTv: () => Promise<void>;
+    setSelectedTv: (id: number) => void;
 }

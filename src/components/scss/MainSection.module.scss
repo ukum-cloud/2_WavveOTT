@@ -10,8 +10,20 @@
     }
     video {
       height: 100vh;
-      padding-top: 44px;
+      padding-top: 40px;
       object-fit: fill;
+    }
+    .pauseOverlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgb(10, 10, 10, 1) 0%,
+        rgb(10, 10, 10, 1) 14%,
+        rgb(10, 10, 10, 0) 100%
+      );
+      // z-index: 3;
+      transition: opacity 0.2s ease;
     }
     .visualBoxOverlay {
       position: absolute;
@@ -33,21 +45,19 @@
     bottom: 20%;
     left: 6%;
     display: grid;
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(3, auto);
     gap: 30px;
 
-    /* 👇 텍스트 3개만 애니메이션 대상 */
     .textT,
     .textM,
-    .textB,
-    .btnBox {
+    .btnBox,
+    .watchBTN {
       opacity: 0;
       transform: translateY(40px);
       animation: slideUp 1s ease forwards;
     }
 
     .textT {
-      animation-delay: 0.1s;
       display: flex;
       flex-direction: column;
       align-items: start;
@@ -55,31 +65,42 @@
     }
 
     .textM {
-      animation-delay: 0.8s;
+      animation-delay: 0.5s;
       display: flex;
-      align-items: center;
-      height: 34px;
+      flex-direction: column;
+      align-items: start;
+      // height: 34px;
       gap: 16px;
       font-weight: 500;
+      .textMT {
+        display: flex;
+        gap: 16px;
+      }
     }
 
-    .textB {
-      animation-delay: 1.3s;
-      font-size: 24px;
-      font-weight: 500;
-    }
-
-    /* 👇 버튼은 애니메이션 없음 */
     .btnBox {
-      animation-delay: 2s;
+      animation-delay: 0.8s;
       display: flex;
+      flex-direction: column;
       gap: 20px;
-      height: 68px;
+
+      .btnBoxT {
+        display: flex;
+        gap: 20px;
+        height: 68px;
+        span {
+          cursor: pointer;
+        }
+      }
+      .btnBoxB {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        cursor: pointer;
+      }
     }
   }
 }
 
-/* 🎯 영상 재생 중 토글용 */
 .showText {
   opacity: 1;
   transform: translateY(0);
@@ -91,7 +112,7 @@
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   pointer-events: none;
-  animation: none; /* ⭐ 이게 핵심 */
+  animation: none;
 }
 
 @keyframes slideUp {

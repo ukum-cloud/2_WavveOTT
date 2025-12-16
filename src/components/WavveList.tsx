@@ -146,7 +146,7 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                                                 />
                                             </p>
                                         </div>
-                                        <Link to="/tvdetail">
+                                        <Link to={`/contentsdetail/tv/${m.id}`}>
                                             <img
                                                 src="/images/icons/icon-play-sm.svg"
                                                 alt="icon-detail"
