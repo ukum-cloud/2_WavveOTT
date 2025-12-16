@@ -127,12 +127,11 @@
               .sale {
                 display: flex;
                 align-items: center;
-                padding: 2px 6px;
+                padding: 0 6px;
                 color: g.$color-font-white;
                 line-height: 24px;
                 font-family: "Wave";
                 font-size: 0.875rem;
-                line-height: 140%;
                 border-radius: 6px;
                 background: g.$color-primary;
               }
