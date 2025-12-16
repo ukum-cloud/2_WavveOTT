@@ -30,13 +30,10 @@ const Footer = () => {
           <div className="footer-left">
             <div className="left-top">
               <p>
-                <Link to="/service-center">이용약관</Link>
+                <Link to="/service-center/agreement">이용약관</Link>
               </p>
               <p>
-                <Link to="/service-center">개인정보처리방침</Link>
-              </p>
-              <p>
-                <Link to="/service-center">서비스 소개</Link>
+                <Link to="/service-center/agreement">개인정보처리방침</Link>
               </p>
               <p>
                 <Link to="/event">이벤트</Link>

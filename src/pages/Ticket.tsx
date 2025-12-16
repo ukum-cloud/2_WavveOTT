@@ -296,7 +296,7 @@ const Ticket: React.FC = () => {
               >
                 <div className="card-front">
                   <div className="front-top">
-                    <span className="badge">추천</span>
+                    <span className="badge-text-type">추천</span>
                     <button
                       className="btn-detail"
                       onClick={(e) => {
@@ -492,7 +492,7 @@ const Ticket: React.FC = () => {
               >
                 <div className="card-front">
                   <div className="front-top">
-                    <span className="badge">추천</span>
+                    <span className="badge-text-type">추천</span>
                     <button
                       className="btn-detail"
                       onClick={(e) => {
@@ -643,7 +643,7 @@ const Ticket: React.FC = () => {
               >
                 <div className="card-front">
                   <div className="front-top">
-                    <span className="badge">추천</span>
+                    <span className="badge-text-type">추천</span>
                     <button
                       className="btn-detail"
                       onClick={(e) => {
@@ -877,7 +877,7 @@ const Ticket: React.FC = () => {
                 {/* 1 */}
                 <div className="card-front">
                   <div className="front-top jc">
-                    <span className="badge">추천</span>
+                    <span className="badge-text-type">추천</span>
                   </div>
                   <div className="front-header">
                     <h3>{COALITION_CARD_DATA[0].title}</h3>

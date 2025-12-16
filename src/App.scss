@@ -1,4 +1,3 @@
-// color
 $color-primary: #0050ff;
 $color-secondary-black: #000;
 $color-secondary-white: #fff;
@@ -41,7 +40,6 @@ h2 {
   flex-direction: column;
   gap: 32px;
 }
-
 
 // 공통 mixin
 @mixin myFlex($jc: space-between, $ai: center, $fw: null, $gap: 2rem) {

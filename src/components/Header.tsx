@@ -151,12 +151,6 @@ const Header = () => {
                     <li>
                       <Link to={"/profile"}>마이페이지</Link>
                     </li>
-                    {/* <li>
-                      <Link to={"/favorite"}>찜리스트</Link>
-                    </li>
-                    <li>
-                      <Link to={"/playlist"}>시청리스트</Link>
-                    </li> */}
                     <li>
                       <Link to={"/ticket"}>웨이브 이용권</Link>
                     </li>
@@ -169,7 +163,7 @@ const Header = () => {
                     <li>
                       <button
                         onClick={handleLogout}
-                        className="btn xsmall primary"
+                        className="btn small secondary-line"
                       >
                         로그아웃
                       </button>
