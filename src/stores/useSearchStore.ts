@@ -1,25 +1,108 @@
 import { create } from "zustand";
-import type { SearchText } from "../types/searchtodo";
+import type {
+  SearchText,
+  TmdbCollectionResponse,
+  TmdbMovieResponse,
+  TmdbPersonResponse,
+  SearchResultItem,
+} from "../types/searchtodo";
 
-export const useSearchStore = create<SearchText>((set) => ({
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string;
+
+type SearchStore = SearchText & {
+  results: SearchResultItem[];
+  loading: boolean;
+  onFetchSearch: (query: string) => Promise<void>;
+  onClearResults: () => void;
+};
+
+export const useSearchStore = create<SearchStore>((set) => ({
   todos: [],
 
   //검색 기록 저장
   onAddTextTodo: (text) => {
-    set((state => ({
-      todos: [...state.todos, {id: Date.now(), text: text}]
-    })))
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    set((state) => ({
+      todos: [
+        {id: Date.now(), text: trimmed},
+        ...state.todos.filter((t) => t.text !== trimmed),
+      ].slice(0, 20),
+    }))
   },
 
   //검색 기록을 선택해서 삭제
   onRemoveTodos: (id) => {
     set((state) => ({
-      todos: state.todos.filter((todo) => todo.id !== id)
+      todos: state.todos.filter((t) => t.id !== id)
     }))
   },
 
   //검색 기록들 전부 삭제
-  onRemoveAll: () => {
-    set({todos: []})
-  }
+  onRemoveAll: () => set({todos: []}),
+
+  // 검색 결과
+  results: [],
+  loading: false,
+
+  onClearResults: () => set({results: [], loading: false}),
+
+  // 검색 함수
+  onFetchSearch: async (query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      set({results: [], loading: false});
+      return;
+    }
+
+    set({loading: true});
+
+    const q = encodeURIComponent(trimmed);
+
+    //1. collection
+    const cRes = await fetch(
+      `https://api.themoviedb.org/3/search/collection?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+    );
+    const cData: TmdbCollectionResponse = await cRes.json();
+
+    //2. movie
+    const mRes = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+    );
+    const mData: TmdbMovieResponse = await mRes.json();
+
+    //3. person
+    const pRes = await fetch(
+      `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+    );
+    const pData: TmdbPersonResponse = await pRes.json();
+
+    // 통합(원하는 규칙대로 정렬 / 갯수 조절 가능)
+    const merged: SearchResultItem[] = [
+      ...mData.results.slice(0, 5).map((m) => ({
+        id: m.id,
+        kind: "movie" as const,
+        label: m.title,
+        overview: m.overview,
+        poster_path: m.poster_path ?? null,
+        backdrop_path: m.backdrop_path ?? null,
+      })),
+      ...cData.results.slice(0, 5).map((c) => ({
+        id: c.id,
+        kind: "collection" as const,
+        label: c.name,
+        overview: c.overview,
+        poster_path: c.poster_path ?? null,
+        backdrop_path: c.backdrop_path ?? null,
+      })),
+      ...pData.results.slice(0, 5).map((p) => ({
+        id: p.id,
+        kind: "person" as const,
+        label: p.name,
+        profile_path: p.profile_path ?? null,
+      })),
+    ];
+    set({results: merged, loading:false});
+  },
 }))

@@ -29,9 +29,15 @@ const Footer = () => {
         <div className="footer-item">
           <div className="footer-left">
             <div className="left-top">
-              <p>이용약관</p>
-              <p>개인정보처리방침</p>
-              <p>서비스 소개</p>
+              <p>
+                <Link to="/service-center">이용약관</Link>
+              </p>
+              <p>
+                <Link to="/service-center">개인정보처리방침</Link>
+              </p>
+              <p>
+                <Link to="/service-center">서비스 소개</Link>
+              </p>
               <p>
                 <Link to="/event">이벤트</Link>
               </p>
@@ -82,7 +88,7 @@ const Footer = () => {
               to={`https://www.instagram.com/accounts/login/?next=%2Fwavve.official%2F&source=omni_redirect`}
             >
               <p>
-                <img src="/images/icons/icon-Insta.svg" alt="Insta Icon" />
+                <img src="/images/icons/icon-insta.svg" alt="Insta Icon" />
               </p>
             </Link>
           </div>
