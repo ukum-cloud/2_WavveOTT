@@ -68,29 +68,36 @@
         }
         .typing-panel{
           display: flex;
+          align-items: flex-start;
           justify-content: space-between;
-          gap: 50px;
-          margin-top: 40px;
+          margin-top: 50px;
+          border: 1px solid red;
 
           .preview-list{
-            width: 50%;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            border: 1px solid blue;
 
             >li{
+              max-width: 800px;
+              width: 100%;
+
               .preview-item{
                 width: 100%;
                 text-align: left;
                 background: transparent;
-                border: 0;
+                border: 1px solid green;
                 padding: 0;
-                color: g.$color-other4;
+                color: #ADB0BE;
                 font-size: 18px;
                 line-height: 140%;
                 letter-spacing: -1%;
               }
             }
+          }
+          .tmdb-result{
+            border: 1px solid violet;
           }
           .recommend-box{
             width: 50%;
@@ -270,4 +277,17 @@
       }
     }
   }
+}
+
+.tmdb-result.auto-hide {
+  animation: fadeOut 1.5s ease forwards;
+}
+
+.tmdb-result.is-loading {
+  animation: none;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }

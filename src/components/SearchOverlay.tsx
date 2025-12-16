@@ -1,19 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from "react";
 import "./scss/SearchOverlay.scss";
-import { useSearchStore } from '../stores/useSearchStore';
+import { useSearchStore } from "../stores/useSearchStore";
 
-interface Props{
+interface Props {
   onClose: () => void;
 }
 
 const SearchOverlay = ({ onClose }: Props) => {
   const [text, setText] = useState("");
-  const [nowDate, setNowDate] = useState<string>("");
-  // const {
-  //   todos, onAddTextTodo, onRemoveTodos, onRemoveAll,
-  //   results, loading, onFetchSearch, onClearResults,
-  //   trendingKeywords, onFetchTrendingKeywords,
-  // } = useSearchStore();
+  const [nowDate, setNowDate] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+
+  // store state/actions (selector 방식)
   const todos = useSearchStore((s) => s.todos);
   const onAddTextTodo = useSearchStore((s) => s.onAddTextTodo);
   const onRemoveTodos = useSearchStore((s) => s.onRemoveTodos);
@@ -30,39 +28,16 @@ const SearchOverlay = ({ onClose }: Props) => {
   const trimmed = text.trim();
   const isTyping = trimmed.length > 0;
 
+  // 오버레이 떠있을 때만 body 스크롤 잠금
   useEffect(() => {
-    onFetchTrendingKeywords();
-  }, [onFetchTrendingKeywords]);
-
-  useEffect(() => {
-    if (!isTyping) {
-      onClearResults();
-      return;
-    }
-    onFetchSearch(trimmed);
-  }, [isTyping, trimmed, onFetchSearch, onClearResults]);
-
-  const previewList = useMemo(() => {
-    if (!isTyping) return [];
-    return trendingKeywords
-      .filter((k) => k.includes(trimmed))
-      .slice(0, 10);
-  }, [isTyping, trimmed, trendingKeywords]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!trimmed) return;
-    onAddTextTodo(trimmed);
-    setText("");
-  }
-
-  useEffect(() => {
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = prev;
     };
   }, []);
 
+  // 현재 시간 표시
   useEffect(() => {
     const update = () => {
       const d = new Date();
@@ -71,26 +46,70 @@ const SearchOverlay = ({ onClose }: Props) => {
       const dd = String(d.getDate()).padStart(2, "0");
       const hh = String(d.getHours()).padStart(2, "0");
       const min = String(d.getMinutes()).padStart(2, "0");
-
       setNowDate(`${yyyy}.${mm}.${dd} ${hh}:${min}`);
     };
 
-    update(); // 최초 1회
-    const timer = setInterval(update, 60000);
-    return () => clearInterval(timer);
+    update();
+    const timer = window.setInterval(update, 60000);
+    return () => window.clearInterval(timer);
   }, []);
 
+  // 트렌딩 키워드 1회 로딩
+  useEffect(() => {
+    onFetchTrendingKeywords();
+  }, [onFetchTrendingKeywords]);
+
+  // 입력 즉시 검색 (디바운스 300ms)
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!isTyping) {
+        onClearResults();
+        setHasSearched(false);
+        return;
+      }
+      setHasSearched(true);
+      onFetchSearch(trimmed);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [isTyping, trimmed, onFetchSearch, onClearResults]);
+
+  // 자동완성(트렌딩 기반)
+  const previewList = useMemo(() => {
+    if (!isTyping) return [];
+    return trendingKeywords.filter((k) => k.includes(trimmed)).slice(0, 10);
+  }, [isTyping, trimmed, trendingKeywords]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!trimmed) return;
+    onAddTextTodo(trimmed);
+  };
+
+  useEffect(() => {
+    if (!isTyping) return;
+    if (loading) return;
+
+    // 검색이 끝났으면 1.5초 후 추천/자동완성으로 복귀
+    if (hasSearched) {
+      const t = window.setTimeout(() => setHasSearched(false), 1500);
+      return () => window.clearTimeout(t);
+    }
+  }, [isTyping, loading, hasSearched]);
+
   return (
-    <div className='search-popup' role="dialog" aria-modal="true">
+    <div className="search-popup" role="dialog" aria-modal="true">
       <div className="search-inner-wrap">
-        <div className="close-bg" onClick={onClose} aria-label="닫기"></div>
-        
+        <div className="close-bg" onClick={onClose} aria-label="닫기" />
         <div className="search-inner">
           <div className="keyboard-box">
             <form className="keyboard-top" name="search" onSubmit={handleSubmit}>
               <input
-                type="text" placeholder='장르, 제목, 배우로 검색해보세요.'
-                className='font-wave' id="search" value={text}
+                type="text"
+                placeholder="장르, 제목, 배우로 검색해보세요."
+                className="font-wave"
+                id="search"
+                value={text}
                 onChange={(e) => setText(e.target.value)}
               />
               <button type="submit" className="img-box" aria-label="검색">
@@ -98,55 +117,58 @@ const SearchOverlay = ({ onClose }: Props) => {
               </button>
             </form>
 
-            {/* 입력중일 때만 자동완성(왼쪽 리스트) + 추천칩(오른쪽) */}
+            {/* 입력 중일 때 */}
             {isTyping && (
               <div className="typing-panel">
-                {/* 자동완성 */}
-                <ul className="preview-list">
-                  {previewList.map((t) => (
-                    <li key={t}>
-                      <button
-                        type="button"
-                        onClick={() => setText(t)}
-                        className="preview-item"
-                      >
-                        {t}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                {/* 검색을 시작했으면(TMDb 패널) / 아니면(추천패널) */}
+                {hasSearched ? (
+                  <div className={`tmdb-result ${loading ? "is-loading" : "auto-hide"}`}>
+                    {loading && <p className="hint">검색 중...</p>}
 
-                {/* TMDB 검색 결과 */}
-                <div className="tmdb-result">
-                  {loading && <p className='hint'>검색 중...</p>}
-                  {!loading && results.length === 0 && (
-                    <p className='hint'>검색 결과가 없습니다.</p>
-                  )}
-                  {!loading && results.length > 0 && (
-                    <ul className='result-list'>
-                      {results.map((r) => (
-                        <li key={`${r.kind}-${r.id}`}>
+                    {!loading && results.length === 0 && (
+                      <p className="hint">검색 결과가 없습니다.</p>
+                    )}
+
+                    {!loading && results.length > 0 && (
+                      <ul className="result-list">
+                        {results.map((r) => (
+                          <li key={`${r.kind}-${r.id}`}>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setText(r.label);
+                                onAddTextTodo(r.label);
+                              }}
+                            >
+                              <span className="badge">
+                                {r.kind === "movie" && "영화"}
+                                {r.kind === "collection" && "시리즈"}
+                                {r.kind === "person" && "인물"}
+                              </span>
+                              <span className="word">{r.label}</span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    <ul className="preview-list">
+                      {previewList.map((t) => (
+                        <li key={t}>
                           <button
                             type="button"
-                            onClick={() => {
-                              setText(r.label);
-                              onAddTextTodo(r.label);
-                            }}
+                            className="preview-item"
+                            onClick={() => setText(t)}
                           >
-                            <span className='badge'>
-                              {r.kind === "movie" && "영화"}
-                              {r.kind === "collection" && "시리즈"}
-                              {r.kind === "person" && "인물"}
-                            </span>
-                            <span className='word'>{r.label}</span>
+                            {t}
                           </button>
                         </li>
                       ))}
                     </ul>
-                  )}
-                </div>
-
-                {/* 추천 검색어(=트렌딩 키워드) */}
+                  </>
+                )}
                 <div className="recommend-box">
                   <p className="recommend-title">추천 검색어</p>
                   <div className="chips">
@@ -166,7 +188,7 @@ const SearchOverlay = ({ onClose }: Props) => {
             )}
           </div>
 
-          {/* 기본 화면(입력 없을 때): 최근검색어/실시간 인기 */}
+          {/* 입력 없을 때: 최근검색어 / 실시간 인기 */}
           {!isTyping && (
             <div className="search-bottom">
               <div className="latest-searches-box bottom-search-box">
@@ -195,10 +217,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                           onClick={() => onRemoveTodos(todo.id)}
                           aria-label="삭제"
                         >
-                          <img
-                            src="/images/icons/icon-search-remove.svg"
-                            alt="닫기"
-                          />
+                          <img src="/images/icons/icon-search-remove.svg" alt="" />
                         </button>
                       </li>
                     ))}
@@ -231,7 +250,7 @@ const SearchOverlay = ({ onClose }: Props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchOverlay
+export default SearchOverlay;
