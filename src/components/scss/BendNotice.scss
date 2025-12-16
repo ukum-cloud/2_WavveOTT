@@ -26,7 +26,7 @@
         }
       }
       &:last-child{
-        @include g.myFlex($jc:flex-end)
+        @include g.myFlex($jc:flex-end,$gap:20px)
       }
     }
   }
