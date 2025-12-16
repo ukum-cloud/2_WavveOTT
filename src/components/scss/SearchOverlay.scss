@@ -23,15 +23,13 @@
     .search-inner{
       position: relative;
       z-index: 10;
-      width: 100%;
       max-width: 1440px;
       margin: 0 auto;
 
       .keyboard-box{
-        width: 100%;
 
         .keyboard-top{
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid g.$color-secondary-white;
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
@@ -68,22 +66,69 @@
         }
         .typing-panel{
           display: flex;
+          align-items: flex-start;
           justify-content: space-between;
-          gap: 50px;
-          margin-top: 40px;
+          margin-top: 50px;
+          gap: 78px;
 
+          .tmdb-result{
+            width: 100%;
+            max-width: 800px;
+            max-height: 496px;
+
+            &.is-loading,
+            &.auto-hide {
+              .hint{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: g.$color-other4;
+                font-size: 18px;
+                line-height: 140%;
+                letter-spacing: -1%;
+                width: 100%;
+              }
+            }
+            .result-list{
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: flex-start;
+              gap: 20px;
+
+              li{
+                button{
+                  width: 100%;
+
+                  .badge{
+                    color: g.$color-secondary-white;
+                    font-weight: 700;
+                    font-size: 18px;
+                    line-height: 140%;
+                    letter-spacing: -1%;
+                  }
+                  .word{
+                    color: g.$color-other4;
+                    font-size: 18px;
+                    line-height: 140%;
+                    letter-spacing: -1%;
+                  }
+                }
+              }
+            }
+          }
           .preview-list{
-            width: 50%;
             display: flex;
             flex-direction: column;
             gap: 20px;
 
             >li{
+              width: 800px;
+
               .preview-item{
                 width: 100%;
                 text-align: left;
                 background: transparent;
-                border: 0;
                 padding: 0;
                 color: g.$color-other4;
                 font-size: 18px;
@@ -92,13 +137,15 @@
               }
             }
           }
+          
           .recommend-box{
-            width: 50%;
+            width: 100%;
 
             .recommend-title{
               font-size: 20px;
               line-height: 140%;
               margin-bottom: 18px;
+              color: g.$color-secondary-white;
             }
             .chips{
               display: flex;
@@ -109,7 +156,7 @@
                 border: 1px solid g.$color-secondary-white;
                 background: transparent;
                 color: g.$color-secondary-white;
-                padding: 4px 20px;
+                padding: 16px 20px;
                 border-radius: 100px;
                 font-size: 16px;
                 line-height: auto;
@@ -125,7 +172,7 @@
       }
       .search-bottom{
         width: 100%;
-        // min-height: 496px;
+        min-height: 496px;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;

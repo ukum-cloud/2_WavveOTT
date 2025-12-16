@@ -1,23 +1,57 @@
 import { useState } from 'react';
 import type { Episodes, Season } from '../types/movie';
 
+import CustomSelect from './CustomSelect';
+
 import './scss/ContentsEpisode.scss';
 
 interface EpisodeProps {
     episodes: Episodes[];
     seasons?: Season[];
+    episodeImages?: string[];
+}
+export interface SelectOption {
+    label: string;
+    path: string;
 }
 
-const ContentsEpisode = ({ episodes, seasons = [] }: EpisodeProps) => {
-    const [isSeasonOpen, setIsSeasonOpen] = useState(false);
-    const [isLatestOpen, setIsLatestOpen] = useState(false);
-
+const ContentsEpisode = ({ episodes, seasons = [], episodeImages }: EpisodeProps) => {
     const [selectedSeason, setSelectedSeason] = useState('전체 시즌');
     const [selectedSeasonNumber, setSelectedSeasonNumber] = useState<number | null>(null);
     const [selectedSort, setSelectedSort] = useState('오래된 순');
 
-    // 필터(오래된순/최신순)
-    const filteredEpisodes = episodes
+    // 시즌 옵션
+    const seasonOptions: SelectOption[] = [
+        { label: '전체 시즌', path: '' },
+        ...seasons.map((season) => ({
+            label: `${season.name}`,
+            path: season.season_number.toString(),
+        })),
+    ];
+
+    const handleSeasonSelect = (path: string, label: string) => {
+        setSelectedSeason(label);
+        setSelectedSeasonNumber(path ? Number(path) : null);
+    };
+
+    // 정렬 옵션
+    const sortOptions: SelectOption[] = [
+        { label: '오래된 순', path: '오래된 순' },
+        { label: '최신 순', path: '최신 순' },
+    ];
+
+    const handleSortSelect = (label: string) => {
+        setSelectedSort(label);
+    };
+
+    // episodes와 episodeImages를 같이 묶어서 처리
+    const episodesWithImages = episodes.map((e, index) => ({
+        ...e,
+        image: episodeImages?.[index] ?? '', //
+    }));
+
+    // 필터 & 정렬된 에피소드
+    const filteredEpisodes = episodesWithImages
         .filter((e) => !selectedSeasonNumber || e.season_number === selectedSeasonNumber)
         .sort((a, b) => {
             if (selectedSort === '오래된 순') {
@@ -32,78 +66,35 @@ const ContentsEpisode = ({ episodes, seasons = [] }: EpisodeProps) => {
             <div className="episode-menu">
                 {/* 시즌 select */}
                 <div className="episode-select season">
-                    {selectedSeason}
-                    <button onClick={() => setIsSeasonOpen(!isSeasonOpen)}>
-                        <img src="/images/icons/icon-arrow-down.svg" alt="arrowDownIcon" />
-                    </button>
-
-                    {isSeasonOpen && (
-                        <ul className="select-season-btn">
-                            <li
-                                onClick={() => {
-                                    setSelectedSeason('전체 시즌');
-                                    setSelectedSeasonNumber(null);
-                                    setIsSeasonOpen(false);
-                                }}
-                            >
-                                전체 시즌
-                            </li>
-                            {seasons.map((season) => (
-                                <li
-                                    key={season.id}
-                                    onClick={() => {
-                                        setSelectedSeason(season.name);
-                                        setSelectedSeasonNumber(season.season_number);
-                                        setIsSeasonOpen(false);
-                                    }}
-                                >
-                                    {season.name} ({season.episode_count}화)
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                    <CustomSelect
+                        options={seasonOptions}
+                        selectedValue={selectedSeason}
+                        onSelect={handleSeasonSelect}
+                        label="전체 시즌"
+                        width="256"
+                    />
                 </div>
+
                 {/* 정렬 select */}
                 <div className="episode-select latest">
-                    {selectedSort}
-                    <button onClick={() => setIsLatestOpen(!isLatestOpen)}>
-                        <img src="/images/icons/icon-arrow-down.svg" alt="arrowDownIcon" />
-                    </button>
-
-                    {isLatestOpen && (
-                        <ul className="select-season-btn">
-                            <li
-                                onClick={() => {
-                                    setSelectedSort('오래된 순');
-                                    setIsLatestOpen(false);
-                                }}
-                            >
-                                오래된 순
-                            </li>
-                            <li
-                                onClick={() => {
-                                    setSelectedSort('최신 순');
-                                    setIsLatestOpen(false);
-                                }}
-                            >
-                                최신 순
-                            </li>
-                        </ul>
-                    )}
+                    <CustomSelect
+                        options={sortOptions}
+                        selectedValue={selectedSort}
+                        onSelect={handleSortSelect}
+                        label="정렬"
+                        width="256"
+                    />
                 </div>
             </div>
             <ul className="episode-list">
                 {filteredEpisodes.map((e) => (
                     <li key={e.id} className="episode-card">
                         <div className="episodes-img">
-                            <img
-                                src={`https://image.tmdb.org/t/p/w500${e.still_path}`}
-                                alt={e.name}
-                            />
+                            <img src={e.image} alt={e.name} />
                         </div>
                         <div className="episodes-text">
                             <h3>
-                                시즌 {e.season_number}-{e.episode_number}화
+                                시즌 {e.season_number} {e.episode_number}화
                             </h3>
                             <p>{e.runtime}분</p>
                             <p className="episode-overview">{e.overview}</p>

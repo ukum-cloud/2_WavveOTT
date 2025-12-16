@@ -12,12 +12,12 @@ header {
     rgba(0, 0, 0, 0.5) 50%,
     rgba(0, 0, 0, 0) 100%
   );
-  &.active{
+  &.active {
     background-color: g.$color-font-black;
     transition: 0.6s;
-    .logo{
-      img{
-        svg{
+    .logo {
+      img {
+        svg {
           color: g.$color-font-primary;
         }
       }
@@ -81,6 +81,7 @@ header {
     }
     > .user-info {
       position: relative;
+
       .user {
         display: flex;
         align-items: center;
@@ -109,26 +110,38 @@ header {
           background-image: url("/images/icons/icon-char-4.svg");
         }
       }
+      &:hover {
+        .user-list {
+          display: flex;
+        }
+      }
       .user-list {
+        margin-top: 10px;
+        padding: 20px;
         position: absolute;
         top: 100%;
         right: 0;
-        padding: 12px;
-        background-color: #12141d;
+        width: 140px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-radius: 12px;
+        border: 1px solid g.$color-secondary-dark3;
+        background-color: g.$color-secondary-black;
+        display: none;
         li {
+          font-family: "Wave";
+          font-size: 0.875;
           width: max-content;
-          line-height: 1.6;
-        }
-        a {
-          color: g.$color-font-white;
+          line-height: 1;
         }
       }
     }
   }
-  &.search-open{
+  &.search-open {
     background: g.$color-font-black;
   }
-  &.active.search-open{
+  &.active.search-open {
     background: g.$color-font-black;
   }
 }

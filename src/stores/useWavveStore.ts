@@ -84,6 +84,7 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                     wavveVideo = videoData.results.find((v: Video) => v.site === 'youtube') || null;
                 }
 
+                /* 작감배 찾기 */
                 //배우,감독 등 불러오기
                 const credit = await fetch(
                     `https://api.themoviedb.org/3/tv/${tv.id}/credits?api_key=${API_KEY}&language=ko-KR`
@@ -113,10 +114,12 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                 return {
                     ...tv,
                     certification,
+                    seasons,
                     seasonsNumber,
                     runtime,
                     episodeCount,
                     logo_path: logo,
+                    logo,
                     videoData,
                     videos,
                     wavveVideo,

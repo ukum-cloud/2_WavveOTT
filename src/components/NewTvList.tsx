@@ -7,6 +7,7 @@ import { Navigation } from 'swiper/modules';
 import type { Tv } from '../types/movie';
 
 import { getGenres, getGrades } from '../utils/mapping';
+import { backgroundImage, logoImage } from '../utils/getListData';
 
 interface NewTvListProps {
     title: string;
@@ -36,7 +37,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
     };
 
     const handleBeforeInit = (swiper: SwiperClass) => {
-        // navigation params 타입 체크 후 ref 할당
+        // navigation params 타입 체크
         if (typeof swiper.params.navigation !== 'boolean') {
             const navigation = swiper.params.navigation;
             if (navigation) {
@@ -70,7 +71,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                         <div className="poster-wrap badge-new">
                             <img
                                 className="main"
-                                src={`https://image.tmdb.org/t/p/w500${t.poster_path}`}
+                                src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
                                 alt={t.title}
                             />
                             {(t.tvsVideo?.key || t.backdrop_path || t.poster_path) && (
@@ -84,16 +85,18 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                             <iframe
                                                 className="hover video"
                                                 src={`https://www.youtube.com/embed/${t.tvsVideo.key}?autoplay=1&mute=1`}
-                                                allow="autoplay; fullscreen"
                                                 allowFullScreen
                                                 title={t.title}
                                             />
                                         ) : (
                                             <img
                                                 className="hover image"
-                                                src={`https://image.tmdb.org/t/p/w500${
-                                                    t.backdrop_path || t.poster_path
-                                                }`}
+                                                src={
+                                                    backgroundImage(t.id) ||
+                                                    (t.backdrop_path
+                                                        ? `https://image.tmdb.org/t/p/original${t.backdrop_path}`
+                                                        : undefined)
+                                                }
                                                 alt={t.title}
                                             />
                                         )}
@@ -101,14 +104,19 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                         <div className="logo-box">
                                             <p className="content-logo">
                                                 <img
-                                                    src={`https://image.tmdb.org/t/p/w500${t.logo}`}
+                                                    src={
+                                                        logoImage(t.id) ||
+                                                        (t.logo
+                                                            ? `https://image.tmdb.org/t/p/original${t.logo}`
+                                                            : undefined)
+                                                    }
                                                     alt="content-logo"
                                                 />
                                             </p>
                                             {hoverId === t.id && t.tvsVideo?.key && (
                                                 <img
                                                     src="/images/icons/icon-volume-off.svg"
-                                                    alt=""
+                                                    alt="sound-icon"
                                                     className="sound-icon"
                                                 />
                                             )}
@@ -126,7 +134,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                             {getGenres(t.genre_ids).slice(0, 2).join(' · ') ||
                                                 '기타'}
                                         </p>
-                                        <p>에피소드 {t.episodeCount}</p>
+                                        <p>에피소드 {t.episodes.length}</p>
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">

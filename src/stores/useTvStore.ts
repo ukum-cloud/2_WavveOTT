@@ -128,6 +128,7 @@ export const useTvStore = create<TvState>((set) => ({
                     videoData,
                     tvsVideo,
                     certification,
+                    seasons,
                     seasonsNumber,
                     runtime,
                     episodeCount,

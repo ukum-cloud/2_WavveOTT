@@ -5,6 +5,7 @@ import type {
   TmdbMovieResponse,
   TmdbPersonResponse,
   SearchResultItem,
+  TmdbTrendingResponse,
 } from "../types/searchtodo";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string;
@@ -105,4 +106,24 @@ export const useSearchStore = create<SearchStore>((set) => ({
     ];
     set({results: merged, loading:false});
   },
+
+  trendingKeywords: [],
+
+  onFetchTrendingKeywords: async () => {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=ko-KR`
+    );
+    const data: TmdbTrendingResponse = await res.json();
+
+    const keywords = data.results
+      .map((item) => {
+        if (item.media_type === "movie") return item.title;
+        if (item.media_type === "tv" || item.media_type === "person") return item.name;
+        return null;
+      })
+      .filter((v): v is string => Boolean(v))
+      .slice(0, 10);
+
+    set({trendingKeywords: keywords});
+  }
 }))

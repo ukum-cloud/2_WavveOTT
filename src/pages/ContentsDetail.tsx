@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-import { useMovieStore } from '../stores/useMovieStore';
 import { useWavveStore } from '../stores/useWavveStore';
 import { useTvStore } from '../stores/useTvStore';
 
 import { getGenres, getGrades } from '../utils/mapping';
+import { getContentImages } from '../utils/getData';
 
 import ContentsEpisode from '../components/ContentsEpisode';
 import ContentsRelative from '../components/ContentsRelative';
@@ -16,7 +16,6 @@ import './scss/ContentsDetail.scss';
 const ContentsDetail = () => {
     const { type, id } = useParams<{ type: string; id: string }>();
 
-    const { popularMovies, onFetchPopular } = useMovieStore();
     const { wavves, selectedWavve, onFetchWavve, setSelectedWavve } = useWavveStore();
     const { tvs, selectedTv, onFetchTv, setSelectedTv } = useTvStore();
 
@@ -26,12 +25,11 @@ const ContentsDetail = () => {
     useEffect(() => {
         if (!type) return;
 
-        if (type === 'movie') onFetchPopular();
         if (type === 'tv') {
             onFetchTv();
             onFetchWavve();
         }
-    }, [type, onFetchPopular, onFetchWavve, onFetchTv]);
+    }, [type, onFetchWavve, onFetchTv]);
 
     // type에 따라 select
     useEffect(() => {
@@ -50,10 +48,15 @@ const ContentsDetail = () => {
             if (tvs.length > 0) {
                 setSelectedTv(Number(id));
             }
-        }
-    }, [id, type, popularMovies, wavves, tvs, setSelectedWavve, setSelectedTv]);
 
-    // 공통 콘텐츠
+            // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
+            // if (tvs.length > 0) {
+            //     setSelectedTv(Number(id));
+            // }
+        }
+    }, [id, type, wavves, tvs, setSelectedWavve, setSelectedTv]);
+
+    // 전체 콘텐츠 (wavves + tvs)
     let selectedContent = null;
 
     if (type === 'tv') {
@@ -71,24 +74,18 @@ const ContentsDetail = () => {
 
     console.log('확인', selectedContent);
 
+    const { logo, background, episodeImages } = getContentImages(selectedContent);
+
     return (
         <main className="main-detail">
             <div className="inner">
                 <div className="detail-left">
                     <div className="detail-img-box">
                         <p className="detail-backdrop">
-                            <img
-                                src={`https://image.tmdb.org/t/p/w500${
-                                    selectedContent.backdrop_path || selectedContent.poster_path
-                                }`}
-                                alt={selectedContent.title}
-                            />
+                            {background && <img src={background} alt={selectedContent.title} />}
                         </p>
                         <p className="detail-logo">
-                            <img
-                                src={`https://image.tmdb.org/t/p/w500${selectedContent.logo_path}`}
-                                alt=""
-                            />
+                            {logo && <img src={logo} alt={`${selectedContent.title} logo`} />}
                         </p>
                     </div>
                     <div className="detail-title-box">
@@ -101,19 +98,19 @@ const ContentsDetail = () => {
                             </p>
                             <p className="title-vote seperate">
                                 <img src="/images/icons/icon-star.svg" alt="starIcon" />
-                                <span>{selectedContent.vote_average}</span>
+                                <span>{selectedContent.vote_average.toFixed(1)}</span>
                             </p>
                             <p className="title-genre seperate">
                                 {getGenres(selectedContent.genre_ids).slice(0, 2).join(' · ') ||
                                     '기타'}
                             </p>
-                            <p className="title-episode">에피소드 {selectedContent.episodeCount}</p>
+                            <p className="title-episode">
+                                에피소드 {selectedContent.episodes.length}
+                            </p>
                         </div>
                         <div className="detail-title-right">
-                            <p>
-                                <img src="/images/icons/icon-heart-sm.svg" alt="heartIcon" />
-                            </p>
-                            <p>공유</p>
+                            <button className="detail-heart-btn"></button>
+                            <button className="detail-share-btn"></button>
                         </div>
                     </div>
                     <div className="detail-text-box">
@@ -123,7 +120,9 @@ const ContentsDetail = () => {
                                 <p>{selectedContent.overview}</p>
                             </div>
                             <div className="detail-content-right">
-                                <button className="btn default primary">이용권 구매하기</button>
+                                <Link to="/ticket" className="btn default primary">
+                                    이용권 구매하기
+                                </Link>
                             </div>
                         </div>
                         <div className="detail-cast">
@@ -172,19 +171,22 @@ const ContentsDetail = () => {
                 <div className="detail-right">
                     <div className="detail-menu-wrap">
                         <button
-                            className={activeMenu === 'episode' ? 'active' : ''}
+                            className={activeMenu === 'episode' ? 'active' : 'detail-menu-btn'}
                             onClick={() => setActiveMenu('episode')}
                         >
                             에피소드
                         </button>
+                        {/* 관련영상이 있을 때만 버튼 표시 */}
+                        {selectedContent.videos.length > 0 && (
+                            <button
+                                className={activeMenu === 'relative' ? 'active' : 'detail-menu-btn'}
+                                onClick={() => setActiveMenu('relative')}
+                            >
+                                관련영상
+                            </button>
+                        )}
                         <button
-                            className={activeMenu === 'relative' ? 'active' : ''}
-                            onClick={() => setActiveMenu('relative')}
-                        >
-                            관련영상
-                        </button>
-                        <button
-                            className={activeMenu === 'recommend' ? 'active' : ''}
+                            className={activeMenu === 'recommend' ? 'active' : 'detail-menu-btn'}
                             onClick={() => setActiveMenu('recommend')}
                         >
                             추천 컨텐츠
@@ -198,6 +200,7 @@ const ContentsDetail = () => {
                             <ContentsEpisode
                                 episodes={selectedContent.episodes}
                                 seasons={selectedContent.seasons}
+                                episodeImages={episodeImages}
                             />
                         )}
                         {activeMenu === 'relative' && (
@@ -206,7 +209,7 @@ const ContentsDetail = () => {
                                 backdrop={selectedContent.backdrop_path}
                             />
                         )}
-                        {activeMenu === 'recommend' && <ContentsRecommend />}
+                        {activeMenu === 'recommend' && <ContentsRecommend wavves={wavves} />}
                     </div>
                 </div>
             </div>

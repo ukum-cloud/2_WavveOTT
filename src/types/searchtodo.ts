@@ -65,10 +65,41 @@ export interface SearchResultItem {
   profile_path?: string | null; // person용
 }
 
+// TMDB Trending (movie / tv 공통)
+export interface TmdbTrendingMovie {
+  id: number;
+  media_type: "movie";
+  title: string;
+}
+
+export interface TmdbTrendingTv {
+  id: number;
+  media_type: "tv";
+  name: string;
+}
+
+export interface TmdbTrendingPerson {
+  id: number;
+  media_type: "person";
+  name: string;
+}
+
+export type TmdbTrendingItem = TmdbTrendingMovie | TmdbTrendingTv | TmdbTrendingPerson;
+
+export interface TmdbTrendingResponse {
+  page: number;
+  results: TmdbTrendingItem[];
+  total_pages: number;
+  total_results: number;
+}
+
 // zustand 타입(최근검색어)
 export interface SearchText {
   todos: Search[];
   onAddTextTodo: (text: string) => void;
   onRemoveTodos: (id: number) => void;
   onRemoveAll: () => void;
+
+  trendingKeywords: string[];
+  onFetchTrendingKeywords: () => Promise<void>;
 }
