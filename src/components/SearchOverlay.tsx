@@ -86,16 +86,16 @@ const SearchOverlay = ({ onClose }: Props) => {
     onAddTextTodo(trimmed);
   };
 
-  useEffect(() => {
-    if (!isTyping) return;
-    if (loading) return;
+  // useEffect(() => {
+  //   if (!isTyping) return;
+  //   if (loading) return;
 
-    // 검색이 끝났으면 1.5초 후 추천/자동완성으로 복귀
-    if (hasSearched) {
-      const t = window.setTimeout(() => setHasSearched(false), 1500);
-      return () => window.clearTimeout(t);
-    }
-  }, [isTyping, loading, hasSearched]);
+  //   // 검색이 끝났으면 1.5초 후 추천/자동완성으로 복귀
+  //   if (hasSearched) {
+  //     const t = window.setTimeout(() => setHasSearched(false), 1500);
+  //     return () => window.clearTimeout(t);
+  //   }
+  // }, [isTyping, loading, hasSearched]);
 
   return (
     <div className="search-popup" role="dialog" aria-modal="true">
@@ -104,12 +104,8 @@ const SearchOverlay = ({ onClose }: Props) => {
         <div className="search-inner">
           <div className="keyboard-box">
             <form className="keyboard-top" name="search" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="장르, 제목, 배우로 검색해보세요."
-                className="font-wave"
-                id="search"
-                value={text}
+              <input type="text" placeholder="장르, 제목, 배우로 검색해보세요."
+                className="font-wave" id="search" value={text}
                 onChange={(e) => setText(e.target.value)}
               />
               <button type="submit" className="img-box" aria-label="검색">
@@ -123,6 +119,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                 {/* 검색을 시작했으면(TMDb 패널) / 아니면(추천패널) */}
                 {hasSearched ? (
                   <div className={`tmdb-result ${loading ? "is-loading" : "auto-hide"}`}>
+                    
                     {loading && <p className="hint">검색 중...</p>}
 
                     {!loading && results.length === 0 && (
@@ -133,12 +130,9 @@ const SearchOverlay = ({ onClose }: Props) => {
                       <ul className="result-list">
                         {results.map((r) => (
                           <li key={`${r.kind}-${r.id}`}>
-                            <button
-                              type="button"
-                              onClick={() => {
+                            <button type="button" onClick={() => {
                                 setText(r.label);
-                                onAddTextTodo(r.label);
-                              }}
+                                onAddTextTodo(r.label); }}
                             >
                               <span className="badge">
                                 {r.kind === "movie" && "영화"}
@@ -157,11 +151,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                     <ul className="preview-list">
                       {previewList.map((t) => (
                         <li key={t}>
-                          <button
-                            type="button"
-                            className="preview-item"
-                            onClick={() => setText(t)}
-                          >
+                          <button type="button" className="preview-item" onClick={() => setText(t)}>
                             {t}
                           </button>
                         </li>
@@ -173,12 +163,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                   <p className="recommend-title">추천 검색어</p>
                   <div className="chips">
                     {trendingKeywords.slice(0, 8).map((k) => (
-                      <button
-                        type="button"
-                        key={k}
-                        className="chip"
-                        onClick={() => setText(k)}
-                      >
+                      <button type="button" key={k} className="chip" onClick={() => setText(k)}>
                         {k}
                       </button>
                     ))}
