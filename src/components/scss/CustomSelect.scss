@@ -1,4 +1,4 @@
-@use "../../App.scss" as g;
+@use '../../App.scss' as g;
 
 .ui-select {
     position: relative;
@@ -19,7 +19,7 @@
     background-repeat: no-repeat;
     background-image: url(/images/button/btn-prev.png);
 
-    &[aria-expanded="false"] {
+    &[aria-expanded='false'] {
         background-image: url(/images/button/btn-next.png);
     }
 }
@@ -58,7 +58,7 @@
 
     li {
         line-height: 40px;
-        padding: 0 40px 0 20px;
+        padding: 0 98px 0 98px;
 
         &:hover {
             color: g.$color-font-white;
@@ -67,10 +67,7 @@
 
         &.selected {
             color: g.$color-font-white;
-            background-color: g.$color-secondary-dark2;
-
+            // background-color: g.$color-secondary-dark2;
         }
     }
-
-
 }

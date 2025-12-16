@@ -18,6 +18,7 @@
 
             .detail-img-box {
                 position: relative;
+
                 .detail-backdrop {
                     img {
                         width: 100%;
@@ -27,6 +28,7 @@
                     position: absolute;
                     left: 5%;
                     bottom: 5%;
+                    width: 300px;
                     img {
                         width: 100%;
                     }
@@ -49,7 +51,7 @@
                 }
 
                 .detail-title-right {
-                    @include g.myFlex($jc: unset);
+                    @include g.myFlex($jc: unset, $gap: 20px);
                 }
             }
             .detail-text-box {
@@ -133,15 +135,20 @@
             }
         }
         .detail-right {
-            max-width: calc(1720px - 1076px);
+            width: calc(1720px - 1076px);
             border: 1px solid green;
 
             .detail-menu-wrap {
                 @include g.myFlex($jc: unset, $gap: 30px);
                 padding: 20px 0 0 60px;
+                width: 100%;
 
                 .active {
                     border-bottom: 4px solid g.$color-primary;
+                }
+
+                .detail-menu-btn {
+                    border-bottom: 4px solid g.$color-bg-dark;
                 }
 
                 > button {
