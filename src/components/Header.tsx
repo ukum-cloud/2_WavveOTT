@@ -24,8 +24,7 @@ const mainMenu: MenuItem[] = [
 
 const Header = () => {
   // 스토어에서 필요한 모든 상태 가져오기
-  const { user, onLogout, selectedCharId, selectedCharNickname } =
-    useAuthStore();
+  const { user, onLogout, selectedCharId, selectedCharNickname } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -52,19 +51,13 @@ const Header = () => {
   }, []);
 
   // 조건부 렌더링 (경로 확인)
-  const isChoiceCharPage = location.pathname
-    .toLowerCase()
-    .includes("/choice-char");
+  const isChoiceCharPage = location.pathname.toLowerCase().includes("/choice-char");
 
   // 키즈 캐릭터(ID: 4)가 선택되었는지 확인
   const isKidsMode = selectedCharId === 4;
 
   // 닉네임의 첫 글자 계산
-  const userInitial = selectedCharNickname
-    ? selectedCharNickname.charAt(0)
-    : user
-    ? "U"
-    : "W";
+  const userInitial = selectedCharNickname ? selectedCharNickname.charAt(0) : user ? "U" : "W";
 
   // ID에 따른 동적 클래스 이름 계산
   const charClass = selectedCharId ? `char-${selectedCharId}` : "char-1";
@@ -134,7 +127,7 @@ const Header = () => {
             <div className="header-right">
               {/* 키즈 모드에서는 검색 버튼만 숨김 */}
               {!isKidsMode && (
-                <p className="search" onClick={() => setSearchOpen(true)}>
+                <p className="search" onClick={() => setSearchOpen((prev) => !prev)}>
                   <span>검색</span>
                 </p>
               )}
@@ -161,10 +154,7 @@ const Header = () => {
                       <Link to={"/choice-char"}>프로필변경</Link>
                     </li>
                     <li>
-                      <button
-                        onClick={handleLogout}
-                        className="btn small secondary-line"
-                      >
+                      <button onClick={handleLogout} className="btn small secondary-line">
                         로그아웃
                       </button>
                     </li>

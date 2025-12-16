@@ -83,7 +83,7 @@ const MainSlider = () => {
           <p className={mStyle.textMB}>{main.main_desc}</p>
         </div>
 
-        <div className={`${mStyle.btnBox} ${isPlaying ? mStyle.active : ""}`}>
+        <div className={mStyle.btnBox}>
           <div className={mStyle.btnBoxT}>
             <span className={mStyle.playBtn}></span>
             <span
