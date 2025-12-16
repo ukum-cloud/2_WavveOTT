@@ -15,6 +15,8 @@ type SearchStore = SearchText & {
   loading: boolean;
   onFetchSearch: (query: string) => Promise<void>;
   onClearResults: () => void;
+
+  fetchSearchAndGetFirst: (query: string) => Promise<SearchResultItem | null>;
 };
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -125,5 +127,10 @@ export const useSearchStore = create<SearchStore>((set) => ({
       .slice(0, 10);
 
     set({trendingKeywords: keywords});
-  }
+  },
+
+  fetchSearchAndGetFirst: async (query: string) => {
+    await useSearchStore.getState().onFetchSearch(query);
+    return useSearchStore.getState().results[0] ?? null;
+  },
 }))

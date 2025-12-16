@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./scss/SearchOverlay.scss";
 import { useSearchStore } from "../stores/useSearchStore";
+import { useNavigate } from "react-router-dom";
+
 
 interface Props {
   onClose: () => void;
@@ -24,18 +26,21 @@ const SearchOverlay = ({ onClose }: Props) => {
 
   const trendingKeywords = useSearchStore((s) => s.trendingKeywords);
   const onFetchTrendingKeywords = useSearchStore((s) => s.onFetchTrendingKeywords);
+  const fetchSearchAndGetFirst = useSearchStore((s) => s.fetchSearchAndGetFirst);
+
+  const navigate = useNavigate();
 
   const trimmed = text.trim();
   const isTyping = trimmed.length > 0;
 
   // 오버레이 떠있을 때만 body 스크롤 잠금
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
+  // useEffect(() => {
+  //   const prev = document.body.style.overflow;
+  //   document.body.style.overflow = "hidden";
+  //   return () => {
+  //     document.body.style.overflow = prev;
+  //   };
+  // }, []);
 
   // 현재 시간 표시
   useEffect(() => {
@@ -86,6 +91,26 @@ const SearchOverlay = ({ onClose }: Props) => {
     onAddTextTodo(trimmed);
   };
 
+  const goDetailByKeyword = async (keyword: string) => {
+    const trimmed = keyword.trim();
+    if (!trimmed) return;
+
+    setText(trimmed);
+    onAddTextTodo(trimmed);
+
+    const first = await fetchSearchAndGetFirst(trimmed);
+    if (!first) return;
+
+    if (first.kind === "movie") {
+      navigate(`/moviedetail/movie/${first.id}`);
+    } else {
+      navigate(`/contentsdetail/${first.kind}/${first.id}`);
+    }
+
+    onClose();
+  };
+
+
   return (
     <div className="search-popup" role="dialog" aria-modal="true">
       <div className="search-inner-wrap">
@@ -121,7 +146,14 @@ const SearchOverlay = ({ onClose }: Props) => {
                           <li key={`${r.kind}-${r.id}`}>
                             <button type="button" onClick={() => {
                                 setText(r.label);
-                                onAddTextTodo(r.label); }}
+                                onAddTextTodo(r.label);
+                                if (r.kind === "movie"){
+                                  navigate(`/moviedetail/movie/${r.id}`);
+                                } else {
+                                  navigate(`/contentsdetail/${r.kind}/${r.id}`);
+                                }
+
+                                onClose(); }}
                             >
                               <span className="badge">
                                 {r.kind === "movie" && "영화"}
@@ -140,7 +172,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                     <ul className="preview-list">
                       {previewList.map((t) => (
                         <li key={t}>
-                          <button type="button" className="preview-item" onClick={() => setText(t)}>
+                          <button type="button" className="preview-item" onClick={() => goDetailByKeyword(t)}>
                             {t}
                           </button>
                         </li>
@@ -152,7 +184,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                   <p className="recommend-title font-wave">추천 검색어</p>
                   <div className="chips">
                     {trendingKeywords.slice(0, 8).map((k) => (
-                      <button type="button" key={k} className="chip" onClick={() => setText(k)}>
+                      <button type="button" key={k} className="chip" onClick={() => goDetailByKeyword(k)}>
                         {k}
                       </button>
                     ))}
@@ -175,7 +207,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                     <ul className="latest-searches-list">
                       {todos.map((todo) => (
                         <li key={todo.id}>
-                          <button type="button" className="latest-text" onClick={() => setText(todo.text)}>
+                          <button type="button" className="latest-text" onClick={() => goDetailByKeyword(todo.text)}>
                             {todo.text}
                           </button>
                           <button type="button" onClick={() => onRemoveTodos(todo.id)} aria-label="삭제">
@@ -199,7 +231,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                   <ol className="popular-searches-list">
                     {trendingKeywords.slice(0, 10).map((t, i) => (
                       <li key={t}>
-                        <button type="button" onClick={() => setText(t)}>
+                        <button type="button" onClick={() => goDetailByKeyword(t)}>
                           <span className="rank font-wave">{i + 1}</span>
                           <span className="word">{t}</span>
                         </button>
