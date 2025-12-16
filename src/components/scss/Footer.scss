@@ -17,6 +17,7 @@ footer {
             > .goToTop {
                 width: 50px;
                 height: 50px;
+                cursor: pointer;
                 background-repeat: no-repeat;
                 cursor: pointer;
                 // 기본상태 안보이기
@@ -27,10 +28,10 @@ footer {
             }
             > .chatbot {
                 background-image: url(/images/icons/icon-chatbot.png);
-                &.visible {
-                    opacity: 1;
-                    pointer-events: auto; // 클릭 활성화
-                }
+                // &.visible {
+                //     opacity: 1;
+                //     pointer-events: auto; // 클릭 활성화
+                // }
             }
             > .goToTop {
                 background-image: url(/images/icons/icon-top.png);
@@ -42,80 +43,80 @@ footer {
                     }
                 }
             }
-            .footer-item {
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-between;
-                margin-bottom: 60px;
+        }
+        .footer-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 60px;
 
-                .footer-left {
-                    .left-top {
-                        display: flex;
-                        gap: 40px;
-                        margin-bottom: 30px;
-                        font-family: 'wave';
+            .footer-left {
+                .left-top {
+                    display: flex;
+                    gap: 40px;
+                    margin-bottom: 30px;
+                    font-family: 'wave';
 
-                        p {
-                            font-size: 16px;
-                            color: g.$color-other4;
-                            line-height: 160%;
-                            letter-spacing: -0.2px;
-                        }
-                    }
-                    .left-bottom {
-                        p {
-                            font-size: 16px;
-                            color: g.$color-other3;
-                            line-height: 180%;
-                            letter-spacing: -0.2px;
-                        }
+                    p {
+                        font-size: 16px;
+                        color: g.$color-other4;
+                        line-height: 160%;
+                        letter-spacing: -0.2px;
                     }
                 }
-                .footer-right {
-                    .right-item {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
-                        gap: 16px;
-
-                        .item-title {
-                            color: g.$color-other4;
-                            font-size: 18px;
-                            line-height: 160%;
-                            letter-spacing: -0.2px;
-                        }
-                        .item-phone {
-                            color: g.$color-other3;
-                            font-size: 32px;
-                            font-weight: 500;
-                            line-height: 160%;
-                            letter-spacing: -0.2px;
-                        }
-                        .work-hour {
-                            color: g.$color-other3;
-                            font-size: 14px;
-                            line-height: 180%;
-                            letter-spacing: -0.2px;
-                        }
+                .left-bottom {
+                    p {
+                        font-size: 16px;
+                        color: g.$color-other3;
+                        line-height: 180%;
+                        letter-spacing: -0.2px;
                     }
                 }
             }
-            .footer-bottom {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
-
-                .footer-logo {
-                    width: 200px;
-                    height: 42px;
-                }
-                .app-icon-box {
+            .footer-right {
+                .right-item {
                     display: flex;
-                    align-items: center;
+                    flex-direction: column;
+                    align-items: flex-start;
                     gap: 16px;
+
+                    .item-title {
+                        color: g.$color-other4;
+                        font-size: 18px;
+                        line-height: 160%;
+                        letter-spacing: -0.2px;
+                    }
+                    .item-phone {
+                        color: g.$color-other3;
+                        font-size: 32px;
+                        font-weight: 500;
+                        line-height: 160%;
+                        letter-spacing: -0.2px;
+                    }
+                    .work-hour {
+                        color: g.$color-other3;
+                        font-size: 14px;
+                        line-height: 180%;
+                        letter-spacing: -0.2px;
+                    }
                 }
             }
         }
-        background-color: #12141d;
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
+            .footer-logo {
+                width: 200px;
+                height: 42px;
+            }
+            .app-icon-box {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+        }
     }
+    background-color: #12141d;
 }
