@@ -1,5 +1,19 @@
 .sectionBox {
+  &.active {
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      // background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 1%),
+      //   linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 5%),
+      //   linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 1%);
+    }
+  }
   .visualBox {
+    overflow: hidden;
     max-height: 100vh;
     max-width: 100vw;
     object-fit: cover;
@@ -10,33 +24,21 @@
     }
     video {
       height: 100vh;
-      padding-top: 40px;
-      object-fit: fill;
-    }
-    .pauseOverlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        90deg,
-        rgb(10, 10, 10, 1) 0%,
-        rgb(10, 10, 10, 1) 14%,
-        rgb(10, 10, 10, 0) 100%
-      );
-      // z-index: 3;
-      transition: opacity 0.2s ease;
+      object-fit: cover;
+      transform: scaleY(1.1);
     }
     .visualBoxOverlay {
       position: absolute;
       display: block;
+      bottom: 0;
       width: 100vw;
-      height: 100px;
+      height: 8%;
       background: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.9) 0%,
         rgba(0, 0, 0, 0.5) 50%,
         rgba(0, 0, 0, 0) 100%
       );
-      bottom: 0;
     }
   }
   .textBox {
@@ -62,6 +64,12 @@
       flex-direction: column;
       align-items: start;
       gap: 30px;
+      .tTag {
+        height: 34px;
+      }
+      .tTitle {
+        height: 220px;
+      }
     }
 
     .textM {
@@ -69,20 +77,34 @@
       display: flex;
       flex-direction: column;
       align-items: start;
+
       // height: 34px;
       gap: 16px;
       font-weight: 500;
       .textMT {
+        height: 24px;
         display: flex;
+        align-items: center;
         gap: 16px;
+        .ageBadge {
+          height: 34px;
+          object-fit: contain;
+        }
+      }
+      .textMB {
+        font-size: 24px;
       }
     }
 
     .btnBox {
+      &.active {
+        z-index: 1001;
+      }
       animation-delay: 0.8s;
       display: flex;
       flex-direction: column;
       gap: 20px;
+      margin-top: 20px;
 
       .btnBoxT {
         display: flex;
@@ -91,11 +113,37 @@
         span {
           cursor: pointer;
         }
+        .playBtn {
+          width: 68px;
+          height: 68px;
+          background-image: url("/images/icons/icon-play.svg");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+
+          &:hover {
+            background-image: url("/images/icons/icon-play-hover.svg");
+          }
+        }
+        .heartBtn {
+          width: 68px;
+          height: 68px;
+          background-image: url("/images/icons/icon-heart-sm.svg");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          &:hover {
+            background-image: url("/images/icons/icon-heart-hover.svg");
+          }
+          &.active {
+            background-image: url("/images/icons/icon-heart-active.svg");
+          }
+        }
       }
       .btnBoxB {
+        cursor: pointer;
         text-decoration: underline;
         text-underline-offset: 2px;
-        cursor: pointer;
       }
     }
   }

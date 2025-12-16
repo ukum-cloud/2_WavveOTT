@@ -28,10 +28,12 @@ import Agreement from "./pages/Agreement";
 import NoticeA from "./pages/NoticeA";
 import NoticeAdetail from "./pages/NoticeAdetail";
 import PaymentFinish from "./pages/PaymentFinish";
+import ScrollTop from "./components/ScrollTop";
 
 function App() {
   return (
     <>
+      <ScrollTop />
       <Header />
       <Routes>
         {/*  */}
