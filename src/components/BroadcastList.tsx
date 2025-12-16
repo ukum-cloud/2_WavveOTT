@@ -15,7 +15,7 @@ const broadcastBtns: LogoBtn[] = [
   {id: 3, name: "jtbc", image: "/images/badge/badge-jtbc-logo.svg", url: "/"},
   {id: 4, name: "웹예능", image: "/images/badge/badge-웹예능-logo.svg", url: "/"},
   {id: 5, name: "cjenm", image: "/images/badge/badge-cjenm-logo.svg", url: "/"},
-  {id: 6, name: "키즈", image: "/images/badge/badge-키즈-logo.svg", url: "/"}
+  {id: 6, name: "키즈", image: "/images/badge/badge-키즈-logo.svg", url: "/kids"}
 ]
 
 const BroadcastList = () => {

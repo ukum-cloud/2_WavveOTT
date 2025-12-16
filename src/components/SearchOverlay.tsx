@@ -20,18 +20,26 @@ const recommendKeywords = [
 const SearchOverlay = ({ onClose }: Props) => {
   const [text, setText] = useState("");
   const [nowDate, setNowDate] = useState<string>("");
-  const {todos, onAddTextTodo, onRemoveTodos, onRemoveAll} = useSearchStore();
+  const {
+    todos, onAddTextTodo, onRemoveTodos, onRemoveAll,
+    results, loading, onFetchSearch, onClearResults,
+  } = useSearchStore();
 
 
   const trimmed = text.trim();
   const isTyping = trimmed.length > 0;
 
+  useEffect(() => {
+    if (!isTyping) {
+      onClearResults();
+      return;
+    }
+    onFetchSearch(trimmed);
+  }, [isTyping, trimmed, onFetchSearch, onClearResults]);
+
   const previewList = useMemo(() => {
     if (!isTyping) return [];
-    // 일단 “추천키워드”에서 자동완성처럼 보이게 (나중에 TMDB 결과로 교체 가능)
-    return recommendKeywords
-      .filter((k) => k.includes(trimmed))
-      .slice(0, 10);
+    return recommendKeywords.filter((k) => k.includes(trimmed)).slice(0, 10);
   }, [isTyping, trimmed]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -62,9 +70,10 @@ const SearchOverlay = ({ onClose }: Props) => {
 
     update(); // 최초 1회
     const timer = setInterval(update, 60000);
-
     return () => clearInterval(timer);
   }, []);
+
+  
 
   return (
     <div className='search-popup' role="dialog" aria-modal="true">
@@ -99,6 +108,36 @@ const SearchOverlay = ({ onClose }: Props) => {
                     </li>
                   ))}
                 </ul>
+                {/* TMDB 결과 */}
+                <div className="tmdb-result">
+                  {loading && <p className="hint">검색 중...</p>}
+                  {!loading && results.length === 0 && (
+                    <p className="hint">검색 결과가 없습니다.</p>
+                  )}
+
+                  {!loading && results.length > 0 && (
+                    <ul className="result-list">
+                      {results.map((r) => (
+                        <li key={`${r.kind}-${r.id}`}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setText(r.label);
+                              onAddTextTodo(r.label);
+                            }}
+                          >
+                            <span className="badge">
+                              {r.kind === "movie" && "영화"}
+                              {r.kind === "collection" && "시리즈"}
+                              {r.kind === "person" && "인물"}
+                            </span>
+                            <span className="word">{r.label}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
                 <div className="recommend-box">
                   <p className="recommend-title">추천 검색어</p>
@@ -119,7 +158,7 @@ const SearchOverlay = ({ onClose }: Props) => {
             )}
           </div>
 
-          {/* ✅ 기본 화면(입력 없을 때): 최근검색어/실시간 인기 */}
+          {/* 기본 화면(입력 없을 때): 최근검색어/실시간 인기 */}
           {!isTyping && (
             <div className="search-bottom">
               <div className="latest-searches-box bottom-search-box">
