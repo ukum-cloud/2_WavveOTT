@@ -1,0 +1,165 @@
+@use "../../App.scss" as g;
+
+.payment-wrap {
+    margin-top: 90px;
+    padding-top: 60px;
+
+    .inner {
+        gap: 60px;
+    }
+
+    h2 {
+        text-align: center;
+
+        +section {
+            width: 952px;
+            margin: auto;
+        }
+    }
+
+    section {
+        @include g.myFlexCol($gap: 20px);
+
+        h3 {
+            color: g.$color-font-white;
+            font-family: "Wave";
+            font-size: 1.125rem;
+            line-height: 160%;
+        }
+    }
+
+    .payment-detail {
+
+        @include g.myFlexCol($gap: 24px);
+        padding: 50px;
+        background: g.$color-secondary-dark1;
+        border-radius: 12px;
+
+        div.payment-top {
+            @include g.myFlex();
+
+            >h4 {
+                color: g.$color-secondary-white;
+                font-family: "wave";
+                font-size: 22px;
+                line-height: 140%;
+            }
+
+            >p {
+                @include g.myFlex($gap: 4px, $jc: flex-end);
+
+                .text-price {
+                    @include g.myFlex($gap: 16px, $jc: flex-end);
+
+                    .month {
+                        color: g.$color-font-grey2;
+                        font-size: 1.125rem;
+                        font-family: 'pretendard';
+                    }
+
+                    .num {
+                        color: g.$color-font-white;
+                        font-family: "Wave";
+                        font-size: 2rem;
+
+                    }
+
+                }
+
+                .won {
+                    padding-top: 8px;
+                    color: g.$color-font-white;
+                    font-family: "Wave";
+                    font-size: 1.125rem;
+                }
+
+
+            }
+        }
+
+        div.payment-bottom {
+            @include g.myFlex($gap: null, $ai: flex-end);
+
+            .text-left {
+                @include g.myFlexCol($gap: 8px);
+                font-size: 0.875rem;
+
+                >ul {
+                    @include g.myFlex($jc: flex-start, $gap: 20px);
+
+                    li {
+                        position: relative;
+
+                        &:first-child {
+                            &::before {
+                                width: 0;
+                            }
+                        }
+                        &::before {
+                            position: absolute;
+                            content: '';
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 1px;
+                            height: 20px;
+                            left: -10px;
+                            background-image: url(/images/bg-division.svg);
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+                >p {
+                    @include g.myFlex($gap: 20px);
+                    .period-date{
+                        position: relative;
+                        &::before {
+                            position: absolute;
+                            content: '';
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 1px;
+                            height: 20px;
+                            left: -10px;
+                            background-image: url(/images/bg-division.svg);
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .text-right {
+                ul {
+                    @include g.myFlex($jc: flex-start, $gap: 20px);
+
+                    >li {
+                        color: g.$color-font-grey2;
+                        line-height: 140%;
+                        letter-spacing: -0.2px;
+                        padding-left: 34px;
+                        line-height: 24px;
+                        background-position: left center;
+                        background-repeat: no-repeat;
+                        background-size: 24.5px;
+
+                        &.icon-wave {
+                            background-image: url("/images/icons/icon-logo-wave-small.svg");
+                        }
+
+                        &.icon-tving {
+                            background-image: url("/images/icons/icon-logo-tving-small.jpg");
+                        }
+
+                        &.pd-none {
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

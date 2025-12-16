@@ -40,3 +40,43 @@ export interface ModalProps {
     size?: ModalSize;
     children: React.ReactNode;
 }
+
+
+
+// 카드 데이터 타입 정의
+export interface PriceInfo {
+  period: string;
+  price: number;
+  discount?: number;
+  monthlyPrice?: number;
+  originalPrice?: number;
+}
+
+export interface SpecInfo {
+  label: string;
+  value: string;
+}
+export interface BrandInfo {
+  wave?: string;
+  tving?: string;
+}
+export interface TicketData {
+  id: number;
+  title: string;
+  category: 'wave' | 'double' | 'coalition';
+  badge?: string;
+  prices: PriceInfo[];
+  brands?: BrandInfo;
+  specs?: SpecInfo[];
+  hasFlip: boolean;
+}
+export interface PaymentPageProps {
+  ticketData?: TicketData;
+  selectedPrice?: PriceInfo;
+}
+
+// Payment.tsx로 전달받는 location state의 타입 정의
+export interface LocationState {
+    ticketData: TicketData;
+    selectedPrice: PriceInfo;
+}

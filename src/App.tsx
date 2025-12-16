@@ -1,5 +1,5 @@
-import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { BendNotice } from "./components/BendNotice";
@@ -30,6 +30,7 @@ import NoticeA from "./pages/NoticeA";
 import NoticeAdetail from "./pages/NoticeAdetail";
 import PaymentFinish from "./pages/PaymentFinish";
 import ScrollTop from "./components/ScrollTop";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
         <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
         <Route path="/ticket" element={<Ticket />} />
+        <Route path='/payment' element={<Payment />} />
         <Route path="/payment-finish" element={<PaymentFinish />} />
         <Route path="/service-center" element={<ServiceCenter />}>
           <Route index element={<NoticeA />} />
