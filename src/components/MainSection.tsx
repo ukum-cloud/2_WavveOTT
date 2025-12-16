@@ -1,24 +1,44 @@
-import { useRef, useState } from "react";
-import mSection from "../data/mainSection.json";
+import { useEffect, useRef, useState } from "react";
 import mStyle from "./scss/MainSection.module.scss";
+import mSection from "../data/wavveOnly.json";
 
 const MainSlider = () => {
-  const main = mSection[0];
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showVideo, setShowVideo] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  //하트선택상태변수
+  const [activeheart, setActiveHeart] = useState(false);
+  //찜리스트 추가예정
+  const handleHeart = () => {
+    setActiveHeart(!activeheart);
+  };
 
-  const handleStartVideo = () => {
-    setShowVideo(true);
-    videoRef.current?.play();
+  const base = mSection.find((f) => f.series_title === "ONE : 하이스쿨 히어로즈");
+  const extraMainData = {
+    main_img: "/images/visual/visual-mSection-default.webp",
+    main_video: "/videos/video-mSection.mp4",
+    main_desc: "학교 폭력 서열을 뒤엎는 하이스쿨 액션 드라마",
+    main_Title: "images/badge/badge-mSection-title.png",
   };
-  const handlePauseVideo = () => {
-    setIsPlaying(false);
-    videoRef.current?.pause();
+  const main = base && {
+    ...base,
+    ...extraMainData,
   };
+  console.log("원", main);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+      videoRef.current?.play();
+    }, 2300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className={mStyle.sectionBox} style={{ position: "relative" }}>
+    <div
+      className={`${mStyle.sectionBox} ${isPlaying ? mStyle.active : ""}`}
+      style={{ position: "relative" }}>
       <div className={mStyle.visualBox}>
         {!showVideo && <img src={main.main_img} alt="poster" />}
         {showVideo && (
@@ -53,31 +73,22 @@ const MainSlider = () => {
         </div>
         <div className={`${isPlaying ? mStyle.hideText : mStyle.textM}`}>
           <p className={mStyle.textMT}>
-            <span>
+            <span className={mStyle.ageBadge}>
               <img src="images/badge/badge-19.svg" alt="" style={{ height: "30px" }} />
             </span>
-            <span>{main.genres[0].name} </span>
+            <span>액션</span>
             <span>|</span>
-            <span>{main.next_episode_to_air.runtime || "2시간 3분"}</span>
+            <span>에피소드 8</span>
           </p>
-          <p className="textM-b">{main.main_desc}</p>
+          <p className={mStyle.textMB}>{main.main_desc}</p>
         </div>
 
-        <div className={mStyle.btnBox}>
+        <div className={`${mStyle.btnBox} ${isPlaying ? mStyle.active : ""}`}>
           <div className={mStyle.btnBoxT}>
-            {!isPlaying ? (
-              <span onClick={handleStartVideo}>
-                <img src="/images/icons/icon-play-sm.svg" alt="" />
-              </span>
-            ) : (
-              <span onClick={handlePauseVideo}>
-                <img src="/images/icons/icon-search-remove.svg" alt="" />
-              </span>
-            )}
-
-            <span>
-              <img src="/images/icons/icon-heart-sm.svg" alt="" />
-            </span>
+            <span className={mStyle.playBtn}></span>
+            <span
+              className={`${mStyle.heartBtn} ${activeheart ? mStyle.active : ""}`}
+              onClick={handleHeart}></span>
           </div>
           <div className={mStyle.btnBoxB}>콘크리트마켓 보러가기</div>
         </div>
