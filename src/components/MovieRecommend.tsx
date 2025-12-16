@@ -32,9 +32,10 @@ const MovieRecommend = ({ popularMovies }: RecommendProps) => {
                             <h3 className="recommend-title">{p.title}</h3>
 
                             <div className="recommend-middle">
+                                {/* <img src="/images/icons/icon-star.svg" alt="starIcon" /> */}
+                                <p className="recommend-star"></p>
                                 <p className="recommend-vote seperate">
-                                    <img src="/images/icons/icon-star.svg" alt="starIcon" />
-                                    <span>{(p.vote_average ?? 0).toFixed(1)}</span>
+                                    {(p.vote_average ?? 0).toFixed(1)}
                                 </p>
                                 <p className="recommend-date seperate">
                                     {p.release_date?.slice(0, 4)}년
