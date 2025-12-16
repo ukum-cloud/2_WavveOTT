@@ -140,7 +140,7 @@ const Common = () => {
         </ul>
         <h2>modal popup</h2>
         <ul>
-          <li>
+          <li style={{ display: "flex", gap: "20px", alignItems: "center" }}>
             {/* -------- 모달 테스트 버튼 --------- */}
             <button
               className="btn small secondary"
@@ -155,13 +155,13 @@ const Common = () => {
               Small 모달 열기
             </button>
             <button
-              className="btn small secondary"
+              className="btn default secondary"
               onClick={() => handleOpenModal("default")}
             >
               Default 모달 열기
             </button>
             <button
-              className="btn small secondary"
+              className="btn default secondary"
               onClick={() => handleOpenModal("large")}
             >
               Large 모달 열기
@@ -181,7 +181,7 @@ const Common = () => {
           <h3 className="modal-title">모달 제목</h3>
           {/* 닫기 버튼은 onCLose 핸들러를 호출 */}
           <button className="close-button" onClick={handleCloseModal}>
-            &times;
+            <span>닫기</span>
           </button>
         </div>
         <div className="modal-content">
@@ -189,9 +189,9 @@ const Common = () => {
           <p>이 모달은 부모 컴포넌트의 상태로 크기가 동적으로 변경됩니다.</p>
         </div>
         <div className="modal-footer">
-          <button className="btn small primary">확인</button>
+          <button className="btn default primary">확인 </button>
           <button
-            className="btn small secondary-line"
+            className="btn default secondary-line"
             onClick={handleCloseModal}
           >
             닫기
