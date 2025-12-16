@@ -31,14 +31,14 @@ footer {
                     opacity: 1;
                     pointer-events: auto; // 클릭 활성화
                 }
-                > .goToTop {
-                    background-image: url(/images/icons/icon-top.png);
-                    &.visible {
-                        opacity: 1;
-                        pointer-events: auto; // 클릭 활성화
-                        &:hover {
-                            background-image: url(/images/icons/icon-top-hover.png);
-                        }
+            }
+            > .goToTop {
+                background-image: url(/images/icons/icon-top.png);
+                &.visible {
+                    opacity: 1;
+                    pointer-events: auto; // 클릭 활성화
+                    &:hover {
+                        background-image: url(/images/icons/icon-top-hover.png);
                     }
                 }
             }

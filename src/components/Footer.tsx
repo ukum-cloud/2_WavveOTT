@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './scss/Footer.scss';
 import { useCallback, useEffect, useState } from 'react';
 
-export type Scroll = () => void;
+type Scroll = () => void;
 
 const Footer = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
