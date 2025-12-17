@@ -33,8 +33,9 @@ export interface Movie extends MediaBase {
     logo: string | null;
     key: string;
     videos: Video[];
-    certificationMovie: { certification: number }[] | 'NR';
+    certificationMovie: string;
     release_date: string;
+    type: number;
 }
 
 export interface MovieWithLogo extends Movie {
@@ -44,9 +45,13 @@ export interface MovieWithLogo extends Movie {
 
 export interface MovieState {
     popularMovies: MovieWithLogo[];
+    newMovies: MovieWithLogo[];
     selectedPopular: Movie | null;
+    selectedNewMovie: Movie | null;
     onFetchPopular: () => Promise<void>;
     setSelectedPopular: (id: number) => void;
+    onFetchNewMovie: () => Promise<void>;
+    setSelectedNewMovie: (id: number) => void;
 }
 
 // 웨이브 콘텐츠 타입

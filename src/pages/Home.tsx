@@ -14,23 +14,27 @@ import NewTvList from '../components/NewTvList';
 import MainSlider from '../components/MainSection';
 
 import './scss/Home.scss';
+import NewMovieList from '../components/NewMovieList';
 
 const Home = () => {
-    const { onFetchPopular, popularMovies } = useMovieStore();
+    const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } = useMovieStore();
     const { wavves, onFetchWavve } = useWavveStore();
     const { tvs, onFetchTv } = useTvStore();
 
     useEffect(() => {
         onFetchPopular();
-    }, []);
-
-    useEffect(() => {
         onFetchWavve();
-    }, [onFetchWavve]);
-
-    useEffect(() => {
+        onFetchNewMovie();
         onFetchTv();
-    }, [onFetchTv]);
+    }, [onFetchPopular, onFetchWavve, onFetchNewMovie, onFetchTv]);
+
+    // useEffect(() => {
+    //     onFetchWavve();
+    // }, [onFetchWavve]);
+
+    // useEffect(() => {
+    //     onFetchTv();
+    // }, [onFetchTv]);
 
     return (
         <main className="main-home">
@@ -63,10 +67,7 @@ const Home = () => {
                     <h2>이건 꼭 봐야해!</h2>
                     <div className="">내용, 슬라이더, 등등</div>
                 </section>
-                <section className="card-list">
-                    <h2>NEW! 새로 올라온 영화</h2>
-                    <div className="">내용, 슬라이더, 등등</div>
-                </section>
+                <NewMovieList title="NEW! 새로 올라온 영화" newMovies={newMovies} />
             </div>
             <EditorRecommendCardList list={popularMovies} />
             <div className="inner">
