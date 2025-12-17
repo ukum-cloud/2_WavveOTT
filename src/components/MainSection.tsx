@@ -17,12 +17,10 @@ const MainSlider = () => {
   const [activeheart, setActiveHeart] = useState(false);
   //찜리스트 추가예정
   const handleHeart = async () => {
-    console.log("하트 클릭 item:", main);
     await onAddPick(main);
     setActiveHeart(!activeheart);
     setModalSize("small");
     setIsModalOpen(true);
-    console.log("찜리스트 : ", usePickStore.getState().pickList);
   };
   const navigate = useNavigate("");
 
@@ -32,12 +30,13 @@ const MainSlider = () => {
     main_video: "/videos/video-mSection.mp4",
     main_desc: "학교 폭력 서열을 뒤엎는 하이스쿨 액션 드라마",
     main_Title: "images/badge/badge-mSection-title.png",
+    media_type: "tv",
+    poster_path: "/7jIZaNtpZlEwNLWGaj0dXl4sDSq.jpg",
   };
   const main = base && {
     ...base,
     ...extraMainData,
   };
-  // console.log("원", main);
 
   const handleNavigate = (type, id) => {
     navigate(`/contentsdetail/tv/${main.tmdb_id}`);
