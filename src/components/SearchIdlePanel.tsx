@@ -33,7 +33,7 @@ const SearchIdlePanel = ({
   setActiveIndex,
   setItemRef,
   onItemKeyDown,
-  activateItem
+  activateItem,
 }: Props) => {
   // navItems 기반으로 left/right를 전역 idx 유지한 채로 분리
   const leftEntries = navItems
@@ -58,30 +58,29 @@ const SearchIdlePanel = ({
           <p className="empty-text">최근 검색 내역이 없습니다.</p>
         ) : (
           <ul className="latest-searches-list" role="listbox" id="search-listbox">
-            {leftEntries.map(({item, idx}) => (
+            {leftEntries.map(({ item, idx }) => (
               <li
                 key={`${item.type}-${item.label}-${idx}`}
                 id={`nav-${idx}`}
                 role="option"
                 aria-selected={activeIndex === idx}
-                className={activeIndex === idx ? "is-active" : ""}
-              >
+                className={activeIndex === idx ? "is-active" : ""}>
                 <button
                   type="button"
                   className="latest-text"
                   ref={(el) => setItemRef(idx, el)}
                   onKeyDown={onItemKeyDown}
                   onMouseEnter={() => setActiveIndex(idx)}
-                  onClick={() => activateItem(idx)}
-                >
+                  onClick={() => activateItem(idx)}>
                   {item.label}
                 </button>
-                <button type="button" onClick={() => {
+                <button
+                  type="button"
+                  onClick={() => {
                     const hit = todos.find((t) => t.text === item.label);
                     if (hit) onRemoveTodo(hit.id);
                   }}
-                  aria-label="삭제"
-                >
+                  aria-label="삭제">
                   <img src="/images/icons/icon-search-remove.svg" alt="" />
                 </button>
               </li>
@@ -100,36 +99,34 @@ const SearchIdlePanel = ({
         </div>
 
         <ol className="popular-searches-list" role="listbox" aria-label="실시간 인기 검색어 목록">
-          {rightEntries.length > 0 ? (
-            rightEntries.map(({ item, idx }, i) => (
-              <li key={`${item.type}-${item.label}-${idx}`}
-                id={`nav-${idx}`} // 통일(섹션 이동/aria)
-                role="option"
-                aria-selected={activeIndex === idx}
-                className={activeIndex === idx ? "is-active" : ""}
-              >
-                <button type="button"
-                  ref={(el) => setItemRef(idx, el)}
-                  onKeyDown={onItemKeyDown}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                  onClick={() => activateItem(idx)}
-                >
-                  <span className="rank font-wave">{i + 1}</span>
-                  <span className="word">{item.label}</span>
-                </button>
-              </li>
-            ))
-          ) : (
-            // fallback: navItems에 right가 없을 때 기존 trendingKeywords로 표시(키보드는 Tab만)
-            trendingKeywords.slice(0, 10).map((t, i) => (
-              <li key={t}>
-                <button type="button" onClick={() => onClickKeyword(t)}>
-                  <span className="rank font-wave">{i + 1}</span>
-                  <span className="word">{t}</span>
-                </button>
-              </li>
-          ))
-        )}
+          {rightEntries.length > 0
+            ? rightEntries.map(({ item, idx }, i) => (
+                <li
+                  key={`${item.type}-${item.label}-${idx}`}
+                  id={`nav-${idx}`} // 통일(섹션 이동/aria)
+                  role="option"
+                  aria-selected={activeIndex === idx}
+                  className={activeIndex === idx ? "is-active" : ""}>
+                  <button
+                    type="button"
+                    ref={(el) => setItemRef(idx, el)}
+                    onKeyDown={onItemKeyDown}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onClick={() => activateItem(idx)}>
+                    <span className="rank font-wave">{i + 1}</span>
+                    <span className="word">{item.label}</span>
+                  </button>
+                </li>
+              ))
+            : // fallback: navItems에 right가 없을 때 기존 trendingKeywords로 표시(키보드는 Tab만)
+              trendingKeywords.slice(0, 10).map((t, i) => (
+                <li key={t}>
+                  <button type="button" onClick={() => onClickKeyword(t)}>
+                    <span className="rank font-wave">{i + 1}</span>
+                    <span className="word">{t}</span>
+                  </button>
+                </li>
+              ))}
         </ol>
       </div>
     </div>

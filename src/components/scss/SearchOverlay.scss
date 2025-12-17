@@ -1,26 +1,26 @@
 @use "../../App.scss" as g;
 
-.search-popup{
+.search-popup {
   position: fixed;
   inset: 0; //top: 90px + 전체 덮기
   height: calc(100vh);
   z-index: 999;
 
-  .search-inner-wrap{
+  .search-inner-wrap {
     position: relative;
     padding: 80px 240px;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
 
-    .close-bg{
+    .close-bg {
       position: absolute;
       inset: 0;
       background: transparent;
       z-index: 0;
     }
-    
-    .search-inner{
+
+    .search-inner {
       position: relative;
       z-index: 10;
       max-width: 1440px;
@@ -29,9 +29,9 @@
   }
 }
 
-.keyboard-box{
+.keyboard-box {
   // SearchInputBar.tsx
-  .keyboard-top{
+  .keyboard-top {
     border-bottom: 2px solid g.$color-secondary-white;
     display: flex;
     align-items: flex-start;
@@ -39,7 +39,7 @@
     padding-bottom: 24px;
     gap: 10px;
 
-    input{
+    input {
       border: none;
       border-radius: 0;
       background: none;
@@ -48,13 +48,13 @@
       font-size: 22px;
       width: 100%;
       line-height: 140%;
-            
-      &::placeholder{
-        color: #4E525D;
+
+      &::placeholder {
+        color: #4e525d;
         letter-spacing: -1%;
       }
     }
-    .img-box{
+    .img-box {
       width: 34px;
       height: 34px;
       background: transparent;
@@ -68,7 +68,7 @@
     }
   }
   // SearchTypingPanel.tsx
-  .typing-panel{
+  .typing-panel {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -76,14 +76,14 @@
     margin-top: 50px;
 
     //왼쪽 검색 결과
-    .tmdb-result{
+    .tmdb-result {
       width: 100%;
       max-width: 800px;
       max-height: 496px;
 
       &.is-loading,
       &.auto-hide {
-        .hint{
+        .hint {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -94,26 +94,26 @@
           width: 100%;
         }
       }
-      .result-list{
+      .result-list {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
         gap: 20px;
 
-        li{
-          button{
+        li {
+          button {
             width: 100%;
 
-            .txt{
-              .hit{
+            .txt {
+              .hit {
                 color: g.$color-secondary-white;
                 font-weight: 700;
                 font-size: 18px;
                 line-height: 140%;
                 letter-spacing: -1%;
               }
-              .rest{
+              .rest {
                 color: g.$color-other4;
                 font-size: 18px;
                 line-height: 140%;
@@ -124,15 +124,15 @@
         }
       }
     }
-    .preview-list{
+    .preview-list {
       display: flex;
       flex-direction: column;
       gap: 20px;
 
-      >li{
+      > li {
         width: 800px;
 
-        .preview-item{
+        .preview-item {
           width: 100%;
           text-align: left;
           background: transparent;
@@ -145,77 +145,77 @@
       }
     }
     // 왼쪽 추천 검색어
-    .recommend-box{
+    .recommend-box {
       width: 580px;
 
-      .recommend-title{
+      .recommend-title {
         font-size: 20px;
         line-height: 140%;
         margin-bottom: 18px;
         color: g.$color-secondary-white;
       }
-      .chips{
+      .chips {
         display: flex;
         width: 100%;
         // grid-template-columns: repeat(auto-fill, max-content);
         flex-wrap: wrap;
         gap: 20px;
 
-              .chip{
-                border: 1px solid g.$color-secondary-white;
-                background: transparent;
-                color: g.$color-secondary-white;
-                padding: 16px 20px;
-                border-radius: 100px;
-                font-size: 16px;
-                line-height: auto;
-                letter-spacing: -0.2px;
-                white-space: nowrap;
+        .chip {
+          border: 1px solid g.$color-secondary-white;
+          background: transparent;
+          color: g.$color-secondary-white;
+          padding: 16px 20px;
+          border-radius: 100px;
+          font-size: 16px;
+          line-height: auto;
+          letter-spacing: -0.2px;
+          white-space: nowrap;
 
-                &:hover{
-                  background-color: #2c2c2c;
-                }
-              }
-            }
+          &:hover {
+            background-color: #2c2c2c;
           }
         }
       }
-      .search-bottom{
-        width: 100%;
-        min-height: 496px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 50px;
-        margin-top: 50px;
+    }
+  }
+}
+.search-bottom {
+  width: 100%;
+  min-height: 496px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 50px;
+  margin-top: 50px;
 
-        .bottom-search-box{
-          width: 100%;
+  .bottom-search-box {
+    width: 100%;
 
-          .searches-title{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    .searches-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-            .title-left{
-              font-size: 20px;
-              line-height: 140%;
-              letter-spacing: -1%;
-            }
-          }
-          .empty-text {
-            margin-top: 20px;
-            color: g.$color-other4;
-            font-size: 18px;
-            line-height: 140%;
-            letter-spacing: -1%;
-          }
-        }
+      .title-left {
+        font-size: 20px;
+        line-height: 140%;
+        letter-spacing: -1%;
       }
+    }
+    .empty-text {
+      margin-top: 20px;
+      color: g.$color-other4;
+      font-size: 18px;
+      line-height: 140%;
+      letter-spacing: -1%;
+    }
+  }
+}
 
-.latest-searches-box{
-  .searches-title{
-    button{
+.latest-searches-box {
+  .searches-title {
+    button {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -226,7 +226,7 @@
       font-size: 14px;
       letter-spacing: -0.2px;
 
-      &::after{
+      &::after {
         content: "";
         display: block;
         background-image: url("../../../public/images/icons/icon-trash.svg");
@@ -234,25 +234,25 @@
         width: 20px;
         height: 20px;
       }
-      &:hover{
+      &:hover {
         background-color: #2c2c2c;
       }
     }
   }
-  .latest-searches-list{
+  .latest-searches-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 20px;
 
-    >li{
+    > li {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       gap: 12px;
-      
-      .latest-text{
+
+      .latest-text {
         font-size: 18px;
         color: g.$color-other4;
         border: 0;
@@ -260,14 +260,14 @@
         line-height: 140%;
         letter-spacing: -1%;
       }
-      >button:last-child{
+      > button:last-child {
         width: 16px;
         height: 16px;
         background: transparent;
         border: 0;
         padding: 0;
 
-        img{
+        img {
           width: 100%;
         }
       }
@@ -275,18 +275,18 @@
   }
 }
 
-.popular-searches-box{
-  .searches-title{
+.popular-searches-box {
+  .searches-title {
     padding: 4px 0;
     margin-bottom: 30px;
-    
-    .date-box{
+
+    .date-box {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 4px;
 
-      p{
+      p {
         font-size: 14px;
         line-height: 140%;
         letter-spacing: -1%;
@@ -294,29 +294,29 @@
       }
     }
   }
-  .popular-searches-list{
+  .popular-searches-list {
     margin-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 
-    >li{
-      button{
+    > li {
+      button {
         width: 100%;
         display: flex;
         align-items: center;
         gap: 12px;
-        background:transparent;
+        background: transparent;
         border: 0;
 
-        .rank{
+        .rank {
           font-size: 18px;
           line-height: 140%;
           text-align: left;
           color: g.$color-primary;
           width: 20px;
         }
-        .word{
+        .word {
           color: g.$color-other4;
           font-size: 18px;
           line-height: 140%;
@@ -324,6 +324,13 @@
       }
     }
   }
+}
+
+.result-list li.is-active button,
+.preview-list li.is-active button,
+.latest-searches-list li.is-active button,
+.popular-searches-list li.is-active button {
+  transform: translateZ(0); // (선택 효과 부드럽게)
 }
 
 .result-list li.is-active button,

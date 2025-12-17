@@ -10,7 +10,7 @@ export interface MediaBase {
     vote_average: number;
     iso_3166_1: string;
     iso_639_1: string;
-    certification: number;
+    certification: string;
     season_number: number;
     episodeCount: number;
     logo_path: string;
@@ -33,8 +33,9 @@ export interface Movie extends MediaBase {
     logo: string | null;
     key: string;
     videos: Video[];
-    certificationMovie: { certification: number }[] | 'NR';
+    certificationMovie: string;
     release_date: string;
+    type: number;
 }
 
 export interface MovieWithLogo extends Movie {
@@ -44,9 +45,13 @@ export interface MovieWithLogo extends Movie {
 
 export interface MovieState {
     popularMovies: MovieWithLogo[];
+    newMovies: MovieWithLogo[];
     selectedPopular: Movie | null;
+    selectedNewMovie: Movie | null;
     onFetchPopular: () => Promise<void>;
     setSelectedPopular: (id: number) => void;
+    onFetchNewMovie: () => Promise<void>;
+    setSelectedNewMovie: (id: number) => void;
 }
 
 // 웨이브 콘텐츠 타입
@@ -64,7 +69,7 @@ export interface OnlyWavve extends MediaBase {
     seasons?: Season[];
     season_number: number;
     first_air_date: string;
-    logo: string;
+    logo: string | null;
 }
 
 export interface Video {
@@ -116,4 +121,61 @@ export interface TvState {
     selectedTv: Tv | null;
     onFetchTv: () => Promise<void>;
     setSelectedTv: (id: number) => void;
+}
+
+export interface PrimaryItem extends MediaBase {
+    id: number;
+    poster_path: string | null;
+    name?: string; // tv
+    mediaType: string;
+    videos: Video[];
+    logo: string | null;
+}
+
+export interface People {
+    cast: {
+        id: number;
+        name: string;
+        character: string;
+        poster_path: string | null;
+        first_air_date?: string;
+        adult: boolean;
+        genre_ids: number[];
+        backdrop_path: string | null;
+        overview: string;
+        title: string;
+        vote_average: number;
+        iso_3166_1: string;
+        iso_639_1: string;
+        certification: string;
+        season_number: number;
+        episodeCount: number;
+        logo_path: string;
+        runtime?: number;
+        creditData: {
+            cast: {
+                id: number;
+                name: string;
+                profile_path: string;
+            }[];
+        };
+        known_for_department: string;
+        director: { id: number; name: string }[];
+        writer: { id: number; name: string }[];
+        videos: Video[];
+        logo: string | null;
+    }[];
+}
+
+export interface PeopleState {
+    people: People[];
+    onFetchPeople: () => Promise<void>;
+}
+
+export interface cast {
+    id: number;
+    name: string;
+    character: string;
+    poster_path: string | null;
+    first_air_date?: string;
 }

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./scss/Profile.scss";
 import { useAuthStore } from "../stores/useAuthStore";
+import UserPickList from "../components/UserPickList";
 const Profile = () => {
   const { selectedCharId, selectedCharNickname } = useAuthStore();
   // 기본값 설정 (선택된 캐릭터가 없을 경우)

@@ -17,6 +17,8 @@
             max-width: 1076px;
 
             .detail-img-box {
+                max-width: 1076px;
+                width: 100%;
                 position: relative;
 
                 .detail-backdrop {
@@ -24,15 +26,6 @@
                         width: 100%;
                         border-radius: 12px;
                     }
-                    // &::after {
-                    //     content: '';
-                    //     position: absolute;
-                    //     top: 0;
-                    //     left: 0;
-                    //     width: 100%;
-                    //     height: 100%;
-                    //     background: url('/images/bg-gradient.png');
-                    // }
                 }
                 .detail-logo {
                     position: absolute;
@@ -42,6 +35,13 @@
                     img {
                         width: 100%;
                     }
+                }
+                > iframe {
+                    left: 0%;
+                    top: 0%;
+                    width: 100%;
+                    aspect-ratio: 16/9;
+                    border: none;
                 }
             }
             .detail-title-box {

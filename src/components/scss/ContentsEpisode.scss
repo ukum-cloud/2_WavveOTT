@@ -14,16 +14,72 @@
         .episode-card {
             @include g.myFlex($jc: start, $gap: 30px);
 
+            // .episodes-img {
+            //     position: relative;
+            //     overflow: hidden;
+            //     max-width: 272px;
+
+            //     > img {
+            //         width: 100%;
+            //         height: 100%;
+            //         object-fit: cover;
+            //         border-radius: 12px;
+            //     }
+
+            //     .play-hover {
+            //         > img {
+            //             position: absolute;
+            //             width: 50%;
+            //             height: 50%;
+            //             top: 0%;
+            //             left: 0%;
+            //             transform: translate(-50%, -50%);
+            //             // display: none;
+            //             cursor: pointer;
+            //         }
+
+            //         &:hover .play-hover {
+            //             display: block;
+            //         }
+            //     }
+
+            //     // .play-hover {
+            //     //     display: none;
+            //     //     &:hover {
+            //     //         display: block;
+            //     //         &::after {
+            //     //             content: '';
+            //     //             position: absolute;
+            //     //             inset: 0;
+            //     //             background: rgba(0, 0, 0, 0);
+            //     //             border-radius: 12px;
+            //     //             cursor: pointer;
+            //     //         }
+            //     //     }
+            //     // }
+
+            //     // &:hover::after {
+            //     //     background: rgba(0, 0, 0, 0.7) url('/images/icons/icon-play-white.svg')
+            //     //         no-repeat center center;
+            //     // }
+            // }
             .episodes-img {
                 position: relative;
+                cursor: pointer;
+                display: inline-block;
+                border-radius: 12px;
                 overflow: hidden;
-                max-width: 272px;
 
-                > img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 12px;
+                .play-hover {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 60px;
+                    height: 60px;
+                    opacity: 0;
+                    transition: opacity 0.2s, transform 0.2s;
+                    z-index: 2;
                 }
 
                 &::after {
@@ -32,14 +88,21 @@
                     inset: 0;
                     background: rgba(0, 0, 0, 0);
                     border-radius: 12px;
-                    cursor: pointer;
+                    transition: background 0.2s;
+                    z-index: 1;
                 }
 
-                &:hover::after {
-                    background: rgba(0, 0, 0, 0.7) url('/images/icons/icon-play-white.svg')
-                        no-repeat center center;
+                &:hover {
+                    .play-hover {
+                        opacity: 1;
+                        transform: translate(-50%, -50%) scale(1.1);
+                    }
+                    &::after {
+                        background: rgba(0, 0, 0, 0.4);
+                    }
                 }
             }
+
             .episodes-text {
                 @include g.myFlexCol($gap: 16px);
                 max-width: 220px;

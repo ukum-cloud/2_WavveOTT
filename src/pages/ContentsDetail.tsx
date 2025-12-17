@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useWavveStore } from '../stores/useWavveStore';
 import { useTvStore } from '../stores/useTvStore';
@@ -20,8 +20,11 @@ const ContentsDetail = () => {
     const { wavves, selectedWavve, onFetchWavve, setSelectedWavve } = useWavveStore();
     const { tvs, selectedTv, onFetchTv, setSelectedTv } = useTvStore();
 
+    const navigate = useNavigate();
+
     const [shareOpen, setShareOpen] = useState(false);
     const [activeMenu, setActiveMenu] = useState('episode');
+    const [showVideo, setShowVideo] = useState(false);
 
     // type에 따라 fetch
     useEffect(() => {
@@ -37,11 +40,6 @@ const ContentsDetail = () => {
     useEffect(() => {
         if (!id || !type) return;
 
-        // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
-        // if (type === 'movie' && popularMovies.length > 0) {
-        //     setSelected~~(Number(id));
-        // }
-
         if (type === 'tv') {
             if (wavves.length > 0) {
                 setSelectedWavve(Number(id));
@@ -50,11 +48,6 @@ const ContentsDetail = () => {
             if (tvs.length > 0) {
                 setSelectedTv(Number(id));
             }
-
-            // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
-            // if (tvs.length > 0) {
-            //     setSelectedTv(Number(id));
-            // }
         }
     }, [id, type, wavves, tvs, setSelectedWavve, setSelectedTv]);
 
@@ -65,16 +58,23 @@ const ContentsDetail = () => {
         selectedContent = selectedTv || selectedWavve;
     } else if (type === 'wavve') {
         selectedContent = selectedWavve;
-    } // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
-    // else if (type === 'movie') {
-    //   selectedContent = selected~~; // Movie 등등
-    // }
+    }
+
+    const videoKey = selectedContent?.videos?.[0]?.key;
+
+    useEffect(() => {
+        if (!videoKey) return;
+
+        const timer = setTimeout(() => {
+            setShowVideo(true);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [videoKey]);
 
     if (!selectedContent) {
         return <div>🔥콘텐츠 불러오는 중🔥</div>;
     }
-
-    console.log('확인', selectedContent);
 
     const { logo, background, episodeImages } = getContentImages(selectedContent);
 
@@ -83,12 +83,29 @@ const ContentsDetail = () => {
             <div className="inner">
                 <div className="detail-left">
                     <div className="detail-img-box">
-                        <p className="detail-backdrop">
-                            {background && <img src={background} alt={selectedContent.title} />}
-                        </p>
-                        <p className="detail-logo">
-                            {logo && <img src={logo} alt={`${selectedContent.title} logo`} />}
-                        </p>
+                        {!showVideo && background && (
+                            <>
+                                <p className="detail-backdrop">
+                                    <img src={background} alt={selectedContent.title} />
+                                </p>
+                                <p className="detail-logo">
+                                    {logo && (
+                                        <img src={logo} alt={`${selectedContent.title} logo`} />
+                                    )}
+                                </p>
+                            </>
+                        )}
+
+                        {showVideo && videoKey && (
+                            <iframe
+                                key={videoKey}
+                                className="detail-video"
+                                src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=1&controls=0&rel=0`}
+                                title={`${selectedContent.title} trailer`}
+                                allow="autoplay; fullscreen"
+                                allowFullScreen
+                            />
+                        )}
                     </div>
                     <div className="detail-title-box">
                         <div className="detail-title-left">
@@ -135,9 +152,12 @@ const ContentsDetail = () => {
                                 <p>{selectedContent.overview}</p>
                             </div>
                             <div className="detail-content-right">
-                                <Link to="/ticket" className="btn default primary">
-                                    이용권 구매하기
-                                </Link>
+                                <button
+                                    className="btn default primary"
+                                    onClick={() => navigate(`/player/${videoKey}`)}
+                                >
+                                    재생하기
+                                </button>
                             </div>
                         </div>
                         <div className="detail-cast">
@@ -237,6 +257,7 @@ const ContentsDetail = () => {
                                 episodes={selectedContent.episodes}
                                 seasons={selectedContent.seasons}
                                 episodeImages={episodeImages}
+                                videoKey={videoKey}
                             />
                         )}
                         {activeMenu === 'relative' && (

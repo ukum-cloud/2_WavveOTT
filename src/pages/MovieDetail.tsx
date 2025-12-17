@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useMovieStore } from "../stores/useMovieStore";
 
@@ -17,10 +17,13 @@ import type { Pick } from "../types/pick";
 const MovieDetail = () => {
   const { type, id } = useParams<{ type: string; id: string }>();
 
+  const navigate = useNavigate();
+
   const { popularMovies, selectedPopular, onFetchPopular, setSelectedPopular } = useMovieStore();
 
   const [shareOpen, setShareOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("relative");
+  const [showVideo, setShowVideo] = useState(false);
 
   // type에 따라 fetch
   useEffect(() => {
@@ -39,10 +42,6 @@ const MovieDetail = () => {
       if (popularMovies.length > 0) {
         setSelectedPopular(Number(id));
       }
-      // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
-      //   if (tvs.length > 0) {
-      //     setSelectedTv(Number(id));
-      // }
     }
   }, [id, type, popularMovies, setSelectedPopular]);
 
@@ -50,16 +49,26 @@ const MovieDetail = () => {
 
   if (type === "movie") {
     selectedContent = selectedPopular;
-  } // ‼️‼️‼️‼️‼️‼️ 여기에 추가되는 것 넣기 ‼️‼️‼️‼️‼️‼️‼️
-  // else if (type === 'movie') {
-  //   selectedContent = selected~~; // 섹션별로 더 생기는 것들
-  // }
+  }
+
+  const videoKey = selectedContent?.videos?.[0]?.key;
+  const { background, logo } = selectedContent
+    ? getContentImages(selectedContent)
+    : { background: null, logo: null };
+
+  useEffect(() => {
+    if (!videoKey) return;
+
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [videoKey]);
 
   if (!selectedContent) {
     return <div>🔥콘텐츠 불러오는 중🔥</div>;
   }
-
-  const { logo, background } = getContentImages(selectedContent);
 
   // 비디오가 들어있는지 없는지 체크해서
   const hasVideos = selectedContent.videos?.length > 0;
@@ -71,27 +80,30 @@ const MovieDetail = () => {
     ? selectedContent.certificationMovie[0]?.certification
     : selectedContent.certificationMovie; // 'NR'
 
-  const handleAddPick = (content) => {
-    const pickList = usePickStore.getState().pickList;
-    const onAddPick = usePickStore.getState().onAddPick;
-    const match = pickList.some((p) => p.id === content.id);
-    if (!match) {
-      onAddPick(content);
-    }
-    alert("찜리스트에 추가되었습니다!");
-  };
-
   return (
     <main className="main-detail">
       <div className="inner">
         <div className="detail-left">
           <div className="detail-img-box">
-            <p className="detail-backdrop">
-              {background && <img src={background} alt={selectedContent.title} />}
-            </p>
-            <p className="detail-logo">
-              {logo && <img src={logo} alt={`${selectedContent.title} logo`} />}
-            </p>
+            {!showVideo && background && (
+              <>
+                <p className="detail-backdrop">
+                  <img src={background} alt={selectedContent.title} />
+                </p>
+                <p className="detail-logo">
+                  {logo && <img src={logo} alt={`${selectedContent.title} logo`} />}
+                </p>
+              </>
+            )}
+
+            {showVideo && videoKey && (
+              <iframe
+                key={videoKey}
+                className="detail-video"
+                src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=1&controls=0&rel=0`}
+                title={`${selectedContent.title} trailer`}
+              />
+            )}
           </div>
           <div className="detail-title-box">
             <div className="detail-title-left">
@@ -106,9 +118,7 @@ const MovieDetail = () => {
               <p className="title-episode">{selectedContent.runtime}분</p>
             </div>
             <div className="detail-title-right">
-              <button
-                className="detail-heart-btn"
-                onClick={() => handleAddPick(selectedContent)}></button>
+              <button className="detail-heart-btn"></button>
               <button className="detail-share-btn" onClick={() => setShareOpen(true)}></button>
               {/* 모달 */}
               <Modal isOpen={shareOpen} onClose={() => setShareOpen(false)} size="default">
@@ -129,9 +139,11 @@ const MovieDetail = () => {
                 )}
               </div>
               <div className="detail-content-right">
-                <Link to="/ticket" className="btn default primary">
-                  이용권 구매하기
-                </Link>
+                <button
+                  className="btn default primary"
+                  onClick={() => navigate(`/player/${videoKey}`)}>
+                  재생하기
+                </button>
               </div>
             </div>
             <div className="detail-cast">
