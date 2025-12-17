@@ -4,27 +4,34 @@
   background-image: url("/images/bg-main-nomination.svg");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 90px 0px;
   height: 640px;
-  .inner {
+
+  .nomination-inner {
+    padding: 90px 240px;
+
     .main-nomination {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 100px;
-      button {
-        font-family: "pretendard";
+      gap: 94px;
+
+      button{
+        font-family: 'pretendard';
       }
       .left-text {
+
         .item {
-          margin: 50px 0 20px;
-          > h3 {
+          margin: 50px 0;
+
+          >h3 {
             font-size: 40px;
             line-height: 140%;
             letter-spacing: -2%;
             width: 272px;
           }
-          > p {
+
+          >p {
+            font-family: 'pretendard';
             font-size: 18px;
             line-height: 140%;
             letter-spacing: -2%;
@@ -32,6 +39,7 @@
           }
         }
       }
+
       .content-list {
         display: flex;
         justify-content: space-between;
@@ -39,8 +47,7 @@
         flex: 1;
         max-width: 1160px;
 
-        > li {
-          min-width: 342px;
+        >li {
           height: 460px;
           border-radius: 12px;
           overflow: hidden;
