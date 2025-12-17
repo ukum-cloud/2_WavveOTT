@@ -32,6 +32,7 @@ import PaymentFinish from './pages/PaymentFinish';
 import ScrollTop from './components/ScrollTop';
 import Payment from './pages/Payment';
 import Intro from './pages/Intro';
+import Player from './pages/Player';
 
 function App() {
     return (
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
                 <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
+                <Route path="/player/:videoKey" element={<Player />} />
                 <Route path="/ticket" element={<Ticket />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/payment-finish" element={<PaymentFinish />} />
