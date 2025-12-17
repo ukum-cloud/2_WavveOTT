@@ -1,1 +1,20 @@
 @use '../../App.scss' as g;
+
+.user-qna {
+    .qna-menu-wrap {
+        > button {
+            padding: 20px 96px;
+            color: white;
+            font-family: 'Wave', sans-serif;
+            font-size: 18px;
+        }
+
+        .active {
+            border-bottom: 4px solid g.$color-primary;
+        }
+    }
+    .qna-menu-line {
+        border-bottom: 1px solid g.$color-other3;
+        margin: 0 0 26px 0;
+    }
+}

@@ -1,1 +1,127 @@
 @use '../../App.scss' as g;
+
+.agreement {
+    .agree-menu-wrap {
+        display: flex;
+        justify-content: space-between;
+        > button {
+            width: 100%;
+            padding: 20px 96px;
+            color: white;
+            font-family: 'Wave', sans-serif;
+            font-size: 18px;
+        }
+
+        .active {
+            border-bottom: 4px solid g.$color-primary;
+        }
+    }
+    .agree-menu-line {
+        border-bottom: 1px solid g.$color-other3;
+        margin: 0 0 26px 0;
+    }
+
+    h2 {
+        padding: 40px 0;
+    }
+
+    .policy-desc {
+        color: #adb0be;
+        border-radius: 6px;
+        background-color: #0d0f16;
+        padding: 100px;
+        font-size: 14px;
+        line-height: 1.5;
+        font-family: 'Pretendard', Pretendard, '돋움', sans-serif;
+
+        .hiddenContainer {
+            position: absolute;
+            left: -1000px;
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+        }
+
+        .intro-text {
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+
+        // 목차 테이블
+        .table-contents {
+            padding: 0 30px;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            line-height: 1.1;
+
+            th {
+                padding: 12px;
+                border: 1px solid #878c9e;
+            }
+
+            td {
+                padding: 12px 20px;
+                border: 1px solid #878c9e;
+                cursor: pointer;
+                // line-height: 1;
+            }
+        }
+
+        section {
+            margin-bottom: 20px;
+            padding-top: 20px;
+
+            .section-title {
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+                margin: 20px 0;
+                border-radius: 8px;
+                border: 1px solid #878c9e;
+
+                table {
+                    min-width: 1000px;
+                    width: 100%;
+                    border-collapse: collapse;
+                    padding: 12px;
+
+                    th {
+                        font-weight: 500;
+                        border: 1px solid #878c9e;
+                    }
+
+                    td {
+                        border: 1px solid #878c9e;
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+            ul {
+                padding-left: 20px;
+                li {
+                    margin-bottom: 8px;
+                    position: relative;
+                    &::before {
+                        content: '·';
+                        position: absolute;
+                        left: -15px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        // 부칙
+        .addendum {
+            color: #878c9e;
+            line-height: 1.7;
+        }
+    }
+}
