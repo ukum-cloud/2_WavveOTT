@@ -19,7 +19,7 @@ import NewTvList from '../components/NewTvList';
 
 import type { PrimaryItem } from '../types/movie';
 
-import { randomArray } from './randomData';
+import { randomArray } from '../utils/randomData';
 
 import './scss/Home.scss';
 
