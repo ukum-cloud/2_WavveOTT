@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useMovieStore } from '../stores/useMovieStore';
@@ -12,9 +12,14 @@ import MainNomination from '../components/MainNomination';
 import BroadcastList from '../components/BroadcastList';
 import NewTvList from '../components/NewTvList';
 import MainSlider from '../components/MainSection';
+import NewMovieList from '../components/NewMovieList';
+import PrimaryList from '../components/PrimaryList';
+
+import type { PrimaryItem } from '../types/movie';
+
+import { randomArray } from './randomData';
 
 import './scss/Home.scss';
-import NewMovieList from '../components/NewMovieList';
 
 const Home = () => {
     const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } = useMovieStore();
@@ -28,13 +33,15 @@ const Home = () => {
         onFetchTv();
     }, [onFetchPopular, onFetchWavve, onFetchNewMovie, onFetchTv]);
 
-    // useEffect(() => {
-    //     onFetchWavve();
-    // }, [onFetchWavve]);
-
-    // useEffect(() => {
-    //     onFetchTv();
-    // }, [onFetchTv]);
+    const randomList = useMemo<PrimaryItem[]>(() => {
+        return randomArray([
+            ...popularMovies.map((v) => ({ ...v, mediaType: 'movie' })),
+            ...wavves.map((v) => ({ ...v, mediaType: 'tv' })),
+            ...tvs.map((v) => ({ ...v, mediaType: 'tv' })),
+        ])
+            .filter((v) => v.poster_path) // 이미지 없는 거 제거
+            .slice(0, 20);
+    }, [popularMovies, wavves, tvs]);
 
     return (
         <main className="main-home">
@@ -63,10 +70,7 @@ const Home = () => {
                     <h2>지금 주목받는 스타들</h2>
                     <div className="">내용, 슬라이더, 등등</div>
                 </section>
-                <section className="card-list">
-                    <h2>이건 꼭 봐야해!</h2>
-                    <div className="">내용, 슬라이더, 등등</div>
-                </section>
+                <PrimaryList title="이건 꼭 봐야해!" randomList={randomList} />
                 <NewMovieList title="NEW! 새로 올라온 영화" newMovies={newMovies} />
             </div>
             <EditorRecommendCardList list={popularMovies} />

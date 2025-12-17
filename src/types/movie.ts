@@ -10,7 +10,7 @@ export interface MediaBase {
     vote_average: number;
     iso_3166_1: string;
     iso_639_1: string;
-    certification: number;
+    certification: string;
     season_number: number;
     episodeCount: number;
     logo_path: string;
@@ -69,7 +69,7 @@ export interface OnlyWavve extends MediaBase {
     seasons?: Season[];
     season_number: number;
     first_air_date: string;
-    logo: string;
+    logo: string | null;
 }
 
 export interface Video {
@@ -121,4 +121,13 @@ export interface TvState {
     selectedTv: Tv | null;
     onFetchTv: () => Promise<void>;
     setSelectedTv: (id: number) => void;
+}
+
+export interface PrimaryItem extends MediaBase {
+    id: number;
+    poster_path: string | null;
+    name?: string; // tv
+    mediaType: string;
+    videos: Video[];
+    logo: string | null;
 }
