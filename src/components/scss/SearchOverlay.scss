@@ -100,18 +100,20 @@
                 button{
                   width: 100%;
 
-                  .badge{
-                    color: g.$color-secondary-white;
-                    font-weight: 700;
-                    font-size: 18px;
-                    line-height: 140%;
-                    letter-spacing: -1%;
-                  }
-                  .word{
-                    color: g.$color-other4;
-                    font-size: 18px;
-                    line-height: 140%;
-                    letter-spacing: -1%;
+                  .txt{
+                    .hit{
+                      color: g.$color-secondary-white;
+                      font-weight: 700;
+                      font-size: 18px;
+                      line-height: 140%;
+                      letter-spacing: -1%;
+                    }
+                    .rest{
+                      color: g.$color-other4;
+                      font-size: 18px;
+                      line-height: 140%;
+                      letter-spacing: -1%;
+                    }
                   }
                 }
               }
@@ -317,4 +319,11 @@
       }
     }
   }
+}
+
+.result-list li.is-active button,
+.preview-list li.is-active button,
+.latest-searches-list li.is-active button,
+.popular-searches-list li.is-active button {
+  transform: translateZ(0); // (선택 효과 부드럽게)
 }
