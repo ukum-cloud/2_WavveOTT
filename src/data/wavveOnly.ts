@@ -3545,4 +3545,28 @@ export const wavveOnly: WavveOnlyItem[] = [
         tmdb_id: 156293, // TMDB ID 없으면 null
         tmdb_search_status: '콘크리트마켓', // TMDB 검색 상태 없으면 null
     },
+    {
+        index: 44, // 필요시 순서대로 수정
+        series_title: '[시리즈] 노엑싯게임룸',
+        series_refer_id: 'C9902_C99000000048',
+        content_refer_id: 'C9902_C99000000048_01_0004.1',
+        channelname: '', // 필요시 채널명 추가
+        genretext: '예능',
+        programtitle: '노엑싯게임룸',
+        seasonnumbertitle: '',
+        context_type: 'vod',
+        seasontitle: '노엑싯게임룸',
+        season_horizontal_logoY_image: 'image.wavve.com/meta/image/202512/1765427589279602213.jpg',
+        season_horizontal_logoN_image: 'image.wavve.com/meta/image/202512/1765427589296334379.jpg',
+        season_vertical_logoY_image: 'image.wavve.com/meta/image/202512/1765427590977748742.jpg',
+        seasonposterimage: 'image.wavve.com/meta/image/202512/1765427590977748742.jpg',
+        seasontitlelogoimage: 'image.wavve.com/meta/image/202512/1765427613490412300.png',
+        targetage: '12',
+        actors: ['미스터 해머', '미스터 노트'], // season_actors.list에서 text 추출
+        directors: ['빠니보틀'], // season_directors.list에서 text 추출
+        tags: ['퀴즈'], // tags.list에서 text 추출
+        season_writers: ['이태동'], // season_writers.list에서 text 추출
+        tmdb_id: 308394, // TMDB ID 없으면 null
+        tmdb_search_status: '노엑싯게임룸',
+    },
 ];
