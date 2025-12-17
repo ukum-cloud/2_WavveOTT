@@ -2,7 +2,7 @@ import "./scss/Login.scss";
 import "../style/common-button.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
-import { useState, useMemo } from "react"; // ✅ useEffect 제거
+import { useState, useMemo } from "react";
 import EtcLogin from "../components/EtcLogin";
 
 // 이메일 형식 검사를 위한 정규 표현식
@@ -16,7 +16,6 @@ const Login = () => {
     () => localStorage.getItem("savedEmail") || ""
   );
 
-  // ✅ [수정 1] 비밀번호 초기값을 useState에서 처리
   const [password, setPassword] = useState(() => {
     const auto = localStorage.getItem("autoLogin") === "true";
     if (!auto) return "";
@@ -71,14 +70,6 @@ const Login = () => {
       setPassword("");
     }
   };
-
-  // ❌ [수정 2] useEffect 완전히 제거
-  // useEffect(() => {
-  //   const savedPassword = localStorage.getItem("savedPassword");
-  //   if (savedPassword && autoPassword) {
-  //     setPassword(savedPassword);
-  //   }
-  // }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
