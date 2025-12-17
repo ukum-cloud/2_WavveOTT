@@ -17,7 +17,6 @@ interface NewTvListProps {
 const NewTvList = ({ title, tvs }: NewTvListProps) => {
   //어떤거가 호버됐는지 체크
   const [hoverId, setHoverId] = useState<number | null>(null); //숫자로 받기
-  console.log("TV값뭔데!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", tvs);
 
   //스와이퍼 슬라이드 첫번째,마지막 슬라이더 버튼 숨기기
   const prevBtn = useRef<HTMLDivElement>(null);
