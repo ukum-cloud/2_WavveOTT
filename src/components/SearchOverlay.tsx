@@ -110,6 +110,49 @@ const SearchOverlay = ({ onClose }: Props) => {
     onClose();
   };
 
+  const renderHighlighted = (label: string, query: string) => {
+    const q = query.trim();
+    if (!q) return <span className="txt">{label}</span>;
+
+    // 정규식 특수문자 escape
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "gi"); // 대소문자 무시
+
+    const nodes: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    // label에서 query 매칭되는 모든 구간을 찾아서 쪼개기
+    for (const match of label.matchAll(regex)) {
+      const start = match.index ?? 0;
+      const end = start + match[0].length;
+
+      if (start > lastIndex) {
+        nodes.push(
+          <span key={`rest-${lastIndex}`} className="rest">
+            {label.slice(lastIndex, start)}
+          </span>
+        );
+      }
+
+      nodes.push(
+        <span key={`hit-${start}`} className="hit">
+          {label.slice(start, end)}
+        </span>
+      );
+
+      lastIndex = end;
+    }
+
+    if (lastIndex < label.length) {
+      nodes.push(
+        <span key={`rest-tail`} className="rest">
+          {label.slice(lastIndex)}
+        </span>
+      );
+    }
+
+    return <span className="txt">{nodes}</span>;
+  };
 
   return (
     <div className="search-popup" role="dialog" aria-modal="true">
@@ -152,15 +195,9 @@ const SearchOverlay = ({ onClose }: Props) => {
                                 } else {
                                   navigate(`/contentsdetail/${r.kind}/${r.id}`);
                                 }
-
                                 onClose(); }}
                             >
-                              <span className="badge">
-                                {r.kind === "movie" && "영화"}
-                                {r.kind === "collection" && "시리즈"}
-                                {r.kind === "person" && "인물"}
-                              </span>
-                              <span className="word">{r.label}</span>
+                              <span className="word">{renderHighlighted(r.label, trimmed)}</span>
                             </button>
                           </li>
                         ))}
@@ -173,7 +210,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                       {previewList.map((t) => (
                         <li key={t}>
                           <button type="button" className="preview-item" onClick={() => goDetailByKeyword(t)}>
-                            {t}
+                            {renderHighlighted(t, trimmed)}
                           </button>
                         </li>
                       ))}

@@ -15,11 +15,12 @@ type SearchStore = SearchText & {
   loading: boolean;
   onFetchSearch: (query: string) => Promise<void>;
   onClearResults: () => void;
-
+  trendingKeywords: string[];
+  onFetchTrendingKeywords: () => Promise<void>;
   fetchSearchAndGetFirst: (query: string) => Promise<SearchResultItem | null>;
 };
 
-export const useSearchStore = create<SearchStore>((set) => ({
+export const useSearchStore = create<SearchStore>((set, get) => ({
   todos: [],
 
   //검색 기록 저장
@@ -43,70 +44,75 @@ export const useSearchStore = create<SearchStore>((set) => ({
   },
 
   //검색 기록들 전부 삭제
-  onRemoveAll: () => set({todos: []}),
+  onRemoveAll: () => set({ todos: [] }),
 
   // 검색 결과
   results: [],
   loading: false,
 
-  onClearResults: () => set({results: [], loading: false}),
+  onClearResults: () => set({ results: [], loading: false }),
 
   // 검색 함수
   onFetchSearch: async (query: string) => {
     const trimmed = query.trim();
     if (!trimmed) {
-      set({results: [], loading: false});
+      set({ results: [], loading: false });
       return;
     }
 
-    set({loading: true});
+    set({ loading: true });
 
-    const q = encodeURIComponent(trimmed);
+    try {
+      const q = encodeURIComponent(trimmed);
 
-    //1. collection
-    const cRes = await fetch(
-      `https://api.themoviedb.org/3/search/collection?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
-    );
-    const cData: TmdbCollectionResponse = await cRes.json();
+      const [cRes, mRes, pRes] = await Promise.all([
+        fetch(
+          `https://api.themoviedb.org/3/search/collection?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+        ),
+      ]);
 
-    //2. movie
-    const mRes = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
-    );
-    const mData: TmdbMovieResponse = await mRes.json();
+      const [cData, mData, pData] = await Promise.all([
+        cRes.json() as Promise<TmdbCollectionResponse>,
+        mRes.json() as Promise<TmdbMovieResponse>,
+        pRes.json() as Promise<TmdbPersonResponse>,
+      ]);
 
-    //3. person
-    const pRes = await fetch(
-      `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
-    );
-    const pData: TmdbPersonResponse = await pRes.json();
+      const merged: SearchResultItem[] = [
+        ...mData.results.slice(0, 5).map((m) => ({
+          id: m.id,
+          kind: "movie" as const,
+          label: m.title,
+          overview: m.overview,
+          poster_path: m.poster_path ?? null,
+          backdrop_path: m.backdrop_path ?? null,
+        })),
+        ...cData.results.slice(0, 5).map((c) => ({
+          id: c.id,
+          kind: "collection" as const,
+          label: c.name,
+          overview: c.overview,
+          poster_path: c.poster_path ?? null,
+          backdrop_path: c.backdrop_path ?? null,
+        })),
+        ...pData.results.slice(0, 5).map((p) => ({
+          id: p.id,
+          kind: "person" as const,
+          label: p.name,
+          profile_path: p.profile_path ?? null,
+        })),
+      ];
 
-    // 통합(원하는 규칙대로 정렬 / 갯수 조절 가능)
-    const merged: SearchResultItem[] = [
-      ...mData.results.slice(0, 5).map((m) => ({
-        id: m.id,
-        kind: "movie" as const,
-        label: m.title,
-        overview: m.overview,
-        poster_path: m.poster_path ?? null,
-        backdrop_path: m.backdrop_path ?? null,
-      })),
-      ...cData.results.slice(0, 5).map((c) => ({
-        id: c.id,
-        kind: "collection" as const,
-        label: c.name,
-        overview: c.overview,
-        poster_path: c.poster_path ?? null,
-        backdrop_path: c.backdrop_path ?? null,
-      })),
-      ...pData.results.slice(0, 5).map((p) => ({
-        id: p.id,
-        kind: "person" as const,
-        label: p.name,
-        profile_path: p.profile_path ?? null,
-      })),
-    ];
-    set({results: merged, loading:false});
+      set({ results: merged, loading: false });
+    } catch (err) {
+      console.error(err);
+      set({ results: [], loading: false });
+    }
   },
 
   trendingKeywords: [],
@@ -126,11 +132,11 @@ export const useSearchStore = create<SearchStore>((set) => ({
       .filter((v): v is string => Boolean(v))
       .slice(0, 10);
 
-    set({trendingKeywords: keywords});
+    set({ trendingKeywords: keywords });
   },
 
   fetchSearchAndGetFirst: async (query: string) => {
-    await useSearchStore.getState().onFetchSearch(query);
-    return useSearchStore.getState().results[0] ?? null;
+    await get().onFetchSearch(query);
+    return get().results[0] ?? null;
   },
 }))

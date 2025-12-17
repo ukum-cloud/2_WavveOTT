@@ -100,18 +100,20 @@
                 button{
                   width: 100%;
 
-                  .badge{
-                    color: g.$color-secondary-white;
-                    font-weight: 700;
-                    font-size: 18px;
-                    line-height: 140%;
-                    letter-spacing: -1%;
-                  }
-                  .word{
-                    color: g.$color-other4;
-                    font-size: 18px;
-                    line-height: 140%;
-                    letter-spacing: -1%;
+                  .txt{
+                    .hit{
+                      color: g.$color-secondary-white;
+                      font-weight: 700;
+                      font-size: 18px;
+                      line-height: 140%;
+                      letter-spacing: -1%;
+                    }
+                    .rest{
+                      color: g.$color-other4;
+                      font-size: 18px;
+                      line-height: 140%;
+                      letter-spacing: -1%;
+                    }
                   }
                 }
               }
