@@ -5,33 +5,30 @@
   background-repeat: no-repeat;
   background-size: cover;
   height: 640px;
+  padding: 90px 0px;
 
-  .nomination-inner {
-    padding: 90px 240px;
-
+  .inner {
     .main-nomination {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 94px;
+      gap: 100px;
 
-      button{
-        font-family: 'pretendard';
+      button {
+        font-family: "pretendard";
       }
       .left-text {
-
         .item {
-          margin: 50px 0;
+          margin: 50px 0 20px;
 
-          >h3 {
+          > h3 {
             font-size: 40px;
             line-height: 140%;
             letter-spacing: -2%;
             width: 272px;
           }
 
-          >p {
-            font-family: 'pretendard';
+          > p {
             font-size: 18px;
             line-height: 140%;
             letter-spacing: -2%;
@@ -47,7 +44,8 @@
         flex: 1;
         max-width: 1160px;
 
-        >li {
+        > li {
+          min-width: 342px;
           height: 460px;
           border-radius: 12px;
           overflow: hidden;
