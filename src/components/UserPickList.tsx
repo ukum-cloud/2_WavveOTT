@@ -1,5 +1,5 @@
 import React from "react";
-import { usePickStore } from "../../stores/usePickStore";
+import { usePickStore } from "../stores/usePickStore";
 
 const UserPickList = () => {
   const { pickList } = usePickStore();
