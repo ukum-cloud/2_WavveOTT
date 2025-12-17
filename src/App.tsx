@@ -31,6 +31,7 @@ import NoticeAdetail from "./pages/NoticeAdetail";
 import PaymentFinish from "./pages/PaymentFinish";
 import ScrollTop from "./components/ScrollTop";
 import Payment from "./pages/Payment";
+import Intro from "./pages/Intro";
 
 function App() {
   return (
@@ -39,7 +40,8 @@ function App() {
       <Header />
       <Routes>
         {/*  */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Intro />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/entertainment" element={<Entertainment />} />
         <Route path="/drama" element={<Drama />} />
         <Route path="/movie" element={<Movie />} />
