@@ -15,7 +15,7 @@ const MainNomination = () => {
 
   return (
     <div className="main-nomination-wrap">
-      <div className="nomination-inner">
+      <div className="inner">
         <div className="main-nomination">
           <div className="left-text">
             <div className="item">
@@ -24,8 +24,8 @@ const MainNomination = () => {
                 지금, 찜한 콘텐츠로 <br /> 가장 완벽한 순간을 시작하세요.
               </p>
             </div>
-            <button className="btn large secondary wFull" onClick={() => navigate("/favorite")}>
-              <p>찜 목록 보러가기</p>
+            <button className="btn large secondary wFull" onClick={() => navigate("/profile")}>
+              찜 목록 보러가기
             </button>
           </div>
           <ul className="content-list">
