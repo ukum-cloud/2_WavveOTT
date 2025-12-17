@@ -4,18 +4,22 @@ import type { Episodes, Season } from '../types/movie';
 import CustomSelect from './CustomSelect';
 
 import './scss/ContentsEpisode.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface EpisodeProps {
     episodes: Episodes[];
     seasons?: Season[];
     episodeImages?: string[];
+    videoKey: string | undefined;
 }
 export interface SelectOption {
     label: string;
     path: string;
 }
 
-const ContentsEpisode = ({ episodes, seasons = [], episodeImages }: EpisodeProps) => {
+const ContentsEpisode = ({ episodes, seasons = [], episodeImages, videoKey }: EpisodeProps) => {
+    const navigate = useNavigate();
+
     const [selectedSeason, setSelectedSeason] = useState('전체 시즌');
     const [selectedSeasonNumber, setSelectedSeasonNumber] = useState<number | null>(null);
     const [selectedSort, setSelectedSort] = useState('오래된 순');
@@ -89,9 +93,18 @@ const ContentsEpisode = ({ episodes, seasons = [], episodeImages }: EpisodeProps
             <ul className="episode-list">
                 {filteredEpisodes.map((e) => (
                     <li key={e.id} className="episode-card">
-                        <div className="episodes-img">
-                            <img src={e.image} alt={e.name} />
+                        <div
+                            className="episodes-img"
+                            onClick={() => navigate(`/player/${videoKey}`)}
+                        >
+                            <img className="play-default" src={e.image} alt={e.name} />
+                            <img
+                                className="play-hover"
+                                src="/images/icons/icon-play-white.svg"
+                                alt="playIcon"
+                            />
                         </div>
+
                         <div className="episodes-text">
                             <h3>
                                 시즌 {e.season_number} {e.episode_number}화
