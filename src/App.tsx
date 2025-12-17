@@ -55,7 +55,7 @@ function App() {
         <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
         <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
         <Route path="/ticket" element={<Ticket />} />
-        <Route path='/payment' element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/payment-finish" element={<PaymentFinish />} />
         <Route path="/service-center" element={<ServiceCenter />}>
           <Route index element={<NoticeA />} />
