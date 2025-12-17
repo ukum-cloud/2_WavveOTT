@@ -55,15 +55,40 @@ export interface TmdbPersonResponse {
 // 오버레이 화면에 뿌릴 “통합 결과” 타입 (label로 통일)
 export type SearchKind = "movie" | "collection" | "person";
 
-export interface SearchResultItem {
-  id: number;
-  kind: SearchKind;
-  label: string; // 화면에 보여줄 제목/이름
-  overview?: string;
-  poster_path?: string | null;
-  backdrop_path?: string | null;
-  profile_path?: string | null; // person용
-}
+// export interface SearchResultItem {
+//   id: number;
+//   kind: SearchKind;
+//   label: string; // 화면에 보여줄 제목/이름
+//   overview?: string;
+//   poster_path?: string | null;
+//   backdrop_path?: string | null;
+//   profile_path?: string | null; // person용
+// }
+
+export type SearchResultItem =
+  | {
+      id: number;
+      kind: "movie";
+      label: string;
+      overview?: string;
+      poster_path: string | null;
+      backdrop_path: string | null;
+    }
+  | {
+      id: number;
+      kind: "collection";
+      label: string;
+      overview?: string;
+      poster_path: string | null;
+      backdrop_path: string | null;
+    }
+  | {
+      id: number;
+      kind: "person";
+      label: string;
+      profile_path: string | null;
+    };
+
 
 // TMDB Trending (movie / tv 공통)
 export interface TmdbTrendingMovie {
@@ -99,7 +124,4 @@ export interface SearchText {
   onAddTextTodo: (text: string) => void;
   onRemoveTodos: (id: number) => void;
   onRemoveAll: () => void;
-
-  trendingKeywords: string[];
-  onFetchTrendingKeywords: () => Promise<void>;
 }
