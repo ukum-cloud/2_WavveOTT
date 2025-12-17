@@ -102,6 +102,7 @@ export const useMovieStore = create<MovieState>((set) => ({
 
                 return {
                     ...movie,
+                    media_type: 'movie',
                     certificationMovie,
                     logo,
                     runtime,
@@ -228,6 +229,7 @@ export const useMovieStore = create<MovieState>((set) => ({
 
                 return {
                     ...movie,
+                    media_type: 'movie',
                     certificationMovie,
                     logo,
                     runtime,
