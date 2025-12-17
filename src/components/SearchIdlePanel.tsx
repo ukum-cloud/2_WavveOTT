@@ -11,7 +11,7 @@ interface Props {
   onRemoveTodo: (id: number) => void;
   onClickKeyword: (keyword: string) => void;
 
-  // ✅ 키보드 공통 props
+  // 키보드 공통 props
   navItems: NavItem[];
   activeIndex: number;
   setActiveIndex: (n: number) => void;
@@ -28,9 +28,22 @@ const SearchIdlePanel = ({
   onRemoveAll,
   onRemoveTodo,
   onClickKeyword,
+  navItems,
   activeIndex,
-  recentCount
+  setActiveIndex,
+  setItemRef,
+  onItemKeyDown,
+  activateItem
 }: Props) => {
+  // navItems 기반으로 left/right를 전역 idx 유지한 채로 분리
+  const leftEntries = navItems
+    .map((item, idx) => ({ item, idx }))
+    .filter((x) => x.item.section === "left");
+
+  const rightEntries = navItems
+    .map((item, idx) => ({ item, idx }))
+    .filter((x) => x.item.section === "right");
+
   return (
     <div className="search-bottom">
       <div className="latest-searches-box bottom-search-box">
@@ -45,10 +58,10 @@ const SearchIdlePanel = ({
           <p className="empty-text">최근 검색 내역이 없습니다.</p>
         ) : (
           <ul className="latest-searches-list" role="listbox" id="search-listbox">
-            {todos.map((todo, idx) => (
+            {leftEntries.map(({item, idx}) => (
               <li
-                key={todo.id}
-                id={`search-option-${idx}`}
+                key={`${item.type}-${item.label}-${idx}`}
+                id={`nav-${idx}`}
                 role="option"
                 aria-selected={activeIndex === idx}
                 className={activeIndex === idx ? "is-active" : ""}
@@ -56,11 +69,19 @@ const SearchIdlePanel = ({
                 <button
                   type="button"
                   className="latest-text"
-                  onClick={() => onClickKeyword(todo.text)}
+                  ref={(el) => setItemRef(idx, el)}
+                  onKeyDown={onItemKeyDown}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  onClick={() => activateItem(idx)}
                 >
-                  {todo.text}
+                  {item.label}
                 </button>
-                <button type="button" onClick={() => onRemoveTodo(todo.id)} aria-label="삭제">
+                <button type="button" onClick={() => {
+                    const hit = todos.find((t) => t.text === item.label);
+                    if (hit) onRemoveTodo(hit.id);
+                  }}
+                  aria-label="삭제"
+                >
                   <img src="/images/icons/icon-search-remove.svg" alt="" />
                 </button>
               </li>
@@ -78,23 +99,37 @@ const SearchIdlePanel = ({
           </div>
         </div>
 
-        <ol className="popular-searches-list" id="search-listbox" role="listbox">
-          {trendingKeywords.slice(0, 10).map((t, i) => {
-            const idx = recentCount + i;
-            return (
-              <li key={t}
-                id={`search-option-${idx}`}
+        <ol className="popular-searches-list" role="listbox" aria-label="실시간 인기 검색어 목록">
+          {rightEntries.length > 0 ? (
+            rightEntries.map(({ item, idx }, i) => (
+              <li key={`${item.type}-${item.label}-${idx}`}
+                id={`nav-${idx}`} // 통일(섹션 이동/aria)
                 role="option"
                 aria-selected={activeIndex === idx}
                 className={activeIndex === idx ? "is-active" : ""}
               >
+                <button type="button"
+                  ref={(el) => setItemRef(idx, el)}
+                  onKeyDown={onItemKeyDown}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  onClick={() => activateItem(idx)}
+                >
+                  <span className="rank font-wave">{i + 1}</span>
+                  <span className="word">{item.label}</span>
+                </button>
+              </li>
+            ))
+          ) : (
+            // fallback: navItems에 right가 없을 때 기존 trendingKeywords로 표시(키보드는 Tab만)
+            trendingKeywords.slice(0, 10).map((t, i) => (
+              <li key={t}>
                 <button type="button" onClick={() => onClickKeyword(t)}>
                   <span className="rank font-wave">{i + 1}</span>
                   <span className="word">{t}</span>
                 </button>
               </li>
-            );
-          })}
+          ))
+        )}
         </ol>
       </div>
     </div>
