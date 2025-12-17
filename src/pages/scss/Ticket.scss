@@ -54,8 +54,21 @@
         z-index: 2;
         .front-top {
           @include g.myFlex();
+          height: 22px;
           &.jc {
             justify-content: center;
+          }
+          .badge {
+            min-width: 40px;
+            padding: 4px 8px;
+            align-items: center;
+            border-radius: 6px;
+            background: g.$color-secondary-black;
+            color: g.$color-font-primary;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: -0.24px;
           }
           .btn-detail {
             padding-right: 26px;
@@ -127,12 +140,11 @@
               .sale {
                 display: flex;
                 align-items: center;
-                padding: 2px 6px;
+                padding: 0 6px;
                 color: g.$color-font-white;
                 line-height: 24px;
                 font-family: "Wave";
                 font-size: 0.875rem;
-                line-height: 140%;
                 border-radius: 6px;
                 background: g.$color-primary;
               }
@@ -193,7 +205,6 @@
         background-size: 70px 15px;
         background-position-x: center;
         background-position-y: calc(100% - 30px);
-        // background-color: red;
       }
 
       // ===================================

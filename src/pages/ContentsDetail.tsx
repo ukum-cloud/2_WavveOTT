@@ -10,6 +10,7 @@ import { getContentImages } from '../utils/getData';
 import ContentsEpisode from '../components/ContentsEpisode';
 import ContentsRelative from '../components/ContentsRelative';
 import ContentsRecommend from '../components/ContentsRecommend';
+import Modal from '../components/Modal';
 
 import './scss/ContentsDetail.scss';
 
@@ -19,6 +20,7 @@ const ContentsDetail = () => {
     const { wavves, selectedWavve, onFetchWavve, setSelectedWavve } = useWavveStore();
     const { tvs, selectedTv, onFetchTv, setSelectedTv } = useTvStore();
 
+    const [shareOpen, setShareOpen] = useState(false);
     const [activeMenu, setActiveMenu] = useState('episode');
 
     // type에 따라 fetch
@@ -96,9 +98,9 @@ const ContentsDetail = () => {
                                     alt="certification"
                                 />
                             </p>
+                            <p className="title-star"></p>
                             <p className="title-vote seperate">
-                                <img src="/images/icons/icon-star.svg" alt="starIcon" />
-                                <span>{selectedContent.vote_average.toFixed(1)}</span>
+                                {selectedContent.vote_average.toFixed(1)}
                             </p>
                             <p className="title-genre seperate">
                                 {getGenres(selectedContent.genre_ids).slice(0, 2).join(' · ') ||
@@ -110,7 +112,20 @@ const ContentsDetail = () => {
                         </div>
                         <div className="detail-title-right">
                             <button className="detail-heart-btn"></button>
-                            <button className="detail-share-btn"></button>
+                            <button
+                                className="detail-share-btn"
+                                onClick={() => setShareOpen(true)}
+                            ></button>
+                            {/* 모달 */}
+                            <Modal
+                                isOpen={shareOpen}
+                                onClose={() => setShareOpen(false)}
+                                size="default"
+                            >
+                                <h3>공유하기</h3>
+                                <p>SNS</p>
+                                <button onClick={() => setShareOpen(false)}>닫기</button>
+                            </Modal>
                         </div>
                     </div>
                     <div className="detail-text-box">
@@ -132,7 +147,11 @@ const ContentsDetail = () => {
                                     <li key={`a-${actor.id}`} className="cast-card">
                                         <p className="cast-card-imgbox">
                                             <img
-                                                src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
+                                                src={
+                                                    actor.profile_path
+                                                        ? `https://image.tmdb.org/t/p/original${actor.profile_path}`
+                                                        : '/images/actor-no-image.svg'
+                                                }
                                                 alt={actor.name}
                                             />
                                         </p>
@@ -145,17 +164,34 @@ const ContentsDetail = () => {
                             <div className="detail-director">
                                 <h3>감독</h3>
                                 <ul className="director-list">
-                                    {selectedContent.director?.map((d, index) => (
-                                        <li key={`d-${d.id}-${index}`}>{d.name}</li>
-                                    ))}
+                                    {selectedContent.director &&
+                                    selectedContent.director.length > 0 ? (
+                                        selectedContent.director
+                                            .map((d, index) => (
+                                                <li key={`d-${d.id}-${index}`}>{d.name}</li>
+                                            ))
+                                            .slice(0, 7)
+                                    ) : (
+                                        <li className="empty-message">
+                                            제공된 감독 정보가 없습니다
+                                        </li>
+                                    )}
                                 </ul>
                             </div>
                             <div className="detail-writer">
                                 <h3>작가</h3>
                                 <ul className="writer-list">
-                                    {selectedContent.writer?.map((w, index) => (
-                                        <li key={`w-${w.id}-${index}`}>{w.name}</li>
-                                    ))}
+                                    {selectedContent.writer && selectedContent.writer.length > 0 ? (
+                                        selectedContent.writer
+                                            ?.map((w, index) => (
+                                                <li key={`w-${w.id}-${index}`}>{w.name}</li>
+                                            ))
+                                            .slice(0, 7)
+                                    ) : (
+                                        <li className="empty-message">
+                                            제공된 작가 정보가 없습니다
+                                        </li>
+                                    )}
                                 </ul>
                             </div>
                             <div className="detail-script">

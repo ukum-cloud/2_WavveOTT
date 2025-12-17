@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
-
 interface EtcLoginProps {
   handleGoogle: () => void; // Google 로그인 처리를 위한 함수
+  handleKakao: () => void; // Kakao 로그인 처리를 위한 함수
 }
 // EtcLogin 컴포넌트 정의 수정
-const EtcLogin = ({ handleGoogle }: EtcLoginProps) => {
+const EtcLogin = ({ handleGoogle, handleKakao }: EtcLoginProps) => {
   return (
     <div className="btn-box-other">
       <p className="text-top">또는 다른 서비스 계정으로 로그인</p>
       <ul>
         <li>
-          <Link to={"/"}>
+          <button onClick={handleKakao}>
             <img src="/images/icons/icon-kakao-login.svg" alt="kakao login" />
-          </Link>
+          </button>
         </li>
         <li>
           <button onClick={handleGoogle}>

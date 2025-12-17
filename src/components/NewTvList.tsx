@@ -138,25 +138,10 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
-                                            <p>
-                                                <img
-                                                    src="/images/icons/icon-play-sm.svg"
-                                                    alt="icon-play"
-                                                />
-                                            </p>
-                                            <p>
-                                                <img
-                                                    src="/images/icons/icon-heart-sm.svg"
-                                                    alt="icon-heart"
-                                                />
-                                            </p>
+                                            <button className="preview-play-btn"></button>
+                                            <button className="preview-heart-btn"></button>
                                         </div>
-                                        <Link to={`/contentsdetail/tv/${t.id}`}>
-                                            <img
-                                                src="/images/icons/icon-play-sm.svg"
-                                                alt="icon-detail"
-                                            />
-                                        </Link>
+                                        <Link to={`/contentsdetail/tv/${t.id}`}></Link>
                                     </div>
                                 </div>
                             )}

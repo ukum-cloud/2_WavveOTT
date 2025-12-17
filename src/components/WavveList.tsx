@@ -143,25 +143,10 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
-                                            <p>
-                                                <img
-                                                    src="/images/icons/icon-play-sm.svg"
-                                                    alt="icon-play"
-                                                />
-                                            </p>
-                                            <p>
-                                                <img
-                                                    src="/images/icons/icon-heart-sm.svg"
-                                                    alt="icon-heart"
-                                                />
-                                            </p>
+                                            <button className="preview-play-btn"></button>
+                                            <button className="preview-heart-btn"></button>
                                         </div>
-                                        <Link to={`/contentsdetail/tv/${m.id}`}>
-                                            <img
-                                                src="/images/icons/icon-play-sm.svg"
-                                                alt="icon-detail"
-                                            />
-                                        </Link>
+                                        <Link to={`/contentsdetail/tv/${m.id}`}></Link>
                                     </div>
                                 </div>
                             )}

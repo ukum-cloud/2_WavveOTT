@@ -58,11 +58,24 @@
                     @include g.myFlex($jc: unset, $gap: 0);
                     font-size: 14px;
 
+                    .recommend-star {
+                        width: 16px;
+                        height: 16px;
+                        display: inline-block;
+                        margin-right: 4px;
+                        background: url('/images/icons/icon-star.svg') no-repeat center center;
+                    }
                     .recommend-vote {
                         @include g.myFlex($jc: unset, $gap: 0);
                     }
+                    .recommend-date {
+                        @include g.myFlex($jc: unset, $gap: 0);
+                    }
                     .seperate::after {
-                        content: '|';
+                        content: '';
+                        width: 1px;
+                        height: 14px;
+                        background: url('/images/icons/icon-line.svg');
                         margin: 0 6px;
                     }
                 }

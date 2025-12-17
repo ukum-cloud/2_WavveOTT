@@ -1,74 +1,79 @@
 @use "../../App.scss" as g;
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.36);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-container {
-    border-radius: 8px;
-    color: g.$color-secondary-white;
-    background-color: g.$color-secondary-dark3;
-    /* 기본 애니메이션 */
-    opacity: 1;
-    transform: scale(1);
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  @include g.myFlexCol($gap: 30px);
+  padding: 30px 40px 30px;
+  background-color: g.$color-secondary-dark2;
+  border: 1px solid g.$color-secondary-dark3;
+  border-radius: 16px;
+  /* 기본 애니메이션 */
+  opacity: 1;
+  transform: scale(1);
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
 .modal-header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid g.$color-secondary-dark;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    .modal-title {
-        color: g.$color-font-white;
-        padding: 20px;
-    }
+  .modal-title {
+    font-size: 1.125rem;
+  }
 
-    .close-button {
-        position: absolute;
-        right: 20px;
-        font-size: 1.5rem;
-        color: #999;
+  .close-button {
+    position: absolute;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background-image: url(/images/button/btn-close.svg);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    > span {
+      opacity: 0;
     }
+  }
 }
 
 .modal-content {
-    padding: 20px;
 }
 
 .modal-footer {
-    @include g.myFlex($gap: 8px, $jc: center);
-    padding: 20px;
+  @include g.myFlex($gap: 8px, $jc: center);
 }
 
 /* --- 크기별 스타일 --- */
 .modal-container--xsmall {
-    width: 280px;
-    max-width: 280px;
+  width: 300px;
+  max-width: 280px;
 }
 
 .modal-container--small {
-    width: 400px;
-    max-width: 400px;
+  width: 400px;
+  max-width: 400px;
 }
 
 .modal-container--default {
-    width: 580px;
-    max-width: 580px;
+  width: 600px;
+  max-width: 580px;
 }
 
 .modal-container--large {
-    width: 720px;
-    max-width: 720px;
+  width: 800px;
+  max-width: 720px;
 }
