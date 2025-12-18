@@ -19,7 +19,7 @@ const Event = () => {
                 <div className="text-box">
                   <h3>{e.title}</h3>
                   <dl>
-                    <dt>기간</dt>
+                    <dt>기간기간</dt>
                     <dd>{e.date}</dd>
                   </dl>
                 </div>
