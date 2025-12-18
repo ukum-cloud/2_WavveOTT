@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
 import './scss/Footer.scss';
 import { useCallback, useEffect, useState } from 'react';
+import Chatbot from './Chatbot';
 
 type Scroll = () => void;
 
 const Footer = () => {
+    // 챗봇열려있는지 체크
+    const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
+    // 스크롤시 아이콘 보이는지
     const [isVisible, setIsVisible] = useState<boolean>(false);
     // 스크롤함수
     const scrollToTop: Scroll = () => {
@@ -33,9 +38,20 @@ const Footer = () => {
         <footer>
             <div className="inner">
                 <div className="chatbotNtopBtn">
-                    <p className="chatbot">
-                        <span className="hidden">chatbot</span>
-                    </p>
+                    <div className={`chatbot ${isVisible ? 'visible' : ''}`}>
+                        {/* 1. 채팅창: 버튼 바로 위에 띄움 */}
+                        {isChatbotOpen && <Chatbot onClose={() => setIsChatbotOpen(false)} />}
+
+                        {/* 2. 챗봇 실행 버튼: 위치 고정 */}
+                        <button
+                            className="chatbot-btn"
+                            onClick={() => setIsChatbotOpen(!isChatbotOpen)}
+                        >
+                            <img src="/images/icons/icon-chatbot.png" alt="챗봇실행" />
+                        </button>
+                    </div>
+
+                    {/* 탑 버튼 */}
                     <p className={`goToTop ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
                         <span className="hidden">go to top</span>
                     </p>

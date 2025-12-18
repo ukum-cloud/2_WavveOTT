@@ -19,7 +19,6 @@ footer {
                 height: 50px;
                 cursor: pointer;
                 background-repeat: no-repeat;
-                cursor: pointer;
                 // 기본상태 안보이기
                 opacity: 0;
                 pointer-events: none;
@@ -27,11 +26,10 @@ footer {
                 transition: opacity 0.3s ease-in-out;
             }
             > .chatbot {
-                background-image: url(/images/icons/icon-chatbot.png);
-                // &.visible {
-                //     opacity: 1;
-                //     pointer-events: auto; // 클릭 활성화
-                // }
+                &.visible {
+                    opacity: 1;
+                    pointer-events: auto; // 클릭 활성화
+                }
             }
             > .goToTop {
                 background-image: url(/images/icons/icon-top.png);
