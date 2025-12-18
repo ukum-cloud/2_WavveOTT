@@ -3,10 +3,26 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { backgroundImage, logoImage } from "../utils/getListData";
 import { getGenres, getGrades } from "../utils/mapping";
 import { Link } from "react-router-dom";
+import { usePickStore } from "../stores/usePickStore";
+import Modal from "./Modal";
 
 const SwiperDefault = ({ data }) => {
+  const { onTogglePick, pickList, pickAction } = usePickStore();
+
   const [hoverId, setHoverId] = useState<number | null>(null);
   const list = Array.isArray(data) ? data : [];
+
+  const [modalSize, setModalSize] = useState<"xsmall" | "small" | "default" | "large">("default"); //모달 size
+  const [isModalOpen, setIsModalOpen] = useState(false); //모달오픈 상태변수
+
+  const handleHeart = async (item) => {
+    await onTogglePick(item);
+    setModalSize("small");
+    setIsModalOpen(true);
+  };
+
+  //모달 닫기 핸들러
+  const handleCloseModal = () => setIsModalOpen(false);
 
   if (!Array.isArray(data)) {
     console.log("SwiperDefault 받은 data가 배열이 아님:", data);
@@ -74,7 +90,9 @@ const SwiperDefault = ({ data }) => {
                 <div className="preview-badge-bottom">
                   <div className="preview-btn-wrap">
                     <button className="preview-play-btn"></button>
-                    <button className="preview-heart-btn"></button>
+                    <button
+                      className="preview-heart-btn active"
+                      onClick={() => handleHeart(d)}></button>
                   </div>
                   <Link
                     to={
@@ -89,6 +107,34 @@ const SwiperDefault = ({ data }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} size={modalSize}>
+        {/* 모달 내부 콘텐츠: Header, Body, Footer를 직접 구성 */}
+        <div className="modal-header">
+          <h3 className="modal-title">알림</h3>
+          {/* 닫기 버튼은 onCLose 핸들러를 호출 */}
+          <button className="close-button" onClick={handleCloseModal}>
+            <span>닫기</span>
+          </button>
+        </div>
+        <div className="modal-content">
+          <p>
+            {pickAction === "add" ? "찜 리스트에 추가되었습니다!" : "찜 리스트에서 제거되었습니다!"}
+          </p>
+        </div>
+        <div className="modal-footer">
+          <button
+            className="btn default primary"
+            onClick={() => {
+              handleCloseModal();
+              navigate("/profile");
+            }}>
+            찜 바로가기
+          </button>
+          <button className="btn default secondary-line" onClick={handleCloseModal}>
+            닫기
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

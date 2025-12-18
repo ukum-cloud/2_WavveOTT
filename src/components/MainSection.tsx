@@ -6,7 +6,7 @@ import { usePickStore } from "../stores/usePickStore";
 import Modal from "./Modal";
 
 const MainSlider = () => {
-  const { onTogglePick, pickList } = usePickStore();
+  const { onTogglePick, pickList, pickAction } = usePickStore();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showVideo, setShowVideo] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -19,7 +19,6 @@ const MainSlider = () => {
     await onTogglePick(main);
     setModalSize("small");
     setIsModalOpen(true);
-    console.log("픽리스트 : ", pickList);
   };
   const navigate = useNavigate("");
 
@@ -39,8 +38,8 @@ const MainSlider = () => {
 
   const isPicked = !!main && pickList.some((p) => p.tmdb_id === main.tmdb_id);
 
-  const handleNavigate = (main) => {
-    navigate(`/contentsdetail/tv/${main.tmdb_id}`);
+  const handleNavigate = () => {
+    navigate(`contentsdetail/wavve/233219`);
   };
 
   useEffect(() => {
@@ -131,7 +130,9 @@ const MainSlider = () => {
           </button>
         </div>
         <div className="modal-content">
-          <p>찜 리스트에 추가되었습니다!</p>
+          <p>
+            {pickAction === "add" ? "찜 리스트에 추가되었습니다!" : "찜 리스트에서 제거되었습니다!"}
+          </p>
         </div>
         <div className="modal-footer">
           <button

@@ -1,315 +1,313 @@
-@use '../../App.scss' as g;
+@use "../../App.scss" as g;
 
 .card-list {
-    // 타이틀
-    .title-wrap {
-        @include g.myFlex();
-    }
+  // 타이틀
+  .title-wrap {
+    @include g.myFlex();
+  }
 
-    // 스와이퍼 리스트
-    .swiper {
-        position: relative;
+  // 스와이퍼 리스트
+  .swiper {
+    position: relative;
+    overflow: visible;
+    width: 100%;
+
+    .swiper-wrapper {
+      overflow: visible;
+
+      .swiper-slide {
         overflow: visible;
-        width: 100%;
+        width: 220px;
 
-        .swiper-wrapper {
-            overflow: visible;
+        // 메인 카드
+        .poster-wrap {
+          position: relative;
+          width: 220px;
+          height: 320px;
+          border-radius: 12px;
+          overflow: visible;
+          z-index: 1;
 
-            .swiper-slide {
-                overflow: visible;
-                width: 220px;
-
-                // 메인 카드
-                .poster-wrap {
-                    position: relative;
-                    width: 220px;
-                    height: 320px;
-                    border-radius: 12px;
-                    overflow: visible;
-                    z-index: 1;
-
-                    .main {
-                        position: absolute;
-                        inset: 0;
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        border-radius: 12px;
-                        transition: opacity 1s ease;
-                    }
-
-                    // 기본
-                    &::after {
-                        content: none;
-                    }
-
-                    // wavve 뱃지
-                    &.badge-wavve::after {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        width: 44px;
-                        height: 44px;
-                        background-image: url('/images/badge/badge-wavve-logo.svg');
-                    }
-
-                    // new 뱃지
-                    &.badge-new::after {
-                        content: '';
-                        position: absolute;
-                        top: 10px;
-                        left: 10px;
-                        width: 44px;
-                        height: 44px;
-                        background: url('/images/badge/badge-new.svg') no-repeat;
-                    }
-
-                    // 미리보기 카드
-                    .preview-wrap {
-                        position: absolute;
-                        left: 50%;
-                        top: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 464px;
-                        height: auto;
-                        min-height: 464px;
-                        opacity: 0;
-
-                        @include g.myFlex($jc: unset, $gap: 1.4rem);
-                        flex-direction: column;
-
-                        padding: 0 30px;
-                        background: black;
-                        border: 1px solid #1d2131;
-                        border-radius: 12px;
-                        box-shadow: 0 0 40px 3px #0f1f42;
-
-                        transition: opacity 0.4s ease, transform 0.4s ease;
-
-                        .img-box {
-                            position: relative;
-                            width: 464px;
-                            height: 300px;
-                            overflow: hidden;
-                            border-radius: 12px;
-
-                            > img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                                border: none;
-                            }
-
-                            > iframe {
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                width: 100%;
-                                height: 100%;
-                                border: none;
-                            }
-
-                            .logo-box {
-                                position: absolute;
-                                bottom: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100px;
-                                padding: 0 30px;
-                                @include g.myFlex();
-
-                                text-align: start;
-
-                                .content-logo {
-                                    display: inline-block;
-                                    height: 70%;
-                                    object-fit: contain;
-                                }
-
-                                .sound-icon {
-                                    display: inline-block;
-                                    width: 48px;
-                                    height: 48px;
-                                }
-                            }
-                        }
-
-                        .preview-badge-top {
-                            width: 100%;
-                            @include g.myFlex($jc: unset, $gap: 1.2rem);
-                            font-family: 'Wave';
-                            font-size: 18px;
-                            font-weight: 400;
-                            .preview-genre::after {
-                                content: '';
-                                width: 1px;
-                                height: 14px;
-                                background: url('/images/icons/icon-line.svg');
-                                margin: 0 0 0 1.2rem;
-                            }
-                        }
-
-                        .preview-badge-bottom {
-                            width: 100%;
-                            margin-bottom: 10px;
-                            @include g.myFlex($gap: 0.4rem);
-
-                            .preview-btn-wrap {
-                                @include g.myFlex($gap: 1.2rem);
-
-                                .preview-play-btn {
-                                    width: 56px;
-                                    height: 56px;
-                                    background: url('/images/icons/icon-play-default.svg') no-repeat
-                                        center center;
-                                    background-size: contain;
-                                    &:hover {
-                                        background: url('/images/icons/icon-play-hover.svg')
-                                            no-repeat center center;
-                                        background-size: contain;
-                                    }
-                                }
-                                .preview-heart-btn {
-                                    width: 56px;
-                                    height: 56px;
-                                    background: url('/images/icons/icon-heart-default.svg')
-                                        no-repeat center center;
-                                    background-size: contain;
-                                    &:hover {
-                                        background: url('/images/icons/icon-heart-hover.svg')
-                                            no-repeat center;
-                                        background-size: contain;
-                                    }
-                                }
-                            }
-                            a {
-                                width: 56px;
-                                height: 56px;
-                                background: url('/images/icons/icon-detail-default.svg') no-repeat
-                                    center center;
-                                background-size: contain;
-                                &:hover {
-                                    background: url('/images/icons/icon-detail-hover.svg') no-repeat
-                                        center;
-                                    background-size: contain;
-                                }
-                            }
-                        }
-                    }
-
-                    // 호버
-                    &:hover {
-                        z-index: 20;
-
-                        &::after {
-                            opacity: 0;
-                        }
-
-                        .main {
-                            opacity: 0;
-                        }
-
-                        .preview-wrap {
-                            opacity: 1;
-                            transform: translate(-50%, -50%);
-                            transition-delay: 0.3s;
-                            pointer-events: auto;
-                        }
-                    }
-                }
-            }
-
-            // 첫번째 미리보기 카드 위치 조정
-            .swiper-slide-active {
-                .poster-wrap {
-                    .preview-wrap {
-                        left: 0;
-                        transform: translate(0, -50%);
-                    }
-
-                    &:hover .preview-wrap {
-                        transform: translate(0, -50%);
-                    }
-                }
-            }
-
-            // 화면상 마지막 카드 위치 조정 (className에 swiper-slide-visible는 들어가는데 fully-visible는 안들어가는 것)
-            .swiper-slide-visible:not(.swiper-slide-fully-visible) {
-                .poster-wrap {
-                    .preview-wrap {
-                        left: auto;
-                        right: 0;
-                        transform: translate(0, -50%);
-                    }
-
-                    &:hover .preview-wrap {
-                        right: 0;
-                        transform: translate(0, -50%);
-                    }
-                }
-            }
-
-            //진짜 마지막 미리보기 카드 위치 조정
-            .swiper-slide:last-child {
-                .poster-wrap {
-                    .preview-wrap {
-                        left: auto;
-                        right: 0;
-                        transform: translate(0, -50%);
-                    }
-
-                    &:hover .preview-wrap {
-                        right: 0;
-                        transform: translate(0, -50%);
-                    }
-                }
-            }
-        }
-
-        .prev-wrap {
+          .main {
             position: absolute;
-            width: 240px;
-            height: 320px;
-            top: 0;
-            left: -240px;
-            z-index: 100;
-            background: rgba($color: #000000, $alpha: 0.7);
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 12px;
-        }
-        .next-wrap {
+            transition: opacity 1s ease;
+          }
+
+          // 기본
+          &::after {
+            content: none;
+          }
+
+          // wavve 뱃지
+          &.badge-wavve::after {
+            content: "";
             position: absolute;
-            width: 234px;
-            height: 320px;
             top: 0;
-            right: -240px;
-            z-index: 100;
-            background: rgba($color: #000000, $alpha: 0.7);
-            border-radius: 12px;
-        }
+            right: 0;
+            width: 44px;
+            height: 44px;
+            background-image: url("/images/badge/badge-wavve-logo.svg");
+          }
 
-        .swiper-button-prev {
+          // new 뱃지
+          &.badge-new::after {
+            content: "";
             position: absolute;
-            left: 80%;
-            transform: translateX(-50%);
-            color: g.$color-secondary-white;
-        }
+            top: 10px;
+            left: 10px;
+            width: 44px;
+            height: 44px;
+            background: url("/images/badge/badge-new.svg") no-repeat;
+          }
 
-        .swiper-button-next {
+          // 미리보기 카드
+          .preview-wrap {
             position: absolute;
-            right: 80%;
-            transform: translateX(50%);
-            color: g.$color-secondary-white;
-        }
-
-        .hidden {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 464px;
+            height: auto;
+            min-height: 464px;
             opacity: 0;
-            pointer-events: none;
-        }
 
-        .visible {
-            opacity: 1;
+            @include g.myFlex($jc: unset, $gap: 1.4rem);
+            flex-direction: column;
+
+            padding: 0 30px;
+            background: black;
+            border: 1px solid #1d2131;
+            border-radius: 12px;
+            box-shadow: 0 0 40px 3px #0f1f42;
+
+            transition: opacity 0.4s ease, transform 0.4s ease;
+
+            .img-box {
+              position: relative;
+              width: 464px;
+              height: 300px;
+              overflow: hidden;
+              border-radius: 12px;
+
+              > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border: none;
+              }
+
+              > iframe {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                border: none;
+              }
+
+              .logo-box {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100px;
+                padding: 0 30px;
+                @include g.myFlex();
+
+                text-align: start;
+
+                .content-logo {
+                  display: inline-block;
+                  height: 70%;
+                  object-fit: contain;
+                }
+
+                .sound-icon {
+                  display: inline-block;
+                  width: 48px;
+                  height: 48px;
+                }
+              }
+            }
+
+            .preview-badge-top {
+              width: 100%;
+              @include g.myFlex($jc: unset, $gap: 1.2rem);
+              font-family: "Wave";
+              font-size: 18px;
+              font-weight: 400;
+              .preview-genre::after {
+                content: "";
+                width: 1px;
+                height: 14px;
+                background: url("/images/icons/icon-line.svg");
+                margin: 0 0 0 1.2rem;
+              }
+            }
+
+            .preview-badge-bottom {
+              width: 100%;
+              margin-bottom: 10px;
+              @include g.myFlex($gap: 0.4rem);
+
+              .preview-btn-wrap {
+                @include g.myFlex($gap: 1.2rem);
+
+                .preview-play-btn {
+                  width: 56px;
+                  height: 56px;
+                  background: url("/images/icons/icon-play-default.svg") no-repeat center center;
+                  background-size: contain;
+                  &:hover {
+                    background: url("/images/icons/icon-play-hover.svg") no-repeat center center;
+                    background-size: contain;
+                  }
+                }
+                .preview-heart-btn {
+                  width: 56px;
+                  height: 56px;
+                  background: url("/images/icons/icon-heart-default.svg") no-repeat center center;
+                  background-size: contain;
+                  &:hover {
+                    background: url("/images/icons/icon-heart-hover.svg") no-repeat center;
+                    background-size: contain;
+                  }
+                  &.active {
+                    background: url("/images/icons/icon-heart-active.svg") no-repeat center;
+                    background-size: contain;
+                  }
+                }
+              }
+              a {
+                width: 56px;
+                height: 56px;
+                background: url("/images/icons/icon-detail-default.svg") no-repeat center center;
+                background-size: contain;
+                &:hover {
+                  background: url("/images/icons/icon-detail-hover.svg") no-repeat center;
+                  background-size: contain;
+                }
+              }
+            }
+          }
+
+          // 호버
+          &:hover {
+            z-index: 20;
+
+            &::after {
+              opacity: 0;
+            }
+
+            .main {
+              opacity: 0;
+            }
+
+            .preview-wrap {
+              opacity: 1;
+              transform: translate(-50%, -50%);
+              transition-delay: 0.3s;
+              pointer-events: auto;
+            }
+          }
         }
+      }
+
+      // 첫번째 미리보기 카드 위치 조정
+      .swiper-slide-active {
+        .poster-wrap {
+          .preview-wrap {
+            left: 0;
+            transform: translate(0, -50%);
+          }
+
+          &:hover .preview-wrap {
+            transform: translate(0, -50%);
+          }
+        }
+      }
+
+      // 화면상 마지막 카드 위치 조정 (className에 swiper-slide-visible는 들어가는데 fully-visible는 안들어가는 것)
+      .swiper-slide-visible:not(.swiper-slide-fully-visible) {
+        .poster-wrap {
+          .preview-wrap {
+            left: auto;
+            right: 0;
+            transform: translate(0, -50%);
+          }
+
+          &:hover .preview-wrap {
+            right: 0;
+            transform: translate(0, -50%);
+          }
+        }
+      }
+
+      //진짜 마지막 미리보기 카드 위치 조정
+      .swiper-slide:last-child {
+        .poster-wrap {
+          .preview-wrap {
+            left: auto;
+            right: 0;
+            transform: translate(0, -50%);
+          }
+
+          &:hover .preview-wrap {
+            right: 0;
+            transform: translate(0, -50%);
+          }
+        }
+      }
     }
+
+    .prev-wrap {
+      position: absolute;
+      width: 240px;
+      height: 320px;
+      top: 0;
+      left: -240px;
+      z-index: 100;
+      background: rgba($color: #000000, $alpha: 0.7);
+      border-radius: 12px;
+    }
+    .next-wrap {
+      position: absolute;
+      width: 234px;
+      height: 320px;
+      top: 0;
+      right: -240px;
+      z-index: 100;
+      background: rgba($color: #000000, $alpha: 0.7);
+      border-radius: 12px;
+    }
+
+    .swiper-button-prev {
+      position: absolute;
+      left: 80%;
+      transform: translateX(-50%);
+      color: g.$color-secondary-white;
+    }
+
+    .swiper-button-next {
+      position: absolute;
+      right: 80%;
+      transform: translateX(50%);
+      color: g.$color-secondary-white;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .visible {
+      opacity: 1;
+    }
+  }
 }
