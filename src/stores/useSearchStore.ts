@@ -169,186 +169,239 @@
 //     { name: "search-store" }
 //   )
 // );
+// import { create } from "zustand";
+// import { persist } from "zustand/middleware";
+// import type {
+//   SearchState,
+//   TmdbMultiResponse,
+//   SearchResultItem,
+//   TmdbTrendingResponse,
+// } from "../types/searchtodo";
+
+// const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string | undefined;
+
+// async function fetchJsonOrThrow<T>(url: string): Promise<T> {
+//   const res = await fetch(url);
+//   const data = await res.json().catch(() => null);
+//   if (!res.ok) {
+//     const msg = (data && data.status_message) || `HTTP ${res.status}`;
+//     throw new Error(msg);
+//   }
+//   return data as T;
+// }
+
+// export const useSearchStore = create<SearchState>()(
+//   persist(
+//     (set, get) => ({
+//       todos: [],
+
+//       onAddTextTodo: (text) => {
+//         const trimmed = text.trim();
+//         if (!trimmed) return;
+
+//         set((state) => ({
+//           todos: [
+//             { id: Date.now(), text: trimmed },
+//             ...state.todos.filter((t) => t.text !== trimmed),
+//           ].slice(0, 20),
+//         }));
+//       },
+
+//       onRemoveTodos: (id) =>
+//         set((state) => ({ todos: state.todos.filter((t) => t.id !== id) })),
+//       onRemoveAll: () => set({ todos: [] }),
+
+//       results: [],
+//       loading: false,
+//       onClearResults: () => set({ results: [], loading: false }),
+
+//       // ✅ multi 검색 + 페이지 합치기
+//       onFetchSearch: async (query: string, maxPages = 3) => {
+//         const trimmed = query.trim();
+//         if (!API_KEY) {
+//           console.warn("VITE_TMDB_API_KEY is missing");
+//           set({ results: [], loading: false });
+//           return;
+//         }
+//         if (!trimmed) {
+//           set({ results: [], loading: false });
+//           return;
+//         }
+
+//         set({ loading: true });
+
+//         try {
+//           const q = encodeURIComponent(trimmed);
+
+//           const all: SearchResultItem[] = [];
+//           let totalPages = 1;
+
+//           // 1페이지 먼저 받아서 total_pages 확보
+//           const first = await fetchJsonOrThrow<TmdbMultiResponse>(
+//             `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
+//           );
+//           totalPages = first.total_pages ?? 1;
+
+//           const pushItems = (items: TmdbMultiResponse["results"]) => {
+//             for (const it of items ?? []) {
+//               if (it.media_type === "movie") {
+//                 all.push({
+//                   id: it.id,
+//                   kind: "movie",
+//                   label: it.title,
+//                   overview: it.overview,
+//                   poster_path: it.poster_path ?? null,
+//                   backdrop_path: it.backdrop_path ?? null,
+//                 });
+//               } else if (it.media_type === "tv") {
+//                 all.push({
+//                   id: it.id,
+//                   kind: "tv",
+//                   label: it.name,
+//                   overview: it.overview,
+//                   poster_path: it.poster_path ?? null,
+//                   backdrop_path: it.backdrop_path ?? null,
+//                 });
+//               } else if (it.media_type === "person") {
+//                 all.push({
+//                   id: it.id,
+//                   kind: "person",
+//                   label: it.name,
+//                   profile_path: it.profile_path ?? null,
+//                 });
+//               }
+//             }
+//           };
+
+//           pushItems(first.results);
+
+//           // 2페이지부터 for문으로 추가 수집
+//           const end = Math.min(totalPages, maxPages);
+//           for (let page = 2; page <= end; page++) {
+//             const data = await fetchJsonOrThrow<TmdbMultiResponse>(
+//               `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=${page}&query=${q}`
+//             );
+//             pushItems(data.results);
+//           }
+
+//           // ✅ 중복 제거 (kind-id 기준)
+//           const uniqMap = new Map<string, SearchResultItem>();
+//           for (const r of all) uniqMap.set(`${r.kind}-${r.id}`, r);
+//           const merged = Array.from(uniqMap.values());
+
+//           // ✅ 검색어 우선 정렬(시작 > 포함 > 가나다)
+//           const low = trimmed.toLowerCase();
+//           merged.sort((a, b) => {
+//             const A = a.label.toLowerCase();
+//             const B = b.label.toLowerCase();
+//             const aStarts = A.startsWith(low) ? 1 : 0;
+//             const bStarts = B.startsWith(low) ? 1 : 0;
+//             if (aStarts !== bStarts) return bStarts - aStarts;
+
+//             const aInc = A.includes(low) ? 1 : 0;
+//             const bInc = B.includes(low) ? 1 : 0;
+//             if (aInc !== bInc) return bInc - aInc;
+
+//             return A.localeCompare(B);
+//           });
+
+//           set({ results: merged, loading: false });
+//         } catch (err) {
+//           console.error("TMDB multi search failed:", err);
+//           set({ results: [], loading: false });
+//         }
+//       },
+
+//       trendingKeywords: [],
+
+//       onFetchTrendingKeywords: async () => {
+//         if (!API_KEY) {
+//           set({ trendingKeywords: [] });
+//           return;
+//         }
+//         try {
+//           const data = await fetchJsonOrThrow<TmdbTrendingResponse>(
+//             `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=ko-KR`
+//           );
+
+//           const keywords = (data.results ?? [])
+//             .map((item) => {
+//               if (item.media_type === "movie") return item.title;
+//               if (item.media_type === "tv" || item.media_type === "person")
+//                 return item.name;
+//               return null;
+//             })
+//             .filter((v): v is string => Boolean(v))
+//             .slice(0, 10);
+
+//           set({ trendingKeywords: keywords });
+//         } catch (err) {
+//           console.error("TMDB trending failed:", err);
+//           set({ trendingKeywords: [] });
+//         }
+//       },
+
+//       fetchSearchAndGetFirst: async (query: string, maxPages = 3) => {
+//         await get().onFetchSearch(query, maxPages);
+//         return get().results[0] ?? null;
+//       },
+//     }),
+//     {
+//       name: "search-store",
+//       partialize: (state) => ({ todos: state.todos }),
+//     }
+//   )
+// );
+//store/useSearchStore
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type {
-  SearchState,
-  TmdbMultiResponse,
-  SearchResultItem,
-  TmdbTrendingResponse,
-} from "../types/searchtodo";
+import { searchMulti } from "../api/tmdb";
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string | undefined;
+// TMDB multi 검색 결과에서 우리가 쓰는 최초 필드 타입
+type MultiItem = {
+  id: number;
+  media_type: "movie" | "tv" | "person" | string;
+  title?: string;
+  name?: string;
+  popularity?: number;
+};
 
-async function fetchJsonOrThrow<T>(url: string): Promise<T> {
-  const res = await fetch(url);
-  const data = await res.json().catch(() => null);
-  if (!res.ok) {
-    const msg = (data && data.status_message) || `HTTP ${res.status}`;
-    throw new Error(msg);
-  }
-  return data as T;
+interface SearchStore {
+  results: MultiItem[];
+  search: (keyword: string) => Promise<void>;
 }
 
-export const useSearchStore = create<SearchState>()(
-  persist(
-    (set, get) => ({
-      todos: [],
+const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .trim()
+    // 공백 여러 개를 1개로
+    .replace(/\s+/g, " ");
 
-      onAddTextTodo: (text) => {
-        const trimmed = text.trim();
-        if (!trimmed) return;
+const getLabel = (item: MultiItem) => {
+  if (item.media_type === "movie") return item.title ?? "";
+  return item.name ?? "";
+};
 
-        set((state) => ({
-          todos: [
-            { id: Date.now(), text: trimmed },
-            ...state.todos.filter((t) => t.text !== trimmed),
-          ].slice(0, 20),
-        }));
-      },
+const scoreMatch = (label: string, keyword: string) => {
+  const l = normalize(label);
+  const k = normalize(keyword);
 
-      onRemoveTodos: (id) =>
-        set((state) => ({ todos: state.todos.filter((t) => t.id !== id) })),
-      onRemoveAll: () => set({ todos: [] }),
+  if (!k) return 999;
 
-      results: [],
-      loading: false,
-      onClearResults: () => set({ results: [], loading: false }),
+  if (l === k) return 0;
+  if (l.startsWith(k)) return 1;
+  if (l.includes(k)) return 2;
+  return 3;
+};
 
-      // ✅ multi 검색 + 페이지 합치기
-      onFetchSearch: async (query: string, maxPages = 3) => {
-        const trimmed = query.trim();
-        if (!API_KEY) {
-          console.warn("VITE_TMDB_API_KEY is missing");
-          set({ results: [], loading: false });
-          return;
-        }
-        if (!trimmed) {
-          set({ results: [], loading: false });
-          return;
-        }
+export const useSearchStore = create<SearchStore>((set) => ({
+  results: [],
 
-        set({ loading: true });
-
-        try {
-          const q = encodeURIComponent(trimmed);
-
-          const all: SearchResultItem[] = [];
-          let totalPages = 1;
-
-          // 1페이지 먼저 받아서 total_pages 확보
-          const first = await fetchJsonOrThrow<TmdbMultiResponse>(
-            `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=1&query=${q}`
-          );
-          totalPages = first.total_pages ?? 1;
-
-          const pushItems = (items: TmdbMultiResponse["results"]) => {
-            for (const it of items ?? []) {
-              if (it.media_type === "movie") {
-                all.push({
-                  id: it.id,
-                  kind: "movie",
-                  label: it.title,
-                  overview: it.overview,
-                  poster_path: it.poster_path ?? null,
-                  backdrop_path: it.backdrop_path ?? null,
-                });
-              } else if (it.media_type === "tv") {
-                all.push({
-                  id: it.id,
-                  kind: "tv",
-                  label: it.name,
-                  overview: it.overview,
-                  poster_path: it.poster_path ?? null,
-                  backdrop_path: it.backdrop_path ?? null,
-                });
-              } else if (it.media_type === "person") {
-                all.push({
-                  id: it.id,
-                  kind: "person",
-                  label: it.name,
-                  profile_path: it.profile_path ?? null,
-                });
-              }
-            }
-          };
-
-          pushItems(first.results);
-
-          // 2페이지부터 for문으로 추가 수집
-          const end = Math.min(totalPages, maxPages);
-          for (let page = 2; page <= end; page++) {
-            const data = await fetchJsonOrThrow<TmdbMultiResponse>(
-              `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&include_adult=false&language=ko-KR&page=${page}&query=${q}`
-            );
-            pushItems(data.results);
-          }
-
-          // ✅ 중복 제거 (kind-id 기준)
-          const uniqMap = new Map<string, SearchResultItem>();
-          for (const r of all) uniqMap.set(`${r.kind}-${r.id}`, r);
-          const merged = Array.from(uniqMap.values());
-
-          // ✅ 검색어 우선 정렬(시작 > 포함 > 가나다)
-          const low = trimmed.toLowerCase();
-          merged.sort((a, b) => {
-            const A = a.label.toLowerCase();
-            const B = b.label.toLowerCase();
-            const aStarts = A.startsWith(low) ? 1 : 0;
-            const bStarts = B.startsWith(low) ? 1 : 0;
-            if (aStarts !== bStarts) return bStarts - aStarts;
-
-            const aInc = A.includes(low) ? 1 : 0;
-            const bInc = B.includes(low) ? 1 : 0;
-            if (aInc !== bInc) return bInc - aInc;
-
-            return A.localeCompare(B);
-          });
-
-          set({ results: merged, loading: false });
-        } catch (err) {
-          console.error("TMDB multi search failed:", err);
-          set({ results: [], loading: false });
-        }
-      },
-
-      trendingKeywords: [],
-
-      onFetchTrendingKeywords: async () => {
-        if (!API_KEY) {
-          set({ trendingKeywords: [] });
-          return;
-        }
-        try {
-          const data = await fetchJsonOrThrow<TmdbTrendingResponse>(
-            `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=ko-KR`
-          );
-
-          const keywords = (data.results ?? [])
-            .map((item) => {
-              if (item.media_type === "movie") return item.title;
-              if (item.media_type === "tv" || item.media_type === "person")
-                return item.name;
-              return null;
-            })
-            .filter((v): v is string => Boolean(v))
-            .slice(0, 10);
-
-          set({ trendingKeywords: keywords });
-        } catch (err) {
-          console.error("TMDB trending failed:", err);
-          set({ trendingKeywords: [] });
-        }
-      },
-
-      fetchSearchAndGetFirst: async (query: string, maxPages = 3) => {
-        await get().onFetchSearch(query, maxPages);
-        return get().results[0] ?? null;
-      },
-    }),
-    {
-      name: "search-store",
-      partialize: (state) => ({ todos: state.todos }),
+  search: async (keyword) => {
+    const trimmed = await keyword.trim();
+    if (!trimmed) {
+      set({ results: [] });
+      return;
     }
-  )
-);
+  },
+}));
