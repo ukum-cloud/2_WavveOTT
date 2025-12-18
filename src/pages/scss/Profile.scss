@@ -41,6 +41,15 @@
         margin-top: 10px;
         font-family: "wave";
         font-size: 22px;
+        > p {
+          @include g.myFlex($gap: 8px, $jc: flex-start);
+          &.nickname-modify {
+            input {
+              width: 160px;
+              height: 32px;
+            }
+          }
+        }
       }
     }
     .my-ticket-wrap {

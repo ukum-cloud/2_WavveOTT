@@ -15,10 +15,10 @@ const Profile = () => {
   } = useAuthStore();
   const navigate = useNavigate();
 
-  // 초기값에 직접 할당
   const [nickname, setNickname] = useState(selectedCharNickname || "");
+  // 수정 모드 상태 추가 (true면 input 노출, false면 텍스트 노출)
+  const [isEditing, setIsEditing] = useState(false);
 
-  // 로그인 및 캐릭터 선택 체크 로직 (외부 시스템 이동 유지)
   useEffect(() => {
     if (!isInitializing) {
       if (!user) {
@@ -36,16 +36,30 @@ const Profile = () => {
   const charId = selectedCharId || 1;
   const charClass = `img-box char-${charId}`;
 
-  const handleSave = () => {
-    if (nickname.trim() === "") {
+  const handleSave = async () => {
+    // 공백 제외 체크
+    const trimmedNickname = nickname.trim();
+
+    if (trimmedNickname === "") {
       alert("닉네임을 입력해주세요.");
       setNickname(selectedCharNickname || "");
+      setIsEditing(false);
       return;
     }
 
-    if (nickname !== selectedCharNickname) {
-      updateNickname(nickname);
+    // 10자 초과 체크
+    if (trimmedNickname.length > 10) {
+      alert("닉네임은 최대 10자까지만 가능합니다.");
+      setNickname(selectedCharNickname || "");
+      setIsEditing(false);
+      return;
     }
+
+    if (trimmedNickname !== selectedCharNickname) {
+      await updateNickname(trimmedNickname);
+    }
+
+    setIsEditing(false);
   };
 
   return (
@@ -55,25 +69,44 @@ const Profile = () => {
           <div className="my-profile-wrap">
             <div className={charClass}></div>
             <div className="text-name">
-              {/* key={selectedCharNickname}을 사용하면 
-                스토어의 닉네임이 바뀔 때마다 input이 새로 그려지며 
-                defaultValue가 자동으로 갱신됩니다. 
-              */}
-              <input
-                key={selectedCharNickname}
-                type="text"
-                defaultValue={selectedCharNickname || ""}
-                onChange={(e) => setNickname(e.target.value)}
-                onBlur={handleSave}
-                onKeyDown={(e) => e.key === "Enter" && handleSave()}
-              />
+              {/* 일반 모드: 닉네임 텍스트 표시 */}
+              {!isEditing ? (
+                <p className="nickname">
+                  <span>{selectedCharNickname}</span>
+                  <span>
+                    <button onClick={() => setIsEditing(true)}>
+                      <img
+                        src="/images/button/btn-modify.svg"
+                        alt="닉네임수정"
+                      />
+                    </button>
+                  </span>
+                </p>
+              ) : (
+                /* 수정 모드: 인풋 창 표시 */
+                <p className="nickname-modify">
+                  <input
+                    autoFocus // 클릭 시 바로 포커스
+                    type="text"
+                    placeholder="10자 이내 가능"
+                    defaultValue={selectedCharNickname || ""}
+                    onChange={(e) => setNickname(e.target.value)}
+                    onBlur={handleSave} // 포커스 잃으면 저장
+                    onKeyDown={(e) => e.key === "Enter" && handleSave()} // 엔터 치면 저장
+                  />
+                  <button onClick={handleSave}>
+                    <img src="/images/button/btn-modify.svg" alt="닉네임수정" />
+                  </button>
+                </p>
+              )}
             </div>
-            <div className="">
+            <div>
               <Link to={"/choice-char"} className="btn small secondary-line">
-                프로필 변경
+                프로필 전환
               </Link>
             </div>
           </div>
+
           <div className="my-ticket-wrap">
             <div className="text-ticket">
               <p className="badge-text-type">이용권</p>
