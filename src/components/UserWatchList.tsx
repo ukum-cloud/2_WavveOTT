@@ -24,18 +24,16 @@ interface WatchHistoryItem {
   runtime?: number;
   lastPosition: number;
   updatedAt: Timestamp;
+  episodeNumber?: number; // 에피소드 회차 정보가 저장되어 있다고 가정
 }
 
 const UserWatchList = () => {
   const navigate = useNavigate();
   const { user, selectedCharId } = useAuthStore();
   const [history, setHistory] = useState<WatchHistoryItem[]>([]);
-
-  // 초기값 false, 데이터 로드 완료 여부만 따로 관리
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    // 정보가 없으면 아무것도 하지 않음 (setIsLoading 호출 제거)
     if (!user || !selectedCharId) return;
 
     const historyRef = collection(
@@ -48,7 +46,6 @@ const UserWatchList = () => {
     );
     const q = query(historyRef, orderBy("updatedAt", "desc"), limit(20));
 
-    // onSnapshot 콜백 내부(비동기)에서 상태를 바꾸는 것은 ESLint가 허용함
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -59,21 +56,18 @@ const UserWatchList = () => {
               ...doc.data(),
             } as WatchHistoryItem)
         );
-
         setHistory(data);
-        setIsFetched(true); // 데이터 로드 성공 시 완료 표시
+        setIsFetched(true);
       },
       (err) => {
         console.error("Snapshot error:", err);
-        setIsFetched(true); // 에러 발생 시에도 완료 표시 (무한 로딩 방지)
+        setIsFetched(true);
       }
     );
 
     return () => unsubscribe();
   }, [user, selectedCharId]);
 
-  // isLoading을 상태가 아닌 변수로 계산
-  // 유저 정보가 있고, 아직 데이터를 가져오는 중일 때만 true
   const isLoading = user && selectedCharId && !isFetched;
 
   const handleDelete = async (
@@ -91,61 +85,93 @@ const UserWatchList = () => {
     }
   };
 
-  // 로딩 중일 때
+  const formatDate = (timestamp: Timestamp) => {
+    const date = timestamp.toDate();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const week = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
+    return { fullDate: `${year}.${month}.${day}`, week: `(${week})` };
+  };
+
   if (isLoading)
     return (
       <div className="playlist-slider">
         <p>로딩 중...</p>
       </div>
     );
-
-  // 시청 내역이 없을 때 (유저 정보는 있지만 데이터가 빈 경우)
   if (isFetched && history.length === 0)
     return (
-      <div className="playlist-slider">
+      <div className="watchList-slider">
         <p className="empty-text">시청 중인 콘텐츠가 없습니다.</p>
       </div>
     );
 
   return (
-    <div className="playlist-slider">
-      {history.map((movie) => {
-        const progress =
-          movie.runtime && movie.lastPosition
-            ? Math.min((movie.lastPosition / (movie.runtime * 60)) * 100, 100)
+    <div className="watchList-slider">
+      <ul className="watch-list">
+        {history.map((movie) => {
+          const { fullDate, week } = formatDate(movie.updatedAt);
+          const progress =
+            movie.runtime && movie.lastPosition
+              ? Math.min((movie.lastPosition / (movie.runtime * 60)) * 100, 100)
+              : 0;
+          const remainingMinutes = movie.runtime
+            ? Math.max(Math.floor(movie.runtime - movie.lastPosition / 60), 0)
             : 0;
 
-        return (
-          <div
-            key={movie.docId}
-            className="play-card"
-            onClick={() =>
-              navigate(`/contentsdetail/${movie.type}/${movie.id}`)
-            }
-          >
-            <div className="img-box">
-              <img
-                src={`${IMAGE_BASE_URL}${
-                  movie.backdrop_path || movie.poster_path
-                }`}
-                alt={movie.title}
-              />
-              <button
-                className="btn xsmall primary"
-                onClick={(e) => handleDelete(e, movie.id)}
-              >
-                ✕
-              </button>
-              <div className="progress-bar">
-                <div className="fill" style={{ width: `${progress}%` }} />
+          return (
+            <li
+              key={movie.docId}
+              onClick={() =>
+                navigate(`/contentsdetail/${movie.type}/${movie.id}`)
+              }
+              className="watch-item"
+            >
+              <div className="img-box">
+                <img
+                  src={`${IMAGE_BASE_URL}${
+                    movie.backdrop_path || movie.poster_path
+                  }`}
+                  alt={movie.title}
+                />
+                <div className="progress-bar">
+                  <div className="fill" style={{ width: `${progress}%` }} />
+                </div>
               </div>
-            </div>
-            <div className="play-info">
-              <p className="play-title">{movie.title}</p>
-            </div>
-          </div>
-        );
-      })}
+
+              <div className="text-info">
+                <p className="title">{movie.title}</p>
+
+                {/* 단편 영화가 아니고(tv), 에피소드 정보가 있을 때만 노출 */}
+                {movie.type === "tv" && (
+                  <p className="episode">
+                    {movie.episodeNumber
+                      ? `${movie.episodeNumber}회`
+                      : "시청 중"}
+                  </p>
+                )}
+
+                <div className="bottom-info">
+                  <p className="date-group">
+                    <span className="running-time">
+                      남은 시간 {remainingMinutes}분
+                    </span>
+                    <span className="date">{fullDate}</span>
+                    <span className="week">{week}</span>
+                  </p>
+                  <button
+                    className="btn small primary"
+                    onClick={(e) => handleDelete(e, movie.id)}
+                  >
+                    시청내역삭제
+                  </button>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
