@@ -44,7 +44,7 @@ const SearchOverlay = ({ onClose }: Props) => {
 
   const isTyping = text.trim().length > 0;
 
-   /** 배경 스크롤 막기 */
+  /** 배경 스크롤 막기 */
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -176,7 +176,7 @@ const SearchOverlay = ({ onClose }: Props) => {
         label: k,
         section: "right" as const,
       }));
-    return [...left, ...right];
+      return [...left, ...right];
     }
 
     if (isTyping && !hasSearched) {
@@ -190,14 +190,30 @@ const SearchOverlay = ({ onClose }: Props) => {
         label: k,
         section: "right" as const,
       }));
-    return [...left, ...right];
+      return [...left, ...right];
     }
 
     // idle...
-    const left = todos.map((t) => ({ type: "keyword" as const, label: t.text, section: "left" as const }));
-    const right = trendingKeywords.slice(0, 8).map((k) => ({ type: "keyword" as const, label: k, section: "right" as const }));
+    const left = todos.map((t) => ({
+      type: "keyword" as const,
+      label: t.text,
+      section: "left" as const,
+    }));
+    const right = trendingKeywords.slice(0, 8).map((k) => ({
+      type: "keyword" as const,
+      label: k,
+      section: "right" as const,
+    }));
     return [...left, ...right];
-  }, [isTyping, hasSearched, loading, results, previewList, todos, trendingKeywords]);
+  }, [
+    isTyping,
+    hasSearched,
+    loading,
+    results,
+    previewList,
+    todos,
+    trendingKeywords,
+  ]);
 
   /** ===== 키보드 포커스 이동 유틸 ===== */
   const focusToInput = () => {
@@ -217,7 +233,8 @@ const SearchOverlay = ({ onClose }: Props) => {
   };
 
   /** navItems section 첫/마지막 인덱스 */
-  const firstIndexOf = (section: NavSection) => navItems.findIndex((x) => x.section === section);
+  const firstIndexOf = (section: NavSection) =>
+    navItems.findIndex((x) => x.section === section);
   const lastIndexOf = (section: NavSection) => {
     for (let i = navItems.length - 1; i >= 0; i--) {
       if (navItems[i].section === section) return i;
@@ -237,7 +254,8 @@ const SearchOverlay = ({ onClose }: Props) => {
     if (!navItems.length) return;
     setActiveIndex((prev) => {
       const next = prev < 0 ? 0 : prev + delta;
-      const wrapped = next < 0 ? navItems.length - 1 : next >= navItems.length ? 0 : next;
+      const wrapped =
+        next < 0 ? navItems.length - 1 : next >= navItems.length ? 0 : next;
       requestAnimationFrame(() => itemRefs.current[wrapped]?.focus());
       return wrapped;
     });
@@ -310,9 +328,13 @@ const SearchOverlay = ({ onClose }: Props) => {
     }
   };
 
-  const safeActiveIndex = navItems.length === 0 ? -1 : Math.min(Math.max(activeIndex, 0), navItems.length - 1);
+  const safeActiveIndex =
+    navItems.length === 0
+      ? -1
+      : Math.min(Math.max(activeIndex, 0), navItems.length - 1);
 
-  const activeDescendantId = safeActiveIndex >= 0 ? `nav-${safeActiveIndex}` : undefined;
+  const activeDescendantId =
+    safeActiveIndex >= 0 ? `nav-${safeActiveIndex}` : undefined;
 
   // useEffect(() => {
   // // navItems가 바뀌면 ref를 “현재 길이 기준”으로 정리
@@ -327,13 +349,21 @@ const SearchOverlay = ({ onClose }: Props) => {
   //   });
   // }, [navItems.length]);
 
-
   return (
     <div className="search-popup" role="dialog" aria-modal="true">
       <div className="search-inner-wrap">
         <div className="close-bg" onClick={onClose} aria-label="닫기" />
         <div className="search-inner">
           <div className="keyboard-box">
+            <div className="close-wrap">
+              <button
+                className="close-btn-box"
+                onClick={onClose}
+                aria-label="닫기"
+              >
+                <img src="/images/button/btn-close.svg" alt="닫기 버튼" />
+              </button>
+            </div>
             <SearchInputBar
               value={text}
               onChange={setText}

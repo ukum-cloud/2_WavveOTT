@@ -1,0 +1,178 @@
+@use "../../App.scss" as g;
+
+.search-bottom {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 50px;
+  margin-top: 50px;
+
+  .bottom-search-box {
+    width: 100%;
+    max-height: 496px;
+
+    .searches-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.search-bottom .latest-searches-box .todo-zeo {
+  .searches-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .title-left {
+      font-size: 20px;
+    }
+  }
+  .empty-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    color: g.$color-other4;
+  }
+}
+.search-bottom .latest-searches-box .todo-it {
+  .searches-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title-left {
+      font-size: 20px;
+    }
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 8px 12px;
+      color: g.$color-other4;
+      border-radius: 20px;
+      font-size: 14px;
+      letter-spacing: -0.2px;
+
+      &::after {
+        content: "";
+        display: block;
+        background-image: url("../../../public/images/icons/icon-trash.svg");
+        background-size: cover;
+        width: 20px;
+        height: 20px;
+      }
+      &:hover {
+        background-color: #2c2c2c;
+      }
+    }
+  }
+
+  .latest-searches-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+
+    > li {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+
+      .latest-text {
+        font-size: 18px;
+        color: g.$color-other4;
+        border: 0;
+        background: transparent;
+        line-height: 140%;
+        letter-spacing: -1%;
+      }
+      > button:last-child {
+        width: 16px;
+        height: 16px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .is-active .latest-text {
+      color: g.$color-secondary-white;
+    }
+  }
+}
+
+//오른쪽 실시간 인기 검색어
+.popular-searches-box {
+  .searches-title {
+    padding: 4px 0;
+    margin-bottom: 30px;
+
+    .title-left {
+      font-size: 20px;
+    }
+
+    .date-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+
+      p {
+        font-size: 14px;
+        line-height: 140%;
+        letter-spacing: -1%;
+        color: g.$color-other4;
+      }
+    }
+  }
+  .popular-searches-list {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    > li {
+      button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: transparent;
+        border: 0;
+
+        .rank {
+          font-size: 18px;
+          line-height: 140%;
+          text-align: left;
+          color: g.$color-primary;
+          width: 20px;
+        }
+        .word {
+          color: g.$color-other4;
+          font-size: 18px;
+          line-height: 140%;
+        }
+      }
+    }
+    .is-active button .word {
+      color: g.$color-secondary-white;
+    }
+  }
+}
+
+/* Idle */
+li.is-active button .word {
+  color: white;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import type { NavItem } from "../types/searchNav";
 import type { SearchResultItem } from "../types/searchtodo";
+import "./scss/SearchTypingPanel.scss";
 
 interface Props {
   query: string;
@@ -106,6 +107,7 @@ const SearchTypingPanel = ({
   return (
     <div className="typing-panel">
       {hasSearched ? (
+        //검색 결과 화면
         <div className={`tmdb-result ${loading ? "is-loading" : "auto-hide"}`}>
           {loading && <p className="hint">검색 중...</p>}
 
@@ -128,7 +130,6 @@ const SearchTypingPanel = ({
                   className={activeIndex === idx ? "is-active" : ""}
                 >
                   <button
-                    className="preview-item"
                     type="button"
                     id={`nav-${idx}`}
                     ref={(el) => setItemRef(idx, el)}
@@ -151,6 +152,7 @@ const SearchTypingPanel = ({
           )}
         </div>
       ) : (
+        // 자동 완성 화면
         <ul
           className="preview-list"
           role="listbox"

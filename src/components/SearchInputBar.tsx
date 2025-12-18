@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import "./scss/SearchInputBar.scss";
 
 interface Props {
   value: string;
@@ -13,7 +14,16 @@ interface Props {
   activeDescendantId?: string;
 }
 
-const SearchInputBar = ({ value, onChange, onSubmit, inputRef, onMoveToList, hasList, onKeyDown, activeDescendantId }: Props) => {
+const SearchInputBar = ({
+  value,
+  onChange,
+  onSubmit,
+  inputRef,
+  onMoveToList,
+  hasList,
+  onKeyDown,
+  activeDescendantId,
+}: Props) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (hasList) {
       // input에서 리스트로 "넘어가기"
@@ -36,8 +46,11 @@ const SearchInputBar = ({ value, onChange, onSubmit, inputRef, onMoveToList, has
 
   return (
     <form className="keyboard-top" name="search" onSubmit={onSubmit}>
-      <input type="text" placeholder="장르, 제목, 배우로 검색해보세요."
-        className="font-wave" id="search"
+      <input
+        type="text"
+        placeholder="장르, 제목, 배우로 검색해보세요."
+        className="font-wave keyboard-input"
+        id="search"
         ref={inputRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -52,7 +65,7 @@ const SearchInputBar = ({ value, onChange, onSubmit, inputRef, onMoveToList, has
         <img src="/images/icons/icon-search.svg" alt="검색" />
       </button>
     </form>
-  )
-}
+  );
+};
 
-export default SearchInputBar
+export default SearchInputBar;

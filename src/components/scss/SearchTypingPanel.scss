@@ -1,0 +1,125 @@
+@use "../../App.scss" as g;
+
+.typing-panel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 78px;
+  margin-top: 50px;
+}
+//왼쪽 검색 결과
+.typing-panel > .tmdb-result {
+  width: 100%;
+  max-width: 800px;
+  max-height: 496px;
+}
+.typing-panel > .tmdb-result > .is-loading,
+.typing-panel > .tmdb-result > .auto-hide {
+  .hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: g.$color-other4;
+    font-size: 18px;
+    line-height: 140%;
+    letter-spacing: -1%;
+    width: 100%;
+  }
+}
+.typing-panel .tmdb-result .result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+
+  li button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    padding: 0;
+
+    .txt {
+      .hit {
+        color: g.$color-secondary-white;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .rest {
+        color: g.$color-other4;
+        font-size: 18px;
+      }
+    }
+  }
+}
+.typing-panel .tmdb-result .result-list li.is-active button {
+  .txt .hit,
+  .txt .rest {
+    color: g.$color-secondary-white;
+  }
+}
+
+//입력 중 자동완성(preview-list) 스타일
+.typing-panel .preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+
+  li .preview-item {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    padding: 0;
+
+    .txt .hit {
+      color: g.$color-secondary-white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .txt .rest {
+      color: g.$color-other4;
+      font-size: 18px;
+    }
+  }
+}
+.typing-panel .preview-list li.is-active .preview-item {
+  .txt .hit,
+  .txt .rest {
+    color: g.$color-secondary-white;
+  }
+}
+
+// 오른쪽 추천 검색어
+.recommend-box {
+  width: 580px;
+
+  .recommend-title {
+    font-size: 20px;
+    line-height: 140%;
+    margin-bottom: 18px;
+    color: g.$color-secondary-white;
+  }
+}
+.recommend-box .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  li .chip {
+    border: 1px solid g.$color-secondary-white;
+    background: transparent;
+    color: g.$color-secondary-white;
+    padding: 16px 20px;
+    border-radius: 100px;
+    font-size: 16px;
+    line-height: auto;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #2c2c2c;
+    }
+  }
+}
