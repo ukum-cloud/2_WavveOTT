@@ -1,60 +1,55 @@
-import { useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 
-import { useMovieStore } from '../stores/useMovieStore';
-import { useWavveStore } from '../stores/useWavveStore';
-import { useTvStore } from '../stores/useTvStore';
-import { usePeopleStore } from '../stores/usePeopleStore';
+import { useMovieStore } from "../stores/useMovieStore";
+import { useWavveStore } from "../stores/useWavveStore";
+import { useTvStore } from "../stores/useTvStore";
+import { usePeopleStore } from "../stores/usePeopleStore";
 
-import MainSlider from '../components/MainSection';
-import BroadcastList from '../components/BroadcastList';
-import MainNomination from '../components/MainNomination';
-import RankingCardList from '../components/RankingCardList';
-import WavveList from '../components/WavveList';
-import PeopleList from '../components/PeopleList';
-import PrimaryList from '../components/PrimaryList';
-import NewMovieList from '../components/NewMovieList';
-import EditorRecommendCardList from '../components/EditorRecommendCardList';
-import NewTvList from '../components/NewTvList';
-import VarietyLiveList from '../components/VarietyLiveList';
-import NewsNowList from '../components/NewsNowList';
+import MainSlider from "../components/MainSection";
+import BroadcastList from "../components/BroadcastList";
+import MainNomination from "../components/MainNomination";
+import RankingCardList from "../components/RankingCardList";
+import WavveList from "../components/WavveList";
+import PeopleList from "../components/PeopleList";
+import PrimaryList from "../components/PrimaryList";
+import NewMovieList from "../components/NewMovieList";
+import EditorRecommendCardList from "../components/EditorRecommendCardList";
+import NewTvList from "../components/NewTvList";
+import VarietyLiveList from "../components/VarietyLiveList";
 
-import type { PrimaryItem } from '../types/movie';
+import type { PrimaryItem } from "../types/movie";
 
-import { randomArray } from '../utils/randomData';
+import { randomArray } from "../utils/randomData";
 
-<<<<<<<<< Temporary merge branch 1
 import "./scss/Home.scss";
-=========
-import './scss/Home.scss';
-import UserWatchList from '../components/UserWatchList';
->>>>>>>>> Temporary merge branch 2
+import UserWatchList from "../components/UserWatchList";
 
 const Home = () => {
-  const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } = useMovieStore();
+  const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } =
+    useMovieStore();
   const { wavves, onFetchWavve } = useWavveStore();
   const { tvs, onFetchTv } = useTvStore();
   const { people, onFetchPeople } = usePeopleStore();
 
-    useEffect(() => {
-        onFetchPopular();
-        onFetchWavve();
-        onFetchNewMovie();
-        onFetchTv();
-        onFetchPeople();
-    }, [onFetchPopular, onFetchWavve, onFetchNewMovie, onFetchTv, onFetchPeople]);
+  useEffect(() => {
+    onFetchPopular();
+    onFetchWavve();
+    onFetchNewMovie();
+    onFetchTv();
+    onFetchPeople();
+  }, [onFetchPopular, onFetchWavve, onFetchNewMovie, onFetchTv, onFetchPeople]);
 
-    const randomList = useMemo<PrimaryItem[]>(() => {
-        return randomArray([
-            ...popularMovies.map((v) => ({ ...v, mediaType: 'movie' })),
-            ...wavves.map((v) => ({ ...v, mediaType: 'tv' })),
-            ...tvs.map((v) => ({ ...v, mediaType: 'tv' })),
-        ])
-            .filter((v) => v.poster_path) // 이미지 없는 거 제거
-            .slice(0, 20);
-    }, [popularMovies, wavves, tvs]);
+  const randomList = useMemo<PrimaryItem[]>(() => {
+    return randomArray([
+      ...popularMovies.map((v) => ({ ...v, mediaType: "movie" })),
+      ...wavves.map((v) => ({ ...v, mediaType: "tv" })),
+      ...tvs.map((v) => ({ ...v, mediaType: "tv" })),
+    ])
+      .filter((v) => v.poster_path) // 이미지 없는 거 제거
+      .slice(0, 20);
+  }, [popularMovies, wavves, tvs]);
 
-<<<<<<<<< Temporary merge branch 1
   return (
     <main className="main-home">
       <div className="" style={{ minHeight: "200px" }}>
@@ -64,32 +59,20 @@ const Home = () => {
         <BroadcastList />
         <section className="card-list">
           <h2>지금 시청중인 컨텐츠</h2>
-          <div className="">내용, 슬라이더, 등등</div>
+          <UserWatchList />
         </section>
       </div>
-=========
-    return (
-        <main className="main-home">
-            <div className="" style={{ minHeight: '200px' }}>
-                <MainSlider />
-            </div>
-            <div className="inner">
-                <BroadcastList />
-                <section className="card-list">
-                    <h2>지금 시청중인 컨텐츠</h2>
-                    <UserWatchList />
-                </section>
-            </div>
->>>>>>>>> Temporary merge branch 2
-
-            <MainNomination />
+      <MainNomination />
 
       <div className="inner">
         <RankingCardList RankingData={popularMovies} />
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
         <div className="banner-event">
           <Link to={"/event/1"}>
-            <img src="/images/banner/banner-main-event.png" alt="banner event" />
+            <img
+              src="/images/banner/banner-main-event.png"
+              alt="banner event"
+            />
           </Link>
         </div>
         <PeopleList title={"지금 주목받는 스타들"} people={people} />
