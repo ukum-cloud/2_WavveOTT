@@ -25,10 +25,9 @@ const UserQna = () => {
             </div>
             <div className="qna-menu-line"></div>
             {/* 메뉴 */}
-            <div className="detail-menu-content">
-                {activeMenu === 'write' && <UserQnaDetail />}
-                {activeMenu === 'list' && <UserQnaList />}
-            </div>
+
+            {activeMenu === 'write' && <UserQnaDetail />}
+            {activeMenu === 'list' && <UserQnaList />}
         </div>
     );
 };

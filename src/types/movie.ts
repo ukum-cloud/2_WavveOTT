@@ -132,7 +132,11 @@ export interface PrimaryItem extends MediaBase {
     logo: string | null;
 }
 
-export interface People {
+export interface People extends MediaBase {
+    id: number;
+    videos: Video[];
+    episodes: Episodes[];
+    seasons: Season[];
     cast: {
         id: number;
         name: string;
@@ -169,7 +173,9 @@ export interface People {
 
 export interface PeopleState {
     people: People[];
+    selectedPeople: People | null;
     onFetchPeople: () => Promise<void>;
+    setSelectedPeople: (id: number) => void;
 }
 
 export interface cast {

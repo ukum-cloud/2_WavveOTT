@@ -21,6 +21,7 @@ const MainSlider = () => {
     setActiveHeart(!activeheart);
     setModalSize("small");
     setIsModalOpen(true);
+    console.log("픽리스트 : ", pickList);
   };
   const navigate = useNavigate("");
 
