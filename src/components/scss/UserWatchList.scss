@@ -1,63 +1,61 @@
 @use "../../App.scss" as g;
-
-.watchList-slider {
-  .watch-list {
+.watch-list-container {
+  overflow: hidden;
+  .watch-item {
     @include g.myFlex($gap: 24px, $jc: flex-start, $ai: flex-start);
     overflow: hidden;
-    > li {
-      @include g.myFlexCol($gap: 24px);
-      align-items: flex-start;
-      .img-box {
-        border-radius: 12px;
-        width: 464px;
-        height: 260px;
-        aspect-ratio: 16/9;
-        overflow: hidden;
-        img {
-          height: 100%;
+    @include g.myFlexCol($gap: 24px);
+    align-items: flex-start;
+    .img-box {
+      border-radius: 12px;
+      width: 464px;
+      height: 260px;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      img {
+        height: 100%;
+      }
+    }
+    .text-info {
+      @include g.myFlexCol($gap: 12px);
+      width: -webkit-fill-available;
+      .title {
+        @include g.myFlex($gap: 8px, $jc: flex-start);
+
+        font-family: "Wave";
+        font-size: 20px;
+        line-height: 140%;
+        letter-spacing: -0.2px;
+        .episode {
+          font-family: "pretendard";
+          font-size: 16px;
+          line-height: 140%;
+          font-weight: 500;
+          letter-spacing: -0.2px;
         }
       }
-      .text-info {
-        @include g.myFlexCol($gap: 12px);
-        width: -webkit-fill-available;
-        .title {
-          @include g.myFlex($gap: 8px, $jc: flex-start);
 
-          font-family: "Wave";
-          font-size: 20px;
+      .bottom-info {
+        @include g.myFlex();
+        width: 100%;
+        .date-group {
+          @include g.myFlex($gap: 8px);
+          color: g.$color-font-grey3;
+          font-size: 14px;
           line-height: 140%;
           letter-spacing: -0.2px;
-          .episode {
-            font-family: "pretendard";
-            font-size: 16px;
-            line-height: 140%;
-            font-weight: 500;
-            letter-spacing: -0.2px;
-          }
         }
-
-        .bottom-info {
-          @include g.myFlex();
-          width: 100%;
-          .date-group {
-            @include g.myFlex($gap: 8px);
-            color: g.$color-font-grey3;
-            font-size: 14px;
-            line-height: 140%;
-            letter-spacing: -0.2px;
-          }
-          .btn-delete {
-            line-height: 36px;
-            color: g.$color-font-grey3;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: -0.2px;
-            background-image: url(/images/button/btn-delete.svg);
-            background-position-x: calc(100% - 12px);
-            background-position-y: center;
-            padding: 0 36px 0 12px;
-            background-repeat: no-repeat;
-          }
+        .btn-delete {
+          line-height: 36px;
+          color: g.$color-font-grey3;
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: -0.2px;
+          background-image: url(/images/button/btn-delete.svg);
+          background-position-x: calc(100% - 12px);
+          background-position-y: center;
+          padding: 0 36px 0 12px;
+          background-repeat: no-repeat;
         }
       }
     }

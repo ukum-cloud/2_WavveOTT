@@ -1,10 +1,12 @@
-const Movie = () => {
+import React from "react";
+import MovieVisual from "../components/MovieVisual";
+
+const Movie: React.FC = () => {
   return (
     <main>
-      <div className="">
-        <img src="/images/visual/visual-cj-main.jpg" alt="" />
-        Movie100% 다 쓰는 경우
-      </div>
+      {/* 분리된 비주얼 컴포넌트 */}
+      <MovieVisual />
+
       <div className="inner">
         <section className="card-list">
           <h2>제목입니다</h2>
@@ -16,6 +18,8 @@ const Movie = () => {
         </section>
         <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
       </div>
+
+      <div className="">Movie100% 다 쓰는 경우</div>
     </main>
   );
 };
