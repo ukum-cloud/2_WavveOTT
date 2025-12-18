@@ -44,7 +44,7 @@ const SearchInputBar = ({ value, onChange, onSubmit, inputRef, onMoveToList, has
         onKeyDown={handleKeyDown}
         role="combobox"
         aria-expanded={hasList}
-        aria-controls="search-listbox"
+        aria-controls="search-left-listbox"
         aria-activedescendant={activeDescendantId}
         aria-autocomplete="list"
       />
