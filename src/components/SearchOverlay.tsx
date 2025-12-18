@@ -310,12 +310,22 @@ const SearchOverlay = ({ onClose }: Props) => {
     }
   };
 
-  
-
-
   const safeActiveIndex = navItems.length === 0 ? -1 : Math.min(Math.max(activeIndex, 0), navItems.length - 1);
 
   const activeDescendantId = safeActiveIndex >= 0 ? `nav-${safeActiveIndex}` : undefined;
+
+  // useEffect(() => {
+  // // navItems가 바뀌면 ref를 “현재 길이 기준”으로 정리
+  //   itemRefs.current = itemRefs.current.slice(0, navItems.length);
+
+  //   // activeIndex가 범위를 벗어나면 리셋
+  //   setActiveIndex((prev) => {
+  //     if (navItems.length === 0) return -1;
+  //     if (prev < 0) return -1;
+  //     if (prev > navItems.length - 1) return -1;
+  //     return prev;
+  //   });
+  // }, [navItems.length]);
 
 
   return (

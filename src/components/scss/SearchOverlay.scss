@@ -328,14 +328,7 @@
 
 .result-list li.is-active button,
 .preview-list li.is-active button,
-.latest-searches-list li.is-active button,
-.popular-searches-list li.is-active button {
-  transform: translateZ(0); // (선택 효과 부드럽게)
-}
-
-.result-list li.is-active button,
-.preview-list li.is-active button,
-.latest-searches-list li.is-active button,
-.popular-searches-list li.is-active button {
-  transform: translateZ(0); // (선택 효과 부드럽게)
+.latest-searches-list li.is-active,
+.popular-searches-list li.is-active {
+  border: 1px solid g.$color-secondary-white;
 }

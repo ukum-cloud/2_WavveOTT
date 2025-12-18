@@ -109,16 +109,16 @@ const SearchTypingPanel = ({
           {!loading && leftEntries.length === 0 && <p className="hint">검색 결과가 없습니다.</p>}
 
           {!loading && leftEntries.length > 0 && (
-            <ul className="result-list" role="listbox" id="search-listbox" aria-label="검색 목록">
+            <ul className="result-list" role="listbox" id="search-left-listbox" aria-label="검색 목록">
               {leftEntries.map(({item, idx}) => (
                 <li
                   key={`${item.type}-${item.label}-${idx}`}
-                  id={`nav-${idx}`}
                   role="option"
                   aria-selected={activeIndex === idx}
                   className={activeIndex === idx ? "is-active" : ""}
                 >
                   <button type="button"
+                    id={`nav-${idx}`}
                     ref={(el) => setItemRef(idx, el)}
                     onKeyDown={onItemKeyDown}
                     onMouseEnter={() => setActiveIndex(idx)}
@@ -139,7 +139,7 @@ const SearchTypingPanel = ({
           )}
         </div>
       ) : (
-        <ul className="preview-list" id="search-listbox" role="listbox" aria-label="자동완성 목록">
+        <ul className="preview-list" role="listbox" id="search-left-listbox" aria-label="자동완성 목록">
           {leftEntries.length === 0 ? (
             // 기존 previewList가 남아있을 수 있으니 fallback 표시
             previewList.map((t) => (
@@ -153,12 +153,12 @@ const SearchTypingPanel = ({
             leftEntries.map(({ item, idx }) => (
               <li
                 key={`${item.type}-${item.label}-${idx}`}
-                id={`nav-${idx}`}
                 role="option"
                 aria-selected={activeIndex === idx}
                 className={activeIndex === idx ? "is-active" : ""}
               >
                 <button
+                  id={`nav-${idx}`}
                   type="button"
                   className="preview-item"
                   ref={(el) => setItemRef(idx, el)}
@@ -179,16 +179,16 @@ const SearchTypingPanel = ({
         {/* 오른쪽도 “키보드 대상”이 되려면 rightEntries가 있어야 합니다.
           rightEntries가 비어 있으면(=navItems에 right가 없으면), 기존 chips UI를 fallback으로 보여줍니다. */}
         {rightEntries.length > 0 ? (
-          <ul className="chips" role="listbox" aria-label="추천 검색어 목록">
+          <ul className="chips" role="listbox" id="search-right-listbox" aria-label="추천 검색어 목록">
             {rightEntries.map(({ item, idx }) => (
               <li
                 key={`${item.type}-${item.label}-${idx}`}
-                id={`nav-${idx}`} // 전역 idx 그대로!
                 role="option"
                 aria-selected={activeIndex === idx}
                 className={activeIndex === idx ? "is-active" : ""}
               >
                 <button
+                  id={`nav-${idx}`}
                   type="button"
                   className="chip"
                   ref={(el) => setItemRef(idx, el)}
