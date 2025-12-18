@@ -35,7 +35,7 @@ const SearchTypingPanel = ({
   setItemRef,
   onItemKeyDown,
   activateItem,
-  trendingKeywords
+  trendingKeywords,
 }: Props) => {
   // query 하이라이트
   const renderHighlighted = (label: string, q: string) => {
@@ -87,9 +87,12 @@ const SearchTypingPanel = ({
    * - 여기서 idx는 navItems의 인덱스(전역 인덱스)입니다.
    * - 반드시 이 idx를 id/ref/activeIndex/activateItem에 사용해야 포커스가 안 꼬입니다.
    */
-  const leftEntries = navItems.map((item, idx) => ({item, idx})).filter(x => x.item.section === "left");
-  const rightEntries = navItems.map((item, idx) => ({item, idx})).filter(x => x.item.section === "right");
-
+  const leftEntries = navItems
+    .map((item, idx) => ({ item, idx }))
+    .filter((x) => x.item.section === "left");
+  const rightEntries = navItems
+    .map((item, idx) => ({ item, idx }))
+    .filter((x) => x.item.section === "right");
 
   /**
    * 왼쪽 클릭:
@@ -106,25 +109,34 @@ const SearchTypingPanel = ({
         <div className={`tmdb-result ${loading ? "is-loading" : "auto-hide"}`}>
           {loading && <p className="hint">검색 중...</p>}
 
-          {!loading && leftEntries.length === 0 && <p className="hint">검색 결과가 없습니다.</p>}
+          {!loading && leftEntries.length === 0 && (
+            <p className="hint">검색 결과가 없습니다.</p>
+          )}
 
           {!loading && leftEntries.length > 0 && (
-            <ul className="result-list" role="listbox" id="search-left-listbox" aria-label="검색 목록">
-              {leftEntries.map(({item, idx}) => (
+            <ul
+              className="result-list"
+              role="listbox"
+              id="search-left-listbox"
+              aria-label="검색 목록"
+            >
+              {leftEntries.map(({ item, idx }) => (
                 <li
                   key={`${item.type}-${item.label}-${idx}`}
                   role="option"
                   aria-selected={activeIndex === idx}
                   className={activeIndex === idx ? "is-active" : ""}
                 >
-                  <button type="button"
+                  <button
+                    className="preview-item"
+                    type="button"
                     id={`nav-${idx}`}
                     ref={(el) => setItemRef(idx, el)}
                     onKeyDown={onItemKeyDown}
                     onMouseEnter={() => setActiveIndex(idx)}
                     onClick={() => handleClickAny(idx)}
                   >
-                    <span className="word">{renderHighlighted(item.label, trimmed)}</span>
+                    {renderHighlighted(item.label, trimmed)}
                   </button>
                 </li>
               ))}
@@ -139,38 +151,41 @@ const SearchTypingPanel = ({
           )}
         </div>
       ) : (
-        <ul className="preview-list" role="listbox" id="search-left-listbox" aria-label="자동완성 목록">
-          {leftEntries.length === 0 ? (
-            // 기존 previewList가 남아있을 수 있으니 fallback 표시
-            previewList.map((t) => (
-              <li key={t}>
-                <button onClick={() => onClickKeyword(t)}>
-                  {renderHighlighted(t, trimmed)}
-                </button>
-              </li>
-            ))
-          ) : (
-            leftEntries.map(({ item, idx }) => (
-              <li
-                key={`${item.type}-${item.label}-${idx}`}
-                role="option"
-                aria-selected={activeIndex === idx}
-                className={activeIndex === idx ? "is-active" : ""}
-              >
-                <button
-                  id={`nav-${idx}`}
-                  type="button"
-                  className="preview-item"
-                  ref={(el) => setItemRef(idx, el)}
-                  onKeyDown={onItemKeyDown}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                  onClick={() => handleClickAny(idx)}
+        <ul
+          className="preview-list"
+          role="listbox"
+          id="search-left-listbox"
+          aria-label="자동완성 목록"
+        >
+          {leftEntries.length === 0
+            ? // 기존 previewList가 남아있을 수 있으니 fallback 표시
+              previewList.map((t) => (
+                <li key={t}>
+                  <button onClick={() => onClickKeyword(t)}>
+                    {renderHighlighted(t, trimmed)}
+                  </button>
+                </li>
+              ))
+            : leftEntries.map(({ item, idx }) => (
+                <li
+                  key={`${item.type}-${item.label}-${idx}`}
+                  role="option"
+                  aria-selected={activeIndex === idx}
+                  className={activeIndex === idx ? "is-active" : ""}
                 >
-                  {renderHighlighted(item.label, trimmed)}
-                </button>
-              </li>
-            ))
-          )}
+                  <button
+                    id={`nav-${idx}`}
+                    type="button"
+                    className="preview-item"
+                    ref={(el) => setItemRef(idx, el)}
+                    onKeyDown={onItemKeyDown}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onClick={() => handleClickAny(idx)}
+                  >
+                    {renderHighlighted(item.label, trimmed)}
+                  </button>
+                </li>
+              ))}
         </ul>
       )}
 
@@ -179,7 +194,12 @@ const SearchTypingPanel = ({
         {/* 오른쪽도 “키보드 대상”이 되려면 rightEntries가 있어야 합니다.
           rightEntries가 비어 있으면(=navItems에 right가 없으면), 기존 chips UI를 fallback으로 보여줍니다. */}
         {rightEntries.length > 0 ? (
-          <ul className="chips" role="listbox" id="search-right-listbox" aria-label="추천 검색어 목록">
+          <ul
+            className="chips"
+            role="listbox"
+            id="search-right-listbox"
+            aria-label="추천 검색어 목록"
+          >
             {rightEntries.map(({ item, idx }) => (
               <li
                 key={`${item.type}-${item.label}-${idx}`}
@@ -205,7 +225,12 @@ const SearchTypingPanel = ({
           // fallback: 기존 chips 유지(Tab/Enter만 동작)
           <div className="chips">
             {trendingKeywords.slice(0, 8).map((k) => (
-              <button type="button" key={k} className="chip" onClick={() => onClickKeyword(k)}>
+              <button
+                type="button"
+                key={k}
+                className="chip"
+                onClick={() => onClickKeyword(k)}
+              >
                 {k}
               </button>
             ))}
