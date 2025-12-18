@@ -45,9 +45,6 @@ function App() {
   const user = useAuthStore((state) => state.user);
   const fetchPick = usePickStore((state) => state.onFetchPick);
   const selectedCharId = useAuthStore((state) => state.selectedCharId);
-  const pickList = usePickStore((state) => state.pickList);
-
-  console.log("픽리스트 데이터 값 : ", pickList);
 
   useEffect(() => {
     if (user && selectedCharId) {
