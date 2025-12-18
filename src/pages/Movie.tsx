@@ -1,7 +1,11 @@
 import React from "react";
 import MovieVisual from "../components/MovieVisual";
+import EditorRecommendCardList from "../components/EditorRecommendCardList";
+import { useMovieStore } from "../stores/useMovieStore";
 
 const Movie: React.FC = () => {
+  const { popularMovies } = useMovieStore();
+
   return (
     <main>
       {/* 분리된 비주얼 컴포넌트 */}
@@ -9,17 +13,29 @@ const Movie: React.FC = () => {
 
       <div className="inner">
         <section className="card-list">
-          <h2>제목입니다</h2>
+          <h2>영화 실시간 TOP 10</h2>
           <div>내용</div>
         </section>
         <section className="card-list">
-          <h2>제목입니다</h2>
+          <h2>지금 주목받는 영화</h2>
           <div>내용</div>
         </section>
-        <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
+
+        <section className="card-list">
+          <h2>이건 꼭 봐야해!</h2>
+          <div>내용</div>
+        </section>
+
+        <section className="card-list">
+          <h2>NEW! 새로 올라왔어요</h2>
+          <div>내용</div>
+        </section>
       </div>
 
-      <div className="">Movie100% 다 쓰는 경우</div>
+      <EditorRecommendCardList
+        title="웨이브 영화  추천작"
+        list={popularMovies}
+      />
     </main>
   );
 };

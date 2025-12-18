@@ -5,17 +5,22 @@ import "./scss/EditorRecommend.scss";
 
 interface Props {
   list: MovieWithLogo[];
+  title: string;
 }
 
-const EditorRecommendCardList = ({ list }: Props) => {
+const EditorRecommendCardList = ({ title, list }: Props) => {
   return (
     <section className="rec-section">
-      <h2 className="font-wave inner">믿고보는 에디터 추천작</h2>
+      <h2 className="font-wave inner">{title}</h2>
       <div className="swiper-top">
         <Marquee direction="right" speed={60} pauseOnHover={true}>
           {list.map((l) => (
             <div key={l.id} className="marquee-item">
-              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
+              <EditorRecommendCard
+                backposter={l.backdrop_path ?? ""}
+                id={l.id}
+                title={l.logo}
+              />
             </div>
           ))}
         </Marquee>
@@ -24,7 +29,11 @@ const EditorRecommendCardList = ({ list }: Props) => {
         <Marquee speed={60} pauseOnHover={true}>
           {list.map((l) => (
             <div key={l.id} className="marquee-item">
-              <EditorRecommendCard backposter={l.backdrop_path ?? ""} id={l.id} title={l.logo} />
+              <EditorRecommendCard
+                backposter={l.backdrop_path ?? ""}
+                id={l.id}
+                title={l.logo}
+              />
             </div>
           ))}
         </Marquee>
