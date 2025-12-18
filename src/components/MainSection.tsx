@@ -14,8 +14,6 @@ const MainSlider = () => {
   const [modalSize, setModalSize] = useState<"xsmall" | "small" | "default" | "large">("default");
   const handleCloseModal = () => setIsModalOpen(false);
 
-  // const isPicked = pickList.some((p) => (p.tmdb_id ?? p.id) === main.id);
-
   //찜리스트 추가예정
   const handleHeart = async () => {
     await onTogglePick(main);
@@ -39,7 +37,9 @@ const MainSlider = () => {
     ...extraMainData,
   };
 
-  const handleNavigate = (type, id) => {
+  const isPicked = !!main && pickList.some((p) => p.tmdb_id === main.tmdb_id);
+
+  const handleNavigate = (main) => {
     navigate(`/contentsdetail/tv/${main.tmdb_id}`);
   };
 
@@ -114,7 +114,9 @@ const MainSlider = () => {
             )}
             <div className={mStyle.btnBoxT}>
               <span className={mStyle.playBtn} onClick={handleNavigate}></span>
-              <span className={`${mStyle.heartBtn} `} onClick={handleHeart}></span>
+              <span
+                className={`${mStyle.heartBtn} ${isPicked ? mStyle.active : ""}`}
+                onClick={handleHeart}></span>
             </div>
           </div>
         </div>
