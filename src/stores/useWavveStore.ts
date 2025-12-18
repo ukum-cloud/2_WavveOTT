@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { Episodes, MediaBase, OnlyWavve, OnlyWavveState, Video } from '../types/movie';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+// const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 export const useWavveStore = create<OnlyWavveState>((set) => ({
     wavves: [],
     onFetchWavve: async () => {
@@ -80,24 +80,24 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                         (v: Video) => v.type === 'Teaser' && v.site.toLowerCase() === 'youtube'
                     );
 
-                //Trailer가 없으면 아무거나 하나 가져오기
-                // if (!wavveVideo) {
-                //     wavveVideo = videoData.results.find((v: Video) => v.site === 'youtube') || null;
-
-                // 그래도 없으면 YouTube API 검색
+                // Trailer가 없으면 아무거나 하나 가져오기
                 if (!wavveVideo) {
-                    const query = encodeURIComponent(tv.title + ' trailer');
-                    const searchRes = await fetch(
-                        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query}&key=${YOUTUBE_API_KEY}`
-                    );
-                    const searchData = await searchRes.json();
-                    const firstVideo = searchData.items?.[0]?.id?.videoId;
+                    wavveVideo = videoData.results.find((v: Video) => v.site === 'youtube') || null;
 
-                    if (firstVideo) {
-                        wavveVideo = firstVideo;
-                    }
+                    // 그래도 없으면 YouTube API 검색
+                    // if (!wavveVideo) {
+                    //     const query = encodeURIComponent(tv.title + ' trailer');
+                    //     const searchRes = await fetch(
+                    //         `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query}&key=${YOUTUBE_API_KEY}`
+                    //     );
+                    //     const searchData = await searchRes.json();
+                    //     const firstVideo = searchData.items?.[0]?.id?.videoId;
+
+                    //     if (firstVideo) {
+                    //         wavveVideo = firstVideo;
+                    //     }
+                    // }
                 }
-                // }
 
                 /* 작감배 찾기 */
                 //배우,감독 등 불러오기

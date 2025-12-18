@@ -241,7 +241,7 @@ export const useMovieStore = create<MovieState>((set) => ({
             })
         );
         set({ newMovies: movieWithExtra });
-        console.log('신작 영화', movieWithExtra);
+        // console.log('신작 영화', movieWithExtra);
     },
 
     selectedNewMovie: null,

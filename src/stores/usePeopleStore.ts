@@ -59,13 +59,13 @@ export const usePeopleStore = create<PeopleState>((set) => ({
                                     (c: Cast) => c.known_for_department === 'Writing'
                                 ) || [];
 
-                            // 시즌/에피소드
-                            const seasonNumber = 1;
-                            const epRes = await fetch(
-                                `https://api.themoviedb.org/3/tv/${tv.id}/season/${seasonNumber}?api_key=${API_KEY}&language=ko-KR`
-                            );
-                            const epData = await epRes.json();
-                            const episodes = epData.episodes || [];
+                            // // 시즌/에피소드
+                            // const seasonNumber = 1;
+                            // const epRes = await fetch(
+                            //     `https://api.themoviedb.org/3/tv/${tv.id}/season/${seasonNumber}?api_key=${API_KEY}&language=ko-KR`
+                            // );
+                            // const epData = await epRes.json();
+                            // const episodes = epData.episodes || [];
 
                             return {
                                 ...tv,
@@ -74,7 +74,7 @@ export const usePeopleStore = create<PeopleState>((set) => ({
                                 creditData,
                                 director,
                                 writer,
-                                episodes,
+                                // episodes,
                                 runtime: tvData.episode_run_time?.[0] || null,
                                 logo: tvData.logo_path || null,
                             };
@@ -90,7 +90,6 @@ export const usePeopleStore = create<PeopleState>((set) => ({
                 })
             );
             set({ people: results });
-            console.log('배우 확인', results);
         } catch (error) {
             console.error('배우 실패', error);
         }
