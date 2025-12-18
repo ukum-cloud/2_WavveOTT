@@ -15,7 +15,6 @@ export const usePickStore = create<PickState>((set, get) => ({
   onTogglePick: async (item) => {
     //id값, tmdb_id로 들어올 수 있는 변수 설정
     const contentId = item.id ?? item.tmdb_id;
-    console.log("pickList : ", item);
 
     const { user, selectedCharId } = useAuthStore.getState();
 

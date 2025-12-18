@@ -66,7 +66,6 @@ const PeopleList = ({ title, people }: PeopleListProps) => {
     await onTogglePick(item);
     setModalSize("small");
     setIsModalOpen(true);
-    console.log("픽리스트 : ", pickList);
   };
 
   return (
