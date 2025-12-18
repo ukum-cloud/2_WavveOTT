@@ -1,6 +1,6 @@
 import "./scss/Signup.scss";
 import "../style/common-button.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useState, useMemo } from "react";
 import EtcLogin from "../components/EtcLogin";
@@ -129,6 +129,9 @@ const Signup = () => {
             >
               <span className="font-wave">Wavve 가입하기</span>
             </button>
+            <p>
+              <Link to={"/login"}>로그인으로 가기</Link>
+            </p>
           </div>
         </form>
         <EtcLogin handleGoogle={handleGoogle} handleKakao={handleKakao} />

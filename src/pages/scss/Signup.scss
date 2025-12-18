@@ -48,7 +48,7 @@ main {
       .text-info {
         font-size: 0.75rem;
         color: g.$color-font2;
-        &.error{
+        &.error {
           color: g.$color-font-error;
         }
       }
@@ -86,9 +86,11 @@ main {
     }
 
     .btn-box {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      @include g.myFlexCol($gap: 20px);
+      > p {
+        text-align: center;
+        color: g.$color-font-grey4;
+      }
     }
 
     .btn-box-other {
