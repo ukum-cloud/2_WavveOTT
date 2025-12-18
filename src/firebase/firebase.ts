@@ -1,6 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { deleteDoc, doc, getDoc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  getDoc,
+  getFirestore,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  FieldValue,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfin = {
@@ -12,7 +21,6 @@ const firebaseConfin = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-
 // Firebase 초기화
 const app = initializeApp(firebaseConfin);
 
@@ -21,10 +29,6 @@ export const googleProvider = new GoogleAuthProvider();
 export const auth = getAuth(app); // 권한설정 내보내기
 export const db = getFirestore(app); // 파이어베이스 내보내기
 export const storage = getStorage(app);
-
-
-
-
 
 // ============================================
 // 타입 정의
@@ -43,13 +47,14 @@ export interface ContentData {
 export interface WatchHistoryData {
   id: number | string;
   title: string;
-  type: 'movie' | 'tv';
+  type: "movie" | "tv";
   backdrop_path: string;
   poster_path: string;
   lastPosition: number; // 초 단위
   runtime: number; // 분 단위
-  updatedAt: any; // serverTimestamp
-  createdAt?: any;
+  // 에러 해결: any 대신 구체적인 타입 지정
+  updatedAt: Timestamp | FieldValue;
+  createdAt?: Timestamp | FieldValue;
 }
 
 // ============================================
@@ -60,7 +65,7 @@ export const saveWatchHistory = async (
   userId: string | undefined,
   charId: string | number | undefined,
   content: ContentData,
-  type: 'movie' | 'tv',
+  type: "movie" | "tv",
   lastPosition: number = 0 // 실제 재생 위치 (초 단위)
 ): Promise<boolean> => {
   if (!userId || charId === undefined || charId === null || !content?.id) {
@@ -85,9 +90,14 @@ export const saveWatchHistory = async (
 
     // 러닝타임 결정 (TV 시리즈는 평균 에피소드 길이)
     let runtime = content.runtime || 0;
-    if (type === 'tv' && content.episode_run_time && content.episode_run_time.length > 0) {
+    if (
+      type === "tv" &&
+      content.episode_run_time &&
+      content.episode_run_time.length > 0
+    ) {
       runtime = Math.round(
-        content.episode_run_time.reduce((a, b) => a + b, 0) / content.episode_run_time.length
+        content.episode_run_time.reduce((a, b) => a + b, 0) /
+          content.episode_run_time.length
       );
     }
 
@@ -105,7 +115,9 @@ export const saveWatchHistory = async (
 
     await setDoc(historyRef, watchData, { merge: true });
 
-    console.log(`시청 기록 저장 성공: ${watchData.title} (${Math.round(lastPosition)}초)`);
+    console.log(
+      `시청 기록 저장 성공: ${watchData.title} (${Math.round(lastPosition)}초)`
+    );
     return true;
   } catch (error) {
     console.error("시청 기록 저장 에러:", error);
@@ -209,7 +221,69 @@ export const formatTime = (seconds: number): string => {
   const secs = Math.floor(seconds % 60);
 
   if (hours > 0) {
-    return `${hours}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(
+      secs
+    ).padStart(2, "0")}`;
   }
-  return `${minutes}:${String(secs).padStart(2, '0')}`;
+  return `${minutes}:${String(secs).padStart(2, "0")}`;
+};
+
+// ============================================
+// 프로필 닉네임 관리 함수
+// ============================================
+
+/**
+ * 특정 캐릭터(프로필)의 닉네임을 Firestore에 저장합니다.
+ */
+export const updateProfileNickname = async (
+  userId: string | undefined,
+  charId: string | number | undefined,
+  nickname: string
+): Promise<boolean> => {
+  if (!userId || charId === undefined || !nickname.trim()) {
+    console.warn("닉네임 저장 실패: 필수 파라미터 누락");
+    return false;
+  }
+
+  try {
+    const profileRef = doc(db, "users", userId, "profiles", String(charId));
+
+    await setDoc(
+      profileRef,
+      {
+        nickname: nickname,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    console.log(`✅ Firebase 닉네임 저장 성공: ${nickname}`);
+    return true;
+  } catch (error) {
+    console.error("닉네임 저장 에러:", error);
+    return false;
+  }
+};
+
+/**
+ * 특정 캐릭터(프로필)의 저장된 닉네임을 가져옵니다.
+ */
+export const getProfileNickname = async (
+  userId: string | undefined,
+  charId: string | number | undefined
+): Promise<string | null> => {
+  if (!userId || charId === undefined) return null;
+
+  try {
+    const profileRef = doc(db, "users", userId, "profiles", String(charId));
+    const docSnap = await getDoc(profileRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data().nickname || null;
+    }
+    return null;
+  } catch (error) {
+    console.error("닉네임 조회 에러:", error);
+    return null;
+  }
 };
