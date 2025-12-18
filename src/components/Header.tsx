@@ -1,4 +1,3 @@
-// Header.tsx
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./scss/Header.scss";
@@ -23,50 +22,38 @@ const mainMenu: MenuItem[] = [
 ];
 
 const Header = () => {
-  // 스토어에서 필요한 모든 상태 가져오기
   const { user, onLogout, selectedCharId, selectedCharNickname } =
     useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
-
-  // 스크롤 상태 관리
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 스크롤 이벤트 핸들러
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 90) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+  // 1. 숨김 처리가 필요한 모든 경로 정의
+  const currentPath = location.pathname.toLowerCase();
 
-    window.addEventListener("scroll", handleScroll);
+  // 인트로(Root), 로그인, 회원가입, 프로필 선택 페이지 여부
+  const isHidePage =
+    currentPath === "/" ||
+    currentPath.includes("/login") ||
+    currentPath.includes("/signup") ||
+    currentPath.includes("/choice-char");
 
-    // 클린업 함수
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  // 조건부 렌더링 (경로 확인)
-  const isChoiceCharPage = location.pathname
-    .toLowerCase()
-    .includes("/choice-char");
-
-  // 키즈 캐릭터(ID: 4)가 선택되었는지 확인
   const isKidsMode = selectedCharId === 4;
 
-  // 닉네임의 첫 글자 계산
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 90);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const userInitial = selectedCharNickname
     ? selectedCharNickname.charAt(0)
     : user
     ? "U"
     : "W";
-
-  // ID에 따른 동적 클래스 이름 계산
   const charClass = selectedCharId ? `char-${selectedCharId}` : "char-1";
 
   const handleLogout = async () => {
@@ -80,8 +67,8 @@ const Header = () => {
         <div className="inner">
           <div className="header-left">
             <h1 className="logo">
-              {/* 키즈 모드나 ChoiceChar 페이지에서는 로고 링크 비활성화 */}
-              {!isChoiceCharPage && !isKidsMode ? (
+              {/* 인트로, 로그인, 회원가입, 프로필변경, 키즈모드일 때는 링크 없이 로고 이미지만 표시 */}
+              {!isHidePage && !isKidsMode ? (
                 <Link to={"/home"}>
                   <img
                     src={
@@ -95,7 +82,8 @@ const Header = () => {
               ) : (
                 <img
                   src={
-                    isChoiceCharPage
+                    // 인트로(/)나 프로필변경 등 특정 페이지에서는 스크롤 상관없이 특정 색상 로고를 고정하고 싶다면 여기서 조건부 처리 가능
+                    isScrolled || isHidePage
                       ? "/images/badge/badge-wavve-logo-blue.svg"
                       : "/images/badge/badge-wavve-logo-white.svg"
                   }
@@ -104,13 +92,12 @@ const Header = () => {
               )}
             </h1>
 
-            {/* ChoiceChar 페이지에서는 메뉴 전체 숨김 */}
-            {!isChoiceCharPage && (
+            {/* 특정 페이지가 아닐 때만 메인 메뉴 표시 */}
+            {!isHidePage && (
               <ul className="main-menu">
-                {/* 키즈 모드에서는 키즈 메뉴만, 다른 모드에서는 모든 메뉴 표시 */}
                 {isKidsMode
                   ? mainMenu
-                      .filter((menu) => menu.path === "/kids")
+                      .filter((m) => m.path === "/kids")
                       .map((menu) => (
                         <li key={menu.id}>
                           <Link className="font-wave" to={menu.path}>
@@ -129,10 +116,9 @@ const Header = () => {
             )}
           </div>
 
-          {/* ChoiceChar 페이지에서만 header-right 전체 숨김 */}
-          {!isChoiceCharPage && (
+          {/* 특정 페이지가 아닐 때만 우측 영역(검색, 유저정보) 표시 */}
+          {!isHidePage && (
             <div className="header-right">
-              {/* 키즈 모드에서는 검색 버튼만 숨김 */}
               {!isKidsMode && (
                 <p
                   className="search"

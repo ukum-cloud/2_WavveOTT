@@ -23,9 +23,11 @@ import type { PrimaryItem } from "../types/movie";
 import { randomArray } from "../utils/randomData";
 
 import "./scss/Home.scss";
+import UserWatchList from "../components/UserWatchList";
 
 const Home = () => {
-  const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } = useMovieStore();
+  const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } =
+    useMovieStore();
   const { wavves, onFetchWavve } = useWavveStore();
   const { tvs, onFetchTv } = useTvStore();
   const { people, onFetchPeople } = usePeopleStore();
@@ -57,7 +59,7 @@ const Home = () => {
         <BroadcastList />
         <section className="card-list">
           <h2>지금 시청중인 컨텐츠</h2>
-          <div className="">내용, 슬라이더, 등등</div>
+          <UserWatchList />
         </section>
       </div>
 
@@ -68,7 +70,10 @@ const Home = () => {
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
         <div className="banner-event">
           <Link to={"/event/1"}>
-            <img src="/images/banner/banner-main-event.png" alt="banner event" />
+            <img
+              src="/images/banner/banner-main-event.png"
+              alt="banner event"
+            />
           </Link>
         </div>
         <PeopleList title={"지금 주목받는 스타들"} people={people} />

@@ -1,0 +1,29 @@
+@use '../../App.scss' as g;
+.playlist-slider {
+    @include g.myFlex($gap:20px,$jc:flex-start);
+    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: auto;  // 가로 스크롤 허용
+    overflow-y: hidden;
+    
+
+    // 스크롤바 디자인 (웨이브 스타일처럼 깔끔하게)
+    &::-webkit-scrollbar {
+        height: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+    }
+    .play-card {
+        flex: 0 0 auto; // 중요: flex-grow:0, flex-shrink:0, flex-basis:auto
+        width: 220px;   // 카드의 실제 너비 설정 (기존 200px보다 조금 넓게 설정하면 보기 좋습니다)
+        height: 320px;   // 카드의 실제 너비 설정 (기존 200px보다 조금 넓게 설정하면 보기 좋습니다)
+        cursor: pointer;
+        transition: transform 0.3s;
+        aspect-ratio: 16/9;
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
+}
