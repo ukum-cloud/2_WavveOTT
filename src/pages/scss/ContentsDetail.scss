@@ -1,213 +1,217 @@
-@use '../../App.scss' as g;
+@use "../../App.scss" as g;
 
 .main-detail {
-    padding-top: 91.25px;
+  padding-top: 91.25px;
 
-    h3,
-    .actor-name {
-        font-family: 'Wave', sans-serif;
-    }
+  h3,
+  .actor-name {
+    font-family: "Wave", sans-serif;
+  }
 
-    .inner {
-        flex-direction: row;
-        gap: 0;
+  .inner {
+    flex-direction: row;
+    gap: 0;
 
-        .detail-left {
-            @include g.myFlexCol($gap: 40px);
-            max-width: 1076px;
+    .detail-left {
+      @include g.myFlexCol($gap: 40px);
+      max-width: 1076px;
 
-            .detail-img-box {
-                max-width: 1076px;
-                width: 100%;
-                position: relative;
+      .detail-img-box {
+        max-width: 1076px;
+        width: 100%;
+        position: relative;
 
-                .detail-backdrop {
-                    img {
-                        width: 100%;
-                        border-radius: 12px;
-                    }
-                }
-                .detail-logo {
-                    position: absolute;
-                    left: 5%;
-                    bottom: 5%;
-                    width: 300px;
-                    img {
-                        width: 100%;
-                    }
-                }
-                > iframe {
-                    left: 0%;
-                    top: 0%;
-                    width: 100%;
-                    aspect-ratio: 16/9;
-                    border: none;
-                }
-            }
-            .detail-title-box {
-                @include g.myFlex($gap: 0);
-
-                .detail-title-left {
-                    @include g.myFlex($jc: unset, $gap: 12px);
-                    .title-star {
-                        width: 16px;
-                        height: 16px;
-                        display: inline-block;
-                        background: url('/images/icons/icon-star.svg') no-repeat center center;
-                    }
-                    .title-vote {
-                        @include g.myFlex($jc: unset, $gap: 4px);
-                    }
-                    .title-genre {
-                        @include g.myFlex($jc: unset, $gap: 4px);
-                    }
-                    .seperate::after {
-                        content: '';
-                        display: inline-block;
-                        width: 2px;
-                        height: 14px;
-                        background: url('/images/icons/icon-line.svg');
-                        margin-left: 12px;
-                    }
-                }
-
-                .detail-title-right {
-                    @include g.myFlex($jc: unset, $gap: 20px);
-
-                    .detail-heart-btn {
-                        width: 68px;
-                        height: 68px;
-                        background: url('/images/icons/icon-heart-default.svg') no-repeat center;
-                        background-size: contain;
-
-                        &:hover {
-                            background: url('/images/icons/icon-heart-hover.svg') no-repeat center;
-                        }
-                    }
-                    .detail-share-btn {
-                        width: 68px;
-                        height: 68px;
-                        background: url('/images/icons/icon-share-default.svg') no-repeat center;
-                        background-size: contain;
-
-                        &:hover {
-                            background: url('/images/icons/icon-share-hover.svg') no-repeat center;
-                        }
-                    }
-                }
-            }
-            .detail-text-box {
-                @include g.myFlexCol($gap: 80px);
-
-                .detail-content {
-                    @include g.myFlex($ai: start, $gap: 120px);
-
-                    .detail-content-left {
-                        @include g.myFlexCol();
-                        > p {
-                            color: g.$color-other4;
-                            display: -webkit-box;
-                            line-clamp: 3;
-                            -webkit-line-clamp: 3;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                        }
-                    }
-                    .detail-content-right {
-                        .btn.default {
-                            min-width: 342px;
-                        }
-                    }
-                }
-                .detail-cast {
-                    @include g.myFlexCol();
-
-                    .detail-cast-list {
-                        @include g.myFlex($jc: unset, $gap: 24px);
-
-                        .cast-card {
-                            width: 120px;
-                            height: 195px;
-
-                            .cast-card-imgbox {
-                                width: 120px;
-                                height: 160px;
-                                border-radius: 12px;
-                                margin-bottom: 14px;
-
-                                img {
-                                    width: 100%;
-                                    height: 100%;
-                                    object-fit: cover;
-                                    border-radius: 12px;
-                                }
-                            }
-                        }
-                    }
-                }
-                .detail-crew-list {
-                    @include g.myFlexCol();
-
-                    li {
-                        color: g.$color-other4;
-                        &:not(:last-child)::after {
-                            content: ',';
-                        }
-                    }
-
-                    .detail-director {
-                        @include g.myFlex($jc: unset);
-
-                        .director-list {
-                            @include g.myFlex($jc: unset, $gap: 6px);
-                        }
-                    }
-
-                    .detail-writer {
-                        @include g.myFlex($jc: unset);
-
-                        .writer-list {
-                            @include g.myFlex($jc: unset, $gap: 6px);
-                        }
-                    }
-
-                    .detail-script {
-                        @include g.myFlex($jc: unset);
-
-                        .script-list {
-                            @include g.myFlex($jc: unset, $gap: 6px);
-                        }
-                    }
-                }
-            }
+        .detail-backdrop {
+          img {
+            width: 100%;
+            border-radius: 12px;
+          }
         }
-        .detail-right {
-            width: calc(1720px - 1076px);
-
-            .detail-menu-wrap {
-                @include g.myFlex($jc: unset, $gap: 30px);
-                padding: 20px 0 0 60px;
-                width: 100%;
-
-                .active {
-                    border-bottom: 4px solid g.$color-primary;
-                }
-
-                .detail-menu-btn {
-                    border-bottom: 4px solid g.$color-bg-dark;
-                }
-
-                > button {
-                    padding: 20px 0;
-                    color: white;
-                    font-family: 'Wave', sans-serif;
-                    font-size: 18px;
-                }
-            }
-            .detail-menu-line {
-                border-bottom: 1px solid g.$color-other3;
-                margin: 0 0 26px 0;
-            }
+        .detail-logo {
+          position: absolute;
+          left: 5%;
+          bottom: 5%;
+          width: 300px;
+          img {
+            width: 100%;
+          }
         }
+        > iframe {
+          left: 0%;
+          top: 0%;
+          width: 100%;
+          aspect-ratio: 16/9;
+          border: none;
+        }
+      }
+      .detail-title-box {
+        @include g.myFlex($gap: 0);
+
+        .detail-title-left {
+          @include g.myFlex($jc: unset, $gap: 12px);
+          .title-star {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            background: url("/images/icons/icon-star.svg") no-repeat center center;
+          }
+          .title-vote {
+            @include g.myFlex($jc: unset, $gap: 4px);
+          }
+          .title-genre {
+            @include g.myFlex($jc: unset, $gap: 4px);
+          }
+          .seperate::after {
+            content: "";
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background: url("/images/icons/icon-line.svg");
+            margin-left: 12px;
+          }
+        }
+
+        .detail-title-right {
+          @include g.myFlex($jc: unset, $gap: 20px);
+
+          .detail-heart-btn {
+            width: 68px;
+            height: 68px;
+            background: url("/images/icons/icon-heart-default.svg") no-repeat center;
+            background-size: contain;
+
+            &:hover {
+              background: url("/images/icons/icon-heart-hover.svg") no-repeat center;
+            }
+
+            &.active {
+              background: url("/images/icons/icon-heart-active.svg") no-repeat center;
+            }
+          }
+          .detail-share-btn {
+            width: 68px;
+            height: 68px;
+            background: url("/images/icons/icon-share-default.svg") no-repeat center;
+            background-size: contain;
+
+            &:hover {
+              background: url("/images/icons/icon-share-hover.svg") no-repeat center;
+            }
+          }
+        }
+      }
+      .detail-text-box {
+        @include g.myFlexCol($gap: 80px);
+
+        .detail-content {
+          @include g.myFlex($ai: start, $gap: 120px);
+
+          .detail-content-left {
+            @include g.myFlexCol();
+            > p {
+              color: g.$color-other4;
+              display: -webkit-box;
+              line-clamp: 3;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+          }
+          .detail-content-right {
+            .btn.default {
+              min-width: 342px;
+            }
+          }
+        }
+        .detail-cast {
+          @include g.myFlexCol();
+
+          .detail-cast-list {
+            @include g.myFlex($jc: unset, $gap: 24px);
+
+            .cast-card {
+              width: 120px;
+              height: 195px;
+
+              .cast-card-imgbox {
+                width: 120px;
+                height: 160px;
+                border-radius: 12px;
+                margin-bottom: 14px;
+
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  border-radius: 12px;
+                }
+              }
+            }
+          }
+        }
+        .detail-crew-list {
+          @include g.myFlexCol();
+
+          li {
+            color: g.$color-other4;
+            &:not(:last-child)::after {
+              content: ",";
+            }
+          }
+
+          .detail-director {
+            @include g.myFlex($jc: unset);
+
+            .director-list {
+              @include g.myFlex($jc: unset, $gap: 6px);
+            }
+          }
+
+          .detail-writer {
+            @include g.myFlex($jc: unset);
+
+            .writer-list {
+              @include g.myFlex($jc: unset, $gap: 6px);
+            }
+          }
+
+          .detail-script {
+            @include g.myFlex($jc: unset);
+
+            .script-list {
+              @include g.myFlex($jc: unset, $gap: 6px);
+            }
+          }
+        }
+      }
     }
+    .detail-right {
+      width: calc(1720px - 1076px);
+
+      .detail-menu-wrap {
+        @include g.myFlex($jc: unset, $gap: 30px);
+        padding: 20px 0 0 60px;
+        width: 100%;
+
+        .active {
+          border-bottom: 4px solid g.$color-primary;
+        }
+
+        .detail-menu-btn {
+          border-bottom: 4px solid g.$color-bg-dark;
+        }
+
+        > button {
+          padding: 20px 0;
+          color: white;
+          font-family: "Wave", sans-serif;
+          font-size: 18px;
+        }
+      }
+      .detail-menu-line {
+        border-bottom: 1px solid g.$color-other3;
+        margin: 0 0 26px 0;
+      }
+    }
+  }
 }
