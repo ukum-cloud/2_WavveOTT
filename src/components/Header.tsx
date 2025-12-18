@@ -58,7 +58,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     await onLogout();
-    navigate("/home");
+    navigate("/");
   };
 
   return (
