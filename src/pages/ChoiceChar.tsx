@@ -1,6 +1,7 @@
-// ChoiceChar.tsx
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
+import { getProfileNickname } from "../firebase/firebase"; // 아까 추가한 함수 불러오기
 import "./scss/ChoiceChar.scss";
 
 interface Character {
@@ -9,7 +10,7 @@ interface Character {
   imageUrl: string;
 }
 
-const characters: Character[] = [
+const defaultCharacters: Character[] = [
   { id: 1, nickname: "배추", imageUrl: "/images/icons/icon-char-1.svg" },
   { id: 2, nickname: "딸기라떼", imageUrl: "/images/icons/icon-char-2.svg" },
   { id: 3, nickname: "에스프레소", imageUrl: "/images/icons/icon-char-3.svg" },
@@ -18,15 +19,37 @@ const characters: Character[] = [
 
 const ChoiceChar = () => {
   const navigate = useNavigate();
-  // 스토어에서 캐릭터 선택 액션 및 현재 선택된 캐릭터 ID 가져오기
-  const { selectChar, selectedCharId } = useAuthStore();
+  const { user, selectChar, selectedCharId } = useAuthStore();
 
-  // 캐릭터 선택 및 상태 저장 핸들러
+  // DB에서 불러온 실제 캐릭터 리스트를 관리할 상태
+  const [displayCharacters, setDisplayCharacters] =
+    useState<Character[]>(defaultCharacters);
+
+  // 1. 컴포넌트 로드 시 Firebase에서 각 프로필의 닉네임을 불러옴
+  useEffect(() => {
+    const fetchNicknames = async () => {
+      if (!user) return;
+
+      const updatedChars = await Promise.all(
+        defaultCharacters.map(async (char) => {
+          // Firebase에서 해당 캐릭터의 저장된 닉네임 조회
+          const savedNickname = await getProfileNickname(user.uid, char.id);
+          return {
+            ...char,
+            nickname: savedNickname || char.nickname, // 저장된 게 있으면 그것 사용, 없으면 기본값
+          };
+        })
+      );
+      setDisplayCharacters(updatedChars);
+    };
+
+    fetchNicknames();
+  }, [user]);
+
   const handleCharSelect = (char: Character) => {
-    // 선택된 캐릭터 정보를 전역 상태에 저장
+    // 선택한 캐릭터의 현재 닉네임(DB에서 가져온 값)을 스토어에 저장
     selectChar(char.id, char.nickname);
 
-    // 키즈 캐릭터(ID: 4)를 선택한 경우 /kids 페이지로 이동
     if (char.id === 4) {
       navigate("/kids");
     } else {
@@ -44,7 +67,7 @@ const ChoiceChar = () => {
           </div>
 
           <ul>
-            {characters.map((c) => (
+            {displayCharacters.map((c) => (
               <li
                 key={c.id}
                 className={selectedCharId === c.id ? "active" : ""}

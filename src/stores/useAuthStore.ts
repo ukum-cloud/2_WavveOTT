@@ -11,12 +11,18 @@ import {
 } from "firebase/auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, updateProfileNickname } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // ----------------------------------------------------
-// 카카오 타입 선언
+// 카카오 타입 선언 (에러 해결: any 대신 구체적인 타입 정의)
 // ----------------------------------------------------
+interface KakaoAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  // 필요한 다른 속성들을 추가할 수 있습니다.
+}
+
 declare global {
   interface Window {
     Kakao: {
@@ -25,22 +31,21 @@ declare global {
       Auth: {
         login: (params: {
           scope: string;
-          success: (authObj: any) => void;
-          fail: (error: any) => void;
+          success: (authObj: KakaoAuthResponse) => void; // any -> KakaoAuthResponse
+          fail: (error: Error) => void; // any -> Error
         }) => void;
       };
       API: {
         request: (params: {
           url: string;
-          success?: (response: any) => void;
-          fail?: (error: any) => void;
+          success?: (response: KakaoUserResponse) => void; // any -> KakaoUserResponse
+          fail?: (error: Error) => void; // any -> Error
         }) => void;
       };
     };
   }
 }
 
-// 카카오 사용자 응답 타입
 interface KakaoUserResponse {
   id: number;
   kakao_account?: {
@@ -53,13 +58,11 @@ interface KakaoUserResponse {
 }
 
 // ----------------------------------------------------
-// 인터페이스 정의 (캐릭터 선택 상태 추가)
+// 인터페이스 정의
 // ----------------------------------------------------
 interface AuthState {
   user: User | null;
   isInitializing: boolean;
-
-  // 캐릭터 선택 상태
   selectedCharId: number | null;
   selectedCharNickname: string | null;
 
@@ -68,9 +71,8 @@ interface AuthState {
   onLogout: () => Promise<void>;
   onGoogleLogin: () => Promise<boolean>;
   onKakaoLogin: (navigate?: (path: string) => void) => Promise<void>;
-
-  // 캐릭터 선택 액션
   selectChar: (id: number, nickname: string) => void;
+  updateNickname: (nickname: string) => Promise<void>;
 }
 
 // ----------------------------------------------------
@@ -78,7 +80,7 @@ interface AuthState {
 // ----------------------------------------------------
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => {
+    (set, get) => {
       const initialState = {
         user: null,
         isInitializing: true,
@@ -97,7 +99,20 @@ export const useAuthStore = create<AuthState>()(
       return {
         ...initialState,
 
-        // 캐릭터 선택 액션
+        updateNickname: async (nickname: string) => {
+          const { user, selectedCharId } = get();
+          set({ selectedCharNickname: nickname });
+
+          if (user?.uid && selectedCharId !== null) {
+            try {
+              await updateProfileNickname(user.uid, selectedCharId, nickname);
+              console.log(`Firebase DB 닉네임 업데이트 완료: ${nickname}`);
+            } catch (err) {
+              console.error("Firebase DB 닉네임 업데이트 실패:", err);
+            }
+          }
+        },
+
         selectChar: (id, nickname) =>
           set({ selectedCharId: id, selectedCharNickname: nickname }),
 
@@ -135,17 +150,15 @@ export const useAuthStore = create<AuthState>()(
               window.Kakao.init("f42c7217dba2db4b19dd471308a132fa");
             }
 
-            // 1. 카카오 로그인
-            const authObj = await new Promise((resolve, reject) => {
+            // 에러 해결: 사용하지 않는 authObj 변수 할당 제거
+            await new Promise<KakaoAuthResponse>((resolve, reject) => {
               window.Kakao.Auth.login({
                 scope: "profile_nickname, profile_image",
                 success: resolve,
                 fail: reject,
               });
             });
-            console.log("카카오 로그인 성공:", authObj);
 
-            // 2. 사용자 정보 요청 (Promise 기반)
             const res = await new Promise<KakaoUserResponse>(
               (resolve, reject) => {
                 window.Kakao.API.request({
@@ -155,7 +168,6 @@ export const useAuthStore = create<AuthState>()(
                 });
               }
             );
-            console.log("카카오 사용자 정보:", res);
 
             const uid = res.id.toString();
             const kakaoUser = {
@@ -169,18 +181,12 @@ export const useAuthStore = create<AuthState>()(
               createdAt: new Date().toISOString(),
             };
 
-            // 3. Firestore에 사용자 정보 저장/확인
             const userRef = doc(db, "users", uid);
             const userDoc = await getDoc(userRef);
-
             if (!userDoc.exists()) {
               await setDoc(userRef, kakaoUser);
-              console.log("신규 카카오 회원 Firestore에 등록 완료");
-            } else {
-              console.log("기존 카카오 회원 Firestore 데이터 있음");
             }
 
-            // 4. Zustand 상태 업데이트 (Firebase User 타입과 호환되도록)
             set({
               user: {
                 uid: kakaoUser.uid,
@@ -191,18 +197,20 @@ export const useAuthStore = create<AuthState>()(
             });
 
             alert(`${kakaoUser.nickname}님, 카카오 로그인 성공!`);
-
-            // 5. 페이지 이동 (신규/기존 분기)
             if (navigate) {
               if (!userDoc.exists()) {
-                navigate("/welcome"); // 신규 회원
+                navigate("/welcome");
               } else {
-                navigate("/choice-char"); // 기존 회원
+                navigate("/choice-char");
               }
             }
-          } catch (err: any) {
-            console.error("카카오 로그인 중 오류:", err);
-            alert("카카오 로그인 실패: " + (err?.message || "알 수 없는 오류"));
+          } catch (err) {
+            // 에러 해결: any 제거 (err는 기본적으로 unknown)
+            const error = err as Error;
+            console.error("카카오 로그인 중 오류:", error);
+            alert(
+              "카카오 로그인 실패: " + (error.message || "알 수 없는 오류")
+            );
           }
         },
 
@@ -223,7 +231,6 @@ export const useAuthStore = create<AuthState>()(
         onLogout: async () => {
           try {
             await signOut(auth);
-            // 로그아웃 시 캐릭터 선택 정보도 초기화
             set({
               user: null,
               selectedCharId: null,
@@ -238,9 +245,8 @@ export const useAuthStore = create<AuthState>()(
       };
     },
     {
-      name: "auth-storage", // localStorage 키
+      name: "auth-storage",
       partialize: (state) => ({
-        // user는 Firebase가 관리하므로 캐릭터 정보만 persist
         selectedCharId: state.selectedCharId,
         selectedCharNickname: state.selectedCharNickname,
       }),
