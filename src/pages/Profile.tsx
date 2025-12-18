@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./scss/Profile.scss";
 import { useAuthStore } from "../stores/useAuthStore";
 import UserPickList from "../components/UserPickList";
+import UserWatchList from "../components/UserWatchList";
 const Profile = () => {
   const { selectedCharId, selectedCharNickname } = useAuthStore();
   // 기본값 설정 (선택된 캐릭터가 없을 경우)
@@ -44,7 +45,7 @@ const Profile = () => {
         </section>
         <section className="card-list">
           <h2>시청 내역</h2>
-          <div>내용</div>
+          <UserWatchList />
         </section>
         <section className="card-list">
           <h2>찜 리스트</h2>

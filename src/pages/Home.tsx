@@ -24,6 +24,7 @@ import type { PrimaryItem } from '../types/movie';
 import { randomArray } from '../utils/randomData';
 
 import './scss/Home.scss';
+import UserWatchList from '../components/UserWatchList';
 
 const Home = () => {
     const { popularMovies, newMovies, onFetchPopular, onFetchNewMovie } = useMovieStore();
@@ -58,7 +59,7 @@ const Home = () => {
                 <BroadcastList />
                 <section className="card-list">
                     <h2>지금 시청중인 컨텐츠</h2>
-                    <div className="">내용, 슬라이더, 등등</div>
+                    <UserWatchList />
                 </section>
             </div>
 

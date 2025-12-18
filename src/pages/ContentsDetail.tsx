@@ -10,11 +10,21 @@ import { getContentImages } from '../utils/getData';
 import ContentsEpisode from '../components/ContentsEpisode';
 import ContentsRelative from '../components/ContentsRelative';
 import ContentsRecommend from '../components/ContentsRecommend';
+
+
+// --- 추가된 임포트 ---
+import { useAuthStore } from '../stores/useAuthStore'; // KEH  왓치리스트를 위해 추가
+import { saveWatchHistory } from '../firebase/firebase'; // KEH  왓치리스트를 위해 추가
+// --------------------
+
 import Modal from '../components/Modal';
 
 import './scss/ContentsDetail.scss';
 
 const ContentsDetail = () => {
+    // --- 유저 정보 가져오기 ---// KEH  왓치리스트를 위해 추가
+    const { user, selectedCharId } = useAuthStore();
+    // -
     const { type, id } = useParams<{ type: string; id: string }>();
 
     const { wavves, selectedWavve, onFetchWavve, setSelectedWavve } = useWavveStore();
@@ -77,6 +87,45 @@ const ContentsDetail = () => {
     }
 
     const { logo, background, episodeImages } = getContentImages(selectedContent);
+
+    // ========== 시청 기록 저장 및 재생 함수 (에러 수정 완료) ==========
+    // KEH  왓치리스트를 위해 추가
+    const handlePlayClick = async () => {
+        if (user && selectedCharId && selectedContent) {
+            try {
+                // 에러 해결을 위해 selectedContent를 잠시 any로 취급
+                const content = selectedContent as any;
+
+                const watchData = {
+                    id: content.id,
+                    // name이나 title이 없을 경우 대비
+                    title: (content.name || content.title || '제목 없음') as string,
+                    // null을 허용하지 않는 타입을 위해 undefined 처리
+                    backdrop_path: content.backdrop_path ?? undefined,
+                    poster_path: content.poster_path ?? undefined,
+                    // runtime 체크
+                    runtime: content.episode_run_time
+                        ? content.episode_run_time[0]
+                        : (content.runtime || 0),
+                };
+
+                await saveWatchHistory(
+                    String(user.uid),
+                    String(selectedCharId),
+                    watchData as any,
+                    // (type || 'tv') 뒤에 as any를 붙여서 타입 체크를 통과시킵니다.
+                    (type || 'tv') as any,
+                    0
+                );
+
+                console.log('시청 기록 저장 완료');
+            } catch (error) {
+                console.error('시청 기록 저장 실패:', error);
+            }
+        }
+        navigate(`/player/${videoKey}`);
+    };
+    // ============================================================
 
     return (
         <main className="main-detail">
@@ -152,9 +201,17 @@ const ContentsDetail = () => {
                                 <p>{selectedContent.overview}</p>
                             </div>
                             <div className="detail-content-right">
-                                <button
+                                {/* <button
                                     className="btn default primary"
                                     onClick={() => navigate(`/player/${videoKey}`)}
+                                >
+                                    재생하기
+                                </button> */}
+                                {/* 수정한 부분: onClick 핸들러 연결  // KEH  왓치리스트를 위해 추가*/}
+
+                                <button
+                                    className="btn default primary"
+                                    onClick={handlePlayClick}
                                 >
                                     재생하기
                                 </button>
@@ -185,7 +242,7 @@ const ContentsDetail = () => {
                                 <h3>감독</h3>
                                 <ul className="director-list">
                                     {selectedContent.director &&
-                                    selectedContent.director.length > 0 ? (
+                                        selectedContent.director.length > 0 ? (
                                         selectedContent.director
                                             .map((d, index) => (
                                                 <li key={`d-${d.id}-${index}`}>{d.name}</li>
