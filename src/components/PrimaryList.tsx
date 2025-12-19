@@ -94,7 +94,11 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
             >
                 {randomList.map((m, index) => (
                     <SwiperSlide key={`d-${m.id}-${index}`}>
-                        <div className="poster-wrap badge-wavve">
+                        <div
+                            className="poster-wrap badge-wavve"
+                            onMouseEnter={() => setHoverId(m.id)}
+                            onMouseLeave={() => setHoverId(null)}
+                        >
                             <img
                                 className="main"
                                 src={`https://image.tmdb.org/t/p/original${m.poster_path}`}
@@ -102,11 +106,7 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                             />
                             {(m.videos?.[0]?.key || m.backdrop_path) && (
                                 <div className="preview-wrap">
-                                    <div
-                                        className="img-box"
-                                        onMouseEnter={() => setHoverId(m.id)}
-                                        onMouseLeave={() => setHoverId(null)}
-                                    >
+                                    <div className="img-box">
                                         {m.videos?.[0]?.key && hoverId === m.id ? (
                                             <iframe
                                                 className="hover video"
