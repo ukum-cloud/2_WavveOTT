@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { useAuthStore } from "./useAuthStore";
 import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import type { PickState } from "../types/pick";
+import type { Pick, PickState } from "../types/pick";
 
 export const usePickStore = create<PickState>((set, get) => ({
   pickList: [],
@@ -13,23 +13,21 @@ export const usePickStore = create<PickState>((set, get) => ({
   closePickModal: () => set({ isPickModalOpen: false }),
 
   onTogglePick: async (item) => {
-    //id값, tmdb_id로 들어올 수 있는 변수 설정
-    const contentId = item.id ?? item.tmdb_id;
+    const rawId = item.id ?? item.tmdb_id;
+    const contentId = Number(rawId);
 
     const { user, selectedCharId } = useAuthStore.getState();
 
-    //로그인 상태확인
     if (!user) {
       alert("로그인 해주세요.");
       return;
     }
-    //id값 없으면 return
-    if (!contentId) {
-      console.warn("ID값 없음", item);
+
+    if (!rawId || Number.isNaN(contentId)) {
+      console.warn("유효하지 않은 contentId", item);
       return;
     }
 
-    //firebase안의 하나의 로그인한Users중 하나의 프로필의 픽리시트의 영상데이터하나
     const ref = doc(
       db,
       "users",
@@ -40,23 +38,24 @@ export const usePickStore = create<PickState>((set, get) => ({
       String(contentId)
     );
 
-    //중복확인
-    const exists = get().pickList.some((w) => (w.tmdb_id ?? w.id) === contentId);
+    const exists = get().pickList.some((w) => w.contentId === contentId);
+
     if (exists) {
       await deleteDoc(ref);
       set((state) => ({
-        pickList: state.pickList.filter((w) => (w.tmdb_id ?? w.id) !== contentId),
+        pickList: state.pickList.filter((w) => w.contentId !== contentId),
         isPickModalOpen: true,
         pickAction: "remove",
       }));
       return;
     }
 
-    const data = {
+    const data: Pick = {
       ...item,
       contentId,
       updatedAt: Date.now(),
     };
+
     await setDoc(ref, data);
 
     set((state) => ({

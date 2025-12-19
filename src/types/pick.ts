@@ -1,36 +1,36 @@
 export interface Pick {
   contentId?: number;
-  updateAt?: number;
+  updatedAt?: number;
+
   id?: number;
-  tmdb_id?: number | null;
+  tmdb_id?: string | number | null;
 
-  main_img?: string;
-  poster_path?: string;
-  seasonposterimage?: string;
+  main_img?: string | null;
+  poster_path?: string | null;
+  seasonposterimage?: string | null;
+  backdrop_path?: string | null;
+  season_horizontal_logoN_image?: string | null;
 
-  tvsVideo?: {
-    type: string;
-    site: string;
-    key: string;
-  };
-
-  backdrop_path?: string;
-  season_horizontal_logoN_image?: string;
+  logo?: string | null;
+  seasontitlelogoimage?: string | null;
 
   name?: string;
   title?: string;
   series_title?: string;
 
-  logo?: string;
-  seasontitlelogoimage?: string;
-
   targetage?: string;
   certificationMovie?: string;
 
-  media_type?: string;
+  media_type?: "movie" | "tv" | "wavve" | "news" | string;
 
   genretext?: string;
   genre_ids?: number[];
+
+  tvsVideo?: {
+    type: string;
+    site: string;
+    key: string;
+  } | null;
 
   videos?: Video[];
 }
