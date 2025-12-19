@@ -4,13 +4,17 @@ import "./scss/SearchInputBar.scss";
 interface Props {
   value: string;
   onChange: (next: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
+
+  // ✅ async 허용
+  onSubmit: (e: React.FormEvent) => void | Promise<void>;
 
   inputRef: React.RefObject<HTMLInputElement | null>;
   onMoveToList: (index: number) => void;
   hasList: boolean;
 
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  // ✅ async 허용
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void | Promise<void>;
+
   activeDescendantId?: string;
   activeIndex: number;
 }
@@ -48,7 +52,7 @@ const SearchInputBar = ({
     }
 
     // 그 외 키(Enter 포함)는 부모가 처리하도록 전달
-    onKeyDown(e);
+    void onKeyDown(e);
   };
 
   return (

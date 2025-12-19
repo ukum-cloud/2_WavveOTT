@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import type { Search } from "../types/searchtodo";
 import "./scss/SearchIdlePanel.scss";
 
@@ -72,6 +72,7 @@ const SearchIdlePanel = ({
               {recent.map((t, i) => (
                 <li
                   key={t.id}
+                  id={`idle-option-${i}`}
                   role="option"
                   aria-selected={isRecentActive(i)}
                   className={isRecentActive(i) ? "is-active" : ""}
@@ -128,6 +129,7 @@ const SearchIdlePanel = ({
             trending.map((k, i) => (
               <li
                 key={k}
+                id={`idle-option-${recentLen + i}`}
                 role="option"
                 aria-selected={isTrendingActive(i)}
                 className={isTrendingActive(i) ? "is-active" : ""}
