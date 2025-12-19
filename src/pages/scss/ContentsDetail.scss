@@ -63,8 +63,8 @@
                     .seperate::after {
                         content: '';
                         display: inline-block;
-                        width: 2px;
-                        height: 14px;
+                        width: 1px;
+                        height: 10px;
                         background: url('/images/icons/icon-line.svg');
                         margin-left: 12px;
                     }
@@ -189,7 +189,8 @@
 
             .detail-menu-wrap {
                 @include g.myFlex($jc: unset, $gap: 30px);
-                padding: 20px 0 0 60px;
+
+                padding: 0 0 0 60px;
                 width: 100%;
 
                 .active {
@@ -208,7 +209,7 @@
                 }
             }
             .detail-menu-line {
-                border-bottom: 1px solid g.$color-other3;
+                border-bottom: 1px solid g.$color-secondary-dark3;
                 margin: 0 0 26px 0;
             }
         }
