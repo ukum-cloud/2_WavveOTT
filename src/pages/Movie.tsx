@@ -35,7 +35,7 @@ const Movie: React.FC = () => {
 
   const currentMonth = new Date().getMonth() + 1;
 
-  // 1. [신작] 필터링 - any 제거
+  // 1. [신작] 필터링
   const recentOneMonthMovies = useMemo(() => {
     if (!newMovies || newMovies.length === 0) return [];
     const today = new Date();
@@ -85,19 +85,7 @@ const Movie: React.FC = () => {
   }, [topRatedMovies]);
 
   if (popularMovies.length === 0 || topRatedMovies.length === 0) {
-    return (
-      <div
-        style={{
-          color: "#fff",
-          padding: "100px",
-          textAlign: "center",
-          backgroundColor: "#000",
-          height: "100vh",
-        }}
-      >
-        데이터를 불러오는 중입니다...
-      </div>
-    );
+    return <div>데이터를 불러오는 중입니다...</div>;
   }
 
   return (

@@ -124,7 +124,8 @@ const MovieVisual: React.FC = () => {
         width: "100%",
         overflow: "hidden",
         backgroundColor: "#000",
-        borderRadius: "0px", // 보더 라디우스 제거
+        borderRadius: "0px",
+        maxHeight: "680px",
       }}
     >
       <img
