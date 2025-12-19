@@ -15,10 +15,9 @@ const mainMenu: MenuItem[] = [
   { id: 2, title: "드라마", path: "/drama" },
   { id: 3, title: "영화", path: "/movie" },
   { id: 4, title: "해외 시리즈", path: "/overseasSeries" },
-  // { id: 5, title: "시사교양", path: "/currentAffairs" },
   { id: 5, title: "애니메이션", path: "/animation" },
   { id: 6, title: "키즈", path: "/kids" },
-  { id: 7, title: "COMMON", path: "/Common" },
+  // { id: 7, title: "COMMON", path: "/Common" },
 ];
 
 const Header = () => {
