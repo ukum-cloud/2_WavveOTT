@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { eventData } from "../data/eventData";
-import "./scss/Event.scss";
+import "./scss/EventDetail.scss";
 
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -26,21 +26,27 @@ const EventDetail = () => {
     <main className="event-detail-wrap">
       <div className="inner">
         <section>
-          <button onClick={() => navigate("/event")}>← 목록으로</button>
-          <h2>Event detail</h2>
+         
+          {/* <h2>Event detail</h2> */}
           <div className="event-detail">
-            <button
-              className="btn small primary"
-              onClick={() => navigate("/event")}
-            >
-              ← 목록으로 돌아가기
-            </button>
-            <h3>{event.title}</h3>
-            <p>{event.date}</p>
+            <div className="event-detail-top">
+              <div className="event-title-wrap">
+                <h3>{event.title}</h3>
+                <p>{event.date}</p>
+              </div>
+              <button
+                className="btn default primary"
+                onClick={() => navigate("/event")}
+              >
+                이벤트 목록
+              </button>
+            </div>
             <div className="img-box">
               <img src={event.imgUrl} alt={event.title} />
             </div>
+            <button className="btn default primary" onClick={() => navigate("/event")}>이벤트 목록</button>
           </div>
+          
         </section>
       </div>
     </main>
