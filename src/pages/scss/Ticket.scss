@@ -77,11 +77,16 @@
             font-size: 0.875rem;
             line-height: 140%;
             letter-spacing: -0.2px;
-            background-image: url(/images/icons/icon-plus.svg);
+            background-image: url(/images/button/btn-rotation.svg);
             background-repeat: no-repeat;
+            background-position-y: center;
             background-position-x: 100%;
             background-size: 24px;
             line-height: 24px;
+            &:hover {
+              color: g.$color-font-white;
+              background-image: url(/images/button/btn-rotation-hover.svg);
+            }
           }
         }
         .front-header {
