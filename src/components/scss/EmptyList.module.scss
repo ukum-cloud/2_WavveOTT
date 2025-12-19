@@ -1,0 +1,26 @@
+.emptyWrap {
+  background: #0d0f16;
+  height: 346px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  .emptyIcon {
+    width: 50px;
+    height: 50px;
+    animation: upDown 0.8s ease-in-out infinite alternate;
+  }
+  .title {
+    color: #adb0be;
+  }
+}
+
+@keyframes upDown {
+  to {
+    transform: translateY(8px);
+  }
+  from {
+    transform: translateY(0px);
+  }
+}
