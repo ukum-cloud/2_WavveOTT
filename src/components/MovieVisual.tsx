@@ -127,7 +127,6 @@ const MovieVisual: React.FC = () => {
         borderRadius: "0px", // 보더 라디우스 제거
       }}
     >
-      {/* 1. 배경 이미지: 원본 이미지 높이를 그대로 유지 */}
       <img
         src="/images/visual/bg-visual-movie.jpg"
         alt=""
@@ -139,7 +138,7 @@ const MovieVisual: React.FC = () => {
         }}
       />
 
-      {/* 2. 메타볼 레이어: 더 커진 사이즈와 강렬한 대비 */}
+      {/* 메타볼 레이어: 더 커진 사이즈와 강렬한 대비 */}
       <div
         style={{
           position: "absolute",
@@ -147,8 +146,10 @@ const MovieVisual: React.FC = () => {
           left: 0,
           width: "100%",
           height: "100%",
+          // filter: "blur(40px) contrast(25)", // 볼이 커진 만큼 블러도 살짝 조정
           filter: "blur(40px) contrast(25)", // 볼이 커진 만큼 블러도 살짝 조정
-          mixBlendMode: "screen",
+          // mixBlendMode: "screen",
+          mixBlendMode: "color-dodge",
           pointerEvents: "none",
         }}
       >

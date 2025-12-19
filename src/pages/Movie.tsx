@@ -7,8 +7,8 @@ const Movie: React.FC = () => {
   const { popularMovies } = useMovieStore();
 
   return (
-    <main>
-      {/* 분리된 비주얼 컴포넌트 */}
+    <main className="sub-movie-main">
+      {/* 탑 비주얼 컴포넌트 */}
       <MovieVisual />
 
       <div className="inner">
