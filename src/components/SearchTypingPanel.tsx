@@ -1,17 +1,17 @@
 import React from "react";
-import type { MultiItem } from "../api/tmdb";
+import type { SearchResultItem } from "../types/searchtodo";
 import "./scss/SearchTypingPanel.scss";
 
 interface Props {
   query: string;
   loading: boolean;
-  results: MultiItem[];
-  // 오른쪽: 추천 검색어
+  results: SearchResultItem[];
   recommendedKeywords: string[];
+
   activeIndex: number;
   setActiveIndex: (n: number) => void;
-  // 선택 액션
-  onSelectResult: (item: MultiItem) => void;
+
+  onSelectResult: (item: SearchResultItem) => void;
   onSelectKeyword: (keyword: string) => void;
 }
 
@@ -29,21 +29,24 @@ const SearchTypingPanel = ({
   const renderHighlighted = (label: string, q: string) => {
     const qq = q.trim();
     if (!qq) return <span className="txt">{label}</span>;
+
     const escaped = qq.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const regex = new RegExp(escaped, "gi");
 
     const nodes: React.ReactNode[] = [];
     let lastIndex = 0;
+
     for (const match of label.matchAll(regex)) {
       const start = match.index ?? 0;
       const end = start + match[0].length;
 
-      if (start > lastIndex)
+      if (start > lastIndex) {
         nodes.push(
           <span key={`r-${lastIndex}`} className="rest">
             {label.slice(lastIndex, start)}
           </span>
         );
+      }
 
       nodes.push(
         <span key={`h-${start}`} className="hit">
@@ -54,18 +57,19 @@ const SearchTypingPanel = ({
       lastIndex = end;
     }
 
-    if (lastIndex < label.length)
+    if (lastIndex < label.length) {
       nodes.push(
         <span key={`r-${lastIndex}`} className="rest">
           {label.slice(lastIndex)}
         </span>
       );
+    }
 
     return <span className="txt">{nodes}</span>;
   };
 
-  const getLabel = (item: MultiItem) =>
-    item.media_type === "movie" ? item.title ?? "" : item.name ?? "";
+  // ✅ SearchResultItem에서는 label이 이미 통일되어 있음
+  const getLabel = (item: SearchResultItem) => item.label ?? "";
 
   const leftLen = results.length;
   const rightLen = Math.min(recommendedKeywords.length, 8);
@@ -92,7 +96,7 @@ const SearchTypingPanel = ({
 
               return (
                 <li
-                  key={`${item.media_type}-${item.id}`}
+                  key={`${item.kind}-${item.id}`}
                   id={`search-option-${idx}`}
                   role="option"
                   aria-selected={isActive}
@@ -116,6 +120,7 @@ const SearchTypingPanel = ({
 
       <div className="recommend-box">
         <p className="recommend-title font-wave">추천 검색어</p>
+
         {rightLen === 0 ? (
           <p className="hint">추천 검색어가 없습니다.</p>
         ) : (
@@ -126,7 +131,7 @@ const SearchTypingPanel = ({
             aria-label="추천 검색어 목록"
           >
             {recommendedKeywords.slice(0, rightLen).map((k, i) => {
-              const globalIdx = leftLen + i; // 오른쪽은 왼쪽 길이만큼 offset
+              const globalIdx = leftLen + i;
               const isActive = activeIndex === globalIdx;
 
               return (
