@@ -1,10 +1,10 @@
 const AgreementService = () => {
   return (
     <div>
-      <h2>서비스 이용약관</h2>
+      <h3>서비스 이용약관</h3>
       <div className="policy-desc">
         <div id="bizinfo">
-          <h3>사업자 정보</h3>
+          <h4>사업자 정보</h4>
           <ul>
             <li>상호 : 콘텐츠웨이브 주식회사</li>
             <li>대표이사 : 서장호</li>

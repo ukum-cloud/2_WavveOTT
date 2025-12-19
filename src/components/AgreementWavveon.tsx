@@ -8,7 +8,7 @@ const AgreementWavveon = () => {
   };
   return (
     <div>
-      <h2>웨이브온 개인정보 처리방침</h2>
+      <h3>웨이브온 개인정보 처리방침</h3>
       <div className="policy-desc">
         <section className="intro-text">
           <strong>서문</strong>
