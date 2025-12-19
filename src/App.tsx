@@ -36,6 +36,8 @@ import Player from "./pages/Player";
 import { useAuthStore } from "./stores/useAuthStore";
 import { usePickStore } from "./stores/usePickStore";
 import { useEffect } from "react";
+import EventGroup from "./pages/EventGroup";
+import EventWinner from "./pages/EventWinner";
 
 function App() {
   const location = useLocation(); // 현재 경로 정보 가져오기
@@ -94,8 +96,14 @@ function App() {
           <Route path="userQna" element={<UserQna />} />
           <Route path="agreement" element={<Agreement />} />
         </Route>
-        <Route path="/event" element={<Event />} />
-        <Route path="/event/:eventId" element={<EventDetail />} />
+        <Route path="/event-group" element={<EventGroup />}>
+          <Route index element={<Event />} />
+          <Route path="event" element={<Event />} />
+          <Route path="event/:eventId" element={<EventDetail />} />
+          <Route path="event-winner" element={<EventWinner />} />
+        </Route>
+        {/* <Route path="/event" element={<Event />} />
+        <Route path="/event/:eventId" element={<EventDetail />} /> */}
         <Route path="/common" element={<Common />} />
       </Routes>
 
