@@ -1,184 +1,252 @@
-import React, { useRef, useState } from 'react';
-import { chatbotData } from '../data/chatbotData';
-import './scss/Chatbot.scss';
+import React, { useRef, useState } from "react";
+import { chatbotData } from "../data/chatbotData";
+import "./scss/Chatbot.scss";
 
 interface ChatbotProps {
-    onClose: () => void; // 부모로부터 받을 함수 타입 정의
+  onClose: () => void;
 }
-const getNowTime = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+interface Message {
+  id: number;
+  type: "bot" | "user";
+  text: string;
+  time: string;
+}
+
+const getNowTime = () =>
+  new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
 const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
-    // const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
-    const [messages, setMessages] = useState([
-        { id: 1, type: 'bot', text: chatbotData['main'].botMessage, time: getNowTime() },
-    ]);
-    const [currentButtons, setCurrentButtons] = useState<string[]>(chatbotData['main'].buttons);
+  // const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
+  const nextId = useRef(2);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 1,
+      type: "bot",
+      text: chatbotData["main"].botMessage,
+      time: getNowTime(),
+    },
+  ]);
+  const [currentButtons, setCurrentButtons] = useState<string[]>(
+    chatbotData["main"].buttons
+  );
 
-    // 1. 히스토리를 관리할 상태 추가 (기본값은 'main')
-    const [history, setHistory] = useState<string[]>(['main']);
+  // 1. 버튼기록저장 (기본값은 'main')
+  const [history, setHistory] = useState<string[]>(["main"]);
 
-    const scrollRef = useRef<HTMLDivElement>(null);
-    // 스크롤 자동 하단 이동 로직 (추가하면 좋습니다)
-    React.useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, [messages]);
+  // 인풋
+  const [inputValue, setInputValue] = useState("");
 
-    const handleButtonClick = (selection: string) => {
-        const currentTime = getNowTime();
-        // 1. 사용자 질문 추가
-        const userMsg = { id: Date.now(), type: 'user', text: selection, time: currentTime };
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-        // 2. 데이터 매칭 및 봇 응답 생성
-        let nextStepKey = selection;
-        if (selection === '처음으로') {
-            nextStepKey = 'main';
-            setHistory(['main']); // 히스토리 초기화
-        } else if (selection === '전 단계로 가기') {
-            if (history.length > 1) {
-                const newHistory = [...history];
-                newHistory.pop(); // 현재 단계를 제거
-                const previousKey = newHistory[newHistory.length - 1]; // 이전 단계 키 추출
+  // 스크롤 아래로 자동 이동
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-                nextStepKey = previousKey;
-                setHistory(newHistory); // 히스토리 업데이트
-            } else {
-                nextStepKey = 'main';
-            }
-        } else {
-            // 일반적인 단계 이동 시 히스토리에 현재 단계 추가
-            // (이미 데이터가 존재하는 경우에만 기록)
-            if (chatbotData[selection]) {
-                setHistory((prev) => [...prev, selection]);
-            }
-        }
+  // 챗봇검색하기
+  const findAnswerKey = (input: string) => {
+    return Object.keys(chatbotData).find((key) => key.includes(input.trim()));
+  };
 
-        const nextData = chatbotData[nextStepKey];
+  // --- 2. 질문 전송 함수 ---
+  const handleSendMessage = () => {
+    if (inputValue.trim() === "") return; // 빈 메시지 방지
+    const currentTime = getNowTime();
 
-        if (nextData) {
-            const botMsg = {
-                id: Date.now() + 1,
-                type: 'bot',
-                text: nextData.botMessage,
-                time: currentTime,
-            };
-            setMessages((prev) => [...prev, userMsg, botMsg]);
-            setCurrentButtons(nextData.buttons);
-        } else {
-            // 상세 데이터가 없는 경우 기본 응답
-            const botMsg = {
-                id: Date.now() + 1,
-                type: 'bot',
-                text: '준비 중인 서비스입니다. 고객센터(1599-3709)로 문의해 주세요.',
-                time: currentTime,
-            };
-            setMessages((prev) => [...prev, userMsg, botMsg]);
-            setCurrentButtons(chatbotData['main'].buttons);
-        }
+    // 사용자 메시지 객체
+    const userMsg: Message = {
+      id: nextId.current++,
+      type: "user",
+      text: inputValue,
+      time: currentTime,
     };
 
-    return (
-        <div className="chatbot-wrapper">
-            <div className="chat-container">
-                <div className="chat-header">
-                    <div className="logochat">
-                        <span className="logo">
-                            <img src="/images/icons/icon-wavve-logo.svg" alt="웨이브로고" />
-                        </span>
-                        <span className="chat-icon">
-                            <img src="/images/icons/icon-chat.svg" alt="채팅아이콘" />
-                        </span>
-                    </div>
-                    <div className="actions">
-                        <button onClick={() => window.location.reload()}>
-                            <img src="/images/icons/icon-reset.svg" alt="새로고침" />
-                        </button>
-                        {/* 여기서 부모가 넘겨준 onClose 함수를 실행합니다 */}
-                        <button onClick={onClose}>
-                            <img src="/images/icons/icon-close.svg" alt="닫기버튼" />
-                        </button>
-                    </div>
-                </div>
-                <div className="chat-content" ref={scrollRef}>
-                    <div className="bot-message">
-                        {messages.map((msg) => (
-                            <div key={msg.id} className={`${msg.type}-message-row`}>
-                                {/* 챗봇일 때만 프로필 노출 */}
-                                {msg.type === 'bot' && (
-                                    <div className="profile">
-                                        <img src="/images/icons/icon-chatbot.png" alt="프로필" />
-                                    </div>
-                                )}
-                                <div className="message-item">
-                                    {msg.type === 'bot' && <div className="wav-center">Wavve</div>}
-                                    <div className="bubble-group">
-                                        <div className="bubble">
-                                            {/* \n을 <br />로 바꾸어 출력 */}
-                                            {msg.text.split('\n').map((line, i) => (
-                                                <span key={i}>
-                                                    {line}
-                                                    <br />
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <div className="bubble-time">{msg.time}</div>
-                                    </div>
-                                </div>
-                                {/* <div className="message">
-                                    <div className="wav-center">Wavve</div>
-                                    <div className="bubble">
-                                        <div className="bubble-content">
-                                            안녕하세요 😊 웨이브 고객센터입니다.
-                                            <br />
-                                            원활한 상담을 위해 고객님의 개인정보는 문의 처리 및
-                                            서비스 제공에 활용됩니다. 자세한 내용은 개인정보
-                                            처리방침을 참고해 주세요.
-                                            <br /> 채팅 상담 가능 시간은 매일 오전 9:30부터 오후
-                                            6:30까지 입니다.
-                                        </div>
-                                        <div className="bubble-time">{currentTime}</div>
-                                    </div>
-                                </div> */}
-                            </div>
-                        ))}
-                    </div>
-                    {/* 버튼 그룹 */}
-                    <div className="button-group">
-                        {currentButtons.map((btn) => (
-                            <button
-                                key={btn}
-                                className="menu-btn"
-                                onClick={() => handleButtonClick(btn)}
-                            >
-                                {btn}
-                            </button>
-                        ))}
-                    </div>
-                    {/* <div className="button-group">
-                        {menuItems.map((item) => (
-                            <button
-                                key={item}
-                                className={`menu-btn ${selectedMenu === item ? 'active' : ''}`}
-                                onClick={() => setSelectedMenu(item)}
-                            >
-                                {item}
-                            </button>
-                        ))}
-                    </div> */}
-                </div>
-                <div className="chatFooter">
-                    <div className="input-wrapper">
-                        <input type="text" placeholder="메시지를 입력해주세요" />
-                        <button className="send-btn">
-                            {/* 텍스트(↑)를 쓰시거나 이미지를 넣으시면 됩니다 */}
-                            <span>↑</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    const matchedKey = findAnswerKey(inputValue);
+
+    // 상담사 연결 봇 응답 객체
+    const botMsg: Message = {
+      id: nextId.current++,
+      type: "bot",
+      text: matchedKey
+        ? chatbotData[matchedKey].botMessage
+        : "해당 내용을 찾지 못했어요. 아래 메뉴를 선택해 주세요.",
+      time: currentTime,
+    };
+
+    // 메시지 리스트 업데이트 및 입력창 초기화
+    setMessages((prev) => [...prev, userMsg, botMsg]);
+    if (matchedKey) {
+      setCurrentButtons(chatbotData[matchedKey].buttons);
+    }
+
+    setInputValue("");
+
+    // (옵션) 직접 입력 시 버튼을 초기화하거나 특정 상태로 변경하고 싶다면 추가
+    // setCurrentButtons(chatbotData['main'].buttons);
+  };
+
+  // 리셋함수
+  const handleResetChat = () => {
+    nextId.current = 2;
+
+    setMessages([
+      {
+        id: 1,
+        type: "bot",
+        text: chatbotData["main"].botMessage,
+        time: getNowTime(),
+      },
+    ]);
+
+    setCurrentButtons(chatbotData["main"].buttons);
+    setHistory(["main"]);
+    setInputValue("");
+  };
+
+  const handleButtonClick = (selection: string) => {
+    const currentTime = getNowTime();
+    // 1. 사용자 질문 추가
+    const userMsg: Message = {
+      id: nextId.current++,
+      type: "user",
+      text: selection,
+      time: currentTime,
+    };
+
+    // 2. 데이터 매칭 및 봇 응답 생성
+    let nextStepKey = selection;
+    if (selection === "처음으로") {
+      nextStepKey = "main";
+      setHistory(["main"]); // 기록 초기화
+    } else if (selection === "전 단계로 가기") {
+      if (history.length > 1) {
+        const newHistory = [...history];
+        newHistory.pop(); // 현재 단계를 제거
+        const previousKey = newHistory[newHistory.length - 1]; // 이전 단계 키 추출
+
+        nextStepKey = previousKey;
+        setHistory(newHistory); // 기록 업데이트
+      } else {
+        nextStepKey = "main";
+      }
+    } else {
+      // 일반적인 단계 이동 시 기록에 현재 단계 추가
+      // (이미 데이터가 존재하는 경우에만 기록)
+      if (chatbotData[selection]) {
+        setHistory((prev) => [...prev, selection]);
+      }
+    }
+
+    const nextData = chatbotData[nextStepKey];
+
+    if (nextData) {
+      const botMsg: Message = {
+        id: nextId.current++,
+        type: "bot",
+        text: nextData.botMessage,
+        time: currentTime,
+      };
+      setMessages((prev) => [...prev, userMsg, botMsg]);
+      setCurrentButtons(nextData.buttons);
+    } else {
+      // 상세 데이터가 없는 경우 기본 응답
+      const botMsg: Message = {
+        id: nextId.current++,
+        type: "bot",
+        text: "준비 중인 서비스입니다. 고객센터(1599-3709)로 문의해 주세요.",
+        time: currentTime,
+      };
+      setMessages((prev) => [...prev, userMsg, botMsg]);
+      setCurrentButtons(chatbotData["main"].buttons);
+    }
+  };
+
+  return (
+    <div className="chatbot-wrapper">
+      <div className="chat-container">
+        <div className="chat-header">
+          <div className="logochat">
+            <span className="logo">
+              <img src="/images/icons/icon-wavve-logo.svg" alt="웨이브로고" />
+            </span>
+            <span className="chat-icon">
+              <img src="/images/icons/icon-chat.svg" alt="채팅아이콘" />
+            </span>
+          </div>
+          <div className="actions">
+            <button onClick={handleResetChat}>
+              <img src="/images/icons/icon-reset.svg" alt="새로고침" />
+            </button>
+            <button onClick={onClose}>
+              <img src="/images/icons/icon-close.svg" alt="닫기버튼" />
+            </button>
+          </div>
         </div>
-    );
+        <div className="chat-content" ref={scrollRef}>
+          <div className="bot-message">
+            {messages.map((msg) => (
+              <div key={msg.id} className={`${msg.type}-message-row`}>
+                {/* 챗봇일 때만 프로필 뜨기 */}
+                {msg.type === "bot" && (
+                  <div className="profile">
+                    <img src="/images/icons/icon-chatbot.png" alt="프로필" />
+                  </div>
+                )}
+                <div className="message-item">
+                  {msg.type === "bot" && (
+                    <div className="wav-center">Wavve</div>
+                  )}
+                  <div className="bubble-group">
+                    <div className="bubble">
+                      {/* \n을 <br />로 바꾸기 */}
+                      {msg.text.split("\n").map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                    </div>
+                    <div className="bubble-time">{msg.time}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* 버튼 그룹 */}
+          <div className="button-group">
+            {currentButtons.map((btn) => (
+              <button
+                key={btn}
+                className="menu-btn"
+                onClick={() => handleButtonClick(btn)}
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="chatFooter">
+          <div className="input-wrapper">
+            <input
+              type="text"
+              placeholder="메시지를 입력해주세요"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSendMessage();
+              }}
+            />
+            <button className="send-btn" onClick={handleSendMessage}>
+              <span>↑</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Chatbot;
