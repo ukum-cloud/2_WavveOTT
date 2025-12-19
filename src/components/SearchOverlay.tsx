@@ -792,33 +792,57 @@
 //store/useSearchStore
 //components/SearchOverlay
 import React, { useEffect, useMemo, useRef, useState } from "react";
-// import { useSearchParams } from 'react-router-dom'
-// import SearchInputBar from './SearchInputBar'
-// import { searchMulti } from "../api/tmdb";
-import { useSearchStore } from "../stores/useSearchStore";
 import { useNavigate } from "react-router-dom";
 
-type MultiItem = {
-  id: number;
-  media_type: "movie" | "tv" | "person" | string;
-  title?: string;
-  name?: string;
-  popularity?: number;
-};
+import SearchInputBar from "./SearchInputBar";
+import SearchTypingPanel from "./SearchTypingPanel";
+import SearchIdlePanel from "./SearchIdlePanel";
+
+import { useSearchStore } from "../stores/useSearchStore";
+import type { MultiItem } from "../api/tmdb";
+import type { Search } from "../types/searchtodo";
+import "./scss/SearchOverlay.scss";
 
 interface Props {
   onClose: () => void;
 }
 
+const DEBOUNCE_MS = 300;
+const MIN_LEN = 2;
+
+// 예시: 추천(오른쪽) 키워드 — 실제 프로젝트에선 API/상수/스토어로 교체 가능
+const DEFAULT_RECOMMENDED = [
+  "킹덤",
+  "오징어 게임",
+  "아이유",
+  "해리포터",
+  "마블",
+  "유재석",
+  "런닝맨",
+  "스파이더맨",
+];
+
+// 예시: Idle(오른쪽 실시간 인기) 키워드 — 실제 프로젝트에선 API/스토어로 교체 가능
+const DEFAULT_TRENDING = [
+  "서울의 봄",
+  "무빙",
+  "비질란테",
+  "범죄도시",
+  "콘크리트 유토피아",
+  "플레이어",
+  "약한영웅",
+  "스위트홈",
+  "더 글로리",
+  "런닝맨",
+];
+
 const SearchOverlay = ({ onClose }: Props) => {
   const navigate = useNavigate();
 
-  //입력 상태 (UI 전용)
   const [keyword, setKeyword] = useState("");
-
-  // 키보드 네비게이션 상태
   const [activeIndex, setActiveIndex] = useState(-1);
 
+  const [todos, setTodos] = useState<Search[]>([]);
   //검색 상태 & 액션 (Zustand)
   const { results, search, loading, error, hasSearched, clear } =
     useSearchStore();
@@ -828,51 +852,85 @@ const SearchOverlay = ({ onClose }: Props) => {
     inputRef.current?.focus();
   }, []);
 
-  // 결과 라벨(표시용) 만들기
-  const getLabel = (item: MultiItem) => {
-    if (item.media_type === "movie") return item.title ?? "";
-    return item.name ?? "";
-  };
+  const nowDate = useMemo(() => {
+    const d = new Date();
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}.${String(d.getDate()).padStart(2, "0")}`;
+  }, []);
 
-  const getBadge = (type: string) => {
-    if (type === "movie") return "영화";
-    if (type === "tv") return "시리즈";
-    if (type === "person") return "인물";
-    return type;
-  };
+  const recommendedKeywords = useMemo(() => DEFAULT_RECOMMENDED, []);
+  const trendingKeywords = useMemo(() => DEFAULT_TRENDING, []);
 
-  // (선택) 결과를 최대 N개만 보여주고 싶으면 여기서 slice
+  // typing(검색 중) 패널에서 보여줄 결과(상위 N개)
   const visibleResults = useMemo(() => results.slice(0, 10), [results]);
+  const rightKeywords = useMemo(
+    () => recommendedKeywords.slice(0, 8),
+    [recommendedKeywords]
+  );
 
-  // 검색 실행(Enter 또는 버튼)
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await search(keyword, 3); // 최대 3페이지 (원하면 2~5로 조절)
-  };
+  // Idle 패널에서 보여줄 항목(상위 N개)
+  const recentMax = 10;
+  const trendingMax = 10;
+  const idleRecent = useMemo(() => todos.slice(0, recentMax), [todos]);
+  const idleTrending = useMemo(
+    () => trendingKeywords.slice(0, trendingMax),
+    [trendingKeywords]
+  );
 
-  // 화면 분기 플래그
-  const showIdle = !hasSearched;
-  const showLoading = hasSearched && loading;
-  const showError = hasSearched && !loading && !!error;
-  const showEmpty = hasSearched && !loading && !error && results.length === 0;
-  const showResults = hasSearched && !loading && !error && results.length > 0;
+  // 패널 분기
+  const trimmed = keyword.trim();
+  const showIdlePanel = trimmed.length === 0;
+  const showTypingPanel = trimmed.length > 0;
 
-  // listbox/option id (aria-activedescendant용)
-  const listboxId = "search-listbox";
-  const optionId = (idx: number) => `search-option-${idx}`;
+  // --- (A) aria 연결: combobox는 "typing 결과 listbox"를 기준으로 연결(기존 구조 유지)
+  const listboxLeftId = "search-left-listbox";
+  const leftOptionId = (idx: number) => `search-option-${idx}`;
+  const leftLen = visibleResults.length;
+
   const activeDescendantId =
-    showResults && activeIndex >= 0 ? optionId(activeIndex) : undefined;
+    showTypingPanel && activeIndex >= 0 && activeIndex < leftLen
+      ? leftOptionId(activeIndex)
+      : undefined;
 
-  // const onSearch = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   search(keyword, 3);
+  // --- (B) 디바운스 자동검색
+  useEffect(() => {
+    const q = keyword.trim();
+    if (q.length < MIN_LEN) return;
 
-  //   const trimmed = keyword.trim();
-  //   if (!trimmed) return;
+    const timer = window.setTimeout(() => {
+      search(q, 3);
+    }, DEBOUNCE_MS);
 
-  //   await search(trimmed);
-  // };
+    return () => window.clearTimeout(timer);
+  }, [keyword, search]);
 
+  // 입력이 바뀌면 선택 초기화
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [keyword]);
+
+  // 입력을 다 지우면 SearchStore 초기화(Idle로)
+  useEffect(() => {
+    if (keyword.trim().length === 0 && hasSearched) {
+      clear();
+      setActiveIndex(-1);
+    }
+  }, [keyword, hasSearched, clear]);
+
+  // --- (C) 네비게이션 총 길이 계산
+  const typingTotalLen = leftLen + rightKeywords.length;
+  const idleTotalLen = idleRecent.length + idleTrending.length;
+
+  const totalLen = showIdlePanel ? idleTotalLen : typingTotalLen;
+
+  // 패널 상태에서 이동할 대상이 있으면 첫 항목 활성화
+  useEffect(() => {
+    if (totalLen > 0) setActiveIndex(0);
+  }, [showIdlePanel, showTypingPanel, totalLen]);
+
+  // --- (D) 라우팅
   const onClickResult = (item: MultiItem) => {
     if (item.media_type === "movie") {
       navigate(`/moviedetail/movie/${item.id}`);
@@ -882,56 +940,103 @@ const SearchOverlay = ({ onClose }: Props) => {
     onClose();
   };
 
-  // 결과가 새로 갱신되면(새 검색) 첫 항목을 활성화
-  useEffect(() => {
-    if (showResults) {
-      setActiveIndex(visibleResults.length > 0 ? 0 : -1);
-    } else {
-      setActiveIndex(-1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showResults, visibleResults.length]);
-
-  // 입력이 비면 검색 상태 초기화 + activeIndex 초기화
-  useEffect(() => {
-    if (keyword.trim().length === 0 && hasSearched) {
-      clear();
-      setActiveIndex(-1);
-    }
-  }, [keyword, hasSearched, clear]);
-
-  // 키보드 네비게이션
-  const moveActive = (delta: number) => {
-    const len = visibleResults.length;
-    if (!showResults || len === 0) return;
-
-    setActiveIndex((prev) => {
-      const base = prev < 0 ? 0 : prev;
-      const next = (base + delta + len) % len; // 위/아래 순환
-      return next;
+  // --- (E) 최근 검색어 관리(예시)
+  const addRecent = (text: string) => {
+    const t = text.trim();
+    if (!t) return;
+    setTodos((prev) => {
+      const withoutDup = prev.filter((x) => x.text !== t);
+      return [{ id: Date.now(), text: t }, ...withoutDup].slice(0, 20);
     });
   };
 
-  const selectActive = () => {
-    if (!showResults) return;
-    if (activeIndex < 0 || activeIndex >= visibleResults.length) return;
-    onClickResult(visibleResults[activeIndex] as any);
+  const onRemoveAll = () => setTodos([]);
+  const onRemoveTodo = (id: number) =>
+    setTodos((prev) => prev.filter((x) => x.id !== id));
+
+  // --- (F) 이동
+  const moveActive = (delta: number) => {
+    if (totalLen === 0) return;
+
+    setActiveIndex((prev) => {
+      const base = prev < 0 ? 0 : prev;
+      return (base + delta + totalLen) % totalLen;
+    });
   };
 
+  // --- (G) Enter 선택(Idle / Typing 분기)
+  const selectActive = () => {
+    if (totalLen === 0 || activeIndex < 0) return;
+
+    // 1) Idle 패널: 최근 + 인기
+    if (showIdlePanel) {
+      const recentLen = idleRecent.length;
+
+      if (activeIndex < recentLen) {
+        const text = idleRecent[activeIndex]?.text;
+        if (!text) return;
+        setKeyword(text);
+        addRecent(text);
+        search(text, 3);
+        inputRef.current?.focus();
+        return;
+      }
+
+      const k = idleTrending[activeIndex - recentLen];
+      if (!k) return;
+      setKeyword(k);
+      addRecent(k);
+      search(k, 3);
+      inputRef.current?.focus();
+      return;
+    }
+
+    // 2) Typing 패널: 결과 + 추천
+    if (activeIndex < leftLen) {
+      const item = visibleResults[activeIndex];
+      if (item) onClickResult(item);
+      return;
+    }
+
+    const k = rightKeywords[activeIndex - leftLen];
+    if (!k) return;
+    setKeyword(k);
+    addRecent(k);
+    search(k, 3);
+    inputRef.current?.focus();
+  };
+
+  // --- (H) SearchInputBar의 “리스트로 진입” 처리
+  const onMoveToList = (index: number) => {
+    if (totalLen === 0) return;
+
+    const last = totalLen - 1;
+    const next = index === 9999 ? last : index;
+    setActiveIndex(Math.max(0, Math.min(next, last)));
+  };
+
+  // --- (I) 수동 Submit
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = keyword.trim();
+    if (q.length < MIN_LEN) return;
+    addRecent(q);
+    search(q, 3);
+  };
+
+  // --- (J) input key handler (포커스는 input 유지)
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // 닫기
     if (e.key === "Escape") {
       e.preventDefault();
       onClose();
       return;
     }
 
-    if (!showResults || visibleResults.length === 0) {
-      return;
-    }
+    // 이동 대상 없으면 종료
+    if (totalLen === 0) return;
 
     if (e.key === "ArrowDown") {
-      e.preventDefault(); // 커서 이동 방지
+      e.preventDefault();
       moveActive(+1);
       return;
     }
@@ -951,14 +1056,19 @@ const SearchOverlay = ({ onClose }: Props) => {
 
     if (e.key === "Enter") {
       e.preventDefault();
-
-      if (activeIndex < 0 && visibleResults.length > 0) {
-        setActiveIndex(0);
-        onClickResult(visibleResults[0] as any);
-        return;
-      }
-
       selectActive();
+      return;
+    }
+
+    if (e.key === "Home") {
+      e.preventDefault();
+      setActiveIndex(0);
+      return;
+    }
+
+    if (e.key === "End") {
+      e.preventDefault();
+      setActiveIndex(totalLen - 1);
       return;
     }
   };
@@ -971,63 +1081,66 @@ const SearchOverlay = ({ onClose }: Props) => {
       aria-label="검색"
     >
       <div className="search-inner-wrap ">
-        {/* <div className="close-bg" aria-label="닫기"></div> */}
-        {/* 배경 클릭 닫기 */}
-        <button
-          type="button"
-          className="close-bg"
-          aria-label="닫기"
-          onClick={onClose}
-        />
-        {/* <SearchInputBar value={keyword}
-          onChange={setKeyword} />
-        2435345 */}
+        <div className="close-bg" aria-label="검색창 닫기" onClick={onClose}>
+          <button
+            type="button"
+            className="close-btn"
+            aria-label="닫기"
+            onClick={onClose}
+          >
+            <img src="/images/button/btn-close.svg" alt="검색창 닫기 버튼" />
+          </button>
+        </div>
         <div className="search-inner">
-          {/* 🔍 입력 */}
-          <form className="keyboard-top" onSubmit={onSubmit} role="search">
-            <input
-              ref={inputRef}
-              type="text"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onKeyDown={onKeyDown}
-              placeholder="장르, 제목, 배우로 검색해보세요."
-              role="combobox"
-              aria-autocomplete="list"
-              aria-expanded={showResults}
-              aria-controls={listboxId}
-              aria-activedescendant={activeDescendantId}
-            />
-            <button type="submit" aria-label="검색">
-              검색
-            </button>
-          </form>
+          <SearchInputBar
+            value={keyword}
+            onChange={setKeyword}
+            onSubmit={onSubmit}
+            inputRef={inputRef}
+            onMoveToList={onMoveToList}
+            hasList={totalLen > 0}
+            onKeyDown={onKeyDown}
+            activeDescendantId={activeDescendantId}
+            activeIndex={activeIndex}
+          />
 
           {/* 상태 분기 UI */}
           <div className="search-body">
-            {/* 1) 검색 전(Idle) */}
-            {showIdle && (
-              <div className="idle-panel">
-                <p className="hint">검색어를 입력하면 결과가 표시됩니다.</p>
-                <p className="sub-hint">예: “킹덤”, “아이유”, “해리포터”</p>
-              </div>
+            {showIdlePanel && (
+              <SearchIdlePanel
+                nowDate={nowDate}
+                todos={todos}
+                trendingKeywords={trendingKeywords}
+                onRemoveAll={onRemoveAll}
+                onRemoveTodo={onRemoveTodo}
+                onSelectRecent={(text) => {
+                  setKeyword(text);
+                  addRecent(text);
+                  search(text, 3);
+                  inputRef.current?.focus();
+                }}
+                onSelectTrending={(k) => {
+                  setKeyword(k);
+                  addRecent(k);
+                  search(k, 3);
+                  inputRef.current?.focus();
+                }}
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+                maxRecent={recentMax}
+                maxTrending={trendingMax}
+              />
             )}
 
-            {/* 2) 로딩 */}
-            {showLoading && (
-              <div className="loading-panel" role="status" aria-live="polite">
-                <p>검색 중...</p>
-              </div>
-            )}
-
-            {/* 3) 에러 */}
-            {showError && (
+            {showTypingPanel && !loading && error && (
               <div className="error-panel" role="alert">
                 <p>오류가 발생했습니다.</p>
                 <p className="error-msg">{error}</p>
-
                 <div className="error-actions">
-                  <button type="button" onClick={() => search(keyword, 3)}>
+                  <button
+                    type="button"
+                    onClick={() => search(keyword.trim(), 3)}
+                  >
                     다시 시도
                   </button>
                   <button type="button" onClick={clear}>
@@ -1036,47 +1149,37 @@ const SearchOverlay = ({ onClose }: Props) => {
                 </div>
               </div>
             )}
-
-            {showEmpty && (
-              <div className="empty-panel">
-                <p>검색 결과가 없습니다.</p>
-                <p className="sub-hint">다른 키워드로 검색해보세요.</p>
-              </div>
+            {/* typing panel: 결과/로딩/추천 */}
+            {showTypingPanel && !error && (
+              <SearchTypingPanel
+                query={keyword}
+                loading={loading}
+                results={visibleResults}
+                recommendedKeywords={rightKeywords}
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+                onSelectResult={(item) => onClickResult(item)}
+                onSelectKeyword={(k) => {
+                  setKeyword(k);
+                  addRecent(k);
+                  search(k, 3);
+                  inputRef.current?.focus();
+                }}
+              />
             )}
-
-            {/* 5) 결과 리스트 */}
-            {showResults && (
-              <ul className="result-list" id={listboxId} role="listbox">
-                {visibleResults.map((item: any, idx: number) => {
-                  const label = getLabel(item);
-                  const isActive = idx === activeIndex;
-
-                  return (
-                    <li
-                      key={`${item.media_type}-${item.id}`}
-                      id={optionId(idx)}
-                      role="option"
-                      aria-selected={isActive}
-                    >
-                      <button
-                        type="button"
-                        className={`preview-item ${
-                          isActive ? "is-active" : ""
-                        }`}
-                        onClick={() => onClickResult(item)}
-                        // 버튼 자체는 포커스 안 옮기고, input이 계속 포커스 유지하는 설계
-                        tabIndex={-1}
-                      >
-                        <span className="badge">
-                          {getBadge(item.media_type)}
-                        </span>
-                        <span className="title">{label}</span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+          </div>
+          <div className="search-footer">
+            <button
+              type="button"
+              onClick={() => {
+                clear();
+                setKeyword("");
+                setActiveIndex(-1);
+                inputRef.current?.focus();
+              }}
+            >
+              검색 초기화
+            </button>
           </div>
         </div>
       </div>

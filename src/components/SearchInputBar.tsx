@@ -12,6 +12,7 @@ interface Props {
 
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   activeDescendantId?: string;
+  activeIndex: number;
 }
 
 const SearchInputBar = ({
@@ -23,20 +24,26 @@ const SearchInputBar = ({
   hasList,
   onKeyDown,
   activeDescendantId,
+  activeIndex,
 }: Props) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (hasList) {
+      const notInListYet = activeIndex < 0;
       // input에서 리스트로 "넘어가기"
-      if (e.key === "Tab" || e.key === "ArrowDown") {
-        e.preventDefault();
-        onMoveToList(0);
-        return;
-      }
 
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        onMoveToList(9999); // 부모에서 clamp 해서 마지막으로
-        return;
+      // 리스트에 "아직 진입 전"일 때만 0번/마지막으로 보내기
+      if (notInListYet) {
+        if (e.key === "Tab" || e.key === "ArrowDown") {
+          e.preventDefault();
+          onMoveToList(0);
+          return;
+        }
+
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          onMoveToList(9999); // 부모에서 clamp 해서 마지막으로
+          return;
+        }
       }
     }
 

@@ -4,40 +4,96 @@
   position: fixed;
   inset: 0;
   height: calc(100vh);
-  z-index: 999;
+  z-index: 900;
 
   .search-inner-wrap {
     position: relative;
-    padding: 80px 240px;
+    padding: 90px 240px 80px;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 1);
 
     .close-bg {
       position: absolute;
       inset: 0;
       background: transparent;
       z-index: 0;
+      border: 1px solid blue;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0 240px;
+
+      .close-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid green;
+        margin-top: 100px;
+      }
     }
 
     .search-inner {
       position: relative;
       z-index: 10;
       max-width: 1440px;
-      margin: 0 auto;
+      margin: 100px auto 0;
+      border: 1px solid red;
+      height: 604px;
 
-      .keyboard-box {
-        height: 694px;
+      .search-body {
+        .idle-panel {
+          .hint,
+          .sub-hint {
+            font-size: 18px;
+            color: #fff;
+          }
+        }
 
-        .close-wrap {
-          display: flex;
-          justify-content: flex-end;
-          width: 100%;
-          margin-bottom: 50px;
+        .loading-panel {
+          p {
+            font-size: 18px;
+            color: #fff;
+          }
+        }
 
-          .close-btn-box {
-            width: 40px;
-            height: 40px;
+        .error-panel {
+          p {
+            font-size: 18px;
+            color: #fff;
+          }
+
+          .error-actions {
+            button {
+              color: #fff;
+            }
+          }
+        }
+
+        .empty-panel {
+          p {
+            color: #fff;
+          }
+        }
+
+        .result-list {
+          li {
+            .preview-item {
+              .badge {
+                font-size: 18px;
+                color: #fff;
+              }
+
+              .title {
+                color: #fff;
+              }
+            }
+            .preview-item.is-active {
+              .badge,
+              .title {
+                font-weight: 700;
+                color: blue;
+              }
+            }
           }
         }
       }

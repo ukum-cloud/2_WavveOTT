@@ -1,54 +1,52 @@
 import React from "react";
-import type { NavItem } from "../types/searchNav";
 import type { Search } from "../types/searchtodo";
 import "./scss/SearchIdlePanel.scss";
 
 interface Props {
   nowDate: string;
-  todos: Search[];
-  trendingKeywords: string[];
 
+  // 왼쪽: 최근 검색어
+  todos: Search[];
   onRemoveAll: () => void;
   onRemoveTodo: (id: number) => void;
-  onClickKeyword: (keyword: string) => void;
+  onSelectRecent: (text: string) => void;
 
-  // 키보드 공통 props
-  navItems: NavItem[];
+  // 오른쪽: 인기/추천 검색어
+  trendingKeywords: string[];
+  onSelectTrending: (keyword: string) => void;
+
+  // ✅ Overlay가 관리하는 전역 activeIndex(Idle에서도 쓰고 싶으면)
   activeIndex: number;
   setActiveIndex: (n: number) => void;
-  setItemRef: (idx: number, el: HTMLButtonElement | null) => void;
-  onItemKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
-  activateItem: (idx: number) => void;
-  focusToInput: () => void;
+
+  // ✅ 인덱스 범위 계산용(최근/인기 개수)
+  maxRecent: number; // 예: Math.min(todos.length, 10)
+  maxTrending: number; // 예: Math.min(trendingKeywords.length, 10)
 }
 
 const SearchIdlePanel = ({
-  todos,
-  trendingKeywords,
   nowDate,
+  todos,
   onRemoveAll,
   onRemoveTodo,
-  onClickKeyword,
-  navItems,
+  onSelectRecent,
+  trendingKeywords,
+  onSelectTrending,
   activeIndex,
   setActiveIndex,
-  setItemRef,
-  onItemKeyDown,
-  activateItem,
+  maxRecent,
+  maxTrending,
 }: Props) => {
-  // navItems 기반으로 left/right를 전역 idx 유지한 채로 분리
-  const leftEntries = navItems
-    .map((item, idx) => ({ item, idx }))
-    .filter((x) => x.item.section === "left");
+  const recent = todos.slice(0, maxRecent);
+  const trending = trendingKeywords.slice(0, maxTrending);
 
-  const rightEntries = navItems
-    .map((item, idx) => ({ item, idx }))
-    .filter((x) => x.item.section === "right");
+  const isRecentActive = (idx: number) => activeIndex === idx;
+  const isTrendingActive = (idx: number) => activeIndex === maxRecent + idx;
 
   return (
     <div className="search-bottom">
       <div className="latest-searches-box bottom-search-box">
-        {todos.length === 0 ? (
+        {recent.length === 0 ? (
           <div className="todo-zeo">
             <div className="searches-title">
               <p className="title-left font-wave">최근 검색어</p>
@@ -63,38 +61,40 @@ const SearchIdlePanel = ({
                 전체삭제
               </button>
             </div>
+
             <ul
               className="latest-searches-list"
               role="listbox"
               id="search-left-listbox"
             >
-              {leftEntries.map(({ item, idx }) => (
+              {recent.map((t, i) => (
                 <li
-                  key={`${item.type}-${item.label}-${idx}`}
+                  key={t.id}
                   role="option"
-                  aria-selected={activeIndex === idx}
-                  className={activeIndex === idx ? "is-active" : ""}
+                  aria-selected={isRecentActive(i)}
+                  className={isRecentActive(i) ? "is-active" : ""}
                 >
                   <button
-                    id={`nav-${idx}`}
                     type="button"
                     className="latest-text"
-                    ref={(el) => setItemRef(idx, el)}
-                    onKeyDown={onItemKeyDown}
-                    onMouseEnter={() => setActiveIndex(idx)}
-                    onClick={() => activateItem(idx)}
+                    tabIndex={-1}
+                    onMouseEnter={() => setActiveIndex(i)}
+                    onClick={() => onSelectRecent(t.text)}
                   >
-                    {item.label}
+                    {t.text}
                   </button>
+
                   <button
                     type="button"
-                    onClick={() => {
-                      const hit = todos.find((t) => t.text === item.label);
-                      if (hit) onRemoveTodo(hit.id);
-                    }}
+                    tabIndex={-1}
+                    onMouseEnter={() => setActiveIndex(i)}
+                    onClick={() => onRemoveTodo(t.id)}
                     aria-label="삭제"
                   >
-                    <img src="/images/icons/icon-search-remove.svg" alt="" />
+                    <img
+                      src="/images/icons/icon-search-remove.svg"
+                      alt="검색 삭제"
+                    />
                   </button>
                 </li>
               ))}
@@ -118,36 +118,30 @@ const SearchIdlePanel = ({
           id="search-right-listbox"
           aria-label="실시간 인기 검색어 목록"
         >
-          {rightEntries.length > 0
-            ? rightEntries.map(({ item, idx }, i) => (
-                <li
-                  key={`${item.type}-${item.label}-${idx}`}
-                  role="option"
-                  aria-selected={activeIndex === idx}
-                  className={activeIndex === idx ? "is-active" : ""}
+          {trending.length === 0 ? (
+            <li>
+              <p className="empty-text">표시할 인기 검색어가 없습니다.</p>
+            </li>
+          ) : (
+            trending.map((k, i) => (
+              <li
+                key={k}
+                role="option"
+                aria-selected={isTrendingActive(i)}
+                className={isTrendingActive(i) ? "is-active" : ""}
+              >
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onMouseEnter={() => setActiveIndex(maxRecent + i)}
+                  onClick={() => onSelectTrending(k)}
                 >
-                  <button
-                    id={`nav-${idx}`}
-                    type="button"
-                    ref={(el) => setItemRef(idx, el)}
-                    onKeyDown={onItemKeyDown}
-                    onMouseEnter={() => setActiveIndex(idx)}
-                    onClick={() => activateItem(idx)}
-                  >
-                    <span className="rank font-wave">{i + 1}</span>
-                    <span className="word">{item.label}</span>
-                  </button>
-                </li>
-              ))
-            : // fallback: navItems에 right가 없을 때 기존 trendingKeywords로 표시(키보드는 Tab만)
-              trendingKeywords.slice(0, 10).map((t, i) => (
-                <li key={t}>
-                  <button type="button" onClick={() => onClickKeyword(t)}>
-                    <span className="rank font-wave">{i + 1}</span>
-                    <span className="word">{t}</span>
-                  </button>
-                </li>
-              ))}
+                  <span className="rank font-wave">{i + 1}</span>
+                  <span className="word">{k}</span>
+                </button>
+              </li>
+            ))
+          )}
         </ol>
       </div>
     </div>

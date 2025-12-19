@@ -354,16 +354,8 @@
 // );
 //store/useSearchStore
 import { create } from "zustand";
-import { searchMulti, searchMultiPaged } from "../api/tmdb";
-
-// TMDB multi 검색 결과에서 우리가 쓰는 최초 필드 타입
-type MultiItem = {
-  id: number;
-  media_type: "movie" | "tv" | "person" | string;
-  title?: string;
-  name?: string;
-  popularity?: number;
-};
+import { searchMultiPaged } from "../api/tmdb";
+import type { MultiItem } from "../api/tmdb";
 
 interface SearchStore {
   results: MultiItem[];
