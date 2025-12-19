@@ -1,20 +1,57 @@
+import { useEffect } from 'react';
+
+import { useVarietyStore } from '../stores/useVarietyStore';
+
 import AnimationVisual from '../components/AnimationVisual';
 
+import { aniTop10 } from '../data/aniTop10';
+import { aniPrimary } from '../data/aniPrimary';
+import { aniHot } from '../data/aniHot';
+import { aniNew } from '../data/aniNew';
+
+// import AniKidsRankingList from './AniKidsRankingList';
+import AniKidsHotList from '../components/AniKidsHotList';
+import AniKidsPrimaryList from '../components/AniKidsPrimaryList';
+import AniKidsNewList from '../components/AniKidsNewList';
+
+import './scss/Animation.scss';
+
 const Animation = () => {
+    const { tvVideos, onFetchVariety } = useVarietyStore();
+
+    useEffect(() => {
+        aniTop10.forEach((v) => {
+            if (v.tmdb_id) {
+                onFetchVariety(v.tmdb_id);
+            }
+        });
+        aniPrimary.forEach((v) => {
+            if (v.tmdb_id) {
+                onFetchVariety(v.tmdb_id);
+            }
+        });
+        aniHot.forEach((v) => {
+            if (v.tmdb_id) {
+                onFetchVariety(v.tmdb_id);
+            }
+        });
+        aniNew.forEach((v) => {
+            if (v.tmdb_id) {
+                onFetchVariety(v.tmdb_id);
+            }
+        });
+    }, []);
+
     return (
-        <main>
+        <main className="ani-home">
             {/* 분리된 비주얼 컴포넌트 */}
             <AnimationVisual />
 
             <div className="inner">
-                <section className="card-list">
-                    <h2>제목입니다</h2>
-                    <div>내용</div>
-                </section>
-                <section className="card-list">
-                    <h2>제목입니다</h2>
-                    <div>내용</div>
-                </section>
+                {/* <AniKidsRankingList title="Top20" /> */}
+                <AniKidsNewList title="지금 주목받는 애니메이션" video={tvVideos} />
+                <AniKidsPrimaryList title="이건 꼭 봐야해!" video={tvVideos} />
+                <AniKidsHotList title="NEW! 새로 올라왔어요" video={tvVideos} />
                 <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
             </div>
         </main>

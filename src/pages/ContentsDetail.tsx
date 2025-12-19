@@ -43,11 +43,13 @@ const ContentsDetail = () => {
   const { type, id } = useParams<{ type: string; id: string }>();
   const navigate = useNavigate();
 
+  // 콘텐츠 데이터 스토어
   const { wavves, selectedWavve, fetchWavveDetail } = useWavveStore();
   const { selectedTv, fetchTvDetail } = useTvStore();
   const { selectedPeople, onFetchPeople } = usePeopleStore();
   const { selectedVariety, fetchVarietyDetail } = useVarietyStore();
   const { selectedNews, fetchNewsDetail } = useNewsStore();
+  // 찜 스토어
   const { onTogglePick, pickList, pickAction } = usePickStore();
 
   const [shareOpen, setShareOpen] = useState(false);
@@ -76,6 +78,7 @@ const ContentsDetail = () => {
   if (type === "news") selectedContent = selectedNews;
   if (type === "people") selectedContent = selectedPeople;
 
+  // 비디오 키값 받아올 변수 추가
   const videoKey: string | undefined = selectedContent?.videos?.[0]?.key ?? undefined;
 
   useEffect(() => {
@@ -88,6 +91,7 @@ const ContentsDetail = () => {
     return <div>🔥콘텐츠 불러오는 중🔥</div>;
   }
 
+  // 시즌 데이터 받아올 변수 추가
   const seasonsForEpisode: Season[] =
     selectedContent.seasons?.map((s) => ({
       id: s.season_number, // 기존 id
@@ -95,17 +99,24 @@ const ContentsDetail = () => {
       name: `시즌 ${s.season_number}`,
       episode_count: s.episodes?.length ?? 0,
     })) ?? [];
+
+  // ========== 찜 기능 ==========
   const isPicked = pickList.some(
     (p) => p.contentId === (selectedContent.id ?? selectedContent.tmdb_id)
   );
+  // ===========================
 
+  // tmbd + 웨이브 이미지 둘 다 불러오기
   const { logo, background, episodeImages } = getContentImages(selectedContent);
+
+  // ========== 찜 기능 ==========
   const handleCloseModal = () => setIsModalOpen(false);
   const handleHeart = async () => {
     await onTogglePick(selectedContent);
     setModalSize("small");
     setIsModalOpen(true);
   };
+  // ===========================
 
   // ========== 시청 기록 저장 및 재생 함수==========
   const handlePlayClick = async () => {
@@ -206,8 +217,25 @@ const ContentsDetail = () => {
                 onClick={handleHeart}></button>
               <button className="detail-share-btn" onClick={() => setShareOpen(true)}></button>
               <Modal isOpen={shareOpen} onClose={() => setShareOpen(false)}>
-                <h3>공유하기</h3>
-                <button onClick={() => setShareOpen(false)}>닫기</button>
+                <div className="share-modal-top">
+                  <h3>공유하기</h3>
+                  <button onClick={() => setShareOpen(false)}></button>
+                </div>
+                <div className="share-modal-middle">
+                  <div>
+                    <img src="" alt="" />
+                    <p>카카오톡</p>
+                  </div>
+                  <div>
+                    <img src="" alt="" />
+                    <p>트위터</p>
+                  </div>
+                  <div>
+                    <img src="" alt="" />
+                    <p>페이스북</p>
+                  </div>
+                </div>
+                <div className="share-modal-bottom"></div>
               </Modal>
             </div>
           </div>

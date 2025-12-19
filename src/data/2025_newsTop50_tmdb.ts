@@ -58,7 +58,7 @@ export const newsTop50: Wavves[] = [
         directors: [],
         tags: ['교양', '토크'],
         season_writers: [],
-        tmdb_id: 136963,
+        tmdb_id: 223443,
         tmdb_search_status:
             'Matched by name (vod) | Stage: 1st (series_title) (Used title: 스모킹 건)',
     },

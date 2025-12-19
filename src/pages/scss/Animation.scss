@@ -1,8 +1,9 @@
 @use '../../App.scss' as g;
 
-.sub-movie-main {
-    @include g.myFlexCol($gap: 60px);
+.ani-home {
+    @include g.myFlexCol($gap: 120px);
     overflow-x: hidden;
+    padding-bottom: 200px;
 
     .card-list {
         // 타이틀

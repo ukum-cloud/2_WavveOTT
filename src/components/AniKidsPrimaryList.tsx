@@ -1,28 +1,27 @@
-import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
+import { useVarietyStore } from '../stores/useVarietyStore';
 import { usePickStore } from '../stores/usePickStore';
 
-import { backgroundImage, logoImage } from '../utils/getListData';
-import { getGenres, getGrades } from '../utils/mapping';
+import { getGrades } from '../utils/mapping';
 
-import type { PrimaryItem } from '../types/movie';
+import type { Episodes, Video } from '../types/movie';
 
 import Modal from './Modal';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import './scss/WavveList.scss';
+import { aniPrimary } from '../data/aniPrimary';
 
-interface PrimaryListProps {
+interface VarietyLiveList {
     title: string;
-    randomList: PrimaryItem[];
+    video: Record<number, { tvsVideo: Video | null; episodes: Episodes[] }>;
 }
 
-const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
+const AniKidsPrimaryList = ({ title, video }: VarietyLiveList) => {
+    const { id } = useParams();
     const { onTogglePick, pickList, pickAction } = usePickStore();
 
     //어떤거가 호버됐는지 체크
@@ -30,9 +29,18 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalSize, setModalSize] = useState<'xsmall' | 'small' | 'default' | 'large'>('default');
 
+    useEffect(() => {
+        if (id) {
+            useVarietyStore.getState().fetchVarietyDetail(Number(id));
+        }
+    }, [id]);
+
     //스와이퍼 슬라이드 첫번째,마지막 슬라이더 버튼 숨기기
     const prevBtn = useRef<HTMLDivElement>(null);
     const nextBtn = useRef<HTMLDivElement>(null);
+
+    const videoKey = hoverId ? video[hoverId]?.tvsVideo?.key : undefined;
+    const episodes = hoverId ? video[hoverId]?.episodes : null;
 
     const navigate = useNavigate();
 
@@ -69,11 +77,12 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
         setModalSize('small');
         setIsModalOpen(true);
     };
+
     return (
         <section className="card-list">
             <div className="title-wrap">
                 <h2>{title}</h2>
-                <Link to="/home">더보기</Link>
+                <Link to="/home"></Link>
             </div>
             <Swiper
                 modules={[Navigation]}
@@ -88,57 +97,56 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                 slidesOffsetAfter={0}
                 watchSlidesProgress={true}
             >
-                {randomList.map((m, index) => (
-                    <SwiperSlide key={`d-${m.id}-${index}`}>
+                {aniPrimary.map((t, id) => (
+                    <SwiperSlide key={id}>
                         <div
-                            className="poster-wrap badge-wavve"
-                            onMouseEnter={() => setHoverId(m.id)}
-                            onMouseLeave={() => setHoverId(null)}
+                            className="poster-wrap badge-new"
+                            // onMouseEnter={() => setHoverId(t.tmdb_id)}
+                            // onMouseLeave={() => setHoverId(null)}
+                            onMouseEnter={() => setHoverId(t.tmdb_id)}
                         >
                             <img
                                 className="main"
-                                src={`https://image.tmdb.org/t/p/original${m.poster_path}`}
-                                alt={m.title}
+                                // src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
+                                src={`https://${t.seasonposterimage}`}
+                                alt={t.series_title}
                             />
-                            {(m.videos?.[0]?.key || m.backdrop_path) && (
+                            {(videoKey ||
+                                t.season_horizontal_logoN_image ||
+                                t.seasonposterimage) && (
                                 <div className="preview-wrap">
                                     <div className="img-box">
-                                        {m.videos?.[0]?.key && hoverId === m.id ? (
+                                        {videoKey && hoverId === t.tmdb_id ? (
                                             <iframe
                                                 className="hover video"
-                                                src={`https://www.youtube.com/embed/${m.videos?.[0]?.key}?autoplay=1&mute=1`}
+                                                src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=1`}
                                                 allowFullScreen
-                                                title={`${m.title}`}
+                                                title={t.series_title}
                                             />
                                         ) : (
                                             <img
                                                 className="hover image"
-                                                src={
-                                                    backgroundImage(m.id) ||
-                                                    (m.backdrop_path
-                                                        ? `https://image.tmdb.org/t/p/original${m.backdrop_path}`
-                                                        : undefined)
-                                                }
-                                                alt={m.title}
+                                                src={`https://${t.season_horizontal_logoN_image}`}
+                                                alt={t.series_title}
                                             />
                                         )}
 
                                         <div className="logo-box">
                                             <p className="content-logo">
-                                                {m.logo ? (
-                                                    <img
-                                                        src={
-                                                            logoImage(m.id) ||
-                                                            `https://image.tmdb.org/t/p/original${m.logo}`
-                                                        }
-                                                        alt="content-logo"
-                                                    />
-                                                ) : null}
+                                                <img
+                                                    src={`https://${t.seasontitlelogoimage}`}
+                                                    // logoImage(t.index) ||
+                                                    // (t.seasontitlelogoimage?
+                                                    // `https://image.tmdb.org/t/p/original${t.seasontitlelogoimage}`
+                                                    // : undefined)
+
+                                                    alt="content-logo"
+                                                />
                                             </p>
-                                            {hoverId === m.id && m.videos?.[0]?.key && (
+                                            {hoverId === t.index && (
                                                 <img
                                                     src="/images/icons/icon-volume-off.svg"
-                                                    alt=""
+                                                    alt="sound-icon"
                                                     className="sound-icon"
                                                 />
                                             )}
@@ -147,17 +155,11 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
 
                                     <div className="preview-badge-top">
                                         <p>
-                                            <img
-                                                src={getGrades(m.certification ?? '')}
-                                                alt="certification"
-                                            />
+                                            <img src={getGrades(t.targetage)} alt="certification" />
                                         </p>
-                                        <p className="preview-genre">
-                                            {getGenres(m.genre_ids).slice(0, 2).join(' · ') ||
-                                                '기타'}
-                                        </p>
-                                        {m.episodes?.length ? (
-                                            <p>에피소드 {m.episodes.length}</p>
+                                        <p className="preview-genre">{t.genretext}</p>
+                                        {episodes?.length ? (
+                                            <p>에피소드 {episodes.length}</p>
                                         ) : null}
                                     </div>
                                     <div className="preview-badge-bottom">
@@ -168,15 +170,15 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                                                     pickList.some(
                                                         (p) =>
                                                             (p.tmdb_id ?? p.id) ===
-                                                            (m.tmdb_id ?? m.id)
+                                                            (t.tmdb_id ?? t.id)
                                                     )
                                                         ? 'active'
                                                         : ''
                                                 }`}
-                                                onClick={() => handleHeart(m)}
+                                                onClick={() => handleHeart(t)}
                                             ></button>
                                         </div>
-                                        <Link to={`/contentsdetail/tv/${m.id}`}></Link>
+                                        <Link to={`/contentsdetail/tv/${t.tmdb_id}`}></Link>
                                     </div>
                                 </div>
                             )}
@@ -190,7 +192,6 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                     <div ref={nextBtn} className="swiper-button-next"></div>
                 </div>
             </Swiper>
-
             {/* 찜 모달 */}
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} size={modalSize}>
                 {/* 모달 내부 콘텐츠: Header, Body, Footer를 직접 구성 */}
@@ -227,4 +228,4 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
     );
 };
 
-export default PrimaryList;
+export default AniKidsPrimaryList;
