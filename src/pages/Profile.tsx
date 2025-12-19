@@ -4,16 +4,14 @@ import "./scss/Profile.scss";
 import { useAuthStore } from "../stores/useAuthStore";
 import UserPickList from "../components/UserPickList";
 import UserWatchList from "../components/UserWatchList";
+import { usePickStore } from "../stores/usePickStore";
+import EmptyList from "../components/EmptyList";
 
 const Profile = () => {
-  const {
-    user,
-    selectedCharId,
-    selectedCharNickname,
-    updateNickname,
-    isInitializing,
-  } = useAuthStore();
+  const { user, selectedCharId, selectedCharNickname, updateNickname, isInitializing } =
+    useAuthStore();
   const navigate = useNavigate();
+  const { pickList } = usePickStore();
 
   const [nickname, setNickname] = useState(selectedCharNickname || "");
   // 수정 모드 상태 추가 (true면 input 노출, false면 텍스트 노출)
@@ -75,10 +73,7 @@ const Profile = () => {
                   <span>{selectedCharNickname}</span>
                   <span>
                     <button onClick={() => setIsEditing(true)}>
-                      <img
-                        src="/images/button/btn-modify.svg"
-                        alt="닉네임수정"
-                      />
+                      <img src="/images/button/btn-modify.svg" alt="닉네임수정" />
                     </button>
                   </span>
                 </p>
@@ -134,7 +129,7 @@ const Profile = () => {
 
         <section className="card-list">
           <h2>찜 리스트</h2>
-          <UserPickList />
+          {pickList.length === 0 ? <EmptyList title="찜 리스트가 없어요" /> : <UserPickList />}
         </section>
       </div>
     </main>
