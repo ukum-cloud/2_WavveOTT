@@ -15,6 +15,8 @@ export interface MediaBase {
   runtime?: number | null;
 
   logo_path?: string | null;
+
+  known_for_department?: string;
 }
 
 //Video
@@ -110,6 +112,8 @@ export interface OnlyWavve extends MediaBase {
 
   director?: CreditPerson[];
   writer?: CreditPerson[];
+
+  tmdb_id?: string | null;
 }
 
 //tv
