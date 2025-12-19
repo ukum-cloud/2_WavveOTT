@@ -33,82 +33,84 @@ const SwiperDefault = ({ data }: { data: Pick[] }) => {
   return (
     <div className="default-list">
       <Swiper slidesPerView="auto" spaceBetween={24}>
-        {list.map((d) => (
-          <SwiperSlide key={d.id}>
-            <div className="poster-wrap badge-new">
-              <img
-                className="main"
-                src={`https://image.tmdb.org/t/p/original${d.poster_path}`}
-                alt={d.title || d.name}
-              />
-              <div className="preview-wrap">
-                <div
-                  className="img-box"
-                  onMouseEnter={() => setHoverId(d.id)}
-                  onMouseLeave={() => setHoverId(null)}>
-                  {d.tvsVideo?.key && hoverId === d.id ? (
-                    <iframe
-                      className="hover video"
-                      src={`https://www.youtube.com/embed/${d.tvsVideo.key}?autoplay=1&mute=1`}
-                      allowFullScreen
-                      title={d.title}></iframe>
-                  ) : (
-                    <img
-                      className="hover image"
-                      src={
-                        backgroundImage(d.id) ||
-                        (d.backdrop_path
-                          ? `https://image.tmdb.org/t/p/original${d.backdrop_path}`
-                          : undefined)
-                      }
-                      alt={d.title}></img>
-                  )}
-                  <div className="logo-box">
-                    <p className="content-logo">
+        {list
+          .filter((d): d is Pick & { id: number } => typeof d.id === "number")
+          .map((d) => (
+            <SwiperSlide key={d.id}>
+              <div className="poster-wrap badge-new">
+                <img
+                  className="main"
+                  src={`https://image.tmdb.org/t/p/original${d.poster_path}`}
+                  alt={d.title || d.name}
+                />
+                <div className="preview-wrap">
+                  <div
+                    className="img-box"
+                    onMouseEnter={() => setHoverId(d.id)}
+                    onMouseLeave={() => setHoverId(null)}>
+                    {d.tvsVideo?.key && hoverId === d.id ? (
+                      <iframe
+                        className="hover video"
+                        src={`https://www.youtube.com/embed/${d.tvsVideo.key}?autoplay=1&mute=1`}
+                        allowFullScreen
+                        title={d.title}></iframe>
+                    ) : (
                       <img
+                        className="hover image"
                         src={
-                          logoImage(d.id) ||
-                          (d.logo ? `https://image.tmdb.org/t/p/original${d.logo}` : undefined)
+                          backgroundImage(d.id) ||
+                          (d.backdrop_path
+                            ? `https://image.tmdb.org/t/p/original${d.backdrop_path}`
+                            : undefined)
                         }
-                        alt="content-logo"
-                      />
-                    </p>
-                    {hoverId === d.id && d.video?.[0]?.key && (
-                      <img
-                        src="/images/icons/icon-volume-off.svg"
-                        alt="sound-icon"
-                        className="sound-icon"
-                      />
+                        alt={d.title}></img>
                     )}
+                    <div className="logo-box">
+                      <p className="content-logo">
+                        <img
+                          src={
+                            logoImage(d.id) ||
+                            (d.logo ? `https://image.tmdb.org/t/p/original${d.logo}` : undefined)
+                          }
+                          alt="content-logo"
+                        />
+                      </p>
+                      {hoverId === d.id && d.videos?.[0]?.key && (
+                        <img
+                          src="/images/icons/icon-volume-off.svg"
+                          alt="sound-icon"
+                          className="sound-icon"
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="preview-badge-top">
-                  <p>
-                    <img src={getGrades(d.certificationMovie)} alt="certification" />
-                  </p>
-                  <p className="preview-genre">
-                    {getGenres(d.genre_ids).slice(0, 2).join(" · ") || "기타"}
-                  </p>
-                </div>
-                <div className="preview-badge-bottom">
-                  <div className="preview-btn-wrap">
-                    <button className="preview-play-btn"></button>
-                    <button
-                      className="preview-heart-btn active"
-                      onClick={() => handleHeart(d)}></button>
+                  <div className="preview-badge-top">
+                    <p>
+                      <img src={getGrades(d.certificationMovie)} alt="certification" />
+                    </p>
+                    <p className="preview-genre">
+                      {getGenres(d.genre_ids).slice(0, 2).join(" · ") || "기타"}
+                    </p>
                   </div>
-                  <Link
-                    to={
-                      d.media_type === "tv"
-                        ? `/contentsdetail/tv/${d.tmdb_id ?? d.id}`
-                        : `/moviedetail/movie/${d.id}`
-                    }
-                  />
+                  <div className="preview-badge-bottom">
+                    <div className="preview-btn-wrap">
+                      <button className="preview-play-btn"></button>
+                      <button
+                        className="preview-heart-btn active"
+                        onClick={() => handleHeart(d)}></button>
+                    </div>
+                    <Link
+                      to={
+                        d.media_type === "tv"
+                          ? `/contentsdetail/tv/${d.tmdb_id ?? d.id}`
+                          : `/moviedetail/movie/${d.id}`
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          ))}
       </Swiper>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} size={modalSize}>
         {/* 모달 내부 콘텐츠: Header, Body, Footer를 직접 구성 */}
