@@ -1,796 +1,3 @@
-// import React, { useEffect, useMemo, useRef, useState } from "react";
-// import "./scss/SearchOverlay.scss";
-// import { useNavigate } from "react-router-dom";
-// import { useSearchStore } from "../stores/useSearchStore";
-// import type { SearchKind } from "../types/searchtodo";
-// import type { NavItem, NavSection } from "../types/searchNav";
-
-// import SearchInputBar from "./SearchInputBar";
-// import SearchTypingPanel from "./SearchTypingPanel";
-// import SearchIdlePanel from "./SearchIdlePanel";
-
-// interface Props {
-//   onClose: () => void;
-// }
-
-// const SearchOverlay = ({ onClose }: Props) => {
-//   const navigate = useNavigate();
-
-//   const {
-//     todos,
-//     onAddTextTodo,
-//     onRemoveTodos,
-//     onRemoveAll,
-
-//     results,
-//     loading,
-//     onFetchSearch,
-//     onClearResults,
-
-//     trendingKeywords,
-//     onFetchTrendingKeywords,
-
-//     fetchSearchAndGetFirst,
-//   } = useSearchStore();
-
-//   const [text, setText] = useState("");
-//   const [nowDate, setNowDate] = useState("");
-//   const [hasSearched, setHasSearched] = useState(false);
-
-//   const [activeIndex, setActiveIndex] = useState(-1);
-
-//   const inputRef = useRef<HTMLInputElement | null>(null);
-//   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-//   const isTyping = text.trim().length > 0;
-
-//   /** 배경 스크롤 막기 */
-//   useEffect(() => {
-//     const prev = document.body.style.overflow;
-//     document.body.style.overflow = "hidden";
-//     return () => {
-//       document.body.style.overflow = prev;
-//     };
-//   }, []);
-
-//   /** 트렌딩 키워드 최초 로드 (없을 때만) */
-//   useEffect(() => {
-//     if (!trendingKeywords.length) {
-//       void onFetchTrendingKeywords();
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   /** 현재 시간 표시 */
-//   useEffect(() => {
-//     const update = () => {
-//       const d = new Date();
-//       const yyyy = d.getFullYear();
-//       const mm = String(d.getMonth() + 1).padStart(2, "0");
-//       const dd = String(d.getDate()).padStart(2, "0");
-//       const hh = String(d.getHours()).padStart(2, "0");
-//       const mi = String(d.getMinutes()).padStart(2, "0");
-//       setNowDate(`${yyyy}.${mm}.${dd} ${hh}:${mi}`);
-//     };
-//     // update();
-//     const t = window.setInterval(update, 1000 * 10);
-//     return () => window.clearInterval(t);
-//   }, []);
-
-//   /** 자동완성 preview: 최근검색어 + 트렌딩 중 query 포함 (시작일치 우선) */
-//   const previewList = useMemo(() => {
-//     const q = text.trim().toLowerCase();
-//     if (!q) return [];
-
-//     const recent = todos.map((t) => t.text);
-//     const pool = Array.from(new Set([...recent, ...trendingKeywords]));
-
-//     const filtered = pool.filter((s) => s.toLowerCase().includes(q));
-
-//     filtered.sort((a, b) => {
-//       const A = a.toLowerCase();
-//       const B = b.toLowerCase();
-//       const aStarts = A.startsWith(q) ? 1 : 0;
-//       const bStarts = B.startsWith(q) ? 1 : 0;
-//       if (aStarts !== bStarts) return bStarts - aStarts;
-//       if (A.length !== B.length) return A.length - B.length;
-//       return A.localeCompare(B);
-//     });
-
-//     return filtered.slice(0, 10);
-//   }, [text, todos, trendingKeywords]);
-
-//   /** 키워드로 상세 이동: store의 첫 결과를 가져와 이동 */
-//   const goDetailByKeyword = async (keyword: string) => {
-//     const trimmed = keyword.trim();
-//     if (!trimmed) return;
-
-//     setText(trimmed);
-//     onAddTextTodo(trimmed);
-
-//     setHasSearched(true);
-
-//     const first = await fetchSearchAndGetFirst(trimmed);
-//     if (!first) return;
-
-//     if (first.kind === "movie") navigate(`/moviedetail/movie/${first.id}`);
-//     else navigate(`/contentsdetail/${first.kind}/${first.id}`);
-
-//     onClose();
-//   };
-
-//   /** 결과로 상세 이동 */
-//   const goDetailByResult = (label: string, kind: SearchKind, id: number) => {
-//     setText(label);
-//     onAddTextTodo(label);
-
-//     if (kind === "movie") navigate(`/moviedetail/movie/${id}`);
-//     else navigate(`/contentsdetail/${kind}/${id}`);
-
-//     onClose();
-//   };
-
-//   /** submit(검색 버튼/Enter): store 검색 실행 */
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const q = text.trim();
-//     if (!q) return;
-
-//     onAddTextTodo(q);
-//     setHasSearched(true);
-
-//     await onFetchSearch(q);
-
-//     // 검색 실행 후 리스트 진입 준비
-//     setActiveIndex(-1);
-//   };
-
-//   /** 입력이 비면 idle로 돌아가면서 검색 상태 리셋 */
-//   useEffect(() => {
-//     if (!isTyping) {
-//       setHasSearched(false);
-//       setActiveIndex(-1);
-//       onClearResults();
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [isTyping]);
-
-//   /**
-//    * 키보드 이동 대상(navItems) 만들기
-//    * - typing + 검색 전: left=preview, right=빈배열(원하면 오른쪽 추천리스트 넣기)
-//    * - typing + 검색 후: left=results, right=빈배열(원하면 오른쪽 관련콘텐츠/인물 리스트 넣기)
-//    * - idle: left=recent, right=trending
-//    */
-//   const navItems: NavItem[] = useMemo(() => {
-//     if (isTyping && hasSearched) {
-//       if (loading) return [];
-//       const left = results.map((r) => ({
-//         type: "result" as const,
-//         label: r.label,
-//         kind: r.kind,
-//         id: r.id,
-//         section: "left" as const,
-//       }));
-//       const right = trendingKeywords.slice(0, 8).map((k) => ({
-//         type: "keyword" as const,
-//         label: k,
-//         section: "right" as const,
-//       }));
-//       return [...left, ...right];
-//     }
-
-//     if (isTyping && !hasSearched) {
-//       const left = previewList.map((k) => ({
-//         type: "keyword" as const,
-//         label: k,
-//         section: "left" as const,
-//       }));
-//       const right = trendingKeywords.slice(0, 8).map((k) => ({
-//         type: "keyword" as const,
-//         label: k,
-//         section: "right" as const,
-//       }));
-//       return [...left, ...right];
-//     }
-
-//     // idle...
-//     const left = todos.map((t) => ({
-//       type: "keyword" as const,
-//       label: t.text,
-//       section: "left" as const,
-//     }));
-//     const right = trendingKeywords.slice(0, 8).map((k) => ({
-//       type: "keyword" as const,
-//       label: k,
-//       section: "right" as const,
-//     }));
-//     return [...left, ...right];
-//   }, [
-//     isTyping,
-//     hasSearched,
-//     loading,
-//     results,
-//     previewList,
-//     todos,
-//     trendingKeywords,
-//   ]);
-
-//   /** ===== 키보드 포커스 이동 유틸 ===== */
-//   const focusToInput = () => {
-//     setActiveIndex(-1);
-//     requestAnimationFrame(() => inputRef.current?.focus());
-//   };
-
-//   const focusToList = (idx: number) => {
-//     if (!navItems.length) return;
-//     const next = Math.min(Math.max(idx, 0), navItems.length - 1);
-//     setActiveIndex(next);
-//     requestAnimationFrame(() => itemRefs.current[next]?.focus());
-//   };
-
-//   const setItemRef = (idx: number, el: HTMLButtonElement | null) => {
-//     itemRefs.current[idx] = el;
-//   };
-
-//   /** navItems section 첫/마지막 인덱스 */
-//   const firstIndexOf = (section: NavSection) =>
-//     navItems.findIndex((x) => x.section === section);
-//   const lastIndexOf = (section: NavSection) => {
-//     for (let i = navItems.length - 1; i >= 0; i--) {
-//       if (navItems[i].section === section) return i;
-//     }
-//     return -1;
-//   };
-
-//   const moveToSection = (section: NavSection) => {
-//     const idx = firstIndexOf(section);
-//     if (idx < 0) return;
-//     setActiveIndex(idx);
-//     requestAnimationFrame(() => itemRefs.current[idx]?.focus());
-//   };
-
-//   /** activeIndex 이동(순환) */
-//   const moveActive = (delta: number) => {
-//     if (!navItems.length) return;
-//     setActiveIndex((prev) => {
-//       const next = prev < 0 ? 0 : prev + delta;
-//       const wrapped =
-//         next < 0 ? navItems.length - 1 : next >= navItems.length ? 0 : next;
-//       requestAnimationFrame(() => itemRefs.current[wrapped]?.focus());
-//       return wrapped;
-//     });
-//   };
-
-//   const activateItem = (idx: number) => {
-//     const item = navItems[idx];
-//     if (!item) return;
-
-//     if (item.type === "keyword") {
-//       void goDetailByKeyword(item.label);
-//     } else {
-//       goDetailByResult(item.label, item.kind, item.id);
-//     }
-//   };
-
-//   /** input에서 Tab/방향키로 리스트 진입 */
-//   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (!navItems.length) return;
-
-//     if (e.key === "Tab" || e.key === "ArrowDown") {
-//       e.preventDefault();
-//       const idx = firstIndexOf("left");
-//       focusToList(idx >= 0 ? idx : 0);
-//       return;
-//     }
-
-//     if (e.key === "ArrowUp") {
-//       e.preventDefault();
-//       const idx = lastIndexOf("left");
-//       focusToList(idx >= 0 ? idx : navItems.length - 1);
-//       return;
-//     }
-//   };
-
-//   /** 리스트 버튼 공통 키다운(왼쪽/오른쪽 둘 다 적용) */
-//   const onItemKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-//     if (e.key === "ArrowDown") {
-//       e.preventDefault();
-//       moveActive(1);
-//     }
-//     if (e.key === "ArrowUp") {
-//       e.preventDefault();
-//       moveActive(-1);
-//     }
-//     if (e.key === "Enter") {
-//       e.preventDefault();
-//       activateItem(safeActiveIndex);
-//     }
-//     if (e.key === "Escape") {
-//       e.preventDefault();
-//       focusToInput();
-//     }
-
-//     // 섹션 이동 (오른쪽도 키보드 적용 핵심)
-//     if (e.key === "ArrowRight") {
-//       e.preventDefault();
-//       moveToSection("right");
-//     }
-//     if (e.key === "ArrowLeft") {
-//       e.preventDefault();
-//       moveToSection("left");
-//     }
-
-//     // Tab을 섹션 이동으로 쓰고 싶다면
-//     if (e.key === "Tab") {
-//       e.preventDefault();
-//       if (e.shiftKey) moveToSection("left");
-//       else moveToSection("right");
-//     }
-//   };
-
-//   const safeActiveIndex =
-//     navItems.length === 0
-//       ? -1
-//       : Math.min(Math.max(activeIndex, 0), navItems.length - 1);
-
-//   const activeDescendantId =
-//     safeActiveIndex >= 0 ? `nav-${safeActiveIndex}` : undefined;
-
-//   // useEffect(() => {
-//   // // navItems가 바뀌면 ref를 “현재 길이 기준”으로 정리
-//   //   itemRefs.current = itemRefs.current.slice(0, navItems.length);
-
-//   //   // activeIndex가 범위를 벗어나면 리셋
-//   //   setActiveIndex((prev) => {
-//   //     if (navItems.length === 0) return -1;
-//   //     if (prev < 0) return -1;
-//   //     if (prev > navItems.length - 1) return -1;
-//   //     return prev;
-//   //   });
-//   // }, [navItems.length]);
-
-//   return (
-//     <div className="search-popup" role="dialog" aria-modal="true">
-//       <div className="search-inner-wrap">
-//         <div className="close-bg" onClick={onClose} aria-label="닫기" />
-//         <div className="search-inner">
-//           <div className="keyboard-box">
-//             <div className="close-wrap">
-//               <button
-//                 className="close-btn-box"
-//                 onClick={onClose}
-//                 aria-label="닫기"
-//               >
-//                 <img src="/images/button/btn-close.svg" alt="닫기 버튼" />
-//               </button>
-//             </div>
-//             <SearchInputBar
-//               value={text}
-//               onChange={setText}
-//               onSubmit={handleSubmit}
-//               inputRef={inputRef}
-//               hasList={navItems.length > 0}
-//               onMoveToList={(idx) => focusToList(idx)}
-//               onKeyDown={handleInputKeyDown}
-//               activeDescendantId={activeDescendantId}
-//             />
-
-//             {isTyping ? (
-//               <SearchTypingPanel
-//                 query={text}
-//                 hasSearched={hasSearched}
-//                 loading={loading}
-//                 results={results}
-//                 previewList={previewList}
-//                 onClickKeyword={goDetailByKeyword}
-//                 // 키보드 공통 props
-//                 navItems={navItems}
-//                 activeIndex={safeActiveIndex}
-//                 setActiveIndex={setActiveIndex}
-//                 setItemRef={setItemRef}
-//                 onItemKeyDown={onItemKeyDown}
-//                 activateItem={activateItem}
-//                 trendingKeywords={trendingKeywords}
-//               />
-//             ) : (
-//               <SearchIdlePanel
-//                 nowDate={nowDate}
-//                 todos={todos}
-//                 trendingKeywords={trendingKeywords}
-//                 onRemoveAll={onRemoveAll}
-//                 onRemoveTodo={onRemoveTodos}
-//                 onClickKeyword={goDetailByKeyword}
-//                 // 키보드 공통 props
-//                 navItems={navItems}
-//                 activeIndex={safeActiveIndex}
-//                 setActiveIndex={setActiveIndex}
-//                 setItemRef={setItemRef}
-//                 onItemKeyDown={onItemKeyDown}
-//                 activateItem={activateItem}
-//                 focusToInput={focusToInput}
-//               />
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SearchOverlay;
-// import React, { useEffect, useMemo, useRef, useState } from "react";
-// import "./scss/SearchOverlay.scss";
-// import { useNavigate } from "react-router-dom";
-
-// import { useSearchStore } from "../stores/useSearchStore";
-// import type { SearchKind } from "../types/searchtodo";
-// import type { NavItem, NavSection } from "../types/searchNav";
-
-// import SearchInputBar from "./SearchInputBar";
-// import SearchTypingPanel from "./SearchTypingPanel";
-// import SearchIdlePanel from "./SearchIdlePanel";
-
-// interface Props {
-//   onClose: () => void;
-// }
-
-// const SearchOverlay = ({ onClose }: Props) => {
-//   const navigate = useNavigate();
-
-//   const {
-//     todos,
-//     onAddTextTodo,
-//     onRemoveTodos,
-//     onRemoveAll,
-
-//     results,
-//     loading,
-//     onFetchSearch,
-//     onClearResults,
-
-//     trendingKeywords,
-//     onFetchTrendingKeywords,
-
-//     fetchSearchAndGetFirst,
-//   } = useSearchStore();
-
-//   const [text, setText] = useState("");
-//   const [nowDate, setNowDate] = useState("");
-//   const [hasSearched, setHasSearched] = useState(false);
-//   const [activeIndex, setActiveIndex] = useState(-1);
-
-//   const inputRef = useRef<HTMLInputElement | null>(null);
-//   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-//   const isTyping = text.trim().length > 0;
-
-//   // 배경 스크롤 방지
-//   useEffect(() => {
-//     const prev = document.body.style.overflow;
-//     document.body.style.overflow = "hidden";
-//     return () => {
-//       document.body.style.overflow = prev;
-//     };
-//   }, []);
-
-//   // trending 최초 로드
-//   useEffect(() => {
-//     if (!trendingKeywords.length) void onFetchTrendingKeywords();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   // 날짜 표시
-//   useEffect(() => {
-//     const update = () => {
-//       const d = new Date();
-//       const yyyy = d.getFullYear();
-//       const mm = String(d.getMonth() + 1).padStart(2, "0");
-//       const dd = String(d.getDate()).padStart(2, "0");
-//       const hh = String(d.getHours()).padStart(2, "0");
-//       const mi = String(d.getMinutes()).padStart(2, "0");
-//       setNowDate(`${yyyy}.${mm}.${dd} ${hh}:${mi}`);
-//     };
-//     update();
-//     const t = window.setInterval(update, 1000 * 10);
-//     return () => window.clearInterval(t);
-//   }, []);
-
-//   // 입력 중 자동완성 preview (최근 + trending)
-//   const previewList = useMemo(() => {
-//     const q = text.trim().toLowerCase();
-//     if (!q) return [];
-//     const recent = todos.map((t) => t.text);
-//     const pool = Array.from(new Set([...recent, ...trendingKeywords]));
-//     const filtered = pool.filter((s) => s.toLowerCase().includes(q));
-
-//     filtered.sort((a, b) => {
-//       const A = a.toLowerCase();
-//       const B = b.toLowerCase();
-//       const aStarts = A.startsWith(q) ? 1 : 0;
-//       const bStarts = B.startsWith(q) ? 1 : 0;
-//       if (aStarts !== bStarts) return bStarts - aStarts;
-//       return A.localeCompare(B);
-//     });
-
-//     return filtered.slice(0, 10);
-//   }, [text, todos, trendingKeywords]);
-
-//   const goDetail = (kind: SearchKind, id: number, label: string) => {
-//     setText(label);
-//     onAddTextTodo(label);
-//     navigate(`/contentsdetail/${kind}/${id}`);
-//     onClose();
-//   };
-
-//   const goDetailByKeyword = async (keyword: string) => {
-//     const trimmed = keyword.trim();
-//     if (!trimmed) return;
-
-//     setText(trimmed);
-//     onAddTextTodo(trimmed);
-//     setHasSearched(true);
-
-//     // 원하는 페이지 수(예: 3페이지)
-//     const first = await fetchSearchAndGetFirst(trimmed, 3);
-//     if (!first) return;
-
-//     navigate(`/contentsdetail/${first.kind}/${first.id}`);
-//     onClose();
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const q = text.trim();
-//     if (!q) return;
-
-//     onAddTextTodo(q);
-//     setHasSearched(true);
-
-//     // ✅ multi 페이지 수(원하는 만큼)
-//     await onFetchSearch(q, 3);
-
-//     setActiveIndex(-1);
-//   };
-
-//   // 입력 비면 idle 복귀
-//   useEffect(() => {
-//     if (!isTyping) {
-//       setHasSearched(false);
-//       setActiveIndex(-1);
-//       onClearResults();
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [isTyping]);
-
-//   // navItems 구성
-//   const navItems: NavItem[] = useMemo(() => {
-//     const right = trendingKeywords.slice(0, 8).map((k) => ({
-//       type: "keyword" as const,
-//       label: k,
-//       section: "right" as const,
-//     }));
-
-//     if (isTyping && hasSearched) {
-//       if (loading) return right;
-//       const left = results.map((r) => ({
-//         type: "result" as const,
-//         label: r.label,
-//         kind: r.kind,
-//         id: r.id,
-//         section: "left" as const,
-//       }));
-//       return [...left, ...right];
-//     }
-
-//     if (isTyping && !hasSearched) {
-//       const left = previewList.map((k) => ({
-//         type: "keyword" as const,
-//         label: k,
-//         section: "left" as const,
-//       }));
-//       return [...left, ...right];
-//     }
-
-//     const left = todos.map((t) => ({
-//       type: "keyword" as const,
-//       label: t.text,
-//       section: "left" as const,
-//     }));
-//     return [...left, ...right];
-//   }, [
-//     isTyping,
-//     hasSearched,
-//     loading,
-//     results,
-//     previewList,
-//     todos,
-//     trendingKeywords,
-//   ]);
-
-//   // focus helpers
-//   const setItemRef = (idx: number, el: HTMLButtonElement | null) => {
-//     itemRefs.current[idx] = el;
-//   };
-
-//   const focusToInput = () => {
-//     setActiveIndex(-1);
-//     requestAnimationFrame(() => inputRef.current?.focus());
-//   };
-
-//   const focusToList = (idx: number) => {
-//     if (!navItems.length) return;
-//     const next = Math.min(Math.max(idx, 0), navItems.length - 1);
-//     setActiveIndex(next);
-//     requestAnimationFrame(() => itemRefs.current[next]?.focus());
-//   };
-
-//   const firstIndexOf = (section: NavSection) =>
-//     navItems.findIndex((x) => x.section === section);
-//   const lastIndexOf = (section: NavSection) => {
-//     for (let i = navItems.length - 1; i >= 0; i--)
-//       if (navItems[i].section === section) return i;
-//     return -1;
-//   };
-
-//   const safeActiveIndex =
-//     navItems.length === 0
-//       ? -1
-//       : Math.min(Math.max(activeIndex, 0), navItems.length - 1);
-
-//   const activateItem = (idx: number) => {
-//     const item = navItems[idx];
-//     if (!item) return;
-//     if (item.type === "keyword") void goDetailByKeyword(item.label);
-//     else goDetail(item.kind, item.id, item.label);
-//   };
-
-//   const moveToSection = (section: NavSection) => {
-//     const idx = firstIndexOf(section);
-//     if (idx >= 0) focusToList(idx);
-//   };
-
-//   const moveActive = (delta: number) => {
-//     if (!navItems.length) return;
-//     setActiveIndex((prev) => {
-//       const next = prev < 0 ? 0 : prev + delta;
-//       const wrapped =
-//         next < 0 ? navItems.length - 1 : next >= navItems.length ? 0 : next;
-//       requestAnimationFrame(() => itemRefs.current[wrapped]?.focus());
-//       return wrapped;
-//     });
-//   };
-
-//   // input keydown (리스트 진입)
-//   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (!navItems.length) return;
-
-//     if (e.key === "Tab" || e.key === "ArrowDown") {
-//       e.preventDefault();
-//       const idx = firstIndexOf("left");
-//       focusToList(idx >= 0 ? idx : 0);
-//       return;
-//     }
-
-//     if (e.key === "ArrowUp") {
-//       e.preventDefault();
-//       const idx = lastIndexOf("left");
-//       focusToList(idx >= 0 ? idx : navItems.length - 1);
-//       return;
-//     }
-//   };
-
-//   // item keydown
-//   const onItemKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-//     if (e.key === "ArrowDown") {
-//       e.preventDefault();
-//       moveActive(1);
-//       return;
-//     }
-//     if (e.key === "ArrowUp") {
-//       e.preventDefault();
-//       moveActive(-1);
-//       return;
-//     }
-//     if (e.key === "Enter") {
-//       e.preventDefault();
-//       activateItem(safeActiveIndex);
-//       return;
-//     }
-//     if (e.key === "Escape") {
-//       e.preventDefault();
-//       focusToInput();
-//       return;
-//     }
-//     if (e.key === "ArrowRight") {
-//       e.preventDefault();
-//       moveToSection("right");
-//       return;
-//     }
-//     if (e.key === "ArrowLeft") {
-//       e.preventDefault();
-//       moveToSection("left");
-//       return;
-//     }
-//     if (e.key === "Tab") {
-//       e.preventDefault();
-//       if (e.shiftKey) moveToSection("left");
-//       else moveToSection("right");
-//     }
-//   };
-
-//   const activeDescendantId =
-//     safeActiveIndex >= 0 ? `nav-${safeActiveIndex}` : undefined;
-
-//   return (
-//     <div className="search-popup" role="dialog" aria-modal="true">
-//       <div className="search-inner-wrap">
-//         <div className="close-bg" onClick={onClose} aria-label="닫기" />
-//         <div className="search-inner">
-//           <div className="keyboard-box">
-//             <div className="close-wrap">
-//               <button
-//                 className="close-btn-box"
-//                 onClick={onClose}
-//                 aria-label="닫기"
-//               >
-//                 <img src="/images/button/btn-close.svg" alt="닫기 버튼" />
-//               </button>
-//             </div>
-
-//             <SearchInputBar
-//               value={text}
-//               onChange={setText}
-//               onSubmit={handleSubmit}
-//               inputRef={inputRef}
-//               hasList={navItems.length > 0}
-//               onMoveToList={(idx) => focusToList(idx)}
-//               onKeyDown={handleInputKeyDown}
-//               activeDescendantId={activeDescendantId}
-//             />
-
-//             {isTyping ? (
-//               <SearchTypingPanel
-//                 query={text}
-//                 hasSearched={hasSearched}
-//                 loading={loading}
-//                 results={results}
-//                 previewList={previewList}
-//                 onClickKeyword={goDetailByKeyword}
-//                 navItems={navItems}
-//                 activeIndex={safeActiveIndex}
-//                 setActiveIndex={setActiveIndex}
-//                 setItemRef={setItemRef}
-//                 onItemKeyDown={onItemKeyDown}
-//                 activateItem={activateItem}
-//                 trendingKeywords={trendingKeywords}
-//               />
-//             ) : (
-//               <SearchIdlePanel
-//                 nowDate={nowDate}
-//                 todos={todos}
-//                 trendingKeywords={trendingKeywords}
-//                 onRemoveAll={onRemoveAll}
-//                 onRemoveTodo={onRemoveTodos}
-//                 onClickKeyword={goDetailByKeyword}
-//                 navItems={navItems}
-//                 activeIndex={safeActiveIndex}
-//                 setActiveIndex={setActiveIndex}
-//                 setItemRef={setItemRef}
-//                 onItemKeyDown={onItemKeyDown}
-//                 activateItem={activateItem}
-//                 focusToInput={focusToInput}
-//               />
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SearchOverlay;
-//store/useSearchStore
-//components/SearchOverlay
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -809,6 +16,8 @@ interface Props {
 
 const DEBOUNCE_MS = 300;
 const MIN_LEN = 2;
+
+type Column = "left" | "right";
 
 // 예시: 추천(오른쪽) 키워드 — 실제 프로젝트에선 API/상수/스토어로 교체 가능
 const DEFAULT_RECOMMENDED = [
@@ -841,6 +50,7 @@ const SearchOverlay = ({ onClose }: Props) => {
 
   const [keyword, setKeyword] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [column, setColumn] = useState<Column>("left");
 
   const [todos, setTodos] = useState<Search[]>([]);
   //검색 상태 & 액션 (Zustand)
@@ -873,6 +83,7 @@ const SearchOverlay = ({ onClose }: Props) => {
   // Idle 패널에서 보여줄 항목(상위 N개)
   const recentMax = 10;
   const trendingMax = 10;
+
   const idleRecent = useMemo(() => todos.slice(0, recentMax), [todos]);
   const idleTrending = useMemo(
     () => trendingKeywords.slice(0, trendingMax),
@@ -885,14 +96,26 @@ const SearchOverlay = ({ onClose }: Props) => {
   const showTypingPanel = trimmed.length > 0;
 
   // --- (A) aria 연결: combobox는 "typing 결과 listbox"를 기준으로 연결(기존 구조 유지)
-  const listboxLeftId = "search-left-listbox";
+  const leftLenForAria = visibleResults.length;
   const leftOptionId = (idx: number) => `search-option-${idx}`;
-  const leftLen = visibleResults.length;
 
   const activeDescendantId =
-    showTypingPanel && activeIndex >= 0 && activeIndex < leftLen
+    showTypingPanel && activeIndex >= 0 && activeIndex < leftLenForAria
       ? leftOptionId(activeIndex)
       : undefined;
+
+  const handleChangeKeyword = (next: string) => {
+    setKeyword(next);
+
+    // 키워드가 바뀌는 그 순간에 파생 상태를 함께 초기화
+    setColumn("left");
+    setActiveIndex(-1);
+
+    // 입력을 다 지웠을 때 Idle로 돌리기(기존 effect 대신 여기서 처리)
+    if (next.trim().length === 0 && hasSearched) {
+      clear();
+    }
+  };
 
   // --- (B) 디바운스 자동검색
   useEffect(() => {
@@ -906,41 +129,21 @@ const SearchOverlay = ({ onClose }: Props) => {
     return () => window.clearTimeout(timer);
   }, [keyword, search]);
 
-  // 입력이 바뀌면 선택 초기화
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [keyword]);
-
-  // 입력을 다 지우면 SearchStore 초기화(Idle로)
-  useEffect(() => {
-    if (keyword.trim().length === 0 && hasSearched) {
-      clear();
-      setActiveIndex(-1);
+  const lengths = useMemo(() => {
+    if (showIdlePanel) {
+      return { left: idleRecent.length, right: idleTrending.length };
     }
-  }, [keyword, hasSearched, clear]);
+    return { left: visibleResults.length, right: rightKeywords.length };
+  }, [
+    showIdlePanel,
+    idleRecent.length,
+    idleTrending.length,
+    visibleResults.length,
+    rightKeywords.length,
+  ]);
 
-  // --- (C) 네비게이션 총 길이 계산
-  const typingTotalLen = leftLen + rightKeywords.length;
-  const idleTotalLen = idleRecent.length + idleTrending.length;
+  const totalLen = lengths.left + lengths.right;
 
-  const totalLen = showIdlePanel ? idleTotalLen : typingTotalLen;
-
-  // 패널 상태에서 이동할 대상이 있으면 첫 항목 활성화
-  useEffect(() => {
-    if (totalLen > 0) setActiveIndex(0);
-  }, [showIdlePanel, showTypingPanel, totalLen]);
-
-  // --- (D) 라우팅
-  const onClickResult = (item: MultiItem) => {
-    if (item.media_type === "movie") {
-      navigate(`/moviedetail/movie/${item.id}`);
-    } else {
-      navigate(`/contentsdetail/${item.media_type}/${item.id}`);
-    }
-    onClose();
-  };
-
-  // --- (E) 최근 검색어 관리(예시)
   const addRecent = (text: string) => {
     const t = text.trim();
     if (!t) return;
@@ -954,74 +157,114 @@ const SearchOverlay = ({ onClose }: Props) => {
   const onRemoveTodo = (id: number) =>
     setTodos((prev) => prev.filter((x) => x.id !== id));
 
-  // --- (F) 이동
-  const moveActive = (delta: number) => {
-    if (totalLen === 0) return;
+  const getRowFromIndex = (idx: number, col: Column) => {
+    if (idx < 0) return 0;
 
-    setActiveIndex((prev) => {
-      const base = prev < 0 ? 0 : prev;
-      return (base + delta + totalLen) % totalLen;
-    });
+    if (col === "left") {
+      const max = Math.max(0, lengths.left - 1);
+      return Math.min(idx, max);
+    }
+
+    const max = Math.max(0, lengths.right - 1);
+    return Math.min(Math.max(0, idx - lengths.left), max);
   };
 
-  // --- (G) Enter 선택(Idle / Typing 분기)
-  const selectActive = () => {
+  const toIndex = (col: Column, row: number) => {
+    if (col === "left") return row;
+    return lengths.left + row;
+  };
+
+  const moveVertical = (delta: number) => {
+    const max = column === "left" ? lengths.left : lengths.right;
+    if (max === 0) return;
+
+    const row = getRowFromIndex(activeIndex, column);
+    const nextRow = (row + delta + max) % max;
+    setActiveIndex(toIndex(column, nextRow));
+  };
+
+  const switchColumn = (next: Column) => {
+    if (next === column) return;
+
+    const max = next === "left" ? lengths.left : lengths.right;
+    if (max === 0) return; // 옮길 컬럼에 항목이 없으면 이동 X
+
+    const row = getRowFromIndex(activeIndex, column);
+    const clampedRow = Math.min(row, max - 1);
+
+    setColumn(next);
+    setActiveIndex(toIndex(next, clampedRow));
+  };
+
+  const selectActive = async () => {
     if (totalLen === 0 || activeIndex < 0) return;
 
-    // 1) Idle 패널: 최근 + 인기
+    // 1) Idle: left=recent, right=trending
     if (showIdlePanel) {
-      const recentLen = idleRecent.length;
-
-      if (activeIndex < recentLen) {
+      if (activeIndex < lengths.left) {
         const text = idleRecent[activeIndex]?.text;
         if (!text) return;
+
         setKeyword(text);
         addRecent(text);
-        search(text, 3);
-        inputRef.current?.focus();
+        // Idle/Typing에서 Enter로 선택 → 상세 이동
+        await goFirstResultByKeyword(text);
         return;
       }
 
-      const k = idleTrending[activeIndex - recentLen];
+      const k = idleTrending[activeIndex - lengths.left];
       if (!k) return;
+
       setKeyword(k);
       addRecent(k);
-      search(k, 3);
-      inputRef.current?.focus();
+      await goFirstResultByKeyword(k); // ✅ Enter/검색이면 상세로 이동
       return;
     }
 
-    // 2) Typing 패널: 결과 + 추천
-    if (activeIndex < leftLen) {
+    // 2) Typing: left=results, right=recommended
+    if (activeIndex < lengths.left) {
       const item = visibleResults[activeIndex];
-      if (item) onClickResult(item);
+      if (!item) return;
+      goDetail(item); // ✅ 검색 결과 선택 → 상세 이동
       return;
     }
 
-    const k = rightKeywords[activeIndex - leftLen];
+    const k = rightKeywords[activeIndex - lengths.left];
     if (!k) return;
+
     setKeyword(k);
     addRecent(k);
-    search(k, 3);
-    inputRef.current?.focus();
+    await goFirstResultByKeyword(k); // ✅ 추천 키워드 선택 → 첫 결과로 상세 이동
   };
 
-  // --- (H) SearchInputBar의 “리스트로 진입” 처리
   const onMoveToList = (index: number) => {
     if (totalLen === 0) return;
 
-    const last = totalLen - 1;
-    const next = index === 9999 ? last : index;
-    setActiveIndex(Math.max(0, Math.min(next, last)));
+    const max = column === "left" ? lengths.left : lengths.right;
+    if (max === 0) return;
+
+    if (index === 9999) {
+      setActiveIndex(toIndex(column, max - 1));
+      return;
+    }
+    setActiveIndex(toIndex(column, 0));
   };
 
-  // --- (I) 수동 Submit
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const q = keyword.trim();
     if (q.length < MIN_LEN) return;
+
+    // ✅ 선택이 있으면 선택 우선
+    if (activeIndex >= 0 && totalLen > 0) {
+      await selectActive();
+      return;
+    }
+
+    // ✅ 선택이 없으면: 최근검색어에 저장 후 이동
     addRecent(q);
-    search(q, 3);
+    await goFirstResultByKeyword(q);
   };
 
   // --- (J) input key handler (포커스는 input 유지)
@@ -1037,40 +280,92 @@ const SearchOverlay = ({ onClose }: Props) => {
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      moveActive(+1);
+      moveVertical(+1);
       return;
     }
 
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      moveActive(-1);
+      moveVertical(-1);
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      switchColumn("right");
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      switchColumn("left");
       return;
     }
 
     if (e.key === "Tab") {
       e.preventDefault();
-      if (e.shiftKey) moveActive(-1);
-      else moveActive(+1);
+      if (e.shiftKey) switchColumn("left");
+      else switchColumn("right");
       return;
     }
 
     if (e.key === "Enter") {
       e.preventDefault();
-      selectActive();
+
+      if (activeIndex >= 0 && totalLen > 0) {
+        void selectActive(); // await 써도 되고 void로 fire-and-forget도 OK
+        return;
+      }
+
+      void goFirstResultByKeyword(keyword);
       return;
     }
 
     if (e.key === "Home") {
       e.preventDefault();
-      setActiveIndex(0);
+      const max = column === "left" ? lengths.left : lengths.right;
+      if (max > 0) setActiveIndex(toIndex(column, 0));
       return;
     }
 
     if (e.key === "End") {
       e.preventDefault();
-      setActiveIndex(totalLen - 1);
+      const max = column === "left" ? lengths.left : lengths.right;
+      if (max > 0) setActiveIndex(toIndex(column, max - 1));
       return;
     }
+  };
+
+  const goDetail = (item: MultiItem) => {
+    const type = item.media_type;
+    const id = item.id;
+
+    if (type === "movie") {
+      navigate(`/moviedetail/${type}/${id}`);
+    } else {
+      navigate(`/contentsdetail/${type}/${id}`);
+    }
+
+    onClose();
+  };
+
+  const goFirstResultByKeyword = async (q: string) => {
+    const trimmed = q.trim();
+    if (!trimmed) return;
+
+    // ✅ 최근 검색어 저장
+    addRecent(trimmed);
+
+    const { results: latest } = useSearchStore.getState();
+    if (latest.length === 0) {
+      await search(trimmed, 3);
+    }
+
+    const { results: refreshed } = useSearchStore.getState();
+    const first = refreshed[0];
+    if (!first) return;
+
+    goDetail(first);
   };
 
   return (
@@ -1081,20 +376,22 @@ const SearchOverlay = ({ onClose }: Props) => {
       aria-label="검색"
     >
       <div className="search-inner-wrap ">
-        <div className="close-bg" aria-label="검색창 닫기" onClick={onClose}>
+        <div className="close-bg" aria-label="검색창 닫기">
           <button
             type="button"
-            className="close-btn"
-            aria-label="닫기"
-            onClick={onClose}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
           >
             <img src="/images/button/btn-close.svg" alt="검색창 닫기 버튼" />
           </button>
         </div>
+
         <div className="search-inner">
           <SearchInputBar
             value={keyword}
-            onChange={setKeyword}
+            onChange={handleChangeKeyword}
             onSubmit={onSubmit}
             inputRef={inputRef}
             onMoveToList={onMoveToList}
@@ -1149,6 +446,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                 </div>
               </div>
             )}
+
             {/* typing panel: 결과/로딩/추천 */}
             {showTypingPanel && !error && (
               <SearchTypingPanel
@@ -1158,7 +456,10 @@ const SearchOverlay = ({ onClose }: Props) => {
                 recommendedKeywords={rightKeywords}
                 activeIndex={activeIndex}
                 setActiveIndex={setActiveIndex}
-                onSelectResult={(item) => onClickResult(item)}
+                onSelectResult={(item) => {
+                  addRecent(keyword);
+                  goDetail(item);
+                }}
                 onSelectKeyword={(k) => {
                   setKeyword(k);
                   addRecent(k);
@@ -1175,6 +476,7 @@ const SearchOverlay = ({ onClose }: Props) => {
                 clear();
                 setKeyword("");
                 setActiveIndex(-1);
+                setColumn("left");
                 inputRef.current?.focus();
               }}
             >

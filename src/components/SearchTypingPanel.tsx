@@ -68,11 +68,7 @@ const SearchTypingPanel = ({
     item.media_type === "movie" ? item.title ?? "" : item.name ?? "";
 
   const leftLen = results.length;
-  const rightLen = recommendedKeywords.length;
-
-  // index → “왼쪽/오른쪽” 판별
-  const isRight = (idx: number) => idx >= leftLen;
-  const rightIdx = (idx: number) => idx - leftLen;
+  const rightLen = Math.min(recommendedKeywords.length, 8);
 
   return (
     <div className="typing-panel">
@@ -129,7 +125,7 @@ const SearchTypingPanel = ({
             id="search-right-listbox"
             aria-label="추천 검색어 목록"
           >
-            {recommendedKeywords.slice(0, 8).map((k, i) => {
+            {recommendedKeywords.slice(0, rightLen).map((k, i) => {
               const globalIdx = leftLen + i; // 오른쪽은 왼쪽 길이만큼 offset
               const isActive = activeIndex === globalIdx;
 

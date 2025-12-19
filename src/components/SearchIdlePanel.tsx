@@ -40,8 +40,10 @@ const SearchIdlePanel = ({
   const recent = todos.slice(0, maxRecent);
   const trending = trendingKeywords.slice(0, maxTrending);
 
+  const recentLen = recent.length;
+
   const isRecentActive = (idx: number) => activeIndex === idx;
-  const isTrendingActive = (idx: number) => activeIndex === maxRecent + idx;
+  const isTrendingActive = (idx: number) => activeIndex === recentLen + idx;
 
   return (
     <div className="search-bottom">
@@ -65,7 +67,7 @@ const SearchIdlePanel = ({
             <ul
               className="latest-searches-list"
               role="listbox"
-              id="search-left-listbox"
+              id="idle-left-listbox"
             >
               {recent.map((t, i) => (
                 <li
@@ -115,7 +117,7 @@ const SearchIdlePanel = ({
         <ol
           className="popular-searches-list"
           role="listbox"
-          id="search-right-listbox"
+          id="idle-right-listbox"
           aria-label="실시간 인기 검색어 목록"
         >
           {trending.length === 0 ? (
@@ -133,7 +135,7 @@ const SearchIdlePanel = ({
                 <button
                   type="button"
                   tabIndex={-1}
-                  onMouseEnter={() => setActiveIndex(maxRecent + i)}
+                  onMouseEnter={() => setActiveIndex(recentLen + i)}
                   onClick={() => onSelectTrending(k)}
                 >
                   <span className="rank font-wave">{i + 1}</span>

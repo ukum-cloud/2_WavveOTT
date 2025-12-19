@@ -18,16 +18,14 @@
       inset: 0;
       background: transparent;
       z-index: 0;
-      border: 1px solid blue;
       display: flex;
       align-items: flex-start;
       justify-content: flex-end;
       padding: 0 240px;
 
-      .close-btn {
+      button {
         width: 40px;
         height: 40px;
-        border: 1px solid green;
         margin-top: 100px;
       }
     }
@@ -37,65 +35,9 @@
       z-index: 10;
       max-width: 1440px;
       margin: 100px auto 0;
-      border: 1px solid red;
-      height: 604px;
 
       .search-body {
-        .idle-panel {
-          .hint,
-          .sub-hint {
-            font-size: 18px;
-            color: #fff;
-          }
-        }
-
-        .loading-panel {
-          p {
-            font-size: 18px;
-            color: #fff;
-          }
-        }
-
-        .error-panel {
-          p {
-            font-size: 18px;
-            color: #fff;
-          }
-
-          .error-actions {
-            button {
-              color: #fff;
-            }
-          }
-        }
-
-        .empty-panel {
-          p {
-            color: #fff;
-          }
-        }
-
-        .result-list {
-          li {
-            .preview-item {
-              .badge {
-                font-size: 18px;
-                color: #fff;
-              }
-
-              .title {
-                color: #fff;
-              }
-            }
-            .preview-item.is-active {
-              .badge,
-              .title {
-                font-weight: 700;
-                color: blue;
-              }
-            }
-          }
-        }
+        margin-top: 50px;
       }
     }
   }
