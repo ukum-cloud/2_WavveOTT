@@ -1,25 +1,7 @@
 @use "../../App.scss" as g;
 .watch-list-container {
   overflow: hidden;
-  &.empty-state {
-    @include g.myFlexCol($gap: 16px);
-    align-items: center;
-    justify-content: center;
-    min-height: 346px;
-    padding: 129px 625px;
-    background: g.$color-secondary-dark1;
-    border-radius: 12px;
-    > .empty-message {
-      padding-top: 66px;
-      color: #adb0be;
-      text-align: center;
-      line-height: 140%;
-      letter-spacing: -0.16px;
-      background-image: url(/images/icons/icon-info.svg);
-      background-position: top center;
-      background-repeat: no-repeat;
-    }
-  }
+
   .watch-item {
     @include g.myFlex($gap: 24px, $jc: flex-start, $ai: flex-start);
     overflow: hidden;

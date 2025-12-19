@@ -1,18 +1,20 @@
+@use "../../App.scss" as g;
 .emptyWrap {
-  background: #0d0f16;
-  height: 346px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  @include g.myFlexCol($gap: 16px);
   align-items: center;
   justify-content: center;
+  min-height: 346px;
+  background: g.$color-secondary-dark1;
+  border-radius: 12px;
   .emptyIcon {
     width: 50px;
     height: 50px;
     animation: upDown 0.8s ease-in-out infinite alternate;
   }
   .title {
-    color: #adb0be;
+    color: g.$color-font-grey3;
+    line-height: 140%;
+    letter-spacing: -0.16px;
   }
 }
 

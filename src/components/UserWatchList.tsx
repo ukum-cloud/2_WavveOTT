@@ -14,6 +14,7 @@ import {
 import "./scss/UserWatchList.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
+import EmptyList from "./EmptyList";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -89,11 +90,10 @@ const UserWatchList = () => {
     return { fullDate: `${year}.${month}.${day}`, week: `(${week})` };
   };
 
-  // [수정된 부분] 데이터가 없을 경우 p태그 문구 노출
   if (isLoaded && watchHistoryCache.length === 0) {
     return (
-      <div className="watch-list-container empty-state">
-        <p className="empty-message">시청중인 데이터가 없습니다.</p>
+      <div className="watch-list-container">
+        <EmptyList title="시청중인 데이터가 없습니다." />
       </div>
     );
   }

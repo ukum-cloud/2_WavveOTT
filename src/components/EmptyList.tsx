@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./scss/EmptyList.module.scss";
 
 const EmptyList = ({ title }: { title: string }) => {

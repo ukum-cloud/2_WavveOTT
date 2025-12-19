@@ -2,6 +2,7 @@ import React from "react";
 import MovieVisual from "../components/MovieVisual";
 import EditorRecommendCardList from "../components/EditorRecommendCardList";
 import { useMovieStore } from "../stores/useMovieStore";
+import RankingCardList from "../components/RankingCardList";
 
 const Movie: React.FC = () => {
   const { popularMovies } = useMovieStore();
@@ -13,8 +14,11 @@ const Movie: React.FC = () => {
 
       <div className="inner">
         <section className="card-list">
-          <h2>영화 실시간 TOP 10</h2>
-          <div>내용</div>
+          <RankingCardList
+            RankingData={popularMovies}
+            title="영화 실시간 TOP 10"
+            limit={10}
+          />
         </section>
         <section className="card-list">
           <h2>지금 주목받는 영화</h2>
