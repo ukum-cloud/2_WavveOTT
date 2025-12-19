@@ -2,7 +2,7 @@ export interface Pick {
   contentId?: number;
   updateAt?: number;
   id?: number;
-  tmdb_id?: number;
+  tmdb_id?: number | null;
 
   main_img?: string;
   poster_path?: string;
@@ -31,6 +31,8 @@ export interface Pick {
 
   genretext?: string;
   genre_ids?: number[];
+
+  videos?: Video[];
 }
 
 export interface PickState {
@@ -41,4 +43,10 @@ export interface PickState {
   closePickModal: () => void;
   onTogglePick: (item: Pick) => Promise<void>;
   onFetchPick: () => Promise<void>;
+}
+
+export interface Video {
+  type: string;
+  site: string;
+  key: string;
 }
