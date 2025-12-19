@@ -791,80 +791,293 @@
 // export default SearchOverlay;
 //store/useSearchStore
 //components/SearchOverlay
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 // import { useSearchParams } from 'react-router-dom'
 // import SearchInputBar from './SearchInputBar'
-import { searchMulti } from "../api/tmdb";
+// import { searchMulti } from "../api/tmdb";
 import { useSearchStore } from "../stores/useSearchStore";
 import { useNavigate } from "react-router-dom";
 
-const SearchOverlay = () => {
+type MultiItem = {
+  id: number;
+  media_type: "movie" | "tv" | "person" | string;
+  title?: string;
+  name?: string;
+  popularity?: number;
+};
+
+interface Props {
+  onClose: () => void;
+}
+
+const SearchOverlay = ({ onClose }: Props) => {
   const navigate = useNavigate();
+
   //입력 상태 (UI 전용)
   const [keyword, setKeyword] = useState("");
+
+  // 키보드 네비게이션 상태
+  const [activeIndex, setActiveIndex] = useState(-1);
+
   //검색 상태 & 액션 (Zustand)
-  const { results, search } = useSearchStore();
+  const { results, search, loading, error, hasSearched, clear } =
+    useSearchStore();
 
-  const onSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
-    const trimmed = keyword.trim();
-    if (!trimmed) return;
-
-    await search(trimmed);
+  // 결과 라벨(표시용) 만들기
+  const getLabel = (item: MultiItem) => {
+    if (item.media_type === "movie") return item.title ?? "";
+    return item.name ?? "";
   };
 
-  const onClickResult = (item: any) => {
-    //결과 클릭 시 상세 페이지 이동
-    navigate(`/contentsdetail/${item.media_type}/${item.id}`);
+  const getBadge = (type: string) => {
+    if (type === "movie") return "영화";
+    if (type === "tv") return "시리즈";
+    if (type === "person") return "인물";
+    return type;
+  };
+
+  // (선택) 결과를 최대 N개만 보여주고 싶으면 여기서 slice
+  const visibleResults = useMemo(() => results.slice(0, 10), [results]);
+
+  // 검색 실행(Enter 또는 버튼)
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await search(keyword, 3); // 최대 3페이지 (원하면 2~5로 조절)
+  };
+
+  // 화면 분기 플래그
+  const showIdle = !hasSearched;
+  const showLoading = hasSearched && loading;
+  const showError = hasSearched && !loading && !!error;
+  const showEmpty = hasSearched && !loading && !error && results.length === 0;
+  const showResults = hasSearched && !loading && !error && results.length > 0;
+
+  // listbox/option id (aria-activedescendant용)
+  const listboxId = "search-listbox";
+  const optionId = (idx: number) => `search-option-${idx}`;
+  const activeDescendantId =
+    showResults && activeIndex >= 0 ? optionId(activeIndex) : undefined;
+
+  // const onSearch = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   search(keyword, 3);
+
+  //   const trimmed = keyword.trim();
+  //   if (!trimmed) return;
+
+  //   await search(trimmed);
+  // };
+
+  const onClickResult = (item: MultiItem) => {
+    if (item.media_type === "movie") {
+      navigate(`/moviedetail/movie/${item.id}`);
+    } else {
+      navigate(`/contentsdetail/${item.media_type}/${item.id}`);
+    }
+    onClose();
+  };
+
+  // 결과가 새로 갱신되면(새 검색) 첫 항목을 활성화
+  useEffect(() => {
+    if (showResults) {
+      setActiveIndex(visibleResults.length > 0 ? 0 : -1);
+    } else {
+      setActiveIndex(-1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showResults, visibleResults.length]);
+
+  // 입력이 비면 검색 상태 초기화 + activeIndex 초기화
+  useEffect(() => {
+    if (keyword.trim().length === 0 && hasSearched) {
+      clear();
+      setActiveIndex(-1);
+    }
+  }, [keyword, hasSearched, clear]);
+
+  // 키보드 네비게이션
+  const moveActive = (delta: number) => {
+    const len = visibleResults.length;
+    if (!showResults || len === 0) return;
+
+    setActiveIndex((prev) => {
+      const base = prev < 0 ? 0 : prev;
+      const next = (base + delta + len) % len; // 위/아래 순환
+      return next;
+    });
+  };
+
+  const selectActive = () => {
+    if (!showResults) return;
+    if (activeIndex < 0 || activeIndex >= visibleResults.length) return;
+    onClickResult(visibleResults[activeIndex] as any);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 닫기
+    if (e.key === "Escape") {
+      e.preventDefault();
+      onClose();
+      return;
+    }
+
+    if (!showResults || visibleResults.length === 0) {
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault(); // 커서 이동 방지
+      moveActive(+1);
+      return;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      moveActive(-1);
+      return;
+    }
+
+    if (e.key === "Tab") {
+      e.preventDefault();
+      if (e.shiftKey) moveActive(-1);
+      else moveActive(+1);
+      return;
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (activeIndex < 0 && visibleResults.length > 0) {
+        setActiveIndex(0);
+        onClickResult(visibleResults[0] as any);
+        return;
+      }
+
+      selectActive();
+      return;
+    }
   };
 
   return (
-    <div className="search-popup">
+    <div
+      className="search-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-label="검색"
+    >
       <div className="search-inner-wrap ">
-        <div className="close-bg" aria-label="닫기"></div>
+        {/* <div className="close-bg" aria-label="닫기"></div> */}
+        {/* 배경 클릭 닫기 */}
+        <button
+          type="button"
+          className="close-bg"
+          aria-label="닫기"
+          onClick={onClose}
+        />
         {/* <SearchInputBar value={keyword}
           onChange={setKeyword} />
         2435345 */}
         <div className="search-inner">
-          <form onSubmit={onSearch}>
+          {/* 🔍 입력 */}
+          <form className="keyboard-top" onSubmit={onSubmit} role="search">
             <input
+              ref={inputRef}
               type="text"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={onKeyDown}
               placeholder="장르, 제목, 배우로 검색해보세요."
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={showResults}
+              aria-controls={listboxId}
+              aria-activedescendant={activeDescendantId}
             />
-            <button type="submit" onClick={onSearch}>
+            <button type="submit" aria-label="검색">
               검색
             </button>
           </form>
 
-          <ul className="result-list">
-            {/* {results.map((item) => (
-              <li key={`${item.id}`}>
-                {item.media_type === "movie" && `${item.title}`}
-                {item.media_type === "tv" && `${item.name}`}
-                {item.media_type === "person" && `${item.name}`}
-              </li>
-            ))} */}
-            {results.map((item: any) => {
-              const label =
-                item.media_type === "movie" ? item.title : item.name;
+          {/* 상태 분기 UI */}
+          <div className="search-body">
+            {/* 1) 검색 전(Idle) */}
+            {showIdle && (
+              <div className="idle-panel">
+                <p className="hint">검색어를 입력하면 결과가 표시됩니다.</p>
+                <p className="sub-hint">예: “킹덤”, “아이유”, “해리포터”</p>
+              </div>
+            )}
 
-              return (
-                <li key={`${item.media_type}-${item.id}`}>
-                  <button type="button" onClick={() => onClickResult(item)}>
-                    <span className="badge">
-                      {item.media_type === "movie" && "영화"}
-                      {item.media_type === "tv" && "시리즈"}
-                      {item.media_type === "person" && "인물"}
-                    </span>
-                    <span className="title">{label}</span>
+            {/* 2) 로딩 */}
+            {showLoading && (
+              <div className="loading-panel" role="status" aria-live="polite">
+                <p>검색 중...</p>
+              </div>
+            )}
+
+            {/* 3) 에러 */}
+            {showError && (
+              <div className="error-panel" role="alert">
+                <p>오류가 발생했습니다.</p>
+                <p className="error-msg">{error}</p>
+
+                <div className="error-actions">
+                  <button type="button" onClick={() => search(keyword, 3)}>
+                    다시 시도
                   </button>
-                </li>
-              );
-            })}
-          </ul>
+                  <button type="button" onClick={clear}>
+                    초기화
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {showEmpty && (
+              <div className="empty-panel">
+                <p>검색 결과가 없습니다.</p>
+                <p className="sub-hint">다른 키워드로 검색해보세요.</p>
+              </div>
+            )}
+
+            {/* 5) 결과 리스트 */}
+            {showResults && (
+              <ul className="result-list" id={listboxId} role="listbox">
+                {visibleResults.map((item: any, idx: number) => {
+                  const label = getLabel(item);
+                  const isActive = idx === activeIndex;
+
+                  return (
+                    <li
+                      key={`${item.media_type}-${item.id}`}
+                      id={optionId(idx)}
+                      role="option"
+                      aria-selected={isActive}
+                    >
+                      <button
+                        type="button"
+                        className={`preview-item ${
+                          isActive ? "is-active" : ""
+                        }`}
+                        onClick={() => onClickResult(item)}
+                        // 버튼 자체는 포커스 안 옮기고, input이 계속 포커스 유지하는 설계
+                        tabIndex={-1}
+                      >
+                        <span className="badge">
+                          {getBadge(item.media_type)}
+                        </span>
+                        <span className="title">{label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </div>

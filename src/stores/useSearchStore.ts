@@ -354,7 +354,7 @@
 // );
 //store/useSearchStore
 import { create } from "zustand";
-import { searchMulti } from "../api/tmdb";
+import { searchMulti, searchMultiPaged } from "../api/tmdb";
 
 // TMDB multi 검색 결과에서 우리가 쓰는 최초 필드 타입
 type MultiItem = {
@@ -367,21 +367,20 @@ type MultiItem = {
 
 interface SearchStore {
   results: MultiItem[];
-  search: (keyword: string) => Promise<void>;
+  loading: boolean;
+  error: string | null;
+  hasSearched: boolean;
+
+  search: (keyword: string, maxPages?: number) => Promise<void>;
+  clear: () => void;
 }
 
-const normalize = (s: string) =>
-  s
-    .toLowerCase()
-    .trim()
-    // 공백 여러 개를 1개로
-    .replace(/\s+/g, " ");
+const normalize = (s: string) => s.toLowerCase().trim().replace(/\s+/g, " ");
 
-const getLabel = (item: MultiItem) => {
-  if (item.media_type === "movie") return item.title ?? "";
-  return item.name ?? "";
-};
+const getLabel = (item: MultiItem) =>
+  item.media_type === "movie" ? item.title ?? "" : item.name ?? "";
 
+// 이 함수는 **“이 결과가 검색어와 얼마나 잘 맞는가?”**를 숫자 점수로 환산합니다.
 const scoreMatch = (label: string, keyword: string) => {
   const l = normalize(label);
   const k = normalize(keyword);
@@ -394,14 +393,77 @@ const scoreMatch = (label: string, keyword: string) => {
   return 3;
 };
 
+const dedupeByTypeAndId = (items: MultiItem[]) => {
+  const seen = new Set<string>();
+  const out: MultiItem[] = [];
+  for (const it of items) {
+    const key = `${it.media_type}-${it.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(it);
+  }
+  return out;
+};
+
 export const useSearchStore = create<SearchStore>((set) => ({
   results: [],
+  loading: false,
+  error: null,
+  hasSearched: false,
 
-  search: async (keyword) => {
-    const trimmed = await keyword.trim();
+  clear: () =>
+    set({
+      results: [],
+      loading: false,
+      error: null,
+      hasSearched: false,
+    }),
+
+  search: async (keyword, maxPages = 3) => {
+    const trimmed = keyword.trim();
+
+    // 검색을 시도했다는 표시(Idle vs Results 분기용)
+    set({ hasSearched: true, error: null });
+
     if (!trimmed) {
-      set({ results: [] });
+      set({ results: [], loading: false });
       return;
+    }
+
+    // 로딩 시작
+    set({ loading: true, error: null });
+
+    try {
+      //1) 여러 페이지 가져오기 (예: 최대 3페이지)
+      const data = await searchMultiPaged(trimmed, maxPages);
+
+      //2) 중복 제거
+      const unique = dedupeByTypeAndId(data);
+
+      //3) 안정 정렬을 위해 원래 순서 index 보존
+      const sorted = unique
+        .map((item, idx) => ({ item, idx }))
+        .sort((a, b) => {
+          const aScore = scoreMatch(getLabel(a.item), trimmed);
+          const bScore = scoreMatch(getLabel(b.item), trimmed);
+          if (aScore !== bScore) return aScore - bScore;
+
+          // 동점이면 popularity 높은 것 먼저 (없으면 0)
+          const ap = a.item.popularity ?? 0;
+          const bp = b.item.popularity ?? 0;
+          if (bp !== ap) return bp - ap;
+
+          // 그래도 동점이면 원래 순서 유지(안정성)
+          return a.idx - b.idx;
+        })
+        .map((x) => x.item);
+
+      //4) 결과 저장
+      set({ results: sorted, loading: false });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "검색 중 오류가 발생했습니다.";
+      set({ error: message, loading: false, results: [] });
     }
   },
 }));
