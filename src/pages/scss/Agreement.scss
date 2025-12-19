@@ -10,6 +10,8 @@
             color: white;
             font-family: 'Wave', sans-serif;
             font-size: 18px;
+            border-bottom: 4px solid transparent;
+            transition: all 0.2s ease;
         }
 
         .active {
@@ -17,7 +19,7 @@
         }
     }
     .agree-menu-line {
-        border-bottom: 1px solid g.$color-other3;
+        border-bottom: 1px solid g.$color-secondary-dark3;
         margin: 0 0 26px 0;
     }
 

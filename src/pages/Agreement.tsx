@@ -6,7 +6,11 @@ import AgreementPrivacy from '../components/AgreementPrivacy';
 import AgreementWavveon from '../components/AgreementWavveon';
 
 const Agreement = () => {
-    const [activeMenu, setActiveMenu] = useState('service');
+    // const [activeMenu, setActiveMenu] = useState('service');
+    const params = new URLSearchParams(window.location.search);
+    const initialTab = params.get('tab') || 'service';
+
+    const [activeMenu, setActiveMenu] = useState(initialTab);
     return (
         <div className="agreement">
             <div className="agree-menu-wrap">
