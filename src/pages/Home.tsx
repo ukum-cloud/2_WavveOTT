@@ -86,7 +86,7 @@ const Home = () => {
         <RankingCardList title={"실시간 TOP 20"} RankingData={popularMovies} />
         <WavveList title="오직 웨이브에서만" wavves={wavves} />
         <div className="banner-event">
-          <Link to={"/event/1"}>
+          <Link to={"/event-group"}>
             <img
               src="/images/banner/banner-main-event.png"
               alt="banner event"

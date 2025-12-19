@@ -35,7 +35,7 @@ const Movie: React.FC = () => {
 
     const currentMonth = new Date().getMonth() + 1;
 
-    // 1. [신작] 필터링 - any 제거
+    // 1. [신작]
     const recentOneMonthMovies = useMemo(() => {
         if (!newMovies || newMovies.length === 0) return [];
         const today = new Date();
@@ -49,7 +49,7 @@ const Movie: React.FC = () => {
         });
     }, [newMovies]);
 
-    // 2. [WavveList용] 매핑 - any 제거 및 certification 대응
+    // 2. [WavveList용]
     const formattedTopRated = useMemo((): OnlyWavve[] => {
         if (!topRatedMovies.length) return [];
         return topRatedMovies.slice(0, 10).map((m: MovieWithLogo) => ({
@@ -60,7 +60,7 @@ const Movie: React.FC = () => {
         })) as unknown as OnlyWavve[];
     }, [topRatedMovies]);
 
-    // 3. [PrimaryList용] 매핑 - any 제거 및 certification 대응
+    // 3. [PrimaryList용]
     const safeRandomList = useMemo((): PrimaryItem[] => {
         if (!topRatedMovies.length) return [];
 

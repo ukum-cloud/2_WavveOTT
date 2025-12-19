@@ -13,7 +13,7 @@ class Blob {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
 
-    // [수정] 볼 사이즈를 기존 대비 1.2배 상향 조정 (약 145 ~ 360)
+    // 볼 사이즈를 기존 대비 1.2배 상향 조정 (약 145 ~ 360)
     this.radius = (Math.random() * 180 + 120) * 1.2;
 
     // 역동적인 움직임을 위한 속도 설정
@@ -132,6 +132,7 @@ const MovieVisual: React.FC = () => {
         alt=""
         style={{
           width: "100%",
+          maxHeight:'680px',
           height: "auto",
           display: "block",
           opacity: 0.4,
