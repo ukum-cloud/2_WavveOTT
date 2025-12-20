@@ -6,6 +6,7 @@ export interface Wavves {
   series_title: string;
   series_refer_id: string;
   content_refer_id: string;
+  program_refer_id?: string;
   channelname: string;
   genretext: string;
   programtitle: string;
@@ -29,4 +30,5 @@ export interface Wavves {
   tmdb_id: number | null;
   tmdb_search_status: string;
   episodes?: Episodes[];
+  youtube_key?: string;
 }
