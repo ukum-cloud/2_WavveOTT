@@ -1,0 +1,375 @@
+@use '../../App.scss' as g;
+
+.sub-drama-main {
+  @include g.myFlexCol($gap: 80px);
+  overflow-x: hidden;
+
+  .card-list {
+    position: relative;
+
+    .title-wrap {
+      @include g.myFlex();
+    }
+
+    .swiper {
+      position: relative;
+      overflow: visible;
+      width: 100%;
+
+      .swiper-wrapper {
+        overflow: visible;
+
+        .swiper-slide {
+          overflow: visible;
+          width: auto;
+          z-index: 1;
+
+          &:hover { z-index: 30; }
+
+          .drama-card {
+            width: 220px; // 카드 폭(원하는 값으로)
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            img {
+              width: 100%;
+              display: block;
+              border-radius: 12px;
+            }
+            .title {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .hidden {
+            display: none;
+          }
+
+          .prev-wrap,
+          .next-wrap {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+          }
+
+          .prev-wrap { left: 0; }
+          .next-wrap { right: 0; }
+
+
+          .poster-wrap {
+            position: relative;
+            width: 220px;
+            height: 320px;
+            border-radius: 12px;
+            overflow: visible;
+            z-index: 1;
+
+            .main {
+              position: absolute;
+              inset: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 12px;
+              transition: opacity 1s ease;
+            }
+
+            &::after { content: none; }
+
+            &.badge-wavve::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: 44px;
+              height: 44px;
+              background-image: url('/images/badge/badge-wavve-logo.svg');
+            }
+
+            &.badge-new::after {
+              content: '';
+              position: absolute;
+              top: 10px;
+              left: 10px;
+              width: 44px;
+              height: 44px;
+              background: url('/images/badge/badge-new.svg') no-repeat;
+            }
+
+            .preview-wrap {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%) translateY(-20px);
+              width: 464px;
+              height: auto;
+              min-height: 464px;
+              opacity: 0;
+              pointer-events: none;
+
+              @include g.myFlex($jc: unset, $gap: 1.4rem);
+              flex-direction: column;
+
+              padding: 0 30px;
+              background: black;
+              border: 1px solid #1d2131;
+              border-radius: 12px;
+              box-shadow: 0 0 40px 3px #0f1f42;
+
+              transition: opacity 0.4s ease, transform 0.4s ease;
+
+              .img-box {
+                position: relative;
+                width: 464px;
+                height: 300px;
+                overflow: hidden;
+                border-radius: 12px;
+
+                > img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  border: none;
+                }
+
+                > iframe {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  width: 100%;
+                  height: 100%;
+                  border: none;
+                }
+
+                .logo-box {
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100px;
+                  padding: 0 30px;
+                  @include g.myFlex();
+
+                  .content-logo {
+                    display: inline-block;
+                    height: 70%;
+                    object-fit: contain;
+                  }
+
+                  .sound-icon {
+                    display: inline-block;
+                    width: 48px;
+                    height: 48px;
+                  }
+                }
+              }
+
+              .preview-badge-top {
+                width: 100%;
+                @include g.myFlex($jc: unset, $gap: 1.2rem);
+                font-family: 'Wave';
+                font-size: 18px;
+                font-weight: 400;
+
+                .preview-genre::after {
+                  content: '';
+                  display: inline-block;
+                  width: 1px;
+                  height: 10px;
+                  background: url('/images/icons/icon-line.svg');
+                  margin: 0 0 0 1.2rem;
+                }
+              }
+
+              .preview-badge-bottom {
+                width: 100%;
+                margin-bottom: 10px;
+                @include g.myFlex($gap: 0.4rem);
+
+                .preview-btn-wrap {
+                  @include g.myFlex($gap: 1.2rem);
+
+                  .preview-play-btn {
+                    width: 56px;
+                    height: 56px;
+                    background: url('/images/icons/icon-play-default.svg') no-repeat center center;
+                    background-size: contain;
+
+                    &:hover {
+                      background: url('/images/icons/icon-play-hover.svg') no-repeat center center;
+                      background-size: contain;
+                    }
+                  }
+
+                  .preview-heart-btn {
+                    width: 56px;
+                    height: 56px;
+                    background: url('/images/icons/icon-heart-default.svg') no-repeat center center;
+                    background-size: contain;
+
+                    &:hover {
+                      background: url('/images/icons/icon-heart-hover.svg') no-repeat center;
+                      background-size: contain;
+                    }
+
+                    &.active {
+                      background: url('/images/icons/icon-heart-active.svg') no-repeat center;
+                      background-size: contain;
+                    }
+                  }
+                }
+
+                a {
+                  width: 56px;
+                  height: 56px;
+                  background: url('/images/icons/icon-detail-default.svg') no-repeat center center;
+                  background-size: contain;
+
+                  &:hover {
+                    background: url('/images/icons/icon-detail-hover.svg') no-repeat center;
+                    background-size: contain;
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              z-index: 20;
+
+              &::after { opacity: 0; }
+
+              .main { opacity: 0; }
+
+              .preview-wrap {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(-20px);
+                transition-delay: 0.3s;
+                pointer-events: auto;
+              }
+            }
+          }
+        }
+
+        .swiper-slide-active {
+          .poster-wrap {
+            .preview-wrap {
+              left: 0;
+              transform: translate(0, -50%);
+            }
+            &:hover .preview-wrap { transform: translate(0, -50%); }
+          }
+        }
+
+        .swiper-slide-visible:not(.swiper-slide-fully-visible) {
+          .poster-wrap {
+            .preview-wrap {
+              left: auto;
+              right: 0;
+              transform: translate(0, -50%);
+            }
+            &:hover .preview-wrap {
+              right: 0;
+              transform: translate(0, -50%);
+            }
+          }
+        }
+
+        .swiper-slide:last-child {
+          .poster-wrap {
+            .preview-wrap {
+              left: auto;
+              right: 0;
+              transform: translate(0, -50%);
+            }
+            &:hover .preview-wrap {
+              right: 0;
+              transform: translate(0, -50%);
+            }
+          }
+        }
+      }
+
+      .prev-wrap {
+        position: absolute;
+        width: 240px;
+        height: 320px;
+        top: 0;
+        left: -240px;
+        z-index: 100;
+        background: rgba(#000, 0.7);
+        border-radius: 12px;
+      }
+
+      .next-wrap {
+        position: absolute;
+        width: 234px;
+        height: 320px;
+        top: 0;
+        right: -240px;
+        z-index: 100;
+        background: rgba(#000, 0.7);
+        border-radius: 12px;
+      }
+
+      .swiper-button-prev {
+        position: absolute;
+        left: 80%;
+        transform: translateX(-50%);
+        color: g.$color-secondary-white;
+      }
+
+      .swiper-button-next {
+        position: absolute;
+        right: 80%;
+        transform: translateX(50%);
+        color: g.$color-secondary-white;
+      }
+
+      .hidden { opacity: 0; pointer-events: none; }
+      .visible { opacity: 1; }
+    }
+  }
+
+  .rec-section {
+    max-width: 100%;
+    margin: 0 auto;
+
+    h2 {
+      padding: 0 20px;
+      min-width: 1440px;
+      max-width: 1720px;
+      margin: 0 auto 30px;
+    }
+  .swiper-top,
+  .swiper-bot {
+    width: calc(3 * 33%);
+
+    .marquee-item {
+      min-width: 400px;
+      margin-right: 20px;
+      a {
+        position: relative;
+        overflow: hidden;
+        .R-b-poster {
+          border-radius: 12px;
+        }
+        .R-b-logo {
+          width: 150px;
+          height: auto;
+          object-fit: contain;
+          position: absolute;
+          z-index: 3;
+          left: 10%;
+          bottom: -500%;
+        }
+      }
+    }
+  }
+}
+
+}
