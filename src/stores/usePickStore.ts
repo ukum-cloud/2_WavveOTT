@@ -13,7 +13,7 @@ export const usePickStore = create<PickState>((set, get) => ({
   closePickModal: () => set({ isPickModalOpen: false }),
 
   onTogglePick: async (item) => {
-    const rawId = item.id ?? item.tmdb_id;
+    const rawId = item.contentId ?? item.tmdb_id ?? item.id;
     const contentId = Number(rawId);
 
     const { user, selectedCharId } = useAuthStore.getState();
@@ -38,15 +38,21 @@ export const usePickStore = create<PickState>((set, get) => ({
       String(contentId)
     );
 
-    const exists = get().pickList.some((w) => w.contentId === contentId);
+    const exists = get().pickList.some(
+      (w) => Number(w.contentId ?? w.tmdb_id ?? w.id) === contentId
+    );
 
     if (exists) {
       await deleteDoc(ref);
+
       set((state) => ({
-        pickList: state.pickList.filter((w) => w.contentId !== contentId),
+        pickList: state.pickList.filter(
+          (w) => Number(w.contentId ?? w.tmdb_id ?? w.id) !== contentId
+        ),
         isPickModalOpen: true,
         pickAction: "remove",
       }));
+
       return;
     }
 
@@ -72,7 +78,9 @@ export const usePickStore = create<PickState>((set, get) => ({
     const snap = await getDocs(
       collection(db, "users", user.uid, "profiles", String(selectedCharId), "pickList")
     );
-    const data = snap.docs.map((doc) => doc.data());
+
+    const data = snap.docs.map((doc) => doc.data() as Pick);
+
     set({ pickList: data });
   },
 }));
