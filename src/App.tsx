@@ -38,6 +38,7 @@ import { usePickStore } from "./stores/usePickStore";
 import { useEffect } from "react";
 import EventGroup from "./pages/EventGroup";
 import EventWinner from "./pages/EventWinner";
+import MovieDetailEX from "./pages/MovieDetailEX";
 
 function App() {
   const location = useLocation(); // 현재 경로 정보 가져오기
@@ -85,6 +86,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
         <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
+        <Route path="/moviedetailEX/:type/:id" element={<MovieDetailEX />} />
         <Route path="/player/:videoKey" element={<Player />} />
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/payment" element={<Payment />} />

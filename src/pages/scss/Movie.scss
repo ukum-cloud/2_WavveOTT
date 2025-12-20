@@ -4,7 +4,12 @@
     @include g.myFlexCol($gap: 60px);
     overflow-x: hidden;
 
+    &.inner {
+        @include g.myFlexCol($gap: 60px);
+    }
+
     .card-list {
+
         // 타이틀
         .title-wrap {
             @include g.myFlex();
@@ -104,14 +109,14 @@
                                 overflow: hidden;
                                 border-radius: 12px;
 
-                                > img {
+                                >img {
                                     width: 100%;
                                     height: 100%;
                                     object-fit: cover;
                                     border: none;
                                 }
 
-                                > iframe {
+                                >iframe {
                                     position: absolute;
                                     top: 50%;
                                     left: 50%;
@@ -152,6 +157,7 @@
                                 font-family: 'Wave';
                                 font-size: 18px;
                                 font-weight: 400;
+
                                 .preview-genre::after {
                                     content: '';
                                     display: inline-block;
@@ -173,42 +179,41 @@
                                     .preview-play-btn {
                                         width: 56px;
                                         height: 56px;
-                                        background: url('/images/icons/icon-play-default.svg')
-                                            no-repeat center center;
+                                        background: url('/images/icons/icon-play-default.svg') no-repeat center center;
                                         background-size: contain;
+
                                         &:hover {
-                                            background: url('/images/icons/icon-play-hover.svg')
-                                                no-repeat center center;
+                                            background: url('/images/icons/icon-play-hover.svg') no-repeat center center;
                                             background-size: contain;
                                         }
                                     }
+
                                     .preview-heart-btn {
                                         width: 56px;
                                         height: 56px;
-                                        background: url('/images/icons/icon-heart-default.svg')
-                                            no-repeat center center;
+                                        background: url('/images/icons/icon-heart-default.svg') no-repeat center center;
                                         background-size: contain;
+
                                         &:hover {
-                                            background: url('/images/icons/icon-heart-hover.svg')
-                                                no-repeat center;
+                                            background: url('/images/icons/icon-heart-hover.svg') no-repeat center;
                                             background-size: contain;
                                         }
+
                                         &.active {
-                                            background: url('/images/icons/icon-heart-active.svg')
-                                                no-repeat center;
+                                            background: url('/images/icons/icon-heart-active.svg') no-repeat center;
                                             background-size: contain;
                                         }
                                     }
                                 }
+
                                 a {
                                     width: 56px;
                                     height: 56px;
-                                    background: url('/images/icons/icon-detail-default.svg')
-                                        no-repeat center center;
+                                    background: url('/images/icons/icon-detail-default.svg') no-repeat center center;
                                     background-size: contain;
+
                                     &:hover {
-                                        background: url('/images/icons/icon-detail-hover.svg')
-                                            no-repeat center;
+                                        background: url('/images/icons/icon-detail-hover.svg') no-repeat center;
                                         background-size: contain;
                                     }
                                 }
@@ -294,6 +299,7 @@
                 background: rgba($color: #000000, $alpha: 0.7);
                 border-radius: 12px;
             }
+
             .next-wrap {
                 position: absolute;
                 width: 234px;
