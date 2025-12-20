@@ -274,12 +274,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
                     </div>
                     <div className="modal-footer">
                         <button
-                            className="btn default secondary-line"
+                            className="btn small secondary-line"
                             onClick={() => setIsModalOpen(false)}
                         >
                             취소
                         </button>
-                        <button className="btn default primary" onClick={handleConfirmExit}>
+                        <button className="btn small primary" onClick={handleConfirmExit}>
                             닫기
                         </button>
                     </div>
