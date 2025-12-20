@@ -36,12 +36,12 @@ const MovieDetailEX = () => {
   const [modalSize, setModalSize] = useState<"xsmall" | "small" | "default" | "large">("default");
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // ✨ 영화 상세 데이터를 저장할 state
+  // 영화 상세 데이터를 저장할 state
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [popularMovies, setPopularMovies] = useState<any[]>([]);
 
-  // ✨ 영화 상세 정보 가져오기
+  // 영화 상세 정보 가져오기
   useEffect(() => {
     const fetchMovieDetail = async () => {
       if (!id || type !== "movie") return;
@@ -49,7 +49,7 @@ const MovieDetailEX = () => {
       setIsLoading(true);
       
       try {
-        console.log(`🎬 영화 ID ${id} 상세 정보 가져오는 중...`);
+        console.log(`영화 ID ${id} 상세 정보 가져오는 중`);
         
         // 1. 영화 기본 정보
         const movieRes = await fetch(
@@ -121,7 +121,7 @@ const MovieDetailEX = () => {
         setPopularMovies(popularData.results || []);
         
       } catch (error) {
-        console.error("❌ 영화 상세 정보 가져오기 실패:", error);
+        console.error("영화 상세 정보 가져오기 실패:", error);
       } finally {
         setIsLoading(false);
       }
@@ -158,7 +158,7 @@ const MovieDetailEX = () => {
   if (!selectedContent) {
     return (
       <div className="loading-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff' }}>
-        <p>❌ 콘텐츠를 찾을 수 없습니다.</p>
+        <p>콘텐츠를 찾을 수 없습니다.</p>
       </div>
     );
   }
@@ -197,7 +197,7 @@ const MovieDetailEX = () => {
           0
         );
       } catch (error) {
-        console.error("❌ 저장 실패:", error);
+        console.error("저장 실패:", error);
       }
     }
     setIsWatched(true);
