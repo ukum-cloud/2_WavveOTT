@@ -1,5 +1,8 @@
 import { create } from 'zustand';
-import type { Episodes, Tv, TvState, Video, CreditPerson, Logo } from '../types/movie';
+
+import { fetchTvVideos } from '../utils/fetchVideoslang';
+
+import type { Episodes, Tv, TvState, CreditPerson, Logo } from '../types/movie';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -28,11 +31,7 @@ export const useTvStore = create<TvState>((set) => ({
 
         const tvsWithExtra: Tv[] = await Promise.all(
             latestTvList.map(async (tv) => {
-                const videoRes = await fetch(
-                    `https://api.themoviedb.org/3/tv/${tv.id}/videos?api_key=${API_KEY}&language=ko-KR`
-                );
-                const videoData = await videoRes.json();
-                const videos: Video[] = videoData.results || [];
+                const videos = await fetchTvVideos(tv.id);
 
                 const ratingRes = await fetch(
                     `https://api.themoviedb.org/3/tv/${tv.id}/content_ratings?api_key=${API_KEY}`
@@ -56,7 +55,14 @@ export const useTvStore = create<TvState>((set) => ({
                 const logo =
                     imageData.logos?.find((l: Logo) => l.iso_639_1 === 'ko')?.file_path ||
                     imageData.logos?.find((l: Logo) => l.iso_639_1 === 'en')?.file_path ||
+                    imageData.logos?.find((l: Logo) => l.iso_639_1 === 'zh')?.file_path ||
                     null;
+
+                const epRes = await fetch(
+                    `https://api.themoviedb.org/3/tv/${tv.id}/season/1?api_key=${API_KEY}&language=ko-KR`
+                );
+                const epData = await epRes.json();
+                const episodes: Episodes[] = epData.episodes || [];
 
                 return {
                     ...tv,
@@ -65,6 +71,7 @@ export const useTvStore = create<TvState>((set) => ({
                     runtime,
                     logo,
                     videos,
+                    episodes,
                 };
             })
         );
@@ -84,11 +91,14 @@ export const useTvStore = create<TvState>((set) => ({
         );
         const tv = await tvRes.json();
 
-        const videoRes = await fetch(
-            `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}&language=ko-KR`
-        );
-        const videoData = await videoRes.json();
-        const videos: Video[] = videoData.results || [];
+        // const videoRes = await fetch(
+        //     `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}&language=ko-KR`
+        // );
+        // const videoData = await videoRes.json();
+        // const videos: Video[] =
+        //     videoData.results?.filter((v: Video) => v.site === 'YouTube' && v.type === 'Trailer') ||
+        //     [];
+        const videos = await fetchTvVideos(tv.id);
 
         const ratingRes = await fetch(
             `https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${API_KEY}`
@@ -106,6 +116,7 @@ export const useTvStore = create<TvState>((set) => ({
         const logo =
             imageData.logos?.find((l: Logo) => l.iso_639_1 === 'ko')?.file_path ||
             imageData.logos?.find((l: Logo) => l.iso_639_1 === 'en')?.file_path ||
+            imageData.logos?.find((l: Logo) => l.iso_639_1 === 'zh')?.file_path ||
             null;
 
         const creditRes = await fetch(
