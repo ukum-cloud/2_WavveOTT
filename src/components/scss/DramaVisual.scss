@@ -1,0 +1,89 @@
+.drama-visual {
+  position: relative;
+  width: 100%;
+  height: 680px;
+  overflow: hidden;
+  background: #000;
+}
+
+.drama-visual__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.1);
+}
+
+.drama-visual__fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* (기존 fx 그대로) */
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  animation: dramaFx 6.5s ease-in-out infinite;
+}
+
+/* 텍스트만 중앙 정렬 */
+.drama-visual__inner {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drama-visual__center {
+  text-align: center;
+  color: #fff;
+  transform: translateY(28px);
+}
+
+.drama-visual__title {
+  margin: 0;
+  font-size: 80px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+}
+
+.drama-visual__sub {
+  margin-top: 35px;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+
+/* 배우 PNG 공통 */
+.drama-visual__actor {
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 42px rgba(0,0,0,0.35));
+}
+
+/* 왼쪽 */
+.drama-visual__actor--left {
+  left: 0;
+  width: 760px;
+  max-width: 62vw;
+  transform: translateX(-6%);
+  animation: enterLeft 800ms ease-out both;
+}
+
+/* 오른쪽 */
+.drama-visual__actor--right {
+  right: 0;
+  width: 520px;
+  max-width: 46vw;
+  transform: translateX(-6%);
+  animation: enterRight 850ms ease-out both;
+}

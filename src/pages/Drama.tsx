@@ -1,20 +1,74 @@
+import { useEffect } from "react";
+import { useTvStore } from "../stores/useTvStore";
+import { useNavigate } from "react-router-dom";
+import DramaRankingCardList from "../components/DramaRankingCardList";
+import DramaCardList from "../components/DramaCardList";
+import DramaEditorRecommendCardList from "../components/DramaEditorRecommendCardList";
+import DramaVisual from "../components/DramaVisual";
+import "./scss/Drama.scss";
+
 const Drama = () => {
+  const navigate = useNavigate();
+  const { tvs, onFetchTv } = useTvStore();
+
+  useEffect(() => {
+    void onFetchTv();
+  }, [onFetchTv]);
+
+  const goDetail = (id: number) => navigate(`/contentsdetail/tv/${id}`);
+
+  const editorDramas = tvs.slice(0, 10); // 임시: 상단 10개
+
+  if (!tvs || tvs.length === 0) {
+    return <div>드라마 불러오는 중</div>;
+  }
+
+  // const top10 = tvs.slice(0, 10);
+  // const top10ForRank = top10.map((tv) => ({
+  //   id: tv.id,
+  //   title: tv.name,
+  //   poster_path: tv.poster_path,
+  // }));
+
+  const spotlight = tvs.slice(5, 15);
+  const mustWatch = tvs.slice(8, 18);
+  const newArrivals = tvs;
+
+  // const poster = (path?: string | null) =>
+  //   path ? `https://image.tmdb.org/t/p/w500${path}` : "/images/no-poster.png";
+
   return (
-    <main className="drama-wrap">
-      <div>
-        <img src="/images/visual/visual-cj-main.jpg" alt="" />
-        Drama100% 다 쓰는 경우
-      </div>
+    <main className="sub-drama-main">
+      <DramaVisual />
+
       <div className="inner">
-        <section className="card-list">
-          <h2>제목입니다</h2>
-          <div>내용</div>
-        </section>
-        <section className="card-list">
-          <h2>제목입니다</h2>
-          <div>내용</div>
-        </section>
-        <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
+        <DramaRankingCardList 
+          title="드라마 실시간 TOP 10"
+          data={tvs}
+          limit={10}
+        />
+
+
+        <DramaCardList 
+          title="지금 주목받는 드라마"
+          items={spotlight}
+          onClick={goDetail}
+        />
+
+        <DramaCardList
+          title="이건 꼭 봐야해!"
+          items={mustWatch}
+          onClick={goDetail}
+        />
+
+
+        <DramaCardList
+          title="NEW! 새로 올라온 드라마"
+          items={newArrivals}
+          onClick={goDetail}
+        />
+
+        <DramaEditorRecommendCardList title="웨이브 드라마 추천작" list={editorDramas} />
       </div>
     </main>
   );
