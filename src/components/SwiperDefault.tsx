@@ -26,7 +26,6 @@ const SwiperDefault = ({ data }: { data: Pick[] }) => {
 
   const handleCloseModal = () => setIsModalOpen(false);
 
-  /** 🔑 공통 UID */
   const getUid = (d: Pick) => Number(d.contentId ?? d.tmdb_id ?? d.id);
 
   return (
