@@ -1,0 +1,205 @@
+.bannerContainer {
+    position: relative;
+    width: 100%;
+    height: 680px;
+    background: linear-gradient(180deg, #6ab5f2 0%, #a1d9ff 100%);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; // 내부 아이템들을 아래쪽 정렬
+    padding-bottom: 0px; // 바닥에서 살짝 띄움
+}
+
+.confettiContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(720px) rotate(360deg); // 높이에 맞춰 끝지점 조정
+    }
+}
+
+.title {
+    position: absolute;
+    top: 52%; // 캐릭터가 낮게 깔리므로 타이틀 위치를 중앙보다 약간 위로 조정
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+    h1 {
+        font-size: 4.2rem;
+        margin: 0;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    p {
+        font-size: 1.6rem;
+        margin-top: 10px;
+        font-weight: 500;
+    }
+}
+
+// .character {
+//     position: absolute;
+//     z-index: 5;
+//     transition: transform 0.5s ease;
+
+//     &.left {
+//         left: 5%;
+//         bottom: 40px; // 아래쪽에 배치
+//         width: 450px; // 사이즈 키움
+//         animation: slideUpLeft 1.2s ease-out forwards, floating 4s ease-in-out infinite 1.2s;
+//     }
+
+//     &.right {
+//         right: 5%;
+//         bottom: 30px; // 아래쪽에 배치
+//         width: 500px; // 사이즈 키움
+//         animation: slideUpRight 1.2s ease-out forwards, floating 4.5s ease-in-out infinite 1.5s;
+//     }
+// }
+
+// /* --- 애니메이션 정의 --- */
+
+// // 아래에서 위로 슬며시 올라오며 등장
+// @keyframes slideUpLeft {
+//     from {
+//         opacity: 0;
+//         transform: translateY(50px) translateX(-30px);
+//     }
+//     to {
+//         opacity: 1;
+//         transform: translateY(0) translateX(0);
+//     }
+// }
+
+// @keyframes slideUpRight {
+//     from {
+//         opacity: 0;
+//         transform: translateY(50px) translateX(30px);
+//     }
+//     to {
+//         opacity: 1;
+//         transform: translateY(0) translateX(0);
+//     }
+// }
+
+// @keyframes floating {
+//     0%,
+//     100% {
+//         transform: translateY(0);
+//     }
+//     50% {
+//         transform: translateY(-30px);
+//     } // 움직임 폭을 좀 더 크게
+// }
+
+.character {
+    position: absolute;
+    z-index: 5;
+
+    &.left {
+        left: 2%;
+        bottom: -50px;
+        width: 460px;
+        /* 등장 후 'livelyLeft' 애니메이션 실행 */
+        animation: slideUpLeft 1s ease-out forwards, livelyLeft 7s ease-in-out infinite 1s;
+    }
+
+    &.right {
+        right: 2%;
+        bottom: -50px;
+        width: 500px;
+        /* 등장 후 'livelyRight' 애니메이션 실행 */
+        animation: slideUpRight 1s ease-out forwards, livelyRight 7.5s ease-in-out infinite 1.2s;
+    }
+}
+
+/* --- 활발한 멀티 액션 애니메이션 --- */
+
+// 왼쪽 그룹: 크게 원을 그리거나 지그재그로 이동 + 회전
+@keyframes livelyLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(30px, -50px) rotate(3deg);
+    }
+    50% {
+        transform: translate(-20px, -80px) rotate(-3deg);
+    }
+    75% {
+        transform: translate(40px, -30px) rotate(2deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+// 오른쪽 그룹: 왼쪽과 반대 흐름으로 더 크게 움직임
+@keyframes livelyRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    30% {
+        transform: translate(-40px, -70px) rotate(-4deg);
+    }
+    60% {
+        transform: translate(30px, -40px) rotate(4deg);
+    }
+    85% {
+        transform: translate(-50px, -90px) rotate(-2deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+/* 아래에서 솟아오르는 등장 효과 */
+@keyframes slideUpLively {
+    from {
+        opacity: 0;
+        transform: translateY(300px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 등장 애니메이션 (깔끔하게 고정) */
+@keyframes slideUpLeft {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUpRight {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
