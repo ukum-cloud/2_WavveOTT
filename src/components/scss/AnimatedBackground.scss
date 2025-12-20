@@ -1,0 +1,39 @@
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, #6a00ff, #1b0b4f 60%, #050012);
+  overflow: hidden;
+  z-index: -1;
+}
+
+.wave-svg {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  top: 0;
+  left: -50%;
+}
+
+.wave {
+  fill: none;
+  stroke-width: 2;
+  animation: waveMove 18s ease-in-out infinite alternate;
+}
+
+.wave1 {
+  stroke: rgba(255, 0, 200, 0.7);
+}
+
+.wave2 {
+  stroke: rgba(0, 200, 255, 0.7);
+  animation-duration: 24s;
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200px);
+  }
+}
