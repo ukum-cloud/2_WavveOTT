@@ -18,6 +18,11 @@
             .swiper-slide {
                 overflow: visible;
                 width: 220px;
+                z-index: 1;
+
+                &:hover {
+                    z-index: 30; // poster-wrap의 z-index보다 높게
+                }
 
                 // 메인 카드
                 .poster-wrap {
@@ -75,6 +80,7 @@
                         height: auto;
                         min-height: 464px;
                         opacity: 0;
+                        pointer-events: none;
 
                         @include g.myFlex($jc: unset, $gap: 1.4rem);
                         flex-direction: column;

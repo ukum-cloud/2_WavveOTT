@@ -68,7 +68,7 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
         <section className="card-list">
             <div className="title-wrap">
                 <h2>{title}</h2>
-                <Link to="/"></Link>
+                <Link to="/overseasSeries">더보기</Link>
             </div>
             <Swiper
                 modules={[Navigation]}
@@ -91,17 +91,17 @@ const NewTvList = ({ title, tvs }: NewTvListProps) => {
                                 src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
                                 alt={t.name}
                             />
-                            {(t.tvsVideo?.key || t.backdrop_path || t.poster_path) && (
+                            {(t.videos?.[0]?.key || t.backdrop_path || t.poster_path) && (
                                 <div className="preview-wrap">
                                     <div
                                         className="img-box"
                                         onMouseEnter={() => setHoverId(t.id)}
                                         onMouseLeave={() => setHoverId(null)}
                                     >
-                                        {t.tvsVideo?.key && hoverId === t.id ? (
+                                        {t.videos?.[0]?.key && hoverId === t.id ? (
                                             <iframe
                                                 className="hover video"
-                                                src={`https://www.youtube.com/embed/${t.tvsVideo.key}?autoplay=1&mute=1`}
+                                                src={`https://www.youtube.com/embed/${t.videos?.[0]?.key}?autoplay=1&mute=1`}
                                                 allowFullScreen
                                                 title={t.name}
                                             />

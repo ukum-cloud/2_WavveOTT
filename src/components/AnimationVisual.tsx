@@ -64,7 +64,7 @@ const AnimationVisual: React.FC = () => {
                 position: 'relative',
                 width: '100%',
                 aspectRatio: '2023 / 843',
-                minHeight: '600px',
+                height: '680px',
                 overflow: 'hidden',
                 backgroundColor: '#000',
                 background: 'linear-gradient(135deg, #28E7C5 0%, #A3E04E 100%)',

@@ -9,18 +9,18 @@ import { usePickStore } from '../stores/usePickStore';
 
 import { getGrades } from '../utils/mapping';
 
-import { varietyTop50 } from '../data/2025_varietyTop50_tmdb';
-
 import type { Episodes, Video } from '../types/movie';
 
 import Modal from './Modal';
+
+import { aniPrimary } from '../data/aniPrimary';
 
 interface VarietyLiveList {
     title: string;
     video: Record<number, { tvsVideo: Video | null; episodes: Episodes[] }>;
 }
 
-const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
+const AniHotList = ({ title, video }: VarietyLiveList) => {
     const { id } = useParams();
     const { onTogglePick, pickList, pickAction } = usePickStore();
 
@@ -82,7 +82,7 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
         <section className="card-list">
             <div className="title-wrap">
                 <h2>{title}</h2>
-                <Link to="/entertainment">더보기</Link>
+                <Link to="/animation">더보기</Link>
             </div>
             <Swiper
                 modules={[Navigation]}
@@ -97,8 +97,8 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
                 slidesOffsetAfter={0}
                 watchSlidesProgress={true}
             >
-                {varietyTop50.map((t, id) => (
-                    <SwiperSlide key={id}>
+                {aniPrimary.map((t) => (
+                    <SwiperSlide key={t.tmdb_id}>
                         <div
                             className="poster-wrap badge-new"
                             // onMouseEnter={() => setHoverId(t.tmdb_id)}
@@ -126,7 +126,11 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
                                         ) : (
                                             <img
                                                 className="hover image"
-                                                src={`https://${t.season_horizontal_logoN_image}`}
+                                                src={`${
+                                                    t.season_horizontal_logoN_image?.trim()
+                                                        ? `https://${t.season_horizontal_logoN_image}`
+                                                        : `https://${t.season_horizontal_logoY_image}`
+                                                }`}
                                                 alt={t.series_title}
                                             />
                                         )}
@@ -228,4 +232,4 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
     );
 };
 
-export default VarietyLiveList;
+export default AniHotList;

@@ -100,7 +100,7 @@ const AniKidsPrimaryList = ({ title, video }: VarietyLiveList) => {
                 {aniPrimary.map((t, id) => (
                     <SwiperSlide key={id}>
                         <div
-                            className="poster-wrap badge-new"
+                            className="poster-wrap"
                             // onMouseEnter={() => setHoverId(t.tmdb_id)}
                             // onMouseLeave={() => setHoverId(null)}
                             onMouseEnter={() => setHoverId(t.tmdb_id)}

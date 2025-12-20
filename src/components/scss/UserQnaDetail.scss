@@ -162,6 +162,11 @@
                 font-size: 0.825rem;
                 caret-color: auto;
 
+                &.middle {
+                    height: 140px;
+                    resize: none;
+                }
+
                 &:focus {
                     border: 1px solid g.$color-font-grey3;
                 }
@@ -203,7 +208,8 @@
                 caret-color: auto;
 
                 &.large {
-                    min-height: 200px;
+                    height: 240px;
+                    resize: none;
                 }
                 &:focus {
                     border: 1px solid g.$color-font-grey3;

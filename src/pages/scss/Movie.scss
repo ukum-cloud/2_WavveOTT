@@ -4,10 +4,7 @@
     @include g.myFlexCol($gap: 80px);
     overflow-x: hidden;
 
-  
-
     .card-list {
-
         // 타이틀
         .title-wrap {
             @include g.myFlex();
@@ -82,7 +79,7 @@
                             position: absolute;
                             left: 50%;
                             top: 50%;
-                            transform: translate(-50%, -50%) translateY(-20px);
+                            transform: translate(-50%, -50%);
                             width: 464px;
                             height: auto;
                             min-height: 464px;
@@ -107,14 +104,14 @@
                                 overflow: hidden;
                                 border-radius: 12px;
 
-                                >img {
+                                > img {
                                     width: 100%;
                                     height: 100%;
                                     object-fit: cover;
                                     border: none;
                                 }
 
-                                >iframe {
+                                > iframe {
                                     position: absolute;
                                     top: 50%;
                                     left: 50%;
@@ -177,11 +174,13 @@
                                     .preview-play-btn {
                                         width: 56px;
                                         height: 56px;
-                                        background: url('/images/icons/icon-play-default.svg') no-repeat center center;
+                                        background: url('/images/icons/icon-play-default.svg')
+                                            no-repeat center center;
                                         background-size: contain;
 
                                         &:hover {
-                                            background: url('/images/icons/icon-play-hover.svg') no-repeat center center;
+                                            background: url('/images/icons/icon-play-hover.svg')
+                                                no-repeat center center;
                                             background-size: contain;
                                         }
                                     }
@@ -189,16 +188,19 @@
                                     .preview-heart-btn {
                                         width: 56px;
                                         height: 56px;
-                                        background: url('/images/icons/icon-heart-default.svg') no-repeat center center;
+                                        background: url('/images/icons/icon-heart-default.svg')
+                                            no-repeat center center;
                                         background-size: contain;
 
                                         &:hover {
-                                            background: url('/images/icons/icon-heart-hover.svg') no-repeat center;
+                                            background: url('/images/icons/icon-heart-hover.svg')
+                                                no-repeat center;
                                             background-size: contain;
                                         }
 
                                         &.active {
-                                            background: url('/images/icons/icon-heart-active.svg') no-repeat center;
+                                            background: url('/images/icons/icon-heart-active.svg')
+                                                no-repeat center;
                                             background-size: contain;
                                         }
                                     }
@@ -207,11 +209,13 @@
                                 a {
                                     width: 56px;
                                     height: 56px;
-                                    background: url('/images/icons/icon-detail-default.svg') no-repeat center center;
+                                    background: url('/images/icons/icon-detail-default.svg')
+                                        no-repeat center center;
                                     background-size: contain;
 
                                     &:hover {
-                                        background: url('/images/icons/icon-detail-hover.svg') no-repeat center;
+                                        background: url('/images/icons/icon-detail-hover.svg')
+                                            no-repeat center;
                                         background-size: contain;
                                     }
                                 }
@@ -232,7 +236,7 @@
 
                             .preview-wrap {
                                 opacity: 1;
-                                transform: translate(-50%, -50%) translateY(-20px);
+                                transform: translate(-50%, -50%);
                                 transition-delay: 0.3s;
                                 pointer-events: auto;
                             }
@@ -333,7 +337,7 @@
             }
         }
     }
-    .rec-section{
+    .rec-section {
         margin-top: 40px;
     }
 }

@@ -9,6 +9,28 @@ import type {
     Logo,
 } from '../types/movie';
 
+// 영상 언어 다양하게 해서 찾기
+const fetchTvVideos = async (id: number): Promise<Video[]> => {
+    const fetchByLang = async (lang: string) => {
+        const res = await fetch(
+            `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}&language=${lang}`
+        );
+        const data = await res.json();
+        return (
+            data.results?.filter(
+                (v: Video) => v.site === 'YouTube' && ['Trailer', 'Teaser', 'Clip'].includes(v.type)
+            ) || []
+        );
+    };
+
+    // 1️⃣ ko-KR 먼저
+    const ko = await fetchByLang('ko-KR');
+    if (ko.length > 0) return ko;
+
+    // 2️⃣ 없으면 en-US
+    return await fetchByLang('en-US');
+};
+
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 export const useWavveStore = create<OnlyWavveState>((set) => ({
@@ -58,11 +80,12 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
                     null;
 
                 /* 비디오 */
-                const videoRes = await fetch(
-                    `https://api.themoviedb.org/3/tv/${tv.id}/videos?api_key=${API_KEY}&language=ko-KR`
-                );
-                const videoData = await videoRes.json();
-                const videos: Video[] = videoData.results || [];
+                const videos = await fetchTvVideos(tv.id);
+                // const videoRes = await fetch(
+                //     `https://api.themoviedb.org/3/tv/${tv.id}/videos?api_key=${API_KEY}&language=ko-KR`
+                // );
+                // const videoData = await videoRes.json();
+                // const videos: Video[] = videoData.results || [];
 
                 /* 에피소드 */
                 const epRes = await fetch(
@@ -94,11 +117,12 @@ export const useWavveStore = create<OnlyWavveState>((set) => ({
         );
         const tv = await tvRes.json();
 
-        const videoRes = await fetch(
-            `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}&language=ko-KR`
-        );
-        const videoData = await videoRes.json();
-        const videos: Video[] = videoData.results || [];
+        const videos = await fetchTvVideos(tv.id);
+        // const videoRes = await fetch(
+        //     `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}&language=ko-KR`
+        // );
+        // const videoData = await videoRes.json();
+        // const videos: Video[] = videoData.results || [];
 
         const ratingRes = await fetch(
             `https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${API_KEY}`

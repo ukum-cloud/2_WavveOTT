@@ -67,7 +67,7 @@ const NewMovieList = ({ title, newMovies }: NewMovieListProps) => {
         <section className="card-list">
             <div className="title-wrap">
                 <h2>{title}</h2>
-                <Link to="/home"></Link>
+                <Link to="/movie">더보기</Link>
             </div>
             <Swiper
                 modules={[Navigation]}
@@ -94,10 +94,10 @@ const NewMovieList = ({ title, newMovies }: NewMovieListProps) => {
                                 src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
                                 alt={t.title}
                             />
-                            {(t.videos[0]?.key || t.backdrop_path || t.poster_path) && (
+                            {(t.videos?.[0]?.key || t.backdrop_path || t.poster_path) && (
                                 <div className="preview-wrap">
                                     <div className="img-box">
-                                        {t.videos[0]?.key && hoverId === t.id ? (
+                                        {t.videos?.[0]?.key && hoverId === t.id ? (
                                             <iframe
                                                 className="hover video"
                                                 src={`https://www.youtube.com/embed/${t.videos[0].key}?autoplay=1&mute=1`}
@@ -129,7 +129,7 @@ const NewMovieList = ({ title, newMovies }: NewMovieListProps) => {
                                                     alt="content-logo"
                                                 />
                                             </p>
-                                            {hoverId === t.id && t.videos[0]?.key && (
+                                            {hoverId === t.id && t.videos?.[0]?.key && (
                                                 <img
                                                     src="/images/icons/icon-volume-off.svg"
                                                     alt="sound-icon"

@@ -93,6 +93,7 @@ const UserQnaDetail = () => {
                 <div className="program-info">
                     <p className="label-text">프로그램 정보</p>
                     <textarea
+                        className="main-content middle"
                         placeholder="회차, 방송일, 시간 등 입력해주세요.&#10;예) 11월 1일 시상식 온 오전 10시경, 무한도전 12월 4일 416회 등"
                     />
                 </div>
@@ -107,37 +108,37 @@ const UserQnaDetail = () => {
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 안드로이드 폰
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 아이폰
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 안드로이드 태블릿
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 아이패드
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 스마트TV
                             </label>
                         </li>
                         <li>
-                            <label className="privacy-agree">
+                            <label className="checkbox">
                                 <input type="checkbox" readOnly />
                                 기타
                             </label>
@@ -147,12 +148,15 @@ const UserQnaDetail = () => {
 
                 <div className="os-info">
                     <p className="label-text">사용환경 (OS, 브라우저)</p>
-                    <textarea placeholder="예) 윈도우7 IE 8, 안드로이드 4.2.2, iOS 9.1등" />
+                    <input
+                        type="text"
+                        placeholder="예) 윈도우7 IE 8, 안드로이드 4.2.2, iOS 9.1등"
+                    />
                 </div>
 
                 <div className="content-section">
                     <p className="label-text">문의하기</p>
-                    <textarea className="main-content" placeholder="문의 제목을 입력해주세요." />
+                    <input type="text" placeholder="문의 제목을 입력해주세요." />
                     <textarea
                         className="main-content large"
                         placeholder="문의 내용을 입력해 주세요. 욕설·비속어가 포함된 게시글의 경우 담변을 제한할 수 있습니다."
