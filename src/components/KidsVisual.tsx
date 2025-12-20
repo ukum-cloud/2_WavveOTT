@@ -3,14 +3,17 @@ import styles from "./scss/kidsVisual.module.scss";
 import kidsLeft from "../../public/images/bg-kids-left.svg";
 import kidsRight from "../../public/images/bg-kids-right.svg";
 
-const colos = [
-  "#FFD700",
-  "#FF69B4",
-  "#00FFFF",
-  "#ADFF2F",
-  "#FFA500",
-  "#FFFFFF",
-];
+// const colors = [
+//   "#FFD700",
+//   "#FF69B4",
+//   "#00FFFF",
+//   "#ADFF2F",
+//   "#FFA500",
+//   "#FFFFFF",
+// ];
+
+// 주황색 배경에 잘 어울리는 비비드한 컬러 조합
+const colors = ["#FFFFFF", "#FFD700", "#FF4500", "#FFFACD", "#FFCC00"];
 
 const KidsVisual: React.FC = () => {
   const confettiParticles = Array.from({ length: 100 });
@@ -18,7 +21,7 @@ const KidsVisual: React.FC = () => {
   const [confettiStyles] = useState(() =>
     confettiParticles.map((_, i) => ({
       left: `${Math.random() * 100}%`,
-      color: colos[i % colos.length],
+      color: colors[i % colors.length],
       duration: `${Math.random() * 2 + 2}s`,
       delay: `${Math.random() * 5}s`,
       radius: i % 2 === 0 ? "50%" : "2px",
