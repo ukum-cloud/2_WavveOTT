@@ -1,31 +1,31 @@
 .animated-bg {
-  position: fixed;
+  position: absolute; // fixed ❌ absolute ✅
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background: radial-gradient(circle at top left, #6a00ff, #1b0b4f 60%, #050012);
-  overflow: hidden;
-  z-index: -1;
 }
 
 .wave-svg {
   position: absolute;
-  width: 200%;
-  height: 100%;
-  top: 0;
+  bottom: 0;
   left: -50%;
+  width: 200%;
+  height: 240px; // 웨이브 “하단만” 보이게
 }
 
 .wave {
   fill: none;
-  stroke-width: 2;
+  stroke-width: 3;
+  stroke-linecap: round;
   animation: waveMove 18s ease-in-out infinite alternate;
 }
 
 .wave1 {
-  stroke: rgba(255, 0, 200, 0.7);
+  stroke: rgba(255, 0, 200, 0.9);
 }
-
 .wave2 {
-  stroke: rgba(0, 200, 255, 0.7);
+  stroke: rgba(0, 200, 255, 0.9);
   animation-duration: 24s;
 }
 

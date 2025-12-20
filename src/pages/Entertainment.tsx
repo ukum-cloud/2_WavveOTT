@@ -1,20 +1,28 @@
+import EntEditorRecommendCardList from "../components/EntEditorRecommendCardList";
 import EntertainmentVisual from "../components/EntertainmentVisual";
+import EntertainmetTop10 from "../components/EntertainmetTop10";
+import EntHotList from "../components/EntHotList";
+
+import EntNewList from "../components/EntNewList";
+import EntNewList2 from "../components/EntNewList2";
 
 const Entertainment = () => {
   return (
     <main className="entertainment-wrap">
-      <EntertainmentVisual />
+      <EntertainmentVisual
+        title="예능"
+        subtitle="웃음이 필요한 순간"
+        leftSrc="/images/bg-entertainment-left.svg"
+        rightSrc="/images/bg-entertainment-right.svg"
+        height={680}
+      />
       <div className="inner">
-        <section className="card-list">
-          <h2>제목입니다</h2>
-          <div>내용</div>
-        </section>
-        <section className="card-list">
-          <h2>제목입니다</h2>
-          <div>내용</div>
-        </section>
-        <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
+        <EntertainmetTop10 title="예능 실시간 TOP10" />
+        <EntNewList title="지금 주목받는 예능" />
+        <EntNewList2 title="이건 꼭 봐야해!" />
+        <EntHotList title="NEW! 새로 올라온 예능" />
       </div>
+      <EntEditorRecommendCardList title="웨이브 예능 추천작" />
     </main>
   );
 };

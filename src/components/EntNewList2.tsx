@@ -21,7 +21,7 @@ interface VarietyLiveList {
   video?: Record<number, { tvsVideo: Video | null; episodes: Episodes[] }>;
 }
 
-const EntNewList = ({ title, video }: VarietyLiveList) => {
+const EntNewList2 = ({ title, video }: VarietyLiveList) => {
   const { id } = useParams();
   const { onTogglePick, pickList, pickAction } = usePickStore();
 
@@ -108,7 +108,7 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
         slidesOffsetBefore={0}
         slidesOffsetAfter={0}
         watchSlidesProgress={true}>
-        {varietyTop50.slice(11, 20).map((t, id) => (
+        {varietyTop50.slice(21, 30).map((t, id) => (
           <SwiperSlide key={t.tmdb_id ?? id}>
             <div className="poster-wrap" onMouseEnter={() => setHoverId(t.tmdb_id)}>
               <img className="main" src={`https://${t.seasonposterimage}`} alt={t.series_title} />
@@ -204,4 +204,4 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
   );
 };
 
-export default EntNewList;
+export default EntNewList2;

@@ -13,15 +13,15 @@ import type { Episodes, Video } from "../types/movie";
 
 import Modal from "./Modal";
 
-import { varietyTop50 } from "../data/2025_varietyTop50_tmdb";
 import type { Pick } from "../types/pick";
+import { varietyTop50 } from "../data/2025_varietyTop50_tmdb";
 
 interface VarietyLiveList {
   title: string;
   video?: Record<number, { tvsVideo: Video | null; episodes: Episodes[] }>;
 }
 
-const EntNewList = ({ title, video }: VarietyLiveList) => {
+const EntHotList = ({ title, video }: VarietyLiveList) => {
   const { id } = useParams();
   const { onTogglePick, pickList, pickAction } = usePickStore();
 
@@ -108,11 +108,19 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
         slidesOffsetBefore={0}
         slidesOffsetAfter={0}
         watchSlidesProgress={true}>
-        {varietyTop50.slice(11, 20).map((t, id) => (
-          <SwiperSlide key={t.tmdb_id ?? id}>
-            <div className="poster-wrap" onMouseEnter={() => setHoverId(t.tmdb_id)}>
-              <img className="main" src={`https://${t.seasonposterimage}`} alt={t.series_title} />
-
+        {varietyTop50.slice(31, 40).map((t, id) => (
+          <SwiperSlide key={id}>
+            <div
+              className="poster-wrap badge-new"
+              // onMouseEnter={() => setHoverId(t.tmdb_id)}
+              // onMouseLeave={() => setHoverId(null)}
+              onMouseEnter={() => setHoverId(t.tmdb_id)}>
+              <img
+                className="main"
+                // src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
+                src={`https://${t.seasonposterimage}`}
+                alt={t.series_title}
+              />
               {(videoKey || t.season_horizontal_logoN_image || t.seasonposterimage) && (
                 <div className="preview-wrap">
                   <div className="img-box">
@@ -133,8 +141,23 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
 
                     <div className="logo-box">
                       <p className="content-logo">
-                        <img src={`https://${t.seasontitlelogoimage}`} alt="content-logo" />
+                        <img
+                          src={`https://${t.seasontitlelogoimage}`}
+                          // logoImage(t.index) ||
+                          // (t.seasontitlelogoimage?
+                          // `https://image.tmdb.org/t/p/original${t.seasontitlelogoimage}`
+                          // : undefined)
+
+                          alt="content-logo"
+                        />
                       </p>
+                      {hoverId === t.index && (
+                        <img
+                          src="/images/icons/icon-volume-off.svg"
+                          alt="sound-icon"
+                          className="sound-icon"
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -145,7 +168,6 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
                     <p className="preview-genre">{t.genretext}</p>
                     {episodes?.length ? <p>에피소드 {episodes.length}</p> : null}
                   </div>
-
                   <div className="preview-badge-bottom">
                     <div className="preview-btn-wrap">
                       <button className="preview-play-btn"></button>
@@ -153,17 +175,15 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
                         className={`preview-heart-btn ${
                           pickList.some((p) => p.contentId === t.tmdb_id) ? "active" : ""
                         }`}
-                        onClick={() => handleHeart(t)}
-                      />
+                        onClick={() => handleHeart(t)}></button>
                     </div>
-                    <Link to={`/contentsdetail/tv/${t.tmdb_id}`} />
+                    <Link to={`/contentsdetail/tv/${t.tmdb_id}`}></Link>
                   </div>
                 </div>
               )}
             </div>
           </SwiperSlide>
         ))}
-
         <div className="prev-wrap">
           <div ref={prevBtn} className="swiper-button-prev"></div>
         </div>
@@ -204,4 +224,4 @@ const EntNewList = ({ title, video }: VarietyLiveList) => {
   );
 };
 
-export default EntNewList;
+export default EntHotList;
