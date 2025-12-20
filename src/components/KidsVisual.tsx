@@ -53,7 +53,9 @@ const KidsVisual: React.FC = () => {
       />
 
       <div className={styles.title}>
-        <h1>키즈</h1>
+        <h2>
+          키즈 <span style={{ opacity: 0.6 }}>WAVVE</span>
+        </h2>
         <p>매일매일 즐거운 모험!</p>
       </div>
 
