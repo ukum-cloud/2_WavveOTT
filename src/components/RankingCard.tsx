@@ -8,7 +8,7 @@ interface RankingProps {
 const RankingCard = ({ id, poster }: RankingProps) => {
   return (
     <div className={style.Rankingcard}>
-      <Link to={`/moviedetail/movie/${id}`}>
+      <Link to={`/detail/movie/${id}`}>
         <img src={`http://image.tmdb.org/t/p/original${poster}`} alt="" />
       </Link>
     </div>
