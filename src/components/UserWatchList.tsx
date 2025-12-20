@@ -118,22 +118,21 @@ const UserWatchList = () => {
 
           const runtimeText = movie.runtime ? `${movie.runtime}분` : "";
 
+          // 클릭 시 이동할 경로 설정
+          const targetPath =
+            movie.type === "movie"
+              ? `/moviedetailEX/movie/${movie.id}`
+              : `/contentsdetail/${movie.type}/${movie.id}`;
+
           return (
             <SwiperSlide
               key={movie.docId || movie.id}
               tag="li"
-              // [핵심] 여기에 인라인 스타일로 width: auto를 명시합니다.
               style={{ width: "auto" }}
             >
               <div
                 className="watch-item"
-                onClick={() => {
-                  const path =
-                    movie.type === "movie"
-                      ? `/moviedetail/movie/${movie.id}`
-                      : `/contentsdetail/${movie.type}/${movie.id}`;
-                  navigate(path);
-                }}
+                onClick={() => navigate(targetPath)}
               >
                 <div className="img-box">
                   <img
