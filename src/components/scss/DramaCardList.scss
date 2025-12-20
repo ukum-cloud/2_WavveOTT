@@ -1,0 +1,105 @@
+.drama-card-list {
+  .card-list__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* ✅ Swiper가 안 보이는 가장 흔한 원인: 부모 overflow / 높이 문제 */
+  .drama-swiper {
+    overflow: visible;
+  }
+
+  .drama-slide {
+    height: auto;
+  }
+
+  .card-list__nav {
+    display: flex;
+    gap: 8px;
+
+    .nav-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+
+    /* 화살표 표시(간단) */
+    .prev::before,
+    .next::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid rgba(255, 255, 255, 0.85);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+      transform: rotate(135deg);
+      margin-left: 2px;
+    }
+
+    .next::before {
+      transform: rotate(-45deg);
+      margin-left: 0;
+      margin-right: 2px;
+    }
+  }
+
+  .drama-card {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .drama-card__media {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .drama-card__poster {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: block;
+    transform: scale(1);
+    transition: transform 0.25s ease;
+  }
+
+  .drama-card:hover .drama-card__poster,
+  .drama-card:focus-visible .drama-card__poster {
+    transform: scale(1.04);
+  }
+
+  .drama-card__trailer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    background: rgba(0, 0, 0, 0.25);
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    &.is-on {
+      opacity: 1;
+    }
+  }
+
+  .title {
+    margin-top: 10px;
+  }
+}
