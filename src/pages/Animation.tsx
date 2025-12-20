@@ -3,13 +3,14 @@ import { useEffect } from 'react';
 import { useVarietyStore } from '../stores/useVarietyStore';
 
 import AnimationVisual from '../components/AnimationVisual';
+import AniKidsEditorRecommendCardList from '../components/AniKidsEditorRecommendCardList';
 
 import { aniTop10 } from '../data/aniTop10';
 import { aniPrimary } from '../data/aniPrimary';
 import { aniHot } from '../data/aniHot';
 import { aniNew } from '../data/aniNew';
 
-// import AniKidsRankingList from './AniKidsRankingList';
+import AniKidsRankingList from '../components/AniKidsRankingList';
 import AniKidsHotList from '../components/AniKidsHotList';
 import AniKidsPrimaryList from '../components/AniKidsPrimaryList';
 import AniKidsNewList from '../components/AniKidsNewList';
@@ -40,7 +41,7 @@ const Animation = () => {
                 onFetchVariety(v.tmdb_id);
             }
         });
-    }, []);
+    }, [onFetchVariety]);
 
     return (
         <main className="ani-home">
@@ -48,12 +49,13 @@ const Animation = () => {
             <AnimationVisual />
 
             <div className="inner">
-                {/* <AniKidsRankingList title="Top20" /> */}
+                <AniKidsRankingList title="애니메이션 실시간 TOP10" />
                 <AniKidsNewList title="지금 주목받는 애니메이션" video={tvVideos} />
                 <AniKidsPrimaryList title="이건 꼭 봐야해!" video={tvVideos} />
                 <AniKidsHotList title="NEW! 새로 올라왔어요" video={tvVideos} />
-                <div className="">inner 안에서만 보여지면 되는 컨텐츠</div>
             </div>
+
+            <AniKidsEditorRecommendCardList title="웨이브 애니메이션 추천작" />
         </main>
     );
 };
