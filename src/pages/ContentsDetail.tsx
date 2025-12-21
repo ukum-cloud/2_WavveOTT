@@ -60,7 +60,9 @@ const ContentsDetail = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [isWatched, setIsWatched] = useState(false);
 
-  const [modalSize, setModalSize] = useState<"xsmall" | "small" | "default" | "large">("default"); //모달 size
+  const [modalSize, setModalSize] = useState<
+    "xsmall" | "small" | "default" | "large"
+  >("default"); //모달 size
   const [isModalOpen, setIsModalOpen] = useState(false); //모달오픈 상태변수
 
   useEffect(() => {
@@ -90,7 +92,8 @@ const ContentsDetail = () => {
   if (type === "people") selectedContent = selectedPeople;
 
   // 비디오 키값 받아올 변수 추가
-  const videoKey: string | undefined = selectedContent?.videos?.[0]?.key ?? undefined;
+  const videoKey: string | undefined =
+    selectedContent?.videos?.[0]?.key ?? undefined;
 
   useEffect(() => {
     if (!videoKey) return;
@@ -137,7 +140,8 @@ const ContentsDetail = () => {
   // ===========================
 
   // ========== 찜 기능 ==========
-  const contentId = "tmdb_id" in selectedContent ? selectedContent.tmdb_id : selectedContent.id;
+  const contentId =
+    "tmdb_id" in selectedContent ? selectedContent.tmdb_id : selectedContent.id;
 
   const isPicked = pickList.some((p) => p.contentId === contentId);
   // ===========================
@@ -167,7 +171,9 @@ const ContentsDetail = () => {
           backdrop_path: content.backdrop_path as string | undefined,
           poster_path: content.poster_path as string | undefined,
           episodeNumber:
-            (Array.isArray(content.episodes) && content.episodes[0]?.episode_number) || 1,
+            (Array.isArray(content.episodes) &&
+              content.episodes[0]?.episode_number) ||
+            1,
           runtime:
             ((Array.isArray(content.episode_run_time)
               ? content.episode_run_time[0]
@@ -199,7 +205,10 @@ const ContentsDetail = () => {
             {(!showVideo || !videoKey) && background && (
               <>
                 <p className="detail-backdrop">
-                  <img src={background} alt={selectedContent.name || "TV 콘텐츠"} />
+                  <img
+                    src={background}
+                    alt={selectedContent.name || "TV 콘텐츠"}
+                  />
                 </p>
                 {logo && (
                   <p className="detail-logo">
@@ -224,13 +233,18 @@ const ContentsDetail = () => {
           <div className="detail-title-box">
             <div className="detail-title-left">
               <p className="title-certification">
-                <img src={getGrades(selectedContent.certification)} alt="certification" />
+                <img
+                  src={getGrades(selectedContent.certification)}
+                  alt="certification"
+                />
               </p>
 
               <p className="title-star"></p>
 
               <p className="title-vote seperate">
-                {selectedContent.vote_average ? selectedContent.vote_average.toFixed(1) : "0.0"}
+                {selectedContent.vote_average
+                  ? selectedContent.vote_average.toFixed(1)
+                  : "0.0"}
               </p>
 
               <p className="title-genre seperate">
@@ -240,16 +254,26 @@ const ContentsDetail = () => {
               </p>
 
               {(selectedContent.episodes?.length ?? 0) > 0 && (
-                <p className="title-episode">에피소드 {selectedContent.episodes?.length}</p>
+                <p className="title-episode">
+                  에피소드 {selectedContent.episodes?.length}
+                </p>
               )}
             </div>
 
             <div className="detail-title-right">
               <button
                 className={`detail-heart-btn ${isPicked ? "active" : ""}`}
-                onClick={handleHeart}></button>
-              <button className="detail-share-btn" onClick={() => setShareOpen(true)}></button>
-              <Modal isOpen={shareOpen} onClose={() => setShareOpen(false)} size="small">
+                onClick={handleHeart}
+              ></button>
+              <button
+                className="detail-share-btn"
+                onClick={() => setShareOpen(true)}
+              ></button>
+              <Modal
+                isOpen={shareOpen}
+                onClose={() => setShareOpen(false)}
+                size="small"
+              >
                 <div className="share-modal-top">
                   <h3>공유하기</h3>
                   <button onClick={() => setShareOpen(false)}>
@@ -258,26 +282,40 @@ const ContentsDetail = () => {
                 </div>
                 <div className="share-modal-middle">
                   <button onClick={handleShareClick}>
-                    <img src="/images/icons/icon-kakao-login.svg" alt="kakao-icon" />
+                    <img
+                      src="/images/icons/icon-kakao-login.svg"
+                      alt="kakao-icon"
+                    />
                     <span>카카오톡</span>
                   </button>
                   <button>
-                    <img src="/images/icons/icon-twitter.svg" alt="twitter-icon" />
+                    <img
+                      src="/images/icons/icon-twitter.svg"
+                      alt="twitter-icon"
+                    />
                     <span>트위터</span>
                   </button>
                   <button>
-                    <img src="/images/icons/icon-facebook.svg" alt="facebook-icon" />
+                    <img
+                      src="/images/icons/icon-facebook.svg"
+                      alt="facebook-icon"
+                    />
                     <span>페이스북</span>
                   </button>
                 </div>
                 <div className="share-modal-bottom">
                   <span>https://deep.wavve.com/content/C9901_C99000000170</span>
-                  <button className="btn small primary" onClick={handleShareClick}>
+                  <button
+                    className="btn small primary"
+                    onClick={handleShareClick}
+                  >
                     공유하기
                   </button>
                 </div>
                 {/* 알림 메시지 */}
-                {alertMessage && <div className="share-alert">{alertMessage}</div>}
+                {alertMessage && (
+                  <div className="share-alert">{alertMessage}</div>
+                )}
               </Modal>
             </div>
           </div>
@@ -294,7 +332,10 @@ const ContentsDetail = () => {
               </div>
               <div className="detail-content-right">
                 {/* 수정한 부분: onClick 핸들러 연결  // KEH  왓치리스트를 위해 추가*/}
-                <button className="btn default primary" onClick={handlePlayClick}>
+                <button
+                  className="btn default primary"
+                  onClick={handlePlayClick}
+                >
                   {isWatched ? "이어보기" : "재생하기"}
                 </button>
               </div>
@@ -304,23 +345,27 @@ const ContentsDetail = () => {
               <h3>출연진</h3>
               <ul className="detail-cast-list">
                 {selectedContent.creditData?.cast ? (
-                  selectedContent.creditData.cast.slice(0, 7).map((actor: CreditPerson) => (
-                    <li key={`a-${actor.id}`} className="cast-card">
-                      <p className="cast-card-imgbox">
-                        <img
-                          src={
-                            actor.profile_path
-                              ? `https://image.tmdb.org/t/p/original${actor.profile_path}`
-                              : "/images/actor-no-image.svg"
-                          }
-                          alt={actor.name}
-                        />
-                      </p>
-                      <p className="actor-name">{actor.name}</p>
-                    </li>
-                  ))
+                  selectedContent.creditData.cast
+                    .slice(0, 7)
+                    .map((actor: CreditPerson) => (
+                      <li key={`a-${actor.id}`} className="cast-card">
+                        <p className="cast-card-imgbox">
+                          <img
+                            src={
+                              actor.profile_path
+                                ? `https://image.tmdb.org/t/p/original${actor.profile_path}`
+                                : "/images/actor-no-image.svg"
+                            }
+                            alt={actor.name}
+                          />
+                        </p>
+                        <p className="actor-name">{actor.name}</p>
+                      </li>
+                    ))
                 ) : (
-                  <li className="empty-message">제공된 출연진 정보가 없습니다.</li>
+                  <li className="empty-message">
+                    제공된 출연진 정보가 없습니다.
+                  </li>
                 )}
               </ul>
             </div>
@@ -328,24 +373,34 @@ const ContentsDetail = () => {
               <div className="detail-director">
                 <h3>감독</h3>
                 <ul className="director-list">
-                  {selectedContent.director && selectedContent.director.length > 0 ? (
+                  {selectedContent.director &&
+                  selectedContent.director.length > 0 ? (
                     selectedContent.director
-                      .map((d, index) => <li key={`d-${d.id}-${index}`}>{d.name}</li>)
+                      .map((d, index) => (
+                        <li key={`d-${d.id}-${index}`}>{d.name}</li>
+                      ))
                       .slice(0, 7)
                   ) : (
-                    <li className="empty-message">제공된 감독 정보가 없습니다</li>
+                    <li className="empty-message">
+                      제공된 감독 정보가 없습니다
+                    </li>
                   )}
                 </ul>
               </div>
               <div className="detail-writer">
                 <h3>작가</h3>
                 <ul className="writer-list">
-                  {selectedContent.writer && selectedContent.writer.length > 0 ? (
+                  {selectedContent.writer &&
+                  selectedContent.writer.length > 0 ? (
                     selectedContent.writer
-                      ?.map((w, index) => <li key={`w-${w.id}-${index}`}>{w.name}</li>)
+                      ?.map((w, index) => (
+                        <li key={`w-${w.id}-${index}`}>{w.name}</li>
+                      ))
                       .slice(0, 7)
                   ) : (
-                    <li className="empty-message">제공된 작가 정보가 없습니다</li>
+                    <li className="empty-message">
+                      제공된 작가 정보가 없습니다
+                    </li>
                   )}
                 </ul>
               </div>
@@ -364,7 +419,8 @@ const ContentsDetail = () => {
           <div className="detail-menu-wrap">
             <button
               className={activeMenu === "episode" ? "active" : ""}
-              onClick={() => setActiveMenu("episode")}>
+              onClick={() => setActiveMenu("episode")}
+            >
               에피소드
             </button>
             {/* 관련영상이 있을 때만 버튼 표시 */}
@@ -372,14 +428,16 @@ const ContentsDetail = () => {
             {(selectedContent.videos?.length ?? 0) > 0 && (
               <button
                 className={activeMenu === "relative" ? "active" : ""}
-                onClick={() => setActiveMenu("relative")}>
+                onClick={() => setActiveMenu("relative")}
+              >
                 관련영상
               </button>
             )}
 
             <button
               className={activeMenu === "recommend" ? "active" : ""}
-              onClick={() => setActiveMenu("recommend")}>
+              onClick={() => setActiveMenu("recommend")}
+            >
               추천 컨텐츠
             </button>
           </div>
@@ -421,7 +479,9 @@ const ContentsDetail = () => {
         </div>
         <div className="modal-content">
           <p>
-            {pickAction === "add" ? "찜 리스트에 추가되었습니다!" : "찜 리스트에서 제거되었습니다!"}
+            {pickAction === "add"
+              ? "찜 리스트에 추가되었습니다!"
+              : "찜 리스트에서 제거되었습니다!"}
           </p>
         </div>
         <div className="modal-footer">
@@ -430,10 +490,14 @@ const ContentsDetail = () => {
             onClick={() => {
               handleCloseModal();
               navigate("/profile");
-            }}>
+            }}
+          >
             찜 바로가기
           </button>
-          <button className="btn default secondary-line" onClick={handleCloseModal}>
+          <button
+            className="btn default secondary-line"
+            onClick={handleCloseModal}
+          >
             닫기
           </button>
         </div>
