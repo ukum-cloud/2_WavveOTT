@@ -145,7 +145,7 @@ export const useAuthStore = create<AuthState>()(
 
         onMember: async (email, password) => {
           try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await createUserWithEmailAndPassword(auth, email, password);
           } catch (error) {
             console.error("회원 가입 실패", error);
             throw error;
@@ -154,7 +154,7 @@ export const useAuthStore = create<AuthState>()(
 
         onLogin: async (email, password) => {
           try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
           } catch (error) {
             console.error("로그인 실패", error);
             throw error;

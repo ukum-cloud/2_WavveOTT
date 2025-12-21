@@ -166,9 +166,7 @@ const AniHotList = ({ title, video }: VarietyLiveList) => {
                       <button className="preview-play-btn"></button>
                       <button
                         className={`preview-heart-btn ${
-                          pickList.some((p) => (p.tmdb_id ?? p.id) === (t.tmdb_id ?? t.id))
-                            ? "active"
-                            : ""
+                          pickList.some((p) => p.contentId === t.tmdb_id) ? "active" : ""
                         }`}
                         onClick={() => handleHeart(t)}></button>
                     </div>

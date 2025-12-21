@@ -88,9 +88,7 @@ const MovieDetail = () => {
   const visibleMenu = hasVideos ? activeMenu : "recommend";
 
   // 찜 리스트에 들어있는지 확인
-  const isPicked = pickList.some(
-    (p) => p.contentId === (selectedContent.id ?? selectedContent.tmdb_id)
-  );
+  const isPicked = pickList.some((p) => p.contentId === selectedContent.id);
 
   const handleHeart = async () => {
     await onTogglePick(selectedContent);
