@@ -17,20 +17,24 @@ const CJenm = () => {
   const { tvVideos, onFetchVariety } = useVarietyStore();
 
   useEffect(() => {
-    CJtvN.forEach((v) => {
-      if (v.tmdb_id) {
-        onFetchVariety(v.tmdb_id);
-      }
-    });
-    CJChaina.forEach((v) => {
-      if (v.tmdb_id) {
-        onFetchVariety(v.tmdb_id);
-      }
-    });
-    CJTooniverse.forEach((v) => {
-      if (v.tmdb_id) {
-        onFetchVariety(v.tmdb_id);
-      }
+    // 1. 모든 ID를 하나의 배열로 합치기
+    const rawIds = [
+      ...CJtvN.map((v) => v.tmdb_id),
+      ...CJChaina.map((v) => v.tmdb_id),
+      ...CJTooniverse.map((v) => v.tmdb_id),
+    ];
+
+    // 2. null이나 undefined를 제거하고, TS에게 '이것은 number 배열이다'라고 확신시켜주기
+    const validIds = rawIds.filter(
+      (id): id is number => id !== null && id !== undefined
+    );
+
+    // 3. 중복 ID 제거 (선택 사항이지만 성능상 추천)
+    const uniqueIds = Array.from(new Set(validIds));
+
+    // 4. 병렬 실행
+    uniqueIds.forEach((id) => {
+      onFetchVariety(id);
     });
   }, [onFetchVariety]);
 
