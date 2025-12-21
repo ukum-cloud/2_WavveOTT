@@ -64,7 +64,10 @@ const Animation = () => {
         />
       </div>
 
-      <AniKidsEditorRecommendCardList title="웨이브 애니메이션 추천작" />
+      <AniKidsEditorRecommendCardList
+        title="웨이브 애니메이션 추천작"
+        data={aniHot}
+      />
     </main>
   );
 };

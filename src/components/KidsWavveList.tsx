@@ -28,6 +28,26 @@ const KidsWavveList = ({ title, video, data }: KidsWavveProps) => {
   const [hoverId, setHoverId] = useState<number | null>(null);
   const [searchedKeys, setSearchedKeys] = useState<Record<number, string>>({});
 
+  // 유튜브 호출 최적화
+  const hoverTimer = useRef<number | null>(null);
+
+  const handleMouseEnter = (item: Wavves) => {
+    setHoverId(item.tmdb_id);
+
+    // 기존 타이머 제거 (빠르게 지나가는 경우 방지)
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+
+    // 400ms 동안 머물러야 유튜브 API 호출
+    hoverTimer.current = setTimeout(() => {
+      fetchYoutubeVideo(item);
+    }, 400);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverId(null);
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+  };
+
   // 모달
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSize, setModalSize] = useState<
@@ -104,6 +124,8 @@ const KidsWavveList = ({ title, video, data }: KidsWavveProps) => {
     }
   };
 
+  const pickSet = new Set(pickList.map((p) => p.tmdb_id));
+
   return (
     <section className="card-list">
       <div className="title-wrap">
@@ -132,22 +154,21 @@ const KidsWavveList = ({ title, video, data }: KidsWavveProps) => {
             videoData?.tvsVideo?.key ||
             (item.tmdb_id ? searchedKeys[item.tmdb_id] : null);
           const episodesCount = videoData?.episodes?.length;
+          const isPicked = pickSet.has(item.tmdb_id);
 
           return (
             <SwiperSlide key={item.tmdb_id || item.index}>
               <div
                 className="poster-wrap"
-                onMouseEnter={() => {
-                  setHoverId(item.tmdb_id);
-                  fetchYoutubeVideo(item); // [추가] 호버 시 비디오 없으면 검색 시작
-                }}
-                onMouseLeave={() => setHoverId(null)}
+                onMouseEnter={() => handleMouseEnter(item)}
+                onMouseLeave={handleMouseLeave}
               >
                 {/* 기본 포스터 */}
                 <img
                   className="main"
                   src={`https://${item.season_vertical_logoY_image}`}
                   alt={item.series_title}
+                  // loading="lazy" // 스크롤 시 성능 향상
                 />
 
                 {/* 호버 시 프리뷰 영역 */}
@@ -159,6 +180,7 @@ const KidsWavveList = ({ title, video, data }: KidsWavveProps) => {
                         className="hover video"
                         src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=1&controls=0&modestbranding=1`}
                         title={item.series_title}
+                        loading="lazy"
                       />
                     ) : (
                       <img
@@ -195,6 +217,8 @@ const KidsWavveList = ({ title, video, data }: KidsWavveProps) => {
                       <button className="preview-play-btn"></button>
                       <button
                         className={`preview-heart-btn ${
+                          isPicked ? "active" : ""
+                        } ${
                           pickList.some(
                             (p) => (p.tmdb_id ?? p.tmdb_id) === item.tmdb_id
                           )
