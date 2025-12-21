@@ -21,7 +21,6 @@ const EntertainmetTop10 = ({ title }: RankingCardListProps) => {
           spaceBetween={60}
           className="mySwiper"
           style={{ overflow: "visible" }}>
-          {/* ✅ 여기만 변경 */}
           {varietyTop50.slice(0, 10).map((t, idx) => (
             <SwiperSlide key={t.tmdb_id} style={{ position: "relative" }}>
               <p className={style.RankNum}>{idx + 1}</p>

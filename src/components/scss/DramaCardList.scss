@@ -103,3 +103,8 @@
     margin-top: 10px;
   }
 }
+/* 드라마 카드 리스트 하단 제목 강제 제거 */
+.drama-card-list p,
+.drama-card-list .title {
+  display: none !important;
+}

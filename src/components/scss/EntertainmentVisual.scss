@@ -1,150 +1,134 @@
 .entertainment-visual {
   position: relative;
   width: 100%;
-  height: 680px; /* ✅ 높이 확정 */
+  height: 680px;
   overflow: hidden;
   border-radius: 12px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(circle at 20% 20%, #6a00ff 0%, #2a0a67 45%, #050012 100%);
+  }
 
-/* 배경 */
-.bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(circle at 20% 20%, #6a00ff 0%, #2a0a67 45%, #050012 100%);
-}
+  /* 캔버스 */
+  .glass-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
 
-/* 캔버스 */
-.glass-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
+  .characters {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
 
-/* ✅ 캐릭터 레이어: flex 버리고 absolute로 끝 고정 */
-.characters {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* ✅ 캐릭터 공통: 크기/위치 정상화 */
-.char {
-  position: absolute;
-  bottom: -210px; /* ✅ 내려주는 건 이걸로 */
-  height: 120%; /* ✅ 여기로 크기 조절 */
-  opacity: 0;
-
-  /* ✅ transform 충돌 해결: translate는 래퍼에서, 둥둥은 래퍼에서 */
-}
-
-/* img는 비율 유지 */
-.char img {
-  height: 100%;
-  width: auto;
-  display: block;
-}
-
-/* ✅ 왼쪽: 끝에 붙이기 */
-.char-left {
-  left: -110px; /* ✅ 끝에 딱 붙고 싶으면 0, 더 바깥으로 빼려면 -값 */
-}
-
-/* ✅ 오른쪽: 끝에 붙이기 */
-.char-right {
-  right: -230px;
-}
-
-/* ✅ 등장/둥둥 애니메이션은 "래퍼"에 걸어야 transform이 안 싸움 */
-.char-left,
-.char-right {
-  animation: popIn 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-    floatY 4.2s ease-in-out infinite 1.05s;
-}
-
-/* 좌/우 들어오는 방향만 다르게 */
-.char-left {
-  --inX: -140px;
-}
-.char-right {
-  --inX: 140px;
-  animation-duration: 1.05s, 4.8s;
-  animation-direction: normal, reverse;
-}
-
-/* ✅ 중앙 텍스트 */
-.center {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: #fff;
-  pointer-events: none;
-  transform: translateY(14px);
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-}
-
-.title {
-  line-height: 140%;
-  margin: 0;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  font-size: 80px;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
-  opacity: 0;
-  animation: fadeUp 0.85s ease-out forwards 0.25s;
-}
-
-.subtitle {
-  line-height: 140%;
-  margin: 12px 0 0;
-  font-weight: 500;
-  font-size: 20px;
-  opacity: 0;
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  animation: fadeUp 0.85s ease-out forwards 0.85s;
-}
-
-/* -------- Animations -------- */
-
-/* ✅ 좌/우 공통 등장(커스텀 속성으로 방향만 분기) */
-@keyframes popIn {
-  from {
+  .char {
+    position: absolute;
+    bottom: -210px;
+    height: 120%;
     opacity: 0;
-    transform: translateX(var(--inX)) scale(1.02);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
 
-/* ✅ 둥둥 */
-@keyframes floatY {
-  0%,
-  100% {
-    transform: translateY(0);
+  .char img {
+    height: 100%;
+    width: auto;
+    display: block;
   }
-  50% {
-    transform: translateY(-18px);
-  }
-}
 
-@keyframes fadeUp {
-  from {
+  .char-left {
+    left: -110px;
+  }
+
+  .char-right {
+    right: -230px;
+  }
+
+  .char-left,
+  .char-right {
+    animation: popIn 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+      floatY 4.2s ease-in-out infinite 1.05s;
+  }
+
+  .char-left {
+    --inX: -140px;
+  }
+  .char-right {
+    --inX: 140px;
+    animation-duration: 1.05s, 4.8s;
+    animation-direction: normal, reverse;
+  }
+
+  .center {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #fff;
+    pointer-events: none;
+    transform: translateY(14px);
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .title {
+    line-height: 140%;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    font-size: 80px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
     opacity: 0;
-    transform: translateY(26px);
+    animation: fadeUp 0.85s ease-out forwards 0.25s;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .subtitle {
+    line-height: 140%;
+    margin: 12px 0 0;
+    font-weight: 500;
+    font-size: 20px;
+    opacity: 0;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    animation: fadeUp 0.85s ease-out forwards 0.85s;
+  }
+
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: translateX(var(--inX)) scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes floatY {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-18px);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

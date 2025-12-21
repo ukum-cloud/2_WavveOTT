@@ -68,6 +68,16 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
         setIsModalOpen(true);
     };
 
+    // ========== 재생 함수 ==========
+    const handlePlayClick = (item: OnlyWavve) => {
+        const videoKey = item.wavveVideo?.key || item.videos?.[0]?.key;
+        if (!videoKey) return;
+
+        navigate(`/player/${videoKey}`);
+    };
+
+    // ===================================================
+
     return (
         <section className="card-list">
             <div className="title-wrap">
@@ -167,7 +177,10 @@ const WavveList = ({ title, wavves }: WavveListProps) => {
 
                                         <div className="preview-badge-bottom">
                                             <div className="preview-btn-wrap">
-                                                <button className="preview-play-btn" />
+                                                <button
+                                                    className="preview-play-btn"
+                                                    onClick={() => handlePlayClick(m)}
+                                                />
                                                 <button
                                                     className={`preview-heart-btn ${
                                                         isPicked ? 'active' : ''

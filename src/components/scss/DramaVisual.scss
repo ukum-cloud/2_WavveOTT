@@ -73,7 +73,7 @@
 /* 왼쪽 */
 .drama-visual__actor--left {
   left: 0;
-  width: 760px;
+  width: 820px;
   max-width: 62vw;
   transform: translateX(-6%);
   animation: enterLeft 800ms ease-out both;
@@ -81,8 +81,8 @@
 
 /* 오른쪽 */
 .drama-visual__actor--right {
-  right: 0;
-  width: 520px;
+  right: 149px;
+  width: 585px;
   max-width: 46vw;
   transform: translateX(-6%);
   animation: enterRight 850ms ease-out both;

@@ -131,18 +131,18 @@
     z-index: 5;
 
     &.left {
-      left: 6%;
-      bottom: -50px;
-      width: 460px;
+      left: -30%;
+      bottom: -30px;
+      width: 130%;
       /* 등장 후 'livelyLeft' 애니메이션 실행 */
       animation: slideUpLeft 1s ease-out forwards,
         livelyLeft 7s ease-in-out infinite 1s;
     }
 
     &.right {
-      right: 6%;
-      bottom: -50px;
-      width: 500px;
+      right: -30%;
+      bottom: -30px;
+      width: 120%;
       /* 등장 후 'livelyRight' 애니메이션 실행 */
       animation: slideUpRight 1s ease-out forwards,
         livelyRight 7.5s ease-in-out infinite 1.2s;

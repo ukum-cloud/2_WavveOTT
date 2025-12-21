@@ -320,4 +320,8 @@ export interface MovieState {
     onFetchPopular: () => Promise<void>;
     onFetchNewMovie: () => Promise<void>;
     onFetchTopRated: () => Promise<void>; // Movie.tsx에서 호출하는 함수
+
+    /* 데이터파일 + 영화 프리뷰용 */
+    moviePreviewVideos: Record<number, Video | null>;
+    onFetchMoviePreview: (id: number) => Promise<void>;
 }

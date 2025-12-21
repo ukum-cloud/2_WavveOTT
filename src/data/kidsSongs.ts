@@ -17,7 +17,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763598024054859494.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763598026604692772.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763598026604692772.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763598026604692772.jpg",
     seasontitlelogoimage:
@@ -47,7 +47,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763599825892566578.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763599831228281028.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763599831228281028.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763599831228281028.jpg",
     seasontitlelogoimage:
@@ -77,7 +77,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1764050522186367318.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1764050523593308862.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1764050523593308862.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1764050523593308862.jpg",
     seasontitlelogoimage:
@@ -107,7 +107,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1764050289983110832.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1764050292253378436.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1764050292253378436.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1764050292253378436.jpg",
     seasontitlelogoimage:
@@ -137,7 +137,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1764049495835905760.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1764049615837528623.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1764049615837528623.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1764049615837528623.jpg",
     seasontitlelogoimage:
@@ -167,7 +167,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760507942026555651.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760507944837830442.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760507944837830442.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760507944837830442.jpg",
     seasontitlelogoimage:
@@ -197,7 +197,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760508858416458663.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760507737735594123.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760507737735594123.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760507737735594123.jpg",
     seasontitlelogoimage:
@@ -227,7 +227,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760508767469331392.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760508770081310734.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760508770081310734.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760508770081310734.jpg",
     seasontitlelogoimage:
@@ -257,7 +257,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760508379412194301.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760508382750572587.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760508382750572587.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760508382750572587.jpg",
     seasontitlelogoimage:
@@ -287,7 +287,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760506255793108512.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760506258635206846.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760506258635206846.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760506258635206846.jpg",
     seasontitlelogoimage:
@@ -317,7 +317,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202510/1760505859976167220.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202510/1760505862948550983.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202510/1760505862948550983.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202510/1760505862948550983.jpg",
     seasontitlelogoimage:
@@ -347,7 +347,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202512/1765242187516012061.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202512/1765242190715531828.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202512/1765242190715531828.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202512/1765242190715531828.jpg",
     seasontitlelogoimage:
@@ -377,7 +377,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202512/1765182998843690758.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202512/1765183005049107136.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202512/1765183005049107136.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202512/1765183005049107136.jpg",
     seasontitlelogoimage:
@@ -407,7 +407,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763429763520370647.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763429766150813599.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763429766150813599.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763429766150813599.jpg",
     seasontitlelogoimage:
@@ -437,7 +437,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763428597871413397.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763428602184458800.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763428602184458800.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763428602184458800.jpg",
     seasontitlelogoimage:
@@ -467,7 +467,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202509/1757396486561802860.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202509/1757396491150382244.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202509/1757396491150382244.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202509/1757396491150382244.jpg",
     seasontitlelogoimage:
@@ -497,7 +497,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202512/1765261765954422454.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202512/1765261768229251606.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202512/1765261768229251606.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202512/1765261768229251606.jpg",
     seasontitlelogoimage:
@@ -527,7 +527,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202512/1765248289436737120.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202512/1765248292073054930.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202512/1765248292073054930.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202512/1765248292073054930.jpg",
     seasontitlelogoimage:
@@ -557,7 +557,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763427733043771332.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763427736273622627.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763427736273622627.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763427736273622627.jpg",
     seasontitlelogoimage:
@@ -587,7 +587,7 @@ export const kidsSong: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763427366246292007.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763427372013394929.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763427372013394929.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763427372013394929.jpg",
     seasontitlelogoimage:

@@ -16,6 +16,7 @@ import Modal from './Modal';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import './scss/WavveList.scss';
+import type { Pick } from '../types/pick';
 
 interface PrimaryListProps {
     title: string;
@@ -64,8 +65,19 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
 
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleHeart = async (item) => {
-        await onTogglePick(item);
+    const handleHeart = async (item: PrimaryItem) => {
+        const pickItem: Pick = {
+            id: item.id,
+            tmdb_id: item.id,
+
+            title: item.title,
+            name: item.name,
+            poster_path: item.poster_path,
+            backdrop_path: item.backdrop_path,
+            media_type: (item.mediaType ?? 'tv') as Pick['media_type'],
+        };
+
+        await onTogglePick(pickItem);
         setModalSize('small');
         setIsModalOpen(true);
     };
@@ -166,9 +178,7 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                                             <button
                                                 className={`preview-heart-btn ${
                                                     pickList.some(
-                                                        (p) =>
-                                                            (p.tmdb_id ?? p.id) ===
-                                                            (m.tmdb_id ?? m.id)
+                                                        (p) => (p.tmdb_id ?? p.id) === m.id
                                                     )
                                                         ? 'active'
                                                         : ''

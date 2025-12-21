@@ -1,9 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import mStyle from "./scss/MainSection.module.scss";
-import mSection from "../data/wavveOnly.json";
+import rawSection from "../data/wavveOnly.json";
+
 import { useNavigate } from "react-router-dom";
 import { usePickStore } from "../stores/usePickStore";
 import Modal from "./Modal";
+import type { Wavves } from "../data/wavves";
+
+// ✅ PickId는 지금 코드에서 안 쓰니까 지워도 됨(남겨도 에러는 없음)
+// type PickId = number | string;
+
+interface MainExtra {
+  main_img: string;
+  main_video: string;
+  main_desc: string;
+  main_Title: string;
+  media_type: string;
+  poster_path: string;
+}
+
+interface MainItem extends Partial<Wavves>, MainExtra {
+  id: number; // ✅ Pick이 number 기반이니까 number로 고정
+}
+
+const mSection = rawSection as Wavves[];
 
 const MainSlider = () => {
   const { onTogglePick, pickList, pickAction } = usePickStore();
@@ -14,16 +34,11 @@ const MainSlider = () => {
   const [modalSize, setModalSize] = useState<"xsmall" | "small" | "default" | "large">("default");
   const handleCloseModal = () => setIsModalOpen(false);
 
-  //찜리스트 추가예정
-  const handleHeart = async () => {
-    await onTogglePick(main);
-    setModalSize("small");
-    setIsModalOpen(true);
-  };
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
 
   const base = mSection.find((f) => f.series_title === "ONE : 하이스쿨 히어로즈");
-  const extraMainData = {
+
+  const extraMainData: MainExtra = {
     main_img: "/images/visual/visual-mSection-default.webp",
     main_video: "/videos/video-mSection.mp4",
     main_desc: "학교 폭력 서열을 뒤엎는 하이스쿨 액션 드라마",
@@ -31,12 +46,24 @@ const MainSlider = () => {
     media_type: "tv",
     poster_path: "/7jIZaNtpZlEwNLWGaj0dXl4sDSq.jpg",
   };
-  const main = base && {
-    ...base,
+
+  // ✅ id를 number로 확정 (tmdb_id 없으면 네가 이미 쓰는 233219로 fallback)
+  const pickId: number = base?.tmdb_id ?? 233219;
+
+  const main: MainItem = {
+    ...(base ?? {}),
     ...extraMainData,
+    id: pickId,
   };
 
-  const isPicked = !!main && pickList.some((p) => p.id === main.id);
+  const isPicked = pickList.some((p) => p.id === main.id);
+
+  //찜리스트 추가예정
+  const handleHeart = async () => {
+    await onTogglePick(main);
+    setModalSize("small");
+    setIsModalOpen(true);
+  };
 
   const handleNavigate = () => {
     navigate(`/contentsdetail/wavve/233219`);
@@ -88,6 +115,7 @@ const MainSlider = () => {
               <img src={main.main_Title} alt="title" />
             </span>
           </div>
+
           <div className={`${isPlaying ? mStyle.hideText : mStyle.textM}`}>
             <p className={mStyle.textMT}>
               <span className={mStyle.ageBadge}>
@@ -111,6 +139,7 @@ const MainSlider = () => {
                 </span>
               </div>
             )}
+
             <div className={mStyle.btnBoxT}>
               <span className={mStyle.playBtn} onClick={handleNavigate}></span>
               <span
@@ -120,20 +149,21 @@ const MainSlider = () => {
           </div>
         </div>
       </div>
+
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} size={modalSize}>
-        {/* 모달 내부 콘텐츠: Header, Body, Footer를 직접 구성 */}
         <div className="modal-header">
           <h3 className="modal-title">알림</h3>
-          {/* 닫기 버튼은 onCLose 핸들러를 호출 */}
           <button className="close-button" onClick={handleCloseModal}>
             <span>닫기</span>
           </button>
         </div>
+
         <div className="modal-content">
           <p>
             {pickAction === "add" ? "찜 리스트에 추가되었습니다!" : "찜 리스트에서 제거되었습니다!"}
           </p>
         </div>
+
         <div className="modal-footer">
           <button
             className="btn default primary"

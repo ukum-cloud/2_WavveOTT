@@ -5,6 +5,7 @@ import EntHotList from "../components/EntHotList";
 
 import EntNewList from "../components/EntNewList";
 import EntNewList2 from "../components/EntNewList2";
+import "./scss/Enter.scss";
 
 const Entertainment = () => {
   return (

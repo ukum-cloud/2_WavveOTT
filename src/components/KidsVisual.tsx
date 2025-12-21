@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./scss/kidsVisual.module.scss";
-import kidsLeft from "../../public/images/bg-kids-left.svg";
-import kidsRight from "../../public/images/bg-kids-right.svg";
+import kidsLeft from "/images/bg-kids-left.svg";
+import kidsRight from "/images/bg-kids-right.svg";
 
 // const colors = [
 //   "#FFD700",
