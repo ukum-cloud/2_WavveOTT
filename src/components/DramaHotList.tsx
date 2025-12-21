@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -20,7 +20,8 @@ interface VarietyLiveList {
     data: Wavves[];
 }
 
-const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
+const DramaHotList = ({ title, video, data }: VarietyLiveList) => {
+    const { id } = useParams();
     const { onTogglePick, pickList, pickAction } = usePickStore();
 
     //어떤거가 호버됐는지 체크
@@ -29,10 +30,10 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
     const [modalSize, setModalSize] = useState<'xsmall' | 'small' | 'default' | 'large'>('default');
 
     useEffect(() => {
-        if (hoverId && !video[hoverId]) {
-            useVarietyStore.getState().onFetchVariety(hoverId);
+        if (id) {
+            useVarietyStore.getState().fetchVarietyDetail(Number(id));
         }
-    }, [hoverId, video]);
+    }, [id]);
 
     //스와이퍼 슬라이드 첫번째,마지막 슬라이더 버튼 숨기기
     const prevBtn = useRef<HTMLDivElement>(null);
@@ -100,10 +101,13 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
                     <SwiperSlide key={id}>
                         <div
                             className="poster-wrap badge-new"
-                            onMouseEnter={() => setHoverId(Number(t.tmdb_id))}
+                            // onMouseEnter={() => setHoverId(t.tmdb_id)}
+                            // onMouseLeave={() => setHoverId(null)}
+                            onMouseEnter={() => setHoverId(t.tmdb_id)}
                         >
                             <img
                                 className="main"
+                                // src={`https://image.tmdb.org/t/p/original${t.poster_path}`}
                                 src={`https://${t.seasonposterimage}`}
                                 alt={t.series_title}
                             />
@@ -131,6 +135,11 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
                                             <p className="content-logo">
                                                 <img
                                                     src={`https://${t.seasontitlelogoimage}`}
+                                                    // logoImage(t.index) ||
+                                                    // (t.seasontitlelogoimage?
+                                                    // `https://image.tmdb.org/t/p/original${t.seasontitlelogoimage}`
+                                                    // : undefined)
+
                                                     alt="content-logo"
                                                 />
                                             </p>
@@ -219,4 +228,4 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
     );
 };
 
-export default AniKidsHotList;
+export default DramaHotList;
