@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { aniHot } from "../data/aniHot";
 
 import Marquee from "react-fast-marquee";
 
