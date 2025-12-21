@@ -1,0 +1,76 @@
+.entertainment-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* ✅ 배경 그라데이션 (이게 빠지면 배경 사라짐) */
+  background: radial-gradient(circle at 20% 20%, #6a00ff 0%, #2a0a67 45%, #050012 100%);
+}
+
+.bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ✅ 라인 기본 */
+.line {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  will-change: transform, opacity;
+
+  /* ✅ 속도 업 */
+  animation: float 3.2s ease-in-out infinite alternate;
+}
+
+/* 좌/우 그라데이션 */
+.line-left {
+  stroke: url(#gradLeft);
+}
+.line-right {
+  stroke: url(#gradRight);
+}
+
+/* ✅ 번들 움직임도 속도 업 */
+.bundle-left {
+  transform-origin: 240px 360px;
+  animation: bundleSwayLeft 4s ease-in-out infinite alternate;
+}
+.bundle-right {
+  transform-origin: 1200px 300px;
+  animation: bundleSwayRight 4.6s ease-in-out infinite alternate;
+}
+
+/* 밝기 숨쉬기 */
+@keyframes float {
+  0% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(1.18);
+  }
+}
+
+/* 좌측 말림 움직임 */
+@keyframes bundleSwayLeft {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  100% {
+    transform: translateX(18px) translateY(-10px);
+  }
+}
+
+/* 우측 말림 움직임 */
+@keyframes bundleSwayRight {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  100% {
+    transform: translateX(-20px) translateY(12px);
+  }
+}
