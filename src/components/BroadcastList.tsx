@@ -31,13 +31,13 @@ const broadcastBtns: LogoBtn[] = [
     id: 4,
     name: "jtbc",
     image: "/images/badge/badge-jtbc-logo.svg",
-    url: "/home",
+    url: "/jtbc",
   },
   {
     id: 5,
     name: "cjenm",
     image: "/images/badge/badge-cjenm-logo.svg",
-    url: "/home",
+    url: "/cjenm",
   },
   {
     id: 6,

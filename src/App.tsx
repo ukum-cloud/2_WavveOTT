@@ -44,6 +44,8 @@ const UserQna = lazy(() => import("./pages/UserQna"));
 const Agreement = lazy(() => import("./pages/Agreement"));
 const NoticeA = lazy(() => import("./pages/NoticeA"));
 const NoticeAdetail = lazy(() => import("./pages/NoticeAdetail"));
+const CJenm = lazy(() => import("./pages/Cjenm"));
+const JTBC = lazy(() => import("./pages/Jtbc"));
 
 function App() {
   const location = useLocation();
@@ -94,9 +96,14 @@ function App() {
           <Route path="/kids" element={<Kids />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/cjenm" element={<CJenm />}></Route>
+          <Route path="/jtbc" element={<JTBC />}></Route>
 
           {/* 상세 및 미디어 플레이어 */}
-          <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
+          <Route
+            path="/contentsdetail/:type/:id"
+            element={<ContentsDetail />}
+          />
           <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
           <Route path="/moviedetailEX/:type/:id" element={<MovieDetailEX />} />
           <Route path="/player/:videoKey" element={<Player />} />
