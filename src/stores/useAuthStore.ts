@@ -129,7 +129,6 @@ export const useAuthStore = create<AuthState>()(
           if (user?.uid && selectedCharId !== null) {
             try {
               await updateProfileNickname(user.uid, selectedCharId, nickname);
-              console.log(`Firebase DB 닉네임 업데이트 완료: ${nickname}`);
             } catch (err) {
               console.error("Firebase DB 닉네임 업데이트 실패:", err);
             }
@@ -146,12 +145,7 @@ export const useAuthStore = create<AuthState>()(
 
         onMember: async (email, password) => {
           try {
-            const userCredential = await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-            console.log("회원가입 성공:", userCredential.user.uid);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
           } catch (error) {
             console.error("회원 가입 실패", error);
             throw error;
@@ -160,12 +154,7 @@ export const useAuthStore = create<AuthState>()(
 
         onLogin: async (email, password) => {
           try {
-            const userCredential = await signInWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-            console.log("로그인 성공:", userCredential.user.uid);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
           } catch (error) {
             console.error("로그인 실패", error);
             throw error;
@@ -186,22 +175,19 @@ export const useAuthStore = create<AuthState>()(
               });
             });
 
-            const res = await new Promise<KakaoUserResponse>(
-              (resolve, reject) => {
-                window.Kakao.API.request({
-                  url: "/v2/user/me",
-                  success: resolve,
-                  fail: reject,
-                });
-              }
-            );
+            const res = await new Promise<KakaoUserResponse>((resolve, reject) => {
+              window.Kakao.API.request({
+                url: "/v2/user/me",
+                success: resolve,
+                fail: reject,
+              });
+            });
 
             const uid = res.id.toString();
             const kakaoUser = {
               uid,
               email: res.kakao_account?.email || "",
-              displayName:
-                res.kakao_account?.profile?.nickname || "카카오사용자",
+              displayName: res.kakao_account?.profile?.nickname || "카카오사용자",
               nickname: res.kakao_account?.profile?.nickname || "카카오사용자",
               photoURL: res.kakao_account?.profile?.profile_image_url || "",
               provider: "kakao",
@@ -234,9 +220,7 @@ export const useAuthStore = create<AuthState>()(
           } catch (err) {
             const error = err as Error;
             console.error("카카오 로그인 중 오류:", error);
-            alert(
-              "카카오 로그인 실패: " + (error.message || "알 수 없는 오류")
-            );
+            alert("카카오 로그인 실패: " + (error.message || "알 수 없는 오류"));
           }
         },
 
@@ -262,7 +246,6 @@ export const useAuthStore = create<AuthState>()(
               selectedCharId: null,
               selectedCharNickname: null,
             });
-            console.log("로그아웃 성공");
           } catch (error) {
             console.error("로그아웃 실패", error);
             throw error;

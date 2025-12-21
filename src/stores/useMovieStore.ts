@@ -1,11 +1,5 @@
 import { create } from "zustand";
-import type {
-  MediaBase,
-  Movie,
-  MovieState,
-  MovieWithLogo,
-  Video,
-} from "../types/movie";
+import type { MediaBase, Movie, MovieState, MovieWithLogo, Video } from "../types/movie";
 
 //TMDB-API키
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -53,8 +47,7 @@ export const useMovieStore = create<MovieState>((set) => ({
         );
 
         // 첫 번째 이미지 선택 (한국어 찾고 없으면 영어 찾기)
-        const logo =
-          koLogo?.file_path || enLogo?.file_path || cnLogo?.file_path || null;
+        const logo = koLogo?.file_path || enLogo?.file_path || cnLogo?.file_path || null;
 
         /* 러닝타임 */
         // 러닝타임 가져오기
@@ -97,15 +90,11 @@ export const useMovieStore = create<MovieState>((set) => ({
 
         //감독 찾기
         const director =
-          creditData.crew.filter(
-            (c: MediaBase) => c.known_for_department === "Directing"
-          ) || null;
+          creditData.crew.filter((c: MediaBase) => c.known_for_department === "Directing") || null;
 
         //작가 찾기
         const writer =
-          creditData.crew.filter(
-            (c: MediaBase) => c.known_for_department === "Writing"
-          ) || null;
+          creditData.crew.filter((c: MediaBase) => c.known_for_department === "Writing") || null;
 
         return {
           ...movie,
@@ -181,8 +170,7 @@ export const useMovieStore = create<MovieState>((set) => ({
         );
 
         // 첫 번째 이미지 선택 (한국어 찾고 없으면 영어 찾기)
-        const logo =
-          koLogo?.file_path || enLogo?.file_path || cnLogo?.file_path || null;
+        const logo = koLogo?.file_path || enLogo?.file_path || cnLogo?.file_path || null;
 
         /* 러닝타임 */
         // 러닝타임 가져오기
@@ -225,15 +213,11 @@ export const useMovieStore = create<MovieState>((set) => ({
 
         //감독 찾기
         const director =
-          creditData.crew.filter(
-            (c: MediaBase) => c.known_for_department === "Directing"
-          ) || null;
+          creditData.crew.filter((c: MediaBase) => c.known_for_department === "Directing") || null;
 
         //작가 찾기
         const writer =
-          creditData.crew.filter(
-            (c: MediaBase) => c.known_for_department === "Writing"
-          ) || null;
+          creditData.crew.filter((c: MediaBase) => c.known_for_department === "Writing") || null;
 
         return {
           ...movie,
@@ -249,7 +233,6 @@ export const useMovieStore = create<MovieState>((set) => ({
       })
     );
     set({ newMovies: movieWithExtra });
-    // console.log('신작 영화', movieWithExtra);
   },
 
   selectedNewMovie: null,
@@ -283,8 +266,7 @@ export const useMovieStore = create<MovieState>((set) => ({
 
         // 등급이 없거나 NR일 경우 15로 고정
         const certValue = kr?.release_dates?.[0]?.certification;
-        const certification =
-          !certValue || certValue === "NR" ? "15" : certValue;
+        const certification = !certValue || certValue === "NR" ? "15" : certValue;
 
         const koLogo = detailData.images?.logos?.find(
           (logo: MovieWithLogo) => logo.iso_639_1 === "ko"
