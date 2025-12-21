@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useVarietyStore } from '../stores/useVarietyStore';
 
 import RecapVisual from '../components/RecapVisual';
-import AniKidsRankingList from '../components/AniKidsRankingList';
+// import AniKidsRankingList from '../components/AniKidsRankingList';
 import AniKidsHotList from '../components/AniKidsHotList';
 
 import { varietyTop50 } from '../data/2025_varietyTop50_tmdb';
@@ -62,7 +62,7 @@ const Recap = () => {
             <RecapVisual />
 
             <div className="inner">
-                <AniKidsRankingList title="2025년 TOP 50 영화" data={moviePlusTop50} />
+                {/* <AniKidsRankingList title="2025년 TOP 50 영화" data={moviePlusTop50} /> */}
                 <AniKidsHotList
                     title="2025년 TOP 50 해외시리즈"
                     video={tvVideos}
