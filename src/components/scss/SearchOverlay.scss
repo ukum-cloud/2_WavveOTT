@@ -42,3 +42,16 @@
     }
   }
 }
+
+/* Idle */
+li.is-active button .word {
+  color: white;
+}
+
+/* Typing */
+li.is-active button .txt {
+  .hit,
+  .rest {
+    color: white;
+  }
+}
