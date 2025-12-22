@@ -1,13 +1,14 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import './style/common-button.scss';
-
 // 1. 공통 컴포넌트 및 로딩바
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollTop from './components/ScrollTop';
 import { BendNotice } from './components/BendNotice';
+import SideMenu from './components/SideMenu';
+import SearchOverlay from './components/SearchOverlay';
 
 // 2. Zustand Stores
 import { useAuthStore } from './stores/useAuthStore';
@@ -69,9 +70,19 @@ function App() {
     const hideLayoutPaths = ['/', '/login', '/signup', '/choice-char'];
     const isHideLayout = hideLayoutPaths.includes(currentPath);
 
+    const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
     return (
         // Suspense를 최상단에 배치하여 Lazy 로딩되는 모든 페이지에 로딩바 적용
         <Suspense>
+            {/* 1. 사이드바 (카테고리) - 레이아웃 숨김 페이지가 아닐 때만 존재 */}
+            {!isHideLayout && (
+                <SideMenu isOpen={isSideMenuOpen} onClose={() => setIsSideMenuOpen(false)} />
+            )}
+            {/* 2. 검색 오버레이 - 상태에 따라 렌더링 */}
+            {isSearchOpen && <SearchOverlay onClose={() => setIsSearchOpen(false)} />}
+
             {/* 상단 레이아웃 영역 */}
             {!isHideLayout && (
                 <>
@@ -139,7 +150,11 @@ function App() {
                 <>
                     <BendNotice />
                     <Footer />
-                    <BottomMenu />
+                    {/* 3. BottomMenu에 열기 함수들 전달 */}
+                    <BottomMenu
+                        onOpenCategory={() => setIsSideMenuOpen(true)}
+                        onOpenSearch={() => setIsSearchOpen(true)}
+                    />
                 </>
             )}
         </Suspense>

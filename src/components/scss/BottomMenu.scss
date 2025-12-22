@@ -7,9 +7,9 @@
     left: 0;
     width: 100%;
     background: #000;
-    padding: 10px 20px;
+    // padding: 10px 20px;
     z-index: 1000;
-    @include g.respond1024 {
+    @include g.respond1024(1024px) {
         display: block;
     }
 
@@ -17,25 +17,41 @@
         display: flex;
         justify-content: space-between;
         li {
+            width: 100%;
             a {
                 display: block;
                 text-align: center;
-
-                .hoverimg {
-                    display: none;
+                padding: 10px 20px;
+                img {
+                    width: 70%;
+                    @include g.respond768(1024px) {
+                        width: 100%;
+                    }
                 }
 
                 &:hover {
-                    .defaultimg {
-                        display: none;
-                    }
-                    .hoverimg {
-                        display: block;
-                    }
+                    background: g.$color-primary;
                 }
                 // span {
                 //     display: block;
                 // }
+            }
+
+            button {
+                display: block;
+                text-align: center;
+                padding: 10px 20px;
+                width: 100%;
+                img {
+                    width: 70%;
+                    @include g.respond768(1024px) {
+                        width: 100%;
+                    }
+                }
+
+                &:hover {
+                    background: g.$color-primary;
+                }
             }
         }
     }

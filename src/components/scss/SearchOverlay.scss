@@ -1,57 +1,71 @@
-@use "../../App.scss" as g;
+@use '../../App.scss' as g;
 
 .search-popup {
-  position: fixed;
-  inset: 0;
-  height: calc(100vh);
-  z-index: 900;
-
-  .search-inner-wrap {
-    position: relative;
-    padding: 90px 240px 80px;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
+    height: calc(100vh);
+    z-index: 900;
     background-color: rgba(0, 0, 0, 1);
 
-    .close-bg {
-      position: absolute;
-      inset: 0;
-      background: transparent;
-      z-index: 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-end;
-      padding: 0 240px;
+    .search-inner-wrap {
+        position: relative;
+        margin: 150px auto;
+        max-width: 1200px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 1);
 
-      button {
-        width: 40px;
-        height: 40px;
-        margin-top: 100px;
-      }
+        @include g.respond480(768px) {
+            padding: 20px;
+
+            margin-top: 20px;
+        }
+
+        .close-bg {
+            // position: absolute;
+            inset: 0;
+            background: transparent;
+            z-index: 0;
+            // display: flex;
+            // align-items: flex-start;
+            // justify-content: flex-end;
+            // padding: 0 240px;
+
+            button {
+                position: absolute;
+                right: 0px;
+                width: 40px;
+                height: 40px;
+                top: -50px;
+                @include g.respond480(768px) {
+                    top: 80px;
+                    right: 15px;
+                }
+            }
+        }
+
+        .search-inner {
+            position: relative;
+            z-index: 10;
+            max-width: 1440px;
+            margin: 100px auto 0;
+
+            .search-body {
+                margin-top: 50px;
+            }
+        }
     }
-
-    .search-inner {
-      position: relative;
-      z-index: 10;
-      max-width: 1440px;
-      margin: 100px auto 0;
-
-      .search-body {
-        margin-top: 50px;
-      }
-    }
-  }
 }
 
 /* Idle */
 li.is-active button .word {
-  color: white;
+    color: white;
 }
 
 /* Typing */
 li.is-active button .txt {
-  .hit,
-  .rest {
-    color: white;
-  }
+    .hit,
+    .rest {
+        color: white;
+    }
 }

@@ -56,28 +56,28 @@ h2 {
     gap: $gap;
 }
 // 반응형
-$breakpoint-sm: 480px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1200px;
+// $breakpoint-sm: 480px;
+// $breakpoint-md: 768px;
+// $breakpoint-lg: 1024px;
+// $breakpoint-xl: 1200px;
 
-@mixin respond480 {
-    @media screen and (max-width: $breakpoint-sm) {
+@mixin respond480($width) {
+    @media screen and (max-width: $width) {
         @content;
     }
 }
-@mixin respond768 {
-    @media screen and (max-width: $breakpoint-md) {
+@mixin respond768($width) {
+    @media screen and (max-width: $width) {
         @content;
     }
 }
-@mixin respond1024 {
-    @media screen and (max-width: $breakpoint-lg) {
+@mixin respond1024($width) {
+    @media screen and (max-width: $width) {
         @content;
     }
 }
-@mixin respond1200 {
-    @media screen and (max-width: $breakpoint-xl) {
+@mixin respond1200($width) {
+    @media screen and (max-width: $width) {
         @content;
     }
 }
