@@ -17,21 +17,17 @@ const EntertainmetTop10 = ({ title }: RankingCardListProps) => {
 
       <div className={style.RankWrap}>
         <Swiper
-          slidesPerView={6}
-          spaceBetween={60}
+          slidesPerView="auto"
+          spaceBetween={24}
           className="mySwiper"
-          style={{ overflow: "visible" }}
-        >
+          style={{ overflow: "visible" }}>
           {varietyTop50.slice(0, 10).map((t, idx) => (
             <SwiperSlide key={t.tmdb_id} style={{ position: "relative" }}>
               <p className={style.RankNum}>{idx + 1}</p>
 
               <div className={style.Rankingcard}>
                 <Link to={`/contentsdetail/tv/${t.tmdb_id}`}>
-                  <img
-                    src={`https://${t.season_vertical_logoY_image}`}
-                    alt={t.series_title}
-                  />
+                  <img src={`https://${t.season_vertical_logoY_image}`} alt={t.series_title} />
                 </Link>
               </div>
             </SwiperSlide>
