@@ -187,6 +187,8 @@ const ContentsDetail = () => {
           (type || "tv") as ContentType,
           0
         );
+
+        console.log("시청 기록 저장 완료");
       } catch (error) {
         console.error("시청 기록 저장 실패:", error);
       }

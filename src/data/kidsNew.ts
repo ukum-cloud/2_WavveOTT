@@ -27,7 +27,7 @@ export const kidsNew: Wavves[] = [
         tmdb_id: 259097,
         tmdb_search_status:
             "Closest match for 'TV유치원: 뿌지직 똥탐정' (Title Mismatch, vod) | Stage: 1st (series_title) (Used title: TV유치원)",
-        youtube_key: 'g11_qWklms',
+        youtube_key: '-g11_qWklms',
     },
     {
         index: 2,
@@ -55,6 +55,7 @@ export const kidsNew: Wavves[] = [
         tmdb_id: 128827,
         tmdb_search_status:
             'Matched by name (vod) | Stage: 1st (series_title) (Used title: 한글용사 아이야)',
+        youtube_key: 'izZ9cKY-M7I',
     },
     {
         index: 3,
@@ -81,6 +82,7 @@ export const kidsNew: Wavves[] = [
         tmdb_id: 245204,
         tmdb_search_status:
             'Matched by name (vod) | Stage: 1st (series_title) (Used title: 비밀의 아이프리)',
+        youtube_key: 'x9dBJI1NhZA',
     },
     {
         index: 4,
@@ -107,6 +109,7 @@ export const kidsNew: Wavves[] = [
         tmdb_id: 103905,
         tmdb_search_status:
             'Matched by name (vod) | Stage: 2nd (programtitle) (Used title: 최고다! 호기심딱지)',
+        youtube_key: 'N6W9mXN0wF8',
     },
     {
         index: 5,
@@ -134,6 +137,7 @@ export const kidsNew: Wavves[] = [
         tmdb_id: 286054,
         tmdb_search_status:
             'Matched by name (vod) | Stage: 1st (series_title) (Used title: 방과 후 초능력)',
+        youtube_key: '8_E9c-kB7Ak',
     },
     {
         index: 7,
