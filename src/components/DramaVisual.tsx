@@ -62,7 +62,7 @@ const DramaVisual: React.FC = () => {
             style={{
                 position: 'relative',
                 width: '100%',
-                aspectRatio: '2023 / 843',
+                // aspectRatio: '2023 / 843',
                 height: '680px',
                 overflow: 'hidden',
                 backgroundColor: '#000',
@@ -73,62 +73,6 @@ const DramaVisual: React.FC = () => {
                 justifyContent: 'center',
             }}
         >
-            <canvas
-                ref={canvasRef}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    pointerEvents: 'none',
-                }}
-            />
-
-            {/* 배우 캐릭터 레이어 (AnimationVisual과 동일한 애니메이션 수치) */}
-            <div
-                style={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    zIndex: 2,
-                }}
-            >
-                <div
-                    style={{
-                        height: '92%',
-                        position: 'relative',
-                        bottom: '-40px',
-                        animation:
-                            'slideInLeft 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, idleSway 4s ease-in-out infinite 1.3s',
-                    }}
-                >
-                    <img
-                        src="/images/visual/visual-drama-main-actor2.png"
-                        style={{ height: '100%', width: 'auto' }}
-                        alt="left actor"
-                    />
-                </div>
-
-                <div
-                    style={{
-                        height: '92%',
-                        position: 'relative',
-                        bottom: '-40px',
-                        animation:
-                            'slideInRight 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, idleSway 4.5s ease-in-out infinite reverse 1.3s',
-                    }}
-                >
-                    <img
-                        src="/images/visual/visual-drama-main-actor1.png"
-                        style={{ height: '100%', width: 'auto' }}
-                        alt="right actor"
-                    />
-                </div>
-            </div>
-
             {/* 중앙 텍스트 (AnimationVisual 폰트 스타일 및 애니메이션 완벽 복사) */}
             <div
                 style={{
@@ -164,6 +108,64 @@ const DramaVisual: React.FC = () => {
                 >
                     하루의 끝, 함께하는 드라마
                 </p>
+            </div>
+
+            <canvas
+                ref={canvasRef}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    pointerEvents: 'none',
+                }}
+            />
+
+            {/* 배우 캐릭터 레이어 (AnimationVisual과 동일한 애니메이션 수치) */}
+            <div
+                style={{
+                    // position: 'relative',
+                    inset: 0,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                }}
+            ></div>
+            <div
+                style={{
+                    // height: '92%',
+                    width: '50%',
+                    position: 'absolute',
+                    left: '0',
+                    bottom: '-40px',
+                    animation:
+                        'slideInLeft 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, idleSway 4s ease-in-out infinite 1.3s',
+                }}
+            >
+                <img
+                    src="/images/visual/visual-drama-main-actor2.png"
+                    style={{ width: '100%' }}
+                    alt="left actor"
+                />
+            </div>
+
+            <div
+                style={{
+                    // height: '92%',
+                    width: '40%',
+                    position: 'absolute',
+                    right: '0',
+                    bottom: '-40px',
+                    animation:
+                        'slideInRight 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, idleSway 4.5s ease-in-out infinite reverse 1.3s',
+                }}
+            >
+                <img
+                    src="/images/visual/visual-drama-main-actor1.png"
+                    style={{ width: '100%' }}
+                    alt="right actor"
+                />
             </div>
 
             <style>{`
