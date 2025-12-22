@@ -42,7 +42,7 @@ const broadcastBtns: LogoBtn[] = [
     {
         id: 6,
         name: '키즈',
-        image: '/images/badge/badge-키즈-logo.svg',
+        image: '/images/badge/badge-kids-logo.svg',
         url: '/kids',
     },
 ];

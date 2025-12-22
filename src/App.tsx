@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import './style/common-button.scss';
 
 // 1. 공통 컴포넌트 및 로딩바
 import Header from './components/Header';
@@ -70,7 +71,7 @@ function App() {
     return (
         // Suspense를 최상단에 배치하여 Lazy 로딩되는 모든 페이지에 로딩바 적용
         <Suspense>
-            {/* 1. 상단 레이아웃 영역 */}
+            {/* 상단 레이아웃 영역 */}
             {!isHideLayout && (
                 <>
                     <ScrollTop />
@@ -78,66 +79,61 @@ function App() {
                 </>
             )}
 
-            {/* 2. 메인 콘텐츠 영역 */}
-            <main className="app-main-layout">
-                <Routes>
-                    {/* 인증 및 초기 진입 프로세스 */}
-                    <Route path="/" element={<Intro />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/choice-char" element={<ChoiceChar />} />
+            <Routes>
+                {/* 인증 및 초기 진입 프로세스 */}
+                <Route path="/" element={<Intro />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/choice-char" element={<ChoiceChar />} />
 
-                    {/* 서비스 주요 페이지 */}
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/entertainment" element={<Entertainment />} />
-                    <Route path="/drama" element={<Drama />} />
-                    <Route path="/movie" element={<Movie />} />
-                    <Route path="/overseasSeries" element={<OverseasSeries />} />
-                    <Route path="/currentAffairs" element={<CurrentAffairs />} />
-                    <Route path="/animation" element={<Animation />} />
-                    <Route path="/kids" element={<Kids />} />
-                    <Route path="/recap" element={<Recap />} />
-                    <Route path="/mbc" element={<Mbc />} />
-                    <Route path="/kbs" element={<Kbs />} />
-                    <Route path="/cjenm" element={<CJenm />}></Route>
-                    <Route path="/jtbc" element={<JTBC />}></Route>
-                    <Route path="/welcome" element={<Welcome />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/cjenm" element={<CJenm />}></Route>
-                    <Route path="/jtbc" element={<JTBC />}></Route>
+                {/* 서비스 주요 페이지 */}
+                <Route path="/home" element={<Home />} />
+                <Route path="/entertainment" element={<Entertainment />} />
+                <Route path="/drama" element={<Drama />} />
+                <Route path="/movie" element={<Movie />} />
+                <Route path="/overseasSeries" element={<OverseasSeries />} />
+                <Route path="/currentAffairs" element={<CurrentAffairs />} />
+                <Route path="/animation" element={<Animation />} />
+                <Route path="/kids" element={<Kids />} />
+                <Route path="/recap" element={<Recap />} />
+                <Route path="/mbc" element={<Mbc />} />
+                <Route path="/kbs" element={<Kbs />} />
+                <Route path="/cjenm" element={<CJenm />}></Route>
+                <Route path="/jtbc" element={<JTBC />}></Route>
+                <Route path="/welcome" element={<Welcome />} />
+                <Route path="/profile" element={<Profile />} />
 
-                    {/* 상세 및 미디어 플레이어 */}
-                    <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
-                    <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
-                    <Route path="/moviedetailEX/:type/:id" element={<MovieDetailEX />} />
-                    <Route path="/player/:videoKey" element={<Player />} />
+                {/* 상세 및 미디어 플레이어 */}
+                <Route path="/contentsdetail/:type/:id" element={<ContentsDetail />} />
+                <Route path="/moviedetail/:type/:id" element={<MovieDetail />} />
+                <Route path="/moviedetailEX/:type/:id" element={<MovieDetailEX />} />
+                <Route path="/player/:videoKey" element={<Player />} />
 
-                    {/* 이용권 및 결제 */}
-                    <Route path="/ticket" element={<Ticket />} />
-                    <Route path="/payment" element={<Payment />} />
-                    <Route path="/payment-finish" element={<PaymentFinish />} />
+                {/* 이용권 및 결제 */}
+                <Route path="/ticket" element={<Ticket />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/payment-finish" element={<PaymentFinish />} />
 
-                    {/* 고객센터 (중첩 라우팅) */}
-                    <Route path="/service-center" element={<ServiceCenter />}>
-                        <Route index element={<NoticeA />} />
-                        <Route path="notice" element={<NoticeA />} />
-                        <Route path="notice/:noticeId" element={<NoticeAdetail />} />
-                        <Route path="userQna" element={<UserQna />} />
-                        <Route path="agreement" element={<Agreement />} />
-                    </Route>
+                {/* 고객센터 (중첩 라우팅) */}
+                <Route path="/service-center" element={<ServiceCenter />}>
+                    <Route index element={<NoticeA />} />
+                    <Route path="notice" element={<NoticeA />} />
+                    <Route path="notice/:noticeId" element={<NoticeAdetail />} />
+                    <Route path="userQna" element={<UserQna />} />
+                    <Route path="agreement" element={<Agreement />} />
+                </Route>
 
-                    {/* 이벤트 (중첩 라우팅) */}
-                    <Route path="/event-group" element={<EventGroup />}>
-                        <Route index element={<Event />} />
-                        <Route path="event" element={<Event />} />
-                        <Route path="event/:eventId" element={<EventDetail />} />
-                    </Route>
+                {/* 이벤트 (중첩 라우팅) */}
+                <Route path="/event-group" element={<EventGroup />}>
+                    <Route index element={<Event />} />
+                    <Route path="event" element={<Event />} />
+                    <Route path="event/:eventId" element={<EventDetail />} />
+                </Route>
 
-                    <Route path="/common" element={<Common />} />
-                </Routes>
-            </main>
+                <Route path="/common" element={<Common />} />
+            </Routes>
 
-            {/* 3. 하단 레이아웃 영역 */}
+            {/* 하단 레이아웃 영역 */}
             {!isHideLayout && (
                 <>
                     <BendNotice />
