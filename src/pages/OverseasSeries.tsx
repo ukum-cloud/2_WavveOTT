@@ -32,7 +32,7 @@ const OverseasSeries = () => {
       }
     };
     fetchAllData();
-  }, []);
+  }, [onFetchVariety]);
 
   return (
     <main className="overseas-home">

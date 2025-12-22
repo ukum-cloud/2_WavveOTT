@@ -19,7 +19,7 @@ const Entertainment = () => {
         onFetchVariety(v.tmdb_id);
       }
     });
-  }, []);
+  }, [onFetchVariety]);
   return (
     <main className="entertainment-wrap">
       <EntertainmentVisual

@@ -13,23 +13,23 @@
     font-family: "wave";
     text-align: center;
     @include g.myFlexCol($gap: 100px);
-    @include g.respond1024 {
+    @include g.respond1024(1024px) {
       padding: 60px 0;
       gap: 60px;
     }
 
-    >div {
+    > div {
       display: flex;
       flex-direction: column;
       gap: 24px;
 
-      >p {
+      > p {
         font-size: 1.125rem;
         color: g.$color-font-grey2;
       }
     }
 
-    >ul {
+    > ul {
       @include g.myFlex($jc: center, $gap: 80px);
       height: 300px;
 
@@ -37,10 +37,9 @@
         flex-wrap: wrap;
         height: auto;
         gap: 40px, 80px;
-
       }
 
-      >li {
+      > li {
         @include g.myFlexCol($gap: 32px);
         align-items: center;
         cursor: pointer;

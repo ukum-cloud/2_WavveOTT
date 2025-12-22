@@ -37,7 +37,7 @@ const JTBC = () => {
         onFetchVariety(v.tmdb_id);
       }
     });
-  }, []);
+  }, [onFetchVariety]);
 
   return (
     <main className="kids-home">

@@ -34,7 +34,7 @@ const CJenm = () => {
     uniqueIds.forEach((id) => {
       onFetchVariety(id);
     });
-  }, []);
+  }, [onFetchVariety]);
 
   return (
     <main className="kids-home">

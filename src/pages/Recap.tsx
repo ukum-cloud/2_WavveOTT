@@ -54,7 +54,7 @@ const Recap = () => {
         onFetchVariety(v.tmdb_id);
       }
     });
-  }, []);
+  }, [onFetchVariety]);
 
   return (
     <main className="ani-home">
