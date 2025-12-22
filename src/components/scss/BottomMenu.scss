@@ -24,7 +24,7 @@
                 padding: 10px 20px;
                 img {
                     width: 70%;
-                    @include g.respond480(768px) {
+                    @include g.respond768(1024px) {
                         width: 100%;
                     }
                 }
@@ -44,7 +44,7 @@
                 width: 100%;
                 img {
                     width: 70%;
-                    @include g.respond480(768px) {
+                    @include g.respond768(1024px) {
                         width: 100%;
                     }
                 }
