@@ -1,0 +1,29 @@
+@use '../../App.scss' as g;
+
+.BottomMenu {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: pink;
+    padding: 10px 20px;
+    z-index: 1000;
+    @include g.respond480 {
+        display: block;
+    }
+
+    ul {
+        display: flex;
+        justify-content: space-between;
+        li {
+            a {
+                display: block;
+                text-align: center;
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+}
