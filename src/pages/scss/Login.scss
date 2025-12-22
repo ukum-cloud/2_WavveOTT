@@ -13,7 +13,7 @@ main {
       left: -80%;
       width: 300%;
       height: 300%;
-      background-image: url("/images/bg-login.png"); 
+      background-image: url("/images/bg-login.png");
       background-repeat: repeat;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 0;
@@ -23,7 +23,7 @@ main {
     }
   }
 
-  > .login {
+  >.login {
     position: relative;
     z-index: 1;
     margin: 140px auto;
@@ -34,8 +34,14 @@ main {
     padding: 60px 80px 30px;
     background-color: g.$color-bg-dark;
     border-radius: 40px;
+    min-width: 320px;
 
-    > div {
+    @include g.respond768 {
+      width: 92%;
+      padding: 20px 20px;
+    }
+
+    >div {
       @include g.myFlexCol($gap: 16px);
 
       h2 {
@@ -43,7 +49,7 @@ main {
         text-align: center;
         font-size: 32px;
 
-        + p {
+        +p {
           text-align: center;
           color: g.$color-font-grey4;
           font-size: 1rem;
@@ -62,8 +68,8 @@ main {
         position: relative;
         color: g.$color-font-white;
 
-        > input[type="text"],
-        > input[type="password"] {
+        >input[type="text"],
+        >input[type="password"] {
           width: 100%;
         }
       }
@@ -71,7 +77,8 @@ main {
       .text-info {
         font-size: 0.75rem;
         color: g.$color-font2;
-        &.error{
+
+        &.error {
           color: g.$color-font-error;
         }
       }
@@ -79,6 +86,7 @@ main {
 
     .save-id {
       @include g.myFlex($gap: 20px, $jc: flex-start);
+
       label {
         @include g.myFlex($gap: 8px, $jc: flex-start);
         color: g.$color-font-grey3;
@@ -89,11 +97,21 @@ main {
       @include g.myFlex($gap: 30px, $jc: center);
       color: g.$color-font2;
 
+      @include g.respond768 {
+        gap: 4px;
+
+      }
+
       li {
         position: relative;
         padding-right: 30px;
         word-break: keep-all;
         color: g.$color-font-grey4;
+
+        @include g.respond768 {
+          padding-right: 4px;
+
+        }
 
         &::after {
           content: "";
@@ -130,7 +148,7 @@ main {
       color: g.$color-font-grey4;
       text-align: center;
 
-      > ul {
+      >ul {
         @include g.myFlex($gap: 20px, $jc: center);
       }
 
@@ -143,6 +161,7 @@ main {
 
   // 배경 이미지 애니메이션 키프레임
   @keyframes slowMove {
+
     0%,
     100% {
       transform: rotate(45deg) translate(0, 0);
