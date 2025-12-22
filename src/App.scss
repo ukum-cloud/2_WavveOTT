@@ -66,3 +66,18 @@ $breakpoint-xl: 1200px;
         @content;
     }
 }
+@mixin respond768 {
+    @media screen and (max-width: $breakpoint-md) {
+        @content;
+    }
+}
+@mixin respond1024 {
+    @media screen and (max-width: $breakpoint-lg) {
+        @content;
+    }
+}
+@mixin respond1200 {
+    @media screen and (max-width: $breakpoint-xl) {
+        @content;
+    }
+}
