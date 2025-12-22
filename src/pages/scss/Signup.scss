@@ -9,9 +9,14 @@ main {
     flex-direction: column;
     gap: 40px;
     width: 700px;
+    min-width: 320px;
     padding: 60px 80px 30px;
     background-color: g.$color-bg-dark;
     border-radius: 40px;
+     @include g.respond768 {
+      width: 92%;
+      padding: 20px 20px;
+    }
 
     > div {
       @include g.myFlexCol($gap: 16px);
