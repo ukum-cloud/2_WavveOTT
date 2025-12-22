@@ -1,39 +1,16 @@
 .main-nomination-wrap {
-  // background-image: url("/images/bg-main-nomination.svg");
-  // background-repeat: no-repeat;
-  // background-size: cover;
-  // background-position: center;
+  background-image: url("/images/bg-main-nomination.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 640px;
+  padding: 90px 0px;
 
   .inner {
-    position: relative;
-    padding: 90px 0px;
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: url("/images/bg-main-nomination.svg") center / cover no-repeat;
-      opacity: 1;
-      transition: opacity 300ms ease;
-      z-index: 0;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: url("/images/bg-main-nomination.svg") left / cover no-repeat;
-      opacity: 0;
-      transition: opacity 300ms ease;
-      z-index: 0;
-    }
     .main-nomination {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 100px;
-      position: relative;
-      z-index: 1;
-
       .left-text {
         .item {
           margin: 50px 0 20px;
@@ -63,14 +40,10 @@
         max-width: 1160px;
 
         > li {
+          min-width: 342px;
           height: 460px;
           border-radius: 12px;
           overflow: hidden;
-
-          > a {
-            display: inline-block;
-            height: 100%;
-          }
         }
       }
     }
@@ -81,11 +54,11 @@
   .main-nomination-wrap {
     height: 100%;
     .inner {
+      display: flex;
       flex-direction: row;
       justify-content: center;
 
       .main-nomination {
-        gap: 40px;
         .content-list {
           > li {
             &:last-child {
@@ -116,15 +89,8 @@
 
 @media (max-width: 768px) {
   .main-nomination-wrap {
-    background-position: center;
     padding: 24px 0;
     .inner {
-      &::before {
-        opacity: 0;
-      }
-      &::after {
-        opacity: 1;
-      }
       .main-nomination {
         flex-direction: column;
         align-items: center;
