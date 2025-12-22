@@ -3,6 +3,7 @@
 .payment-wrap {
   margin-top: 90px;
   padding-top: 60px;
+  min-width: 320px;
 
   .inner {
     gap: 60px;
@@ -11,11 +12,16 @@
   h2 {
     text-align: center;
   }
+
   section,
   .btn-box,
   .desc-wrap {
     width: 952px;
     margin: auto;
+
+    @include g.respond1024 {
+      width: 100%;
+    }
   }
 
   section {
@@ -38,14 +44,20 @@
     div.payment-top {
       @include g.myFlex();
 
-      > h4 {
+      @include g.respond768 {
+        @include g.myFlexCol($gap: 20px, );
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      >h4 {
         color: g.$color-secondary-white;
         font-family: "wave";
         font-size: 22px;
         line-height: 140%;
       }
 
-      > p {
+      >p {
         @include g.myFlex($gap: 4px, $jc: flex-end);
 
         .text-price {
@@ -76,11 +88,17 @@
     div.payment-bottom {
       @include g.myFlex($gap: null, $ai: flex-end);
 
+      @include g.respond768 {
+        @include g.myFlexCol($gap: 20px, );
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
       .text-left {
         @include g.myFlexCol($gap: 8px);
         font-size: 0.875rem;
 
-        > ul {
+        >ul {
           @include g.myFlex($jc: flex-start, $gap: 20px);
 
           li {
@@ -91,6 +109,7 @@
                 width: 0;
               }
             }
+
             &::before {
               position: absolute;
               content: "";
@@ -107,10 +126,12 @@
           }
         }
 
-        > p {
+        >p {
           @include g.myFlex($gap: 20px);
+
           .period-date {
             position: relative;
+
             &::before {
               position: absolute;
               content: "";
@@ -132,7 +153,7 @@
         ul {
           @include g.myFlex($jc: flex-start, $gap: 20px);
 
-          > li {
+          >li {
             color: g.$color-font-grey2;
             line-height: 140%;
             letter-spacing: -0.2px;
@@ -161,21 +182,25 @@
 
   .pay-wrap {
     @include g.myFlexCol($gap: 0);
+
     &:not(.active) {
       .header {
         border-radius: 12px;
       }
+
       .item {
         max-height: 0;
         opacity: 0;
         padding: 0;
       }
     }
+
     &.active {
       .item {
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
+
     .header {
       @include g.myFlex($gap: 0, $jc: flex-start);
 
@@ -183,12 +208,14 @@
       padding: 0 40px;
       border-radius: 12px 12px 0 0;
       background: g.$color-secondary-dark2;
+
       label {
         width: 100%;
         line-height: 80px;
         @include g.myFlex($gap: 8px, $jc: flex-start);
       }
     }
+
     .item {
       @include g.myFlexCol($gap: 30px);
       align-items: center;
@@ -198,6 +225,11 @@
 
       .card-wrap {
         @include g.myFlex($gap: 60px, $jc: center);
+
+        @include g.respond768 {
+          gap: 20px;
+        }
+
         .add-card {
           @include g.myFlexCol($gap: 12px);
           align-items: center;
@@ -206,6 +238,13 @@
           height: 200px;
           border-radius: 12px;
           border: 1px solid g.$color-secondary-dark3;
+
+          @include g.respond768 {
+
+            width: 240px;
+            min-width: 100px;
+          }
+
           span {
             display: flex;
             justify-content: center;
@@ -217,11 +256,13 @@
             border-radius: 50%;
             overflow: hidden;
             cursor: no-drop;
+
             img {
               width: 24px;
             }
           }
         }
+
         .btn-left,
         .btn-right {
           img {
@@ -231,10 +272,20 @@
           }
         }
       }
+
       .card-list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 24px;
+
+        @include g.respond768 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include g.respond480 {
+          grid-template-columns: repeat(1, 1fr);
+        }
+
         li {
           width: 220px;
           height: 90px;
@@ -244,21 +295,27 @@
           border: 1px solid g.$color-secondary-dark3;
           background-position: center;
           background-repeat: no-repeat;
+
           &:nth-child(1) {
             background-image: url(/images/button/btn-credit.png);
           }
+
           &:nth-child(2) {
             background-image: url(/images/button/btn-phone.png);
           }
+
           &:nth-child(3) {
             background-image: url(/images/button/btn-nPay.png);
           }
+
           &:nth-child(4) {
             background-image: url(/images/button/btn-kakao.png);
           }
+
           &:nth-child(5) {
             background-image: url(/images/button/btn-payco.png);
           }
+
           &:hover,
           &.active {
             border-radius: 12px;
@@ -268,29 +325,40 @@
             &:nth-child(1) {
               background-image: url(/images/button/btn-credit-hover.png);
             }
+
             &:nth-child(2) {
               background-image: url(/images/button/btn-phone-hover.png);
             }
+
             &:nth-child(3) {
               background-image: url(/images/button/btn-nPay-hover.png);
             }
+
             &:nth-child(4) {
               background-image: url(/images/button/btn-kakao-hover.png);
             }
+
             &:nth-child(5) {
               background-image: url(/images/button/btn-payco-hover.png);
             }
           }
+
           span {
             opacity: 0;
           }
         }
       }
+
       .text-box {
         color: g.$color-font-grey2;
         font-size: 0.825rem;
         line-height: 150%;
         letter-spacing: -0.2px;
+
+        @include g.respond768 {
+          padding: 0 20px;
+        }
+
         span {
           display: block;
         }
@@ -301,14 +369,17 @@
   .agree-wrap {
     @include g.myFlexCol($gap: 16px);
     color: g.$color-font-grey2;
+
     .all-agree {
       label {
         color: g.$color-font-white;
       }
     }
+
     .sub-agrees {
       @include g.myFlexCol($gap: 16px);
     }
+
     p {
       label {
         @include g.myFlex($gap: 8px, $jc: flex-start);
@@ -317,17 +388,20 @@
       }
     }
   }
+
   .btn-box {
     @include g.myFlex($gap: 20px, $jc: center);
+
     button {
       width: 200px;
     }
   }
+
   .desc-wrap {
     ul {
       @include g.myFlexCol($gap: 8px);
 
-      > li {
+      >li {
         list-style: disc;
         color: g.$color-font-grey2;
         font-size: 0.875rem;

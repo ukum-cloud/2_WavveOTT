@@ -63,7 +63,7 @@ const ChoiceChar = () => {
           0
         );
 
-        // ⏱ 최소 로딩 시간 보장
+        // 최소 로딩 시간 보장
         setTimeout(() => {
           if (mounted) setIsLoading(false);
         }, remaining);
@@ -72,7 +72,7 @@ const ChoiceChar = () => {
 
     fetchNicknames();
 
-    // ⛔ 최대 로딩 시간 제한 (핵심)
+    // 최대 로딩 시간 제한 (핵심)
     const forceEnd = setTimeout(() => {
       if (mounted) setIsLoading(false);
     }, MAX_LOADING_TIME);

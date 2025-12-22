@@ -98,36 +98,61 @@ const MovieVisual: React.FC = () => {
         };
     }, []);
 
-    // 애니메이션 키프레임 정의
-    const keyframes = `
-    /* 왼쪽/오른쪽 슬라이드 인 */
-    @keyframes slideInLeft {
-      0% { opacity: 0; transform: translateX(-100%); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideInRight {
-      0% { opacity: 0; transform: translateX(100%); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    
-    /* 중앙 텍스트 100px 밑에서 올라오는 효과 */
-    @keyframes textRevealUp {
-      0% { 
-        opacity: 0; 
-        transform: translateY(100px); 
-      }
-      100% { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
-    }
+    // 미디어 쿼리를 포함한 스타일 정의
+    const combinedStyles = `
+        /* 기존 애니메이션 키프레임 */
+        @keyframes slideInLeft {
+          0% { opacity: 0; transform: translateX(-100%); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+          0% { opacity: 0; transform: translateX(100%); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes textRevealUp {
+          0% { opacity: 0; transform: translateY(100px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes subtleFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
 
-    /* 미세한 부유 효과 */
-    @keyframes subtleFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-  `;
+        /* 반응형 미디어 쿼리 추가 */
+        .visual-wrapper {
+            height: 680px;
+        }
+
+        @media (max-width: 1200px) {
+            .visual-wrapper {
+                height: 600px; /* 태블릿 사이즈 */
+            }
+            .actor-left, .actor-right {
+                width: 40% !important; /* 배우 이미지 크기 조정 */
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .visual-wrapper {
+                height: 500px; /* 태블릿 사이즈 */
+            }
+            .actor-left, .actor-right {
+                width: 40% !important; /* 배우 이미지 크기 조정 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .visual-wrapper {
+                height: 400px; /* 모바일 사이즈 */
+            }
+            .actor-left, .actor-right {
+                display: none; /* 모바일에서 인물 숨기기 (선택 사항) */
+            }
+            .text-content {
+                width: 90% !important;
+            }
+        }
+    `;
 
     return (
         <div
@@ -136,13 +161,12 @@ const MovieVisual: React.FC = () => {
             style={{
                 position: 'relative',
                 width: '100%',
-                height: '680px',
                 overflow: 'hidden',
                 backgroundColor: '#000',
                 borderRadius: '0px',
             }}
         >
-            <style>{keyframes}</style>
+            <style>{combinedStyles}</style>
 
             {/* 배경 레이어 */}
             <img
@@ -150,8 +174,8 @@ const MovieVisual: React.FC = () => {
                 alt=""
                 style={{
                     width: '100%',
-                    // maxHeight: '680px',
                     height: '100%',
+                    objectFit: 'cover', // 이미지가 찌그러지지 않게 꽉 채움
                     display: 'block',
                     opacity: 0.4,
                 }}
@@ -191,6 +215,7 @@ const MovieVisual: React.FC = () => {
 
             {/* 중앙 텍스트 컨텐츠 */}
             <div
+                className="text-content"
                 style={{
                     position: 'absolute',
                     top: '50%',
@@ -200,6 +225,7 @@ const MovieVisual: React.FC = () => {
                     textAlign: 'center',
                     zIndex: 3,
                     pointerEvents: 'none',
+                    width: '100%'
                 }}
             >
                 <h2
@@ -216,11 +242,11 @@ const MovieVisual: React.FC = () => {
                 </h2>
                 <p
                     style={{
-                        fontSize: '1.2rem',
+                        fontSize: 'clamp(1rem, 2vw, 1.2rem)',
                         marginTop: '12px',
                         fontWeight: 500,
                         opacity: 0,
-                        animation: 'textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards', // 타이틀 이후 0.3초 뒤 등장
+                        animation: 'textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards',
                     }}
                 >
                     세상을 보는 새로운 시선
@@ -229,12 +255,12 @@ const MovieVisual: React.FC = () => {
 
             {/* 왼쪽 남자 배우 */}
             <div
+                className="actor-left"
                 style={{
                     position: 'absolute',
                     left: '0',
                     bottom: '-10px',
                     width: '36%',
-
                     opacity: 0,
                     animation: 'slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
                 }}
@@ -250,6 +276,7 @@ const MovieVisual: React.FC = () => {
 
             {/* 오른쪽 배우들 */}
             <div
+                className="actor-right"
                 style={{
                     position: 'absolute',
                     right: '0',

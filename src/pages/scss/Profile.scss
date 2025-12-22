@@ -1,10 +1,17 @@
 @use "../../App.scss" as g;
 
 .profile-wrap {
+  min-width: 320px;
   margin-top: 90px;
   padding-top: 60px;
+
   .my-box {
     @include g.myFlex($gap: 24px, $jc: flex-start);
+
+    @include g.respond768 {
+      @include g.myFlexCol($gap: 24px);
+    }
+
     .my-profile-wrap,
     .my-ticket-wrap {
       @include g.myFlexCol();
@@ -23,26 +30,33 @@
         width: 120px;
         height: 120px;
         background-size: 120px 120px;
+
         &.char-1 {
           background-image: url("/images/icons/icon-char-1.svg");
         }
+
         &.char-2 {
           background-image: url("/images/icons/icon-char-2.svg");
         }
+
         &.char-3 {
           background-image: url("/images/icons/icon-char-3.svg");
         }
+
         &.char-4 {
           color: transparent;
           background-image: url("/images/icons/icon-char-4.svg");
         }
       }
+
       .text-name {
         margin-top: 10px;
         font-family: "wave";
         font-size: 22px;
-        > p {
+
+        >p {
           @include g.myFlex($gap: 8px, $jc: flex-start);
+
           &.nickname-modify {
             input {
               width: 160px;
@@ -52,12 +66,15 @@
         }
       }
     }
+
     .my-ticket-wrap {
       gap: 40px;
+
       .text-ticket {
         @include g.myFlexCol($gap: 20px);
         align-items: center;
         justify-content: center;
+
         .ticket-title {
           margin-top: 10px;
           color: g.$color-secondary-white;
@@ -67,15 +84,19 @@
 
         .ticket-price {
           @include g.myFlex($gap: 12px);
+
           .month {
             color: g.$color-font-grey2;
           }
+
           .text-coast {
             @include g.myFlex($gap: 4px);
+
             strong {
               font-family: "Wave";
               font-size: 26px;
             }
+
             span {
               padding-top: 4px;
               font-family: "Wave";
@@ -84,6 +105,7 @@
         }
       }
     }
+
     .btn-box {
       width: 100%;
     }

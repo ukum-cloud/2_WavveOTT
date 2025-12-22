@@ -6,12 +6,18 @@
 
   section {
     @include g.myFlexCol($gap: 40px);
+
     h2 {
       &.withLogo {
         padding-left: 257px;
         background-image: url(/images/double-logo.png);
         background-repeat: no-repeat;
         background-position: left center;
+
+        @include g.respond768 {
+          padding-left: 200px;
+          background-size: 180px;
+        }
       }
     }
   }
@@ -21,7 +27,19 @@
     gap: 20px;
     overflow-x: hidden;
     padding-bottom: 20px;
-    > .list {
+
+    @include g.respond1024 {
+      flex-wrap: wrap;
+      gap: unset;
+      justify-content: space-between;
+      row-gap: 40px;
+    }
+
+    @include g.respond768 {
+      @include g.myFlexCol($gap: 30px);
+    }
+
+    >.list {
       position: relative;
       width: 464px;
       height: 480px;
@@ -29,7 +47,16 @@
       transform-style: preserve-3d;
       transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 
-      > div {
+      @include g.respond1024 {
+        flex-wrap: wrap;
+        width: 48%;
+      }
+
+      @include g.respond768 {
+        width: 100%;
+      }
+
+      >div {
         position: absolute;
         top: 0;
         left: 0;
@@ -41,23 +68,37 @@
         padding: 30px 50px;
         display: block;
         border-radius: 12px;
+
+        @include g.respond1024 {
+          padding: 16px;
+        }
+
+        @include g.respond768 {
+          padding: 30px 50px;
+        }
+        @include g.respond480 {
+          padding: 30px 20px;
+        }
       }
 
       // ===================================
       // 1. 앞면 (.card-front) 스타일
       // ===================================
-      > .card-front {
+      >.card-front {
         @include g.myFlexCol($gap: 30px);
         background-color: g.$color-secondary-dark1;
         border: 1px solid g.$color-secondary-dark2;
         transform: rotateY(0deg);
         z-index: 2;
+
         .front-top {
           @include g.myFlex();
           height: 22px;
+
           &.jc {
             justify-content: center;
           }
+
           .badge {
             min-width: 40px;
             padding: 4px 8px;
@@ -70,6 +111,7 @@
             font-weight: 600;
             letter-spacing: -0.24px;
           }
+
           .btn-detail {
             padding-right: 26px;
             color: #999;
@@ -83,25 +125,34 @@
             background-position-x: 100%;
             background-size: 24px;
             line-height: 24px;
+
             &:hover {
               color: g.$color-font-white;
               background-image: url(/images/button/btn-rotation-hover.svg);
             }
           }
         }
+
         .front-header {
           h3 {
             color: g.$color-font-white;
             text-align: center;
             font-family: "wave";
             font-size: 1.75rem;
+
+            @include g.respond768 {
+              font-size: 1.6rem;
+            }
           }
         }
+
         .front-content {
           @include g.myFlexCol($gap: 16px);
+
           &:has(.ticket-brand) {
             @include g.myFlexCol($gap: 50px);
           }
+
           .ticket-price {
             @include g.myFlex();
             width: 364px;
@@ -109,25 +160,34 @@
             padding: 12px 24px;
             border-radius: 16px;
             background: #11141d;
+
+            @include g.respond1024 {
+              width: 100%;
+            }
+
             &:hover {
               cursor: pointer;
               background-color: g.$color-primary;
+
               .period {
                 .month {
                   color: g.$color-font-white;
                   font-family: "wave";
                   font-size: 1.125rem;
                 }
+
                 .sale {
                   background-color: g.$color-secondary-black;
                 }
               }
+
               .coast-box {
                 .text-coast {
                   del {
                     color: g.$color-secondary-white;
                   }
                 }
+
                 .text-total {
                   color: g.$color-secondary-white;
                 }
@@ -142,6 +202,7 @@
                 font-size: 1.125rem;
                 line-height: 140%;
               }
+
               .sale {
                 display: flex;
                 align-items: center;
@@ -154,24 +215,30 @@
                 background: g.$color-primary;
               }
             }
+
             .coast-box {
               @include g.myFlexCol($gap: 0);
+
               .text-coast {
                 @include g.myFlex($gap: 4px);
+
                 del {
                   padding-right: 4px;
                   color: g.$color-font-grey2;
                 }
+
                 strong {
                   font-family: "wave";
                   font-size: 2rem;
                   line-height: 140%;
                   letter-spacing: -0.32px;
                 }
+
                 span {
                   font-size: 1.125rem;
                 }
               }
+
               .text-total {
                 color: g.$color-font-grey2;
                 font-size: 0.875rem;
@@ -180,9 +247,11 @@
               }
             }
           }
+
           .ticket-brand {
             @include g.myFlexCol($gap: 8px);
             align-items: center;
+
             span {
               color: g.$color-font-grey2;
               line-height: 140%;
@@ -192,12 +261,15 @@
               background-position: left center;
               background-repeat: no-repeat;
               background-size: 24.5px;
+
               &.icon-wave {
                 background-image: url("/images/icons/icon-logo-wave-small.svg");
               }
+
               &.icon-tving {
                 background-image: url("/images/icons/icon-logo-tving-small.jpg");
               }
+
               &.pd-none {
                 padding-left: 0;
               }
@@ -215,7 +287,7 @@
       // ===================================
       // 2. 뒷면 (.card-back) 스타일
       // ===================================
-      > .card-back {
+      >.card-back {
         padding: 40px;
         border-radius: 12px;
         border: 1px solid #1d2131;
@@ -227,13 +299,15 @@
         ul {
           @include g.myFlexCol($gap: 20px);
 
-          > li {
+          >li {
             @include g.myFlex($gap: 0, $ai: flex-start);
             line-height: 140%;
+
             strong {
               color: g.$color-font-grey2;
               font-weight: normal;
             }
+
             span {
               text-align: right;
             }
@@ -242,13 +316,14 @@
       }
 
       &.flipped {
+
         // 앞면을 뒤로 180도 회전하여 숨김
-        > .card-front {
+        >.card-front {
           transform: rotateY(-180deg);
         }
 
         // 뒷면을 정면 (0도)으로 회전하여 보이게 함
-        > .card-back {
+        >.card-back {
           transform: rotateY(0deg);
         }
       }
