@@ -12,9 +12,12 @@ footer {
         .chatbotNtopBtn {
             position: fixed;
             bottom: 40px;
-            right: 20px;
+            right: 30px;
             z-index: 10;
             @include g.myFlexCol($gap: 16px);
+            @include g.respond1024 {
+                bottom: 90px;
+            }
 
             .hidden {
                 opacity: 0;

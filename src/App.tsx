@@ -12,6 +12,7 @@ import { BendNotice } from './components/BendNotice';
 // 2. Zustand Stores
 import { useAuthStore } from './stores/useAuthStore';
 import { usePickStore } from './stores/usePickStore';
+import BottomMenu from './components/BottomMenu';
 
 // 3. 페이지 컴포넌트 Lazy Loading (첫 진입 속도 4초 이하 달성의 핵심)
 const Intro = lazy(() => import('./pages/Intro'));
@@ -138,6 +139,7 @@ function App() {
                 <>
                     <BendNotice />
                     <Footer />
+                    <BottomMenu />
                 </>
             )}
         </Suspense>
