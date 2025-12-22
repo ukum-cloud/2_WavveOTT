@@ -8,6 +8,7 @@ import {
   browserSessionPersistence,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -227,10 +228,16 @@ export const useAuthStore = create<AuthState>()(
         onGoogleLogin: async () => {
           try {
             const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            set({ user: result.user });
-            alert("구글 로그인 성공");
-            return true;
+            const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+              await signInWithRedirect(auth, provider);
+              return true;
+            } else {
+              const result = await signInWithPopup(auth, provider);
+              set({ user: result.user });
+              alert("구글 로그인 성공");
+              return true;
+            }
           } catch (err) {
             alert("구글 로그인 실패");
             console.error("구글 로그인 실패", err);

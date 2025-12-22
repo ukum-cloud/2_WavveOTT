@@ -7,9 +7,6 @@ import { usePickStore } from "../stores/usePickStore";
 import Modal from "./Modal";
 import type { Wavves } from "../data/wavves";
 
-// ✅ PickId는 지금 코드에서 안 쓰니까 지워도 됨(남겨도 에러는 없음)
-// type PickId = number | string;
-
 interface MainExtra {
   main_img: string;
   main_video: string;
@@ -20,7 +17,7 @@ interface MainExtra {
 }
 
 interface MainItem extends Partial<Wavves>, MainExtra {
-  id: number; // ✅ Pick이 number 기반이니까 number로 고정
+  id: number;
 }
 
 const mSection = rawSection as Wavves[];
@@ -47,7 +44,6 @@ const MainSlider = () => {
     poster_path: "/7jIZaNtpZlEwNLWGaj0dXl4sDSq.jpg",
   };
 
-  // ✅ id를 number로 확정 (tmdb_id 없으면 네가 이미 쓰는 233219로 fallback)
   const pickId: number = base?.tmdb_id ?? 233219;
 
   const main: MainItem = {

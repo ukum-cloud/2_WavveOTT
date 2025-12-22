@@ -139,7 +139,17 @@ const EntertainmentVisual: React.FC<Props> = ({
 
       {/* 중앙 텍스트 */}
       <div className="center">
-        <h2 className="title">{title}</h2>
+        <h2
+          style={{
+            fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            fontWeight: 900,
+            letterSpacing: "-0.03em",
+            margin: 0,
+            textShadow: "0 10px 30px rgba(0,0,0,0.5)",
+            animation: "fadeInUp 0.8s ease-out forwards 0.3s",
+          }}>
+          {title} <span style={{ opacity: 0.6 }}>WAVVE</span>
+        </h2>
         <p className="subtitle">{subtitle}</p>
       </div>
     </section>
