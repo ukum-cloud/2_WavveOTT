@@ -4,15 +4,22 @@ footer {
     .inner {
         position: relative;
         padding: 80px 20px;
+
+        @include g.respond480 {
+            padding: 20px;
+        }
+
         .chatbotNtopBtn {
             position: fixed;
             bottom: 40px;
             right: 20px;
             z-index: 10;
             @include g.myFlexCol($gap: 16px);
+
             .hidden {
                 opacity: 0;
             }
+
             > .chatbot,
             > .goToTop {
                 width: 50px;
@@ -25,28 +32,38 @@ footer {
                 // 나타나고 사라지는 것을 부드럽게 처리
                 transition: opacity 0.3s ease-in-out;
             }
+
             > .chatbot {
                 &.visible {
                     opacity: 1;
                     pointer-events: auto; // 클릭 활성화
                 }
             }
+
             > .goToTop {
                 background-image: url(/images/icons/icon-top.png);
+
                 &.visible {
                     opacity: 1;
                     pointer-events: auto; // 클릭 활성화
+
                     &:hover {
                         background-image: url(/images/icons/icon-top-hover.png);
                     }
                 }
             }
         }
+
         .footer-item {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             margin-bottom: 60px;
+
+            // 여기반응형
+            @include g.respond480 {
+                display: block;
+            }
 
             .footer-left {
                 .left-top {
@@ -62,7 +79,13 @@ footer {
                         letter-spacing: -0.2px;
                     }
                 }
+
                 .left-bottom {
+                    // 여기반응형
+                    @include g.respond480 {
+                        display: none;
+                    }
+
                     p {
                         font-size: 16px;
                         color: g.$color-other3;
@@ -71,6 +94,7 @@ footer {
                     }
                 }
             }
+
             .footer-right {
                 .right-item {
                     display: flex;
@@ -84,6 +108,7 @@ footer {
                         line-height: 160%;
                         letter-spacing: -0.2px;
                     }
+
                     .item-phone {
                         color: g.$color-other3;
                         font-size: 32px;
@@ -91,6 +116,7 @@ footer {
                         line-height: 160%;
                         letter-spacing: -0.2px;
                     }
+
                     .work-hour {
                         color: g.$color-other3;
                         font-size: 14px;
@@ -100,6 +126,7 @@ footer {
                 }
             }
         }
+
         .footer-bottom {
             display: flex;
             justify-content: space-between;
@@ -109,6 +136,7 @@ footer {
                 width: 200px;
                 height: 42px;
             }
+
             .app-icon-box {
                 display: flex;
                 align-items: center;
@@ -116,5 +144,6 @@ footer {
             }
         }
     }
+
     background-color: #12141d;
 }
