@@ -93,6 +93,11 @@
 
                         transition: opacity 0.4s ease, transform 0.4s ease;
 
+                        // 여기반응형
+                        @include g.respond1200 {
+                            display: none;
+                        }
+
                         .img-box {
                             position: relative;
                             width: 464px;
@@ -217,10 +222,18 @@
 
                         &::after {
                             opacity: 0;
+                            // 여기반응형
+                            @include g.respond1200 {
+                                opacity: 1;
+                            }
                         }
 
                         .main {
                             opacity: 0;
+                            // 여기반응형
+                            @include g.respond1200 {
+                                opacity: 1;
+                            }
                         }
 
                         .preview-wrap {
