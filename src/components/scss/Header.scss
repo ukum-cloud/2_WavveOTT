@@ -45,6 +45,9 @@ header {
           color: g.$color-font-white;
         }
       }
+      @include g.respond1024 {
+        display: none;
+      }
     }
   }
   .header-right {
