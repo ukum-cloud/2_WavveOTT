@@ -45,6 +45,11 @@
           height: 460px;
           border-radius: 12px;
           overflow: hidden;
+
+          > a {
+            display: inline-block;
+            height: 100%;
+          }
         }
       }
     }
