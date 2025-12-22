@@ -13,4 +13,8 @@
   height: 180px;
   border-radius: 12px;
   background: g.$color-bg-dark;
+  @include g.respond1200 {
+        padding: 20px;
+height: auto;
+      }
 }

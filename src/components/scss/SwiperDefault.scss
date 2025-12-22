@@ -1,6 +1,7 @@
 @use "../../App.scss" as g;
 
 .default-list {
+  overflow: hidden;
   .swiper {
     position: relative;
     overflow: visible;

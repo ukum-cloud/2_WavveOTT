@@ -38,6 +38,7 @@ main {
 
     @include g.respond768 {
       width: 92%;
+      margin: 40px auto;
       padding: 20px 20px;
     }
 

@@ -1,7 +1,7 @@
 
 /* common layout */
 .inner {
-    /* min-width: 1440px; */
+    min-width: 320px;
     max-width: 1720px;
     width: 100%;
     margin: 0 auto;

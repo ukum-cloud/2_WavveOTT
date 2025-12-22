@@ -1,6 +1,7 @@
 @use "../../App.scss" as g;
 .watch-list-container {
   overflow: hidden;
+  max-width: 100%;
 
   .watch-item {
     @include g.myFlex($gap: 24px, $jc: flex-start, $ai: flex-start);
