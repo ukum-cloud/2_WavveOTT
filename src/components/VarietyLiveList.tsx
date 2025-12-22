@@ -14,6 +14,7 @@ import { varietyTop50 } from '../data/2025_varietyTop50_tmdb';
 import type { Episodes, Video } from '../types/movie';
 
 import Modal from './Modal';
+import type { Pick } from '../types/pick';
 
 interface VarietyLiveList {
     title: string;
@@ -72,11 +73,19 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
 
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleHeart = async (item) => {
+    const handleHeart = async (item: Pick) => {
         await onTogglePick(item);
         setModalSize('small');
         setIsModalOpen(true);
     };
+
+    // ========== 재생 함수 ==========
+    const handlePlayClick = () => {
+        if (!videoKey) return;
+        navigate(`/player/${videoKey}`);
+    };
+
+    // ===================================================
 
     return (
         <section className="card-list">
@@ -164,13 +173,15 @@ const VarietyLiveList = ({ title, video }: VarietyLiveList) => {
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
-                                            <button className="preview-play-btn"></button>
+                                            <button
+                                                className="preview-play-btn"
+                                                onClick={handlePlayClick}
+                                            />
                                             <button
                                                 className={`preview-heart-btn ${
+                                                    typeof t.tmdb_id === 'number' &&
                                                     pickList.some(
-                                                        (p) =>
-                                                            (p.tmdb_id ?? p.id) ===
-                                                            (t.tmdb_id ?? t.id)
+                                                        (p) => (p.tmdb_id ?? p.id) === t.tmdb_id
                                                     )
                                                         ? 'active'
                                                         : ''

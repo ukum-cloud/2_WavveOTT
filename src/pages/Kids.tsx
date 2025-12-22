@@ -5,7 +5,7 @@ import { useVarietyStore } from "../stores/useVarietyStore";
 import { kidsTop20 } from "../data/kidsTop20";
 import { kidsNew } from "../data/kidsNew";
 import { kidsEdu } from "../data/kidsEdu";
-import { KidsEng50 } from "../data/kidsEngTop50";
+// import { KidsEng50 } from "../data/kidsEngTop50";
 import { kidsTV } from "../data/kidsTVmanhwa";
 import { kidsSong } from "../data/kidsSongs";
 
@@ -20,21 +20,15 @@ const Kids = () => {
   const { tvVideos, onFetchVariety } = useVarietyStore();
 
   useEffect(() => {
-    kidsTop20.forEach((v) => {
-      if (v.tmdb_id) {
+    // 모든 배열을 하나로 합칩니다.
+    const allKidsData = [...kidsTop20, ...kidsTV, ...kidsNew, ...kidsEdu];
+
+    // 합쳐진 배열을 한 번만 돌면서 id가 있을 때만 호출합니다.
+    allKidsData.forEach((v) => {
+      if (typeof v.tmdb_id === "number") {
         onFetchVariety(v.tmdb_id);
       }
     });
-    kidsTV.forEach((v) => {
-      if (v.tmdb_id) {
-        onFetchVariety(v.tmdb_id);
-      }
-    });
-    // kidsNew.forEach((v) => {
-    //   if (v.tmdb_id) {
-    //     onFetchVariety(v.tmdb_id);
-    //   }
-    // });
   }, [onFetchVariety]);
 
   return (
@@ -52,11 +46,11 @@ const Kids = () => {
           video={tvVideos}
           data={kidsEdu}
         />
-        <KidsWavveList
+        {/* <KidsWavveList
           title="Hello #영어로 말해요"
           video={tvVideos}
           data={KidsEng50}
-        />
+        /> */}
         <KidsWavveList
           title="같이 불러요! #동요"
           video={tvVideos}

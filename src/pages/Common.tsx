@@ -25,17 +25,13 @@ const Common = () => {
   const [currentLabel, setCurrentLabel] = useState("");
 
   // path와 selectedLabel을 인수로 받기
-  const handleSelectionAndNavigation = (
-    path: string,
-    selectedLabel: string
-  ) => {
+  const handleSelectionAndNavigation = (path: string, selectedLabel: string) => {
     // 전달받은 label을 바로 설정하여
     setCurrentLabel(selectedLabel);
 
     // 페이지 이동 처리
     if (path && path !== "??") {
       navigate(path);
-      console.log(`[라우팅] 경로 이동: ${path}`);
     } else {
       console.log(`[라우팅] 경로 이동 생략: 유효하지 않은 path (${path})`);
     }
@@ -70,12 +66,8 @@ const Common = () => {
         <ul className="common-btn-list">
           <li>
             <button className="btn xsmall primary">btn xsmall primary</button>
-            <button className="btn xsmall secondary">
-              btn xsmall secondary
-            </button>
-            <button className="btn xsmall secondary-line">
-              btn xsmall secondary-line
-            </button>
+            <button className="btn xsmall secondary">btn xsmall secondary</button>
+            <button className="btn xsmall secondary-line">btn xsmall secondary-line</button>
             <button className="btn xsmall secondary" disabled>
               btn xsmall disabled
             </button>
@@ -83,21 +75,15 @@ const Common = () => {
           <li>
             <button className="btn small primary">btn small primary</button>
             <button className="btn small secondary">btn small secondary</button>
-            <button className="btn small secondary-line">
-              btn small secondary-line
-            </button>
+            <button className="btn small secondary-line">btn small secondary-line</button>
             <button className="btn small secondary" disabled>
               btn small disabled
             </button>
           </li>
           <li>
             <button className="btn default primary">btn default primary</button>
-            <button className="btn default secondary">
-              btn default secondary
-            </button>
-            <button className="btn default secondary-line">
-              btn default secondary-line
-            </button>
+            <button className="btn default secondary">btn default secondary</button>
+            <button className="btn default secondary-line">btn default secondary-line</button>
             <button className="btn default secondary" disabled>
               btn default disabled
             </button>
@@ -105,9 +91,7 @@ const Common = () => {
           <li>
             <button className="btn large primary">btn large primary</button>
             <button className="btn large secondary">btn large secondary</button>
-            <button className="btn large secondary-line">
-              btn large secondary-line
-            </button>
+            <button className="btn large secondary-line">btn large secondary-line</button>
             <button className="btn large disabled" disabled>
               btn large disabled
             </button>
@@ -142,28 +126,16 @@ const Common = () => {
         <ul>
           <li style={{ display: "flex", gap: "20px", alignItems: "center" }}>
             {/* -------- 모달 테스트 버튼 --------- */}
-            <button
-              className="btn small secondary"
-              onClick={() => handleOpenModal("xsmall")}
-            >
+            <button className="btn small secondary" onClick={() => handleOpenModal("xsmall")}>
               XSmall 모달 열기
             </button>
-            <button
-              className="btn small secondary"
-              onClick={() => handleOpenModal("small")}
-            >
+            <button className="btn small secondary" onClick={() => handleOpenModal("small")}>
               Small 모달 열기
             </button>
-            <button
-              className="btn default secondary"
-              onClick={() => handleOpenModal("default")}
-            >
+            <button className="btn default secondary" onClick={() => handleOpenModal("default")}>
               Default 모달 열기
             </button>
-            <button
-              className="btn default secondary"
-              onClick={() => handleOpenModal("large")}
-            >
+            <button className="btn default secondary" onClick={() => handleOpenModal("large")}>
               Large 모달 열기
             </button>
             {/* ----- // 모달 테스트 버튼------ */}
@@ -190,10 +162,7 @@ const Common = () => {
         </div>
         <div className="modal-footer">
           <button className="btn small primary">확인 </button>
-          <button
-            className="btn small secondary-line"
-            onClick={handleCloseModal}
-          >
+          <button className="btn small secondary-line" onClick={handleCloseModal}>
             닫기
           </button>
         </div>

@@ -90,14 +90,9 @@ export const saveWatchHistory = async (
 
     // 러닝타임 결정 (TV 시리즈는 평균 에피소드 길이)
     let runtime = content.runtime || 0;
-    if (
-      type === "tv" &&
-      content.episode_run_time &&
-      content.episode_run_time.length > 0
-    ) {
+    if (type === "tv" && content.episode_run_time && content.episode_run_time.length > 0) {
       runtime = Math.round(
-        content.episode_run_time.reduce((a, b) => a + b, 0) /
-          content.episode_run_time.length
+        content.episode_run_time.reduce((a, b) => a + b, 0) / content.episode_run_time.length
       );
     }
 
@@ -115,9 +110,7 @@ export const saveWatchHistory = async (
 
     await setDoc(historyRef, watchData, { merge: true });
 
-    console.log(
-      `시청 기록 저장 성공: ${watchData.title} (${Math.round(lastPosition)}초)`
-    );
+    console.log(`시청 기록 저장 성공: ${watchData.title} (${Math.round(lastPosition)}초)`);
     return true;
   } catch (error) {
     console.error("시청 기록 저장 에러:", error);
@@ -189,7 +182,6 @@ export const deleteWatchHistory = async (
     );
 
     await deleteDoc(historyRef);
-    console.log(`시청 기록 삭제 성공: ${contentId}`);
     return true;
   } catch (error) {
     console.error("시청 기록 삭제 에러:", error);
@@ -221,9 +213,7 @@ export const formatTime = (seconds: number): string => {
   const secs = Math.floor(seconds % 60);
 
   if (hours > 0) {
-    return `${hours}:${String(minutes).padStart(2, "0")}:${String(
-      secs
-    ).padStart(2, "0")}`;
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   }
   return `${minutes}:${String(secs).padStart(2, "0")}`;
 };
@@ -257,7 +247,6 @@ export const updateProfileNickname = async (
       { merge: true }
     );
 
-    console.log(`Firebase 닉네임 저장 성공: ${nickname}`);
     return true;
   } catch (error) {
     console.error("닉네임 저장 에러:", error);

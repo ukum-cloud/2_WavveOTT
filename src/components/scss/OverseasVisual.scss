@@ -1,0 +1,149 @@
+.overseas-container {
+  position: relative;
+  width: 100%;
+  height: 680px; // 요청하신 고정 높이
+  overflow: hidden;
+  background-color: #000;
+
+  .title-box {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+    h2 {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+      opacity: 0;
+      animation: textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-top: 12px;
+      font-weight: 500;
+
+      opacity: 0;
+      animation: textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    }
+
+    @keyframes textRevealUp {
+      0% {
+        opacity: 0;
+        transform: translateY(100px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      &.circle {
+        opacity: 0.6; // 너무 튀지 않게 투명도 조절
+        mix-blend-mode: screen; // 배경과 자연스럽게 섞임
+
+        // 1. 초기 등장 효과 (컴포넌트 로드 시)
+        animation: circleInitialIn 2s ease-out forwards,
+          circleFloating 10s ease-in-out infinite alternate;
+        // 2. 지속적인 움직임 효과 (둥둥 떠다니는 느낌)
+
+        transform-origin: center center;
+
+        // 처음 나타날 때의 애니메이션
+        @keyframes circleInitialIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 0.6;
+            transform: scale(1);
+          }
+        }
+
+        // 둥둥 떠다니는 듯한 부드러운 회전 + 확대 효과
+        @keyframes circleFloating {
+          0% {
+            transform: scale(1) rotate(0deg);
+          }
+          50% {
+            transform: scale(1.05) rotate(3deg); // 살짝 커지면서 회전
+          }
+          100% {
+            transform: scale(1) rotate(-3deg); // 다시 작아지며 반대로 회전
+          }
+        }
+      }
+      &.effect {
+        mix-blend-mode: screen;
+      } // 효과 이미지를 밝게 합성
+    }
+  }
+
+  .png-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between; // 좌우 끝으로 배치
+    align-items: flex-end; // 아래쪽 기준 정렬
+
+    .floating-img {
+      position: absolute;
+      bottom: -50px; // 시작 위치 (살짝 아래에 숨김)
+      height: 90%; // 기본 높이 설정
+      opacity: 0;
+      transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: none;
+
+      &.left {
+        left: -30%;
+        bottom: 10px;
+        transform: translateY(100px) scale(0.9);
+      }
+
+      &.right {
+        right: -30%;
+        bottom: 10px;
+        transform: translateY(100px) scale(0.9);
+      }
+    }
+
+    // 로드 후 활성화 상태
+    &.active {
+      .floating-img {
+        opacity: 1;
+        // 680px을 살짝 넘치게(1.1배) 하면서 위로 슬라이드
+        transform: translateY(-20px) scale(1.1);
+
+        &.left {
+          transition-delay: 0.1s;
+        }
+        &.right {
+          transition-delay: 0.3s;
+        }
+      }
+    }
+  }
+}

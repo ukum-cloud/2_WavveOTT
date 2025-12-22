@@ -1,0 +1,116 @@
+.cjenm-container {
+  position: relative;
+  width: 100%;
+  height: 680px; // 요청하신 고정 높이
+  overflow: hidden;
+  background-color: #000;
+
+  .title-box {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+    h2 {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+      opacity: 0;
+      animation: textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      //   img {
+      //     width: 100%;
+      //     height: auto;
+      //     max-width: 100%;
+      //   }
+    }
+    p {
+      font-size: 1.2rem;
+      margin-top: 12px;
+      font-weight: 500;
+
+      opacity: 0;
+      animation: textRevealUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    }
+
+    @keyframes textRevealUp {
+      0% {
+        opacity: 0;
+        transform: translateY(100px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // 곡선 효과 레이어 스타일
+  .curve-effect-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+
+    &.active {
+      opacity: 1;
+
+      .line-1 {
+        animation: drawCurve 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .line-2 {
+        stroke: rgba(255, 255, 255, 0.1);
+        animation: drawCurve 6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards; // 0.5초 뒤 시작
+      }
+      .line-3 {
+        stroke: rgba(255, 255, 255, 0.08); // 가장 은은하게
+        filter: blur(1px); // 살짝 번지는 효과로 깊이감 부여
+        animation: drawCurve 7s cubic-bezier(0.4, 0, 0.2, 1) 1s forwards; // 1초 뒤 시작
+      }
+    }
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+
+    .curve-line {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 2; // 선을 좀 더 가늘고 세련되게 수정
+      stroke-linecap: round;
+
+      // 선 그리기 준비
+      stroke-dasharray: 2500;
+      stroke-dashoffset: 2500;
+    }
+  }
+}
+
+@keyframes drawCurve {
+  0% {
+    stroke-dashoffset: 2500;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  // 기존 active 애니메이션 유지...
+}

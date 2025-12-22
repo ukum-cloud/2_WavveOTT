@@ -1,4 +1,3 @@
-import React from "react";
 import "./scss/EntertainmentBackground.scss";
 
 const LEFT_LINES = 30;
@@ -46,19 +45,16 @@ const EntertainmentBackground = () => {
           </mask>
         </defs>
 
-        {/* ✅ 도트 레이어 (옵션) */}
         <g mask="url(#dotMask)">
           <rect width="1440" height="680" fill="url(#dotPattern)" />
         </g>
 
-        {/* ✅ 좌측 번들: 레퍼런스처럼 “위에서 내려오며 말려 들어감” */}
         <g className="bundle bundle-left">
           {Array.from({ length: LEFT_LINES }).map((_, i) => {
             const t = i / (LEFT_LINES - 1); // 0~1
             const y = 90 + i * 10; // 라인 간격(촘촘)
             const op = lerp(0.1, 0.55, t);
 
-            // 말림 중심을 섹션 왼쪽 안쪽(대략 x=240, y=340)으로 잡음
             const x0 = -80;
             const c1x = lerp(70, 160, t);
             const c1y = lerp(60, 160, t);
@@ -94,7 +90,6 @@ const EntertainmentBackground = () => {
           })}
         </g>
 
-        {/* ✅ 우측 번들: 레퍼런스처럼 “위에서 내려오며 말려 들어감” */}
         <g className="bundle bundle-right">
           {Array.from({ length: RIGHT_LINES }).map((_, i) => {
             const t = i / (RIGHT_LINES - 1);

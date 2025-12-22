@@ -16,9 +16,9 @@ export const kidsNew: Wavves[] = [
       "image.wavve.com/201812/20181206/252a5a42e5b4a13465d8a2c920dbf0b1.jpg",
     season_horizontal_logoN_image: "",
     season_vertical_logoY_image:
-      "image.wavve.com/BMS/TVProgram/2022/PRG_K02_T2007-0154-Vertical_LogoY.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/BMS/program_poster/201804/K02_T2007-0154_1.jpg",
     seasonposterimage:
-      "image.wavve.com/BMS/TVProgram/2022/PRG_K02_T2007-0154-Vertical_LogoY.jpg",
+      "image.wavve.com/BMS/program_poster/201804/K02_T2007-0154_1.jpg",
     seasontitlelogoimage: "",
     targetage: "0",
     actors: ["헤이지니", "뚜아뚜지", "럭키강이", "장다운", "한으뜸"],
@@ -28,7 +28,6 @@ export const kidsNew: Wavves[] = [
     tmdb_id: 259097,
     tmdb_search_status:
       "Closest match for 'TV유치원: 뿌지직 똥탐정' (Title Mismatch, vod) | Stage: 1st (series_title) (Used title: TV유치원)",
-    youtube_key: "-g11_qWklms",
   },
   {
     index: 2,
@@ -45,7 +44,7 @@ export const kidsNew: Wavves[] = [
       "image.wavve.com/202203/20220304/f6ae847c25ed9bf5190bdf23f555d0a1.jpg",
     season_horizontal_logoN_image: "",
     season_vertical_logoY_image:
-      "image.wavve.com/202203/20220304/6c2ee0a451f5926fcad9efe655d10fcd.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/202203/20220304/6c2ee0a451f5926fcad9efe655d10fcd.jpg",
     seasonposterimage:
       "image.wavve.com/202203/20220304/6c2ee0a451f5926fcad9efe655d10fcd.jpg",
     seasontitlelogoimage: "",
@@ -74,7 +73,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202508/1754270327189728085.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202508/1754270330895610862.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202508/1754270330895610862.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202508/1754270330895610862.jpg",
     seasontitlelogoimage:
@@ -87,7 +86,6 @@ export const kidsNew: Wavves[] = [
     tmdb_id: 245204,
     tmdb_search_status:
       "Matched by name (vod) | Stage: 1st (series_title) (Used title: 비밀의 아이프리)",
-    youtube_key: "x9dBJI1NhZA",
   },
   {
     index: 4,
@@ -104,7 +102,7 @@ export const kidsNew: Wavves[] = [
       "image.wavve.com/meta/image/202402/1708905600675508974.jpg",
     season_horizontal_logoN_image: "",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202402/1708907400666615790.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202402/1708907400666615790.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202402/1708907400666615790.jpg",
     seasontitlelogoimage: "",
@@ -116,7 +114,6 @@ export const kidsNew: Wavves[] = [
     tmdb_id: 103905,
     tmdb_search_status:
       "Matched by name (vod) | Stage: 2nd (programtitle) (Used title: 최고다! 호기심딱지)",
-    youtube_key: "N6W9mXN0wF8",
   },
   {
     index: 5,
@@ -133,7 +130,7 @@ export const kidsNew: Wavves[] = [
       "image.wavve.com/fz/202111/20211115/d4ea8fb38aab4df36a9165587e18668e.jpg",
     season_horizontal_logoN_image: "",
     season_vertical_logoY_image:
-      "image.wavve.com/202111/20211115/ada4de3939a9fe8ff21c98cc6209010d.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/202111/20211115/ada4de3939a9fe8ff21c98cc6209010d.jpg",
     seasonposterimage:
       "image.wavve.com/202111/20211115/ada4de3939a9fe8ff21c98cc6209010d.jpg",
     seasontitlelogoimage: "",
@@ -145,7 +142,6 @@ export const kidsNew: Wavves[] = [
     tmdb_id: 286054,
     tmdb_search_status:
       "Matched by name (vod) | Stage: 1st (series_title) (Used title: 방과 후 초능력)",
-    youtube_key: "17HAqSEdM0w",
   },
   {
     index: 7,
@@ -163,7 +159,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202503/1743408910564539524.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202503/1743408912358418978.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202503/1743408912358418978.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202503/1743408912358418978.jpg",
     seasontitlelogoimage:
@@ -193,7 +189,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763018026034310575.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763018035434080877.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763018035434080877.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763018035434080877.jpg",
     seasontitlelogoimage:
@@ -223,7 +219,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763433842467428533.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763433845668345890.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763433845668345890.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763433845668345890.jpg",
     seasontitlelogoimage:
@@ -253,7 +249,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202507/1751613743559051643.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202507/1751613750009438997.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202507/1751613750009438997.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202507/1751613750009438997.jpg",
     seasontitlelogoimage:
@@ -283,7 +279,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202511/1763512647485829586.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202511/1763512650950358688.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202511/1763512650950358688.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202511/1763512650950358688.jpg",
     seasontitlelogoimage:
@@ -313,7 +309,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202504/1745195813947740087.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202504/1745195820929576694.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202504/1745195820929576694.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202504/1745195820929576694.jpg",
     seasontitlelogoimage:
@@ -343,7 +339,7 @@ export const kidsNew: Wavves[] = [
     season_horizontal_logoN_image:
       "image.wavve.com/meta/image/202405/1715322244272986305.jpg",
     season_vertical_logoY_image:
-      "image.wavve.com/meta/image/202405/1715322247859511399.jpg",
+      "image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202405/1715322247859511399.jpg",
     seasonposterimage:
       "image.wavve.com/meta/image/202405/1715322247859511399.jpg",
     seasontitlelogoimage:

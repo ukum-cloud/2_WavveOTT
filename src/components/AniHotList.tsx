@@ -14,6 +14,7 @@ import type { Episodes, Video } from '../types/movie';
 import Modal from './Modal';
 
 import { aniPrimary } from '../data/aniPrimary';
+import type { Pick } from '../types/pick';
 
 interface VarietyLiveList {
     title: string;
@@ -72,11 +73,18 @@ const AniHotList = ({ title, video }: VarietyLiveList) => {
 
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleHeart = async (item) => {
+    const handleHeart = async (item: Pick) => {
         await onTogglePick(item);
         setModalSize('small');
         setIsModalOpen(true);
     };
+
+    // ========== 재생 함수 ==========
+    const handlePlayClick = () => {
+        if (!videoKey) return;
+        navigate(`/player/${videoKey}`);
+    };
+    // ===================================================
 
     return (
         <section className="card-list">
@@ -137,15 +145,12 @@ const AniHotList = ({ title, video }: VarietyLiveList) => {
 
                                         <div className="logo-box">
                                             <p className="content-logo">
-                                                <img
-                                                    src={`https://${t.seasontitlelogoimage}`}
-                                                    // logoImage(t.index) ||
-                                                    // (t.seasontitlelogoimage?
-                                                    // `https://image.tmdb.org/t/p/original${t.seasontitlelogoimage}`
-                                                    // : undefined)
-
-                                                    alt="content-logo"
-                                                />
+                                                {t.seasontitlelogoimage && (
+                                                    <img
+                                                        src={`https://${t.seasontitlelogoimage}`}
+                                                        alt="content-logo"
+                                                    />
+                                                )}
                                             </p>
                                             {hoverId === t.index && (
                                                 <img
@@ -168,14 +173,13 @@ const AniHotList = ({ title, video }: VarietyLiveList) => {
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
-                                            <button className="preview-play-btn"></button>
+                                            <button
+                                                className="preview-play-btn"
+                                                onClick={handlePlayClick}
+                                            ></button>
                                             <button
                                                 className={`preview-heart-btn ${
-                                                    pickList.some(
-                                                        (p) =>
-                                                            (p.tmdb_id ?? p.id) ===
-                                                            (t.tmdb_id ?? t.id)
-                                                    )
+                                                    pickList.some((p) => p.contentId === t.tmdb_id)
                                                         ? 'active'
                                                         : ''
                                                 }`}
