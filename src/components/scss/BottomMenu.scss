@@ -18,10 +18,19 @@
         justify-content: space-between;
         li {
             width: 100%;
+            @include g.respond480(768px) {
+                width: 80px;
+            }
+
             a {
                 display: block;
                 text-align: center;
                 padding: 10px 20px;
+                @include g.respond480(768px) {
+                    width: 100%;
+                    padding: 10px 0;
+                }
+
                 img {
                     width: 70%;
                     @include g.respond768(1024px) {
@@ -42,6 +51,11 @@
                 text-align: center;
                 padding: 10px 20px;
                 width: 100%;
+                @include g.respond480(768px) {
+                    width: 100%;
+                    padding: 10px 0;
+                }
+
                 img {
                     width: 70%;
                     @include g.respond768(1024px) {

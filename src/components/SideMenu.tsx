@@ -8,6 +8,10 @@ const mainMenu = [
     { id: 4, title: '해외 시리즈', path: '/overseasSeries' },
     { id: 5, title: '애니메이션', path: '/animation' },
     { id: 6, title: '키즈', path: '/kids' },
+    { id: 7, title: 'MBC', path: '/mbc' },
+    { id: 8, title: 'KBS', path: '/kbs' },
+    { id: 9, title: 'JTBC', path: '/jtbc' },
+    { id: 10, title: 'CJenm', path: '/cjenm' },
 ];
 
 interface SideMenuProps {
