@@ -5,28 +5,42 @@
   .inner {
     padding: 20px;
   }
-  .bend-notice{
-    @include g.myFlex($gap:0);
-    dt{
-      font-family: 'wave';
+  .bend-notice {
+    @include g.myFlex($gap: 0);
+    @include g.respond768(768px) {
+      @include g.myFlexCol($gap: 16px);
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    dt {
+      font-family: "wave";
       padding-right: 70px;
       font-size: 1.125rem;
       text-align: left;
     }
-    dd{
-      &.title{
+    dd {
+      &.title {
         flex: 1;
         padding-right: 30px;
-         a.rolling-link { 
+        @include g.respond768(768px) {
+          width: calc(100% - 4px);
+        }
+        a.rolling-link {
           display: block;
           text-decoration: none;
           color: inherit;
-          animation: slideDown 0.5s ease-out; 
+          animation: slideDown 0.5s ease-out;
           transition: none;
+          @include g.respond768(768px) {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+          }
         }
       }
-      &:last-child{
-        @include g.myFlex($jc:flex-end,$gap:20px)
+      &:last-child {
+        @include g.myFlex($jc: flex-end, $gap: 20px);
       }
     }
   }
@@ -34,11 +48,11 @@
 }
 @keyframes slideDown {
   0% {
-    transform: translateY(-100%); 
+    transform: translateY(-100%);
     opacity: 0;
   }
   100% {
-    transform: translateY(0);    
+    transform: translateY(0);
     opacity: 1;
   }
 }

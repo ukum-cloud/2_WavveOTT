@@ -1,16 +1,16 @@
-
 /* common layout */
 .inner {
-    min-width: 320px;
-    max-width: 1720px;
-    width: 100%;
-    margin: 0 auto;
-    width: 100%;
+  min-width: 320px;
+  max-width: 1720px;
+  width: 100%;
+  margin: 0 auto;
+  width: 100%;
 }
 
 @media screen and (max-width: 1200px) {
   .inner {
-    max-width: 100%;    /* 너비 제한을 더 줄임 */
-    min-width: 100%;    /* 너비 제한을 더 줄임 */
+    max-width: 100%; /* 너비 제한을 더 줄임 */
+    min-width: 100%; /* 너비 제한을 더 줄임 */
+    min-width: 320px;
   }
 }
