@@ -19,6 +19,12 @@
         }
     }
 
+    // 모바일버전
+    @include g.respond768(1024px) {
+        top: 100px;
+        right: 30px;
+    }
+
     .chat-container {
         width: 450px;
         height: 70vh;
@@ -31,6 +37,12 @@
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         overflow: hidden;
         color: #333;
+
+        // 모바일버전
+        @include g.respond480(640px) {
+            width: 80vw;
+            height: 75vh;
+        }
 
         .modal-overlay {
             position: absolute; // fixed 대신 absolute 사용
