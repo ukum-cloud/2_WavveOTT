@@ -65,7 +65,8 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
 
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const handleHeart = async (item: PrimaryItem) => {
+    const handleHeart = async (e: React.MouseEvent, item: PrimaryItem) => {
+        e.stopPropagation(); // 부모의 onClick 방지
         const pickItem: Pick = {
             id: item.id,
             tmdb_id: item.id,
@@ -81,6 +82,15 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
         setModalSize('small');
         setIsModalOpen(true);
     };
+
+    // ========== 모바일을 위한 클릭 버튼 ==========
+    const handleOpenDetailPage = (id: number) => {
+        if (window.innerWidth <= 1200) {
+            navigate(`/contentsdetail/wavve/${id}`);
+        }
+    };
+    // ===================================================
+
     return (
         <section className="card-list">
             <div className="title-wrap">
@@ -106,6 +116,7 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                             className="poster-wrap badge-wavve"
                             onMouseEnter={() => setHoverId(m.id)}
                             onMouseLeave={() => setHoverId(null)}
+                            onClick={() => handleOpenDetailPage(m.id)}
                         >
                             <img
                                 className="main"
@@ -183,7 +194,7 @@ const PrimaryList = ({ title, randomList }: PrimaryListProps) => {
                                                         ? 'active'
                                                         : ''
                                                 }`}
-                                                onClick={() => handleHeart(m)}
+                                                onClick={(e) => handleHeart(e, m)}
                                             ></button>
                                         </div>
                                         <Link to={`/contentsdetail/tv/${m.id}`}></Link>
