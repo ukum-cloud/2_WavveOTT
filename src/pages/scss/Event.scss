@@ -26,8 +26,8 @@
         &.active {
           background-color: g.$color-primary;
           border-radius: 34px;
-          
-          
+
+
         }
       }
     }
@@ -38,17 +38,51 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
 
+    @include g.respond480(768px) {
+      display: block;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
     >li {
       display: flex;
       cursor: pointer;
+
+      @include g.respond1024(1200px) {
+        display: block;
+      }
+
+
+      @include g.respond480(768px) {
+        display: block;
+      }
 
       .img-box {
         width: 40%;
         max-width: 342px;
         aspect-ratio: 16 / 9;
 
+        @include g.respond1024(1200px) {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        @include g.respond480(768px) {
+          width: 100%;
+          max-width: 100%;
+          aspect-ratio: 16 / 9;
+        }
+
         img {
           border-radius: 12px;
+
+          @include g.respond1024(1200px) {
+            border-radius: 24px;
+          }
+
+          @include g.respond480(768px) {
+            border-radius: 24px;
+          }
         }
       }
 
@@ -57,6 +91,15 @@
         flex-direction: column;
         justify-content: space-between;
         padding: 36px 36px;
+
+        @include g.respond1024(1200px) {
+          padding: 16px 16px;
+        }
+
+        @include g.respond480(768px) {
+          padding: 30px 16px 60px 16px;
+          gap: 14px;
+        }
 
         h3 {
           line-height: 150%;
@@ -68,11 +111,24 @@
           gap: 12px;
           align-self: stretch;
 
+          @include g.respond1024(1200px) {
+            margin-top: 16px;
+          }
+
           dt {
             color: #adb0be;
             border-right: 1px solid #4e525d;
             padding-right: 10px;
             line-height: 12px;
+
+            @include g.respond1024(1200px) {
+              color: #adb0be;
+              border-right: 1px solid #4e525d;
+              padding-right: 10px;
+              line-height: 12px;
+            }
+
+
           }
         }
       }

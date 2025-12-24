@@ -4,24 +4,35 @@
     flex-direction: column;
     justify-content: center;
     padding: 0;
+
     .event-detail {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 80px;
 
+        @include g.respond480(768px) {
+            gap: 60px;
+        }
+
         .event-title-wrap {
             h3 {
                 font-size: 28px;
                 line-height: 150%;
                 margin-bottom: 16px;
+
+
+                @include g.respond480(768px) {
+                    font-size: 24px;
+                }
+
             }
 
             p {
                 color: #878C9E
             }
-        }
 
+        }
 
         .event-detail-top {
             display: flex;
@@ -31,6 +42,51 @@
             align-self: stretch;
             border-bottom: 1px solid #3D4256;
             border-top: 1px solid #3D4256;
+
+
+
+            @include g.respond480(768px) {
+                padding: 50px 20px;
+                display: flex;
+                flex-direction: column; // 세로 배치
+                align-items: stretch;
+
+                button {
+
+                    margin-top: 30px;
+                    width: 130px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+
+        }
+
+        .img-box {
+            width: 342px; // 모든 카드 동일 가로폭
+            max-width: 100%;
+            aspect-ratio: 16 / 9;
+            flex-shrink: 0; // 줄어들지 않게 고정
+
+            @include g.respond1024(1200px) {
+                width: 342px; // 태블릿도 동일 유지
+            }
+
+            @include g.respond480(768px) {
+                width: 100%; // 모바일만 전체폭
+                aspect-ratio: 16 / 9;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 12px;
+
+                @include g.respond480(768px) {
+                    border-radius: 24px;
+                }
+            }
         }
     }
 
