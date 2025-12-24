@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { TicketData, PriceInfo } from "../types/etc";
 import "./scss/Payment.scss";
+import { useAuthStore } from "../stores/useAuthStore";
 
 interface LocationState {
   ticketData: TicketData;
@@ -11,31 +12,27 @@ interface LocationState {
 const Payment: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setMyTicket } = useAuthStore();
 
-  // 1. 결제 방식 선택 (기본: 빠른결제)
   const [paymentMethod, setPaymentMethod] = useState<"quick" | "etc">("quick");
-
-  // 2. 다른 결제 수단 중 활성화된 인덱스 (요청사항: 첫 번째 리스트 0번 기본 활성화)
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
-
-  // 3. 약관 동의 상태
   const [agreements, setAgreements] = useState({
     autoPay: false,
     termWtoT: false,
     termTtoW: false,
   });
 
-  // --- 데이터 추출 ---
   const state = location.state as LocationState | undefined;
 
-  // --- 데이터가 없을 경우 처리 ---
   if (!state || !state.ticketData || !state.selectedPrice) {
     return (
       <div className="payment-wrap">
         <div className="inner">
           <h2>결제 정보 확인</h2>
           <p>선택된 이용권 정보가 유효하지 않습니다.</p>
-          <button onClick={() => navigate("/home")}>이용권 페이지로 이동</button>
+          <button onClick={() => navigate("/home")}>
+            이용권 페이지로 이동
+          </button>
         </div>
       </div>
     );
@@ -52,11 +49,8 @@ const Payment: React.FC = () => {
     "카카오 페이",
     "페이코",
   ];
-
-  // --- 로직 핸들러 ---
   const formatPrice = (p: number) => p.toLocaleString();
 
-  // 날짜 계산
   const today = new Date();
   const nextMonth = new Date(today);
   nextMonth.setMonth(today.getMonth() + 1);
@@ -75,29 +69,18 @@ const Payment: React.FC = () => {
   const periodText = `${formatDate(today)}~${formatDate(
     nextMonth
   )} (${period})`;
-
-  // 약관 동의 핸들러
   const isAllChecked = Object.values(agreements).every((val) => val);
 
   const handleAllAgree = (checked: boolean) => {
-    setAgreements({
-      autoPay: checked,
-      termWtoT: checked,
-      termTtoW: checked,
-    });
+    setAgreements({ autoPay: checked, termWtoT: checked, termTtoW: checked });
   };
 
   const handleIndividualAgree = (name: keyof typeof agreements) => {
-    setAgreements((prev) => ({
-      ...prev,
-      [name]: !prev[name],
-    }));
+    setAgreements((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
-  // --- 렌더링 보조 함수 ---
   const renderSpecs = () => {
     if (!specs || specs.length === 0) return <li>세부 정보 없음</li>;
-
     const filteredSpecs: string[] = [];
     const processValue = (value: string) => {
       if (!value || value.trim() === "-" || value.trim() === "") return null;
@@ -107,14 +90,14 @@ const Payment: React.FC = () => {
         value.includes("다운로드")
       )
         return null;
-
       if (value.includes("화질")) {
         const cleanedQuality = value.split("\n")[0].replace(/.*:/, "").trim();
-        const qualityMatch = cleanedQuality
-          .toUpperCase()
-          .match(/[A-Z0-9]+/g)
-          ?.join("");
-        return qualityMatch || cleanedQuality;
+        return (
+          cleanedQuality
+            .toUpperCase()
+            .match(/[A-Z0-9]+/g)
+            ?.join("") || cleanedQuality
+        );
       }
       if (value.includes("TV") && value.includes("이용 가능")) return "TV";
       return value.trim();
@@ -137,7 +120,6 @@ const Payment: React.FC = () => {
         if (result) filteredSpecs.push(result);
       });
     }
-
     return Array.from(new Set(filteredSpecs)).map((value, index) => (
       <li key={index}>{value}</li>
     ));
@@ -147,8 +129,6 @@ const Payment: React.FC = () => {
     <main className="payment-wrap">
       <div className="inner">
         <h2>Wavve 이용권 구매</h2>
-
-        {/* 결제 내용 섹션 */}
         <section className="pay-ticket-wrap">
           <h3>결제 내용</h3>
           <div className="payment-detail">
@@ -186,11 +166,8 @@ const Payment: React.FC = () => {
           </div>
         </section>
 
-        {/* 결제 수단 섹션 */}
         <section className="pay-method-section">
           <h3>결제수단 선택</h3>
-
-          {/* 빠른 결제 - && 제거 및 클래스 제어 */}
           <div
             className={`pay-wrap ${paymentMethod === "quick" ? "active" : ""}`}
           >
@@ -201,7 +178,7 @@ const Payment: React.FC = () => {
                   name="payMethod"
                   checked={paymentMethod === "quick"}
                   readOnly
-                />
+                />{" "}
                 빠른결제
               </label>
             </div>
@@ -222,13 +199,11 @@ const Payment: React.FC = () => {
               </div>
               <p className="text-box">
                 빠른결제를 등록하시면 모든 디바이스에서 4자리 숫자만으로
-                간편하게 결제가 가능합니다. Wavve에서는 고객님의 카드정보 일체를
-                보관하지 않으며 안전하게 처리됩니다.
+                간편결제가 가능합니다.
               </p>
             </div>
           </div>
 
-          {/* 다른 결제 수단 - && 제거 및 클래스 제어 */}
           <div
             className={`pay-wrap ${paymentMethod === "etc" ? "active" : ""}`}
           >
@@ -239,7 +214,7 @@ const Payment: React.FC = () => {
                   name="payMethod"
                   checked={paymentMethod === "etc"}
                   readOnly
-                />
+                />{" "}
                 다른 결제 수단
               </label>
             </div>
@@ -259,7 +234,6 @@ const Payment: React.FC = () => {
             </div>
           </div>
 
-          {/* 약관 동의 */}
           <div className="agree-wrap">
             <p className="all-agree">
               <label>
@@ -267,7 +241,7 @@ const Payment: React.FC = () => {
                   type="checkbox"
                   checked={isAllChecked}
                   onChange={(e) => handleAllAgree(e.target.checked)}
-                />
+                />{" "}
                 약관에 모두 동의합니다.
               </label>
             </p>
@@ -278,7 +252,7 @@ const Payment: React.FC = () => {
                     type="checkbox"
                     checked={agreements.autoPay}
                     onChange={() => handleIndividualAgree("autoPay")}
-                  />
+                  />{" "}
                   매월 자동 결제에 동의합니다. (필수)
                 </label>
               </p>
@@ -288,7 +262,7 @@ const Payment: React.FC = () => {
                     type="checkbox"
                     checked={agreements.termWtoT}
                     onChange={() => handleIndividualAgree("termWtoT")}
-                  />
+                  />{" "}
                   개인정보 제3자 정보 제공 동의 (Wavve → TVING) (필수)
                 </label>
               </p>
@@ -298,7 +272,7 @@ const Payment: React.FC = () => {
                     type="checkbox"
                     checked={agreements.termTtoW}
                     onChange={() => handleIndividualAgree("termTtoW")}
-                  />
+                  />{" "}
                   개인정보 제3자 정보 제공 동의 (TVING → Wavve) (필수)
                 </label>
               </p>
@@ -306,7 +280,6 @@ const Payment: React.FC = () => {
           </div>
         </section>
 
-        {/* 하단 버튼 */}
         <div className="btn-box">
           <button
             className="btn default secondary-line"
@@ -318,14 +291,16 @@ const Payment: React.FC = () => {
             className="btn default primary"
             disabled={!isAllChecked}
             onClick={() => {
-              if (isAllChecked) navigate("/payment-finish");
+              if (isAllChecked) {
+                setMyTicket({ title, period, price }); // 스토어 저장
+                navigate("/payment-finish"); // 페이지 이동
+              }
             }}
           >
             다음
           </button>
         </div>
 
-        {/* 안내 문구 */}
         <div className="desc-wrap">
           <ul className="desc-list">
             <li>Wavve 서비스는 저작권 문제로 해외에서 시청하실 수 없습니다.</li>

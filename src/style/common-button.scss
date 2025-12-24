@@ -85,6 +85,15 @@
     display: block;
   }
 }
+.btn-box {
+  &.col-2 {
+    @include g.myFlex($gap: 8px);
+    > button,
+    > a {
+      flex: 1;
+    }
+  }
+}
 
 input[type="text"],
 input[type="password"],

@@ -8,13 +8,18 @@ import { usePickStore } from "../stores/usePickStore";
 import EmptyList from "../components/EmptyList";
 
 const Profile = () => {
-  const { user, selectedCharId, selectedCharNickname, updateNickname, isInitializing } =
-    useAuthStore();
+  const {
+    user,
+    selectedCharId,
+    selectedCharNickname,
+    updateNickname,
+    isInitializing,
+    myTicket, // 저장된 이용권 가져오기
+  } = useAuthStore();
   const navigate = useNavigate();
   const { pickList } = usePickStore();
 
   const [nickname, setNickname] = useState(selectedCharNickname || "");
-  // 수정 모드 상태 추가 (true면 input 노출, false면 텍스트 노출)
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -35,28 +40,22 @@ const Profile = () => {
   const charClass = `img-box char-${charId}`;
 
   const handleSave = async () => {
-    // 공백 제외 체크
     const trimmedNickname = nickname.trim();
-
     if (trimmedNickname === "") {
       alert("닉네임을 입력해주세요.");
       setNickname(selectedCharNickname || "");
       setIsEditing(false);
       return;
     }
-
-    // 10자 초과 체크
     if (trimmedNickname.length > 10) {
       alert("닉네임은 최대 10자까지만 가능합니다.");
       setNickname(selectedCharNickname || "");
       setIsEditing(false);
       return;
     }
-
     if (trimmedNickname !== selectedCharNickname) {
       await updateNickname(trimmedNickname);
     }
-
     setIsEditing(false);
   };
 
@@ -67,27 +66,28 @@ const Profile = () => {
           <div className="my-profile-wrap">
             <div className={charClass}></div>
             <div className="text-name">
-              {/* 일반 모드: 닉네임 텍스트 표시 */}
               {!isEditing ? (
                 <p className="nickname">
                   <span>{selectedCharNickname}</span>
                   <span>
                     <button onClick={() => setIsEditing(true)}>
-                      <img src="/images/button/btn-modify.svg" alt="닉네임수정" />
+                      <img
+                        src="/images/button/btn-modify.svg"
+                        alt="닉네임수정"
+                      />
                     </button>
                   </span>
                 </p>
               ) : (
-                /* 수정 모드: 인풋 창 표시 */
                 <p className="nickname-modify">
                   <input
-                    autoFocus // 클릭 시 바로 포커스
+                    autoFocus
                     type="text"
                     placeholder="10자 이내 가능"
                     defaultValue={selectedCharNickname || ""}
                     onChange={(e) => setNickname(e.target.value)}
-                    onBlur={handleSave} // 포커스 잃으면 저장
-                    onKeyDown={(e) => e.key === "Enter" && handleSave()} // 엔터 치면 저장
+                    onBlur={handleSave}
+                    onKeyDown={(e) => e.key === "Enter" && handleSave()}
                   />
                   <button onClick={handleSave}>
                     <img src="/images/button/btn-modify.svg" alt="닉네임수정" />
@@ -105,18 +105,27 @@ const Profile = () => {
           <div className="my-ticket-wrap">
             <div className="text-ticket">
               <p className="badge-text-type">이용권</p>
-              <p className="ticket-title">프리미엄</p>
-              <p className="ticket-price">
-                <span className="month">12개월</span>
-                <span className="text-coast">
-                  <strong>139,000</strong>
-                  <span>원</span>
-                </span>
-              </p>
+              {myTicket ? (
+                <>
+                  <p className="ticket-title">{myTicket.title}</p>
+                  <p className="ticket-price">
+                    <span className="month">{myTicket.period}</span>
+                    <span className="text-coast">
+                      <strong>{myTicket.price.toLocaleString()}</strong>
+                      <span>원</span>
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="ticket-title">사용 중인 이용권이 없습니다.</p>
+                  <p className="ticket-price">지금 바로 웨이브를 즐겨보세요!</p>
+                </>
+              )}
             </div>
             <div className="btn-box">
               <Link className="btn default primary wFull" to={"/ticket"}>
-                이용권 보러가기
+                {myTicket ? "이용권 변경하기" : "이용권 보러가기"}
               </Link>
             </div>
           </div>
@@ -129,7 +138,11 @@ const Profile = () => {
 
         <section className="card-list">
           <h2>찜 리스트</h2>
-          {pickList.length === 0 ? <EmptyList title="찜 리스트가 없어요" /> : <UserPickList />}
+          {pickList.length === 0 ? (
+            <EmptyList title="찜 리스트가 없어요" />
+          ) : (
+            <UserPickList />
+          )}
         </section>
       </div>
     </main>

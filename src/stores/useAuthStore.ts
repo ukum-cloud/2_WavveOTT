@@ -30,6 +30,13 @@ export interface WatchHistoryItem {
   episodeNumber?: number;
 }
 
+// 이용권 정보 타입
+export interface TicketInfo {
+  title: string;
+  period: string;
+  price: number;
+}
+
 // ----------------------------------------------------
 // 카카오 타입 선언
 // ----------------------------------------------------
@@ -80,6 +87,8 @@ interface AuthState {
   isInitializing: boolean;
   selectedCharId: number | null;
   selectedCharNickname: string | null;
+  myTicket: TicketInfo | null; // 이용권 상태
+  setMyTicket: (ticket: TicketInfo) => void; // 이용권 저장 액션
   watchHistoryCache: WatchHistoryItem[];
   setWatchHistoryCache: (history: WatchHistoryItem[]) => void;
 
@@ -103,22 +112,18 @@ export const useAuthStore = create<AuthState>()(
         isInitializing: true,
         selectedCharId: null,
         selectedCharNickname: null,
+        myTicket: null,
         watchHistoryCache: [],
       };
 
-      // 파이어베이스 지속성 설정
       setPersistence(auth, browserSessionPersistence).catch((error) => {
         console.error("Firebase Persistence 설정 실패:", error);
       });
 
-      // 인증 상태 변경 감지
       onAuthStateChanged(auth, (firebaseUser) => {
         if (firebaseUser) {
-          // 파이어베이스(구글, 이메일) 로그인 사용자인 경우
           set({ user: firebaseUser, isInitializing: false });
         } else {
-          // 파이어베이스 로그인이 아닐 때 (카카오 사용자는 로컬 스토리지 값을 유지해야 함)
-          // 여기서는 초기화 상태만 해제하고, user 정보는 건드리지 않습니다.
           set({ isInitializing: false });
         }
       });
@@ -127,6 +132,9 @@ export const useAuthStore = create<AuthState>()(
         ...initialState,
 
         setWatchHistoryCache: (history) => set({ watchHistoryCache: history }),
+
+        // 이용권 저장
+        setMyTicket: (ticket) => set({ myTicket: ticket }),
 
         updateNickname: async (nickname: string) => {
           const { user, selectedCharId } = get();
@@ -208,7 +216,6 @@ export const useAuthStore = create<AuthState>()(
               await setDoc(userRef, kakaoUser);
             }
 
-            // 스토어 상태 업데이트 (persist에 의해 로컬스토리지 저장됨)
             set({
               user: {
                 uid: kakaoUser.uid,
@@ -256,6 +263,7 @@ export const useAuthStore = create<AuthState>()(
               user: null,
               selectedCharId: null,
               selectedCharNickname: null,
+              myTicket: null,
             });
           } catch (error) {
             console.error("로그아웃 실패", error);
@@ -267,9 +275,10 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage",
       partialize: (state) => ({
-        user: state.user, // 핵심: user 정보를 로컬 스토리지에 포함시킴
+        user: state.user,
         selectedCharId: state.selectedCharId,
         selectedCharNickname: state.selectedCharNickname,
+        myTicket: state.myTicket, // 로컬스토리지 저장 핵심
       }),
     }
   )

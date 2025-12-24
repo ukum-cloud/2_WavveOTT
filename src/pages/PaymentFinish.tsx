@@ -16,9 +16,12 @@ const PaymentFinish = () => {
             영화를 무제한으로 시청해보세요!
           </p>
         </div>
-        <p>
-          <Link to={"/home"} className="btn large primary wFull">
+        <p className="btn-box col-2">
+          <Link to={"/home"} className="btn large secondary-line">
             홈으로
+          </Link>
+          <Link to={"/profile"} className="btn large primary">
+            나의 이용권 확인하기
           </Link>
         </p>
       </div>
