@@ -4,9 +4,13 @@
     .agree-menu-wrap {
         display: flex;
         justify-content: space-between;
+        @include g.respond480(768px) {
+            flex-wrap: wrap;
+        }
+
         > button {
             width: 100%;
-            padding: 20px 96px;
+            padding: 20px 20px;
             color: white;
             font-family: 'Wave', sans-serif;
             font-size: 18px;
@@ -35,7 +39,9 @@
         font-size: 14px;
         line-height: 1.5;
         font-family: 'Pretendard', Pretendard, '돋움', sans-serif;
-
+        @include g.respond480(768px) {
+            padding: 30px;
+        }
         .hiddenContainer {
             position: absolute;
             left: -1000px;
@@ -60,6 +66,9 @@
                 padding: 12px;
                 border: 1px solid #878c9e;
                 line-height: 40px;
+                @include g.respond768(1024px) {
+                    line-height: 20px;
+                }
             }
 
             td {
@@ -67,6 +76,9 @@
                 border: 1px solid #878c9e;
                 cursor: pointer;
                 line-height: 40px;
+                @include g.respond768(1024px) {
+                    line-height: 20px;
+                }
             }
         }
 

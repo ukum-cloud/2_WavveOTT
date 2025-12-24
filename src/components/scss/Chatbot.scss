@@ -327,13 +327,21 @@
                 width: 100%;
                 border: 1px solid #adb0be;
                 border-radius: 30px;
-                padding: 4px 6px 4px 20px;
+                padding: 4px 6px 4px 10px;
                 background: #fff;
                 transition: border-color 0.2s;
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
                 // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
                 transition: all 0.3s ease;
+
+                @include g.respond480(768px) {
+                    width: 82%;
+                    top: 50%;
+                    left: 50%;
+                    /* 요소의 크기 절반만큼 왼쪽/위로 다시 당겨주는 역할 */
+                    transform: translate(-50%, -50%);
+                }
 
                 &:focus-within {
                     border-color: g.$color-primary; // 포커스 강조
@@ -363,9 +371,10 @@
                     border: none;
                     border-radius: 50%;
                     cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    position: absolute;
+                    right: 10px;
+                    // align-items: center;
+                    // justify-content: center;
                     transition: background-color 0.2s;
 
                     &:hover {
