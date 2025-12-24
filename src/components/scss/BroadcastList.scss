@@ -1,13 +1,18 @@
 @use '../../App.scss' as g;
 
 .broadcast-list {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    @include g.myFlex($jc: space-between, $ai: center, $gap: 24px);
 
-    @include g.respond768(768px) {
-        gap: 8px;
+    @include g.respond1200(1200px) {
+        // 핵심: 가로 스크롤 설정
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+
+        // 스크롤바 커스텀 (디자인에 따라 선택)
+        &::-webkit-scrollbar {
+            height: 0px;
+        }
     }
 
     .broadcast-box {
@@ -17,9 +22,9 @@
         border-radius: 12px;
         background-color: g.$color-bg-dark;
 
-        @include g.respond768(768px) {
-            padding: 16px;
-            height: 40px;
+        @include g.respond1200(1200px) {
+            flex-shrink: 0;
+            width: 173px;
         }
 
         > a {
