@@ -78,6 +78,22 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
         setIsModalOpen(true);
     };
 
+    // ========== 재생 함수 ==========
+    const handlePlayClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // 부모의 onClick 방지
+        if (!videoKey) return;
+        navigate(`/player/${videoKey}`);
+    };
+    // ===================================================
+
+    // ========== 모바일을 위한 클릭 버튼 ==========
+    const handleOpenDetailPage = (id: number | null) => {
+        if (window.innerWidth <= 1200) {
+            navigate(`/contentsdetail/tv/${id}`);
+        }
+    };
+    // ===================================================
+
     return (
         <section className="card-list">
             <div className="title-wrap">
@@ -102,6 +118,7 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
                         <div
                             className="poster-wrap badge-new"
                             onMouseEnter={() => setHoverId(t.tmdb_id)}
+                            onClick={() => handleOpenDetailPage(t.tmdb_id)}
                         >
                             <img
                                 className="main"
@@ -162,7 +179,10 @@ const AniKidsHotList = ({ title, video, data }: VarietyLiveList) => {
                                     </div>
                                     <div className="preview-badge-bottom">
                                         <div className="preview-btn-wrap">
-                                            <button className="preview-play-btn"></button>
+                                            <button
+                                                className="preview-play-btn"
+                                                onClick={(e) => handlePlayClick(e)}
+                                            ></button>
                                             <button
                                                 className={`preview-heart-btn ${
                                                     pickList.some(
