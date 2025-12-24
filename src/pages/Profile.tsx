@@ -14,7 +14,7 @@ const Profile = () => {
     selectedCharNickname,
     updateNickname,
     isInitializing,
-    myTicket, // 저장된 이용권 가져오기
+    myTicket,
   } = useAuthStore();
   const navigate = useNavigate();
   const { pickList } = usePickStore();

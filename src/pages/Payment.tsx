@@ -292,8 +292,8 @@ const Payment: React.FC = () => {
             disabled={!isAllChecked}
             onClick={() => {
               if (isAllChecked) {
-                setMyTicket({ title, period, price }); // 스토어 저장
-                navigate("/payment-finish"); // 페이지 이동
+                setMyTicket({ title, period, price });
+                navigate("/payment-finish");
               }
             }}
           >
