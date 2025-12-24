@@ -30,7 +30,6 @@ export interface WatchHistoryItem {
   episodeNumber?: number;
 }
 
-// 이용권 정보 타입
 export interface TicketInfo {
   title: string;
   period: string;
@@ -87,8 +86,8 @@ interface AuthState {
   isInitializing: boolean;
   selectedCharId: number | null;
   selectedCharNickname: string | null;
-  myTicket: TicketInfo | null; // 이용권 상태
-  setMyTicket: (ticket: TicketInfo) => void; // 이용권 저장 액션
+  myTicket: TicketInfo | null;
+  setMyTicket: (ticket: TicketInfo) => void;
   watchHistoryCache: WatchHistoryItem[];
   setWatchHistoryCache: (history: WatchHistoryItem[]) => void;
 
@@ -133,7 +132,6 @@ export const useAuthStore = create<AuthState>()(
 
         setWatchHistoryCache: (history) => set({ watchHistoryCache: history }),
 
-        // 이용권 저장
         setMyTicket: (ticket) => set({ myTicket: ticket }),
 
         updateNickname: async (nickname: string) => {
@@ -259,11 +257,12 @@ export const useAuthStore = create<AuthState>()(
         onLogout: async () => {
           try {
             await signOut(auth);
+            // ★ 수정됨: myTicket을 null로 설정하지 않음!
+            // 유저 정보와 프로필 정보만 초기화합니다.
             set({
               user: null,
               selectedCharId: null,
               selectedCharNickname: null,
-              myTicket: null,
             });
           } catch (error) {
             console.error("로그아웃 실패", error);
@@ -278,7 +277,7 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         selectedCharId: state.selectedCharId,
         selectedCharNickname: state.selectedCharNickname,
-        myTicket: state.myTicket, // 로컬스토리지 저장 핵심
+        myTicket: state.myTicket,
       }),
     }
   )
