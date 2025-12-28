@@ -9,8 +9,8 @@ const UserQnaDetail = () => {
             <div className="qna-title-wrap">
                 <div className="title-top">
                     <h2>
-                        <p>Wavve 서비스 이용 시</p>
-                        <p>불편사항이나 문의사항이 있으신가요?</p>
+                        Wavve 서비스 이용 시<br />
+                        불편사항이나 문의사항이 있으신가요?
                     </h2>
                     <p>비회원일 경우 이름, 이메일, 질문유형이 정확한지 다시 한번 확인해주세요!</p>
                 </div>

@@ -7,6 +7,9 @@
             color: white;
             font-family: 'Wave', sans-serif;
             font-size: 18px;
+            @include g.respond768(768px) {
+                padding: 20px 20px;
+            }
         }
 
         .active {

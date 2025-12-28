@@ -3,6 +3,15 @@
 .qna-menu {
     max-width: 952px;
     margin: 80px auto;
+    width: 100%;
+    padding: 0 60px;
+    box-sizing: border-box;
+
+    @include g.respond480(480px) {
+        max-width: 480px;
+        width: 100%;
+        padding: 0 20px;
+    }
 
     .qna-title-wrap {
         margin-bottom: 40px;
@@ -14,6 +23,10 @@
 
             h2 {
                 @include g.myFlexCol($gap: 16px);
+
+                @include g.respond480(480px) {
+                    font-size: 18px;
+                }
             }
 
             > p {
@@ -31,17 +44,26 @@
 
     form {
         width: 100%;
+        @include g.respond768(768px) {
+            max-width: 768px;
+            width: 100%;
+        }
 
         .input-top {
             @include g.myFlex($gap: 16px, $ai: flex-start);
             width: 100%;
             margin-bottom: 60px;
 
+            @include g.respond480(480px) {
+                flex-direction: column;
+            }
+
             .input-text {
                 @include g.myFlexCol($gap: 8px);
                 position: relative;
                 flex: 1;
                 font-size: 0.875rem;
+                width: 100%;
 
                 .label-text {
                     font-weight: 500;
@@ -59,6 +81,7 @@
             .input-text-group {
                 @include g.myFlexCol($gap: 8px);
                 flex: 1;
+                width: 100%;
 
                 .text-info {
                     font-size: 0.75rem;
@@ -72,11 +95,16 @@
             width: 100%;
             margin-bottom: 60px;
 
+            @include g.respond480(480px) {
+                flex-direction: column;
+            }
+
             .input-text {
                 @include g.myFlexCol($gap: 8px);
                 position: relative;
                 flex: 1;
                 font-size: 0.875rem;
+                width: 100%;
 
                 .input-wrap {
                     @include g.myFlexCol($gap: 8px);
@@ -116,6 +144,7 @@
 
             .check-box {
                 @include g.myFlex($jc: unset, $gap: 32px);
+                flex-wrap: wrap;
 
                 li {
                     .checkbox {
