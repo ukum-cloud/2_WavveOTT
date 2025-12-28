@@ -366,6 +366,11 @@
 
                     padding: 0 60px;
                 }
+                @include g.respond480(480px) {
+                    @include g.myFlex($jc: space-between, $gap: 0px);
+
+                    padding: 0 20px;
+                }
 
                 .active {
                     border-bottom: 4px solid g.$color-primary;
