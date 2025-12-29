@@ -1,5 +1,7 @@
 import type { Video } from '../types/movie';
 
+import './scss/ContentsRelative.scss';
+
 interface RelativeProps {
     videos: Video[];
 }
